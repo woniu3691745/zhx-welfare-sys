@@ -1,0 +1,42 @@
+/*
+ * @Author: lidongliang 
+ * @Date: 2017-10-16 16:27:13 
+ * @Last Modified by: lidongliang
+ * @Last Modified time: 2017-10-24 18:11:55
+ * 覆写Mint默认样式
+ */
+.mint-cell-wrapper {
+  font-size: 15px;
+}
+
+.mint-button {
+  font-size: 13px;
+}
+
+/* .mint-field .mint-cell-title {
+  width: 60px;
+} */
+
+.mint-msgbox {
+  border-radius: 9px;
+}
+
+.mint-searchbar {
+  background-color: #26a2ff;
+  padding: 5px 4px;
+}
+
+.mint-searchbar-inner {
+  border-radius: 5px;
+  height: 28px;
+}
+
+.mint-searchbar-cancel {
+  font-size: 13px;
+  margin-left: 4px;
+  color: white;
+}
+
+/* .circle-color-58 > div::before {
+  background-color: #26a2ff !important;
+} */

@@ -80,6 +80,6 @@ export default {
   // overflow: hidden;
 }
 .home-page {
-  display:block
+  // display:block
 }
 </style>

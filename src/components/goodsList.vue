@@ -193,7 +193,7 @@ export default {
 }
 
 .mint-loadmore-top {
-  margin-top: -46px;
+  margin-top: -48px;
 }
 
 .mint-loadmore-top span {

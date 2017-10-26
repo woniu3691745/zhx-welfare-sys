@@ -2,10 +2,10 @@
  * @Author: lidongliang
  * @Date: 2017-10-18 15:33:14
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-10-23 16:28:24
+ * @Last Modified time: 2017-10-26 17:19:33
  * 商品列表信息 module
  */
-import { goodList } from '@/api/goodList'
+import { goodList, goodListById } from '@/api/goodList'
 import { getToken } from '@/utils/auth'
 
 const goodLists = {
@@ -25,6 +25,16 @@ const goodLists = {
     GoodList ({ commit, state }, viewNums) {
       return new Promise((resolve, reject) => {
         goodList(state.token, viewNums).then(response => {
+          resolve(response.data.data)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    // 获得商品信息
+    GoodListById ({ commit, state }, id) {
+      return new Promise((resolve, reject) => {
+        goodListById(state.token, id).then(response => {
           resolve(response.data.data)
         }).catch(error => {
           reject(error)

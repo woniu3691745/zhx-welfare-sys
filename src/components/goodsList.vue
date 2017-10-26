@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-19 19:50:05 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-10-25 11:11:44
+ * @Last Modified time: 2017-10-26 17:08:03
  * 商品列表
  *
  * @translate-change="translateChange"
@@ -19,7 +19,7 @@
                   ref="loadmore">
         <ul class="page-loadmore-list">
           <li v-for="item in goodList" v-bind="goodList" :key="item.id" class="page-loadmore-listitem">
-            <router-link :to="{ path: '/detail'}"><img v-bind:src="item.image"></router-link>
+            <router-link :to="{ path: '/detail', query: {id: item.id}}"><img v-bind:src="item.image"></router-link>
             <div class="good-description">
               <div class="desc">{{item.name}}</div>
               <span>

@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-10-23 10:40:22
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-10-23 16:29:34
+ * @Last Modified time: 2017-10-26 17:11:14
  * 商品列表API
  */
 
@@ -20,6 +20,20 @@ export function goodList (token, viewNums) {
   }
   return fetch({
     url: '/api/item/queryItem.cp',
+    method: 'post',
+    data
+  })
+}
+// 获得商品信息
+export function goodListById (token, id) {
+  const data = {
+    data: {
+      id: id
+    },
+    token
+  }
+  return fetch({
+    url: '/api/item/queryItemDetail.cp',
     method: 'post',
     data
   })

@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-10-25 13:31:14
+ * @Last Modified time: 2017-10-26 17:07:56
  * 首页组件
  */
 <template>
@@ -58,7 +58,7 @@
           <div class="index-gifts-product-list">
             <ul>
               <li v-for="item in bonusPackages" v-bind="item" :key="item.id">
-                <router-link :to="{ path: '/detail'}"><img v-bind:src="item.image"></router-link>
+                <router-link :to="{ path: '/detail', query: {id: item.id}}"><img v-bind:src="item.image"></router-link>
                 <div class="des">{{item.name}}<br>￥{{item.salePrice}}</div>
               </li>
             </ul>
@@ -77,7 +77,7 @@
           <div class="index-gifts-product-list">
             <ul>
               <li v-for="item in competitiveProducts" v-bind="item" :key="item.id">
-                <router-link :to="{ path: '/detail'}"><img v-bind:src="item.image"></router-link>
+                <router-link :to="{ path: '/detail', query: {id: item.id}}"><img v-bind:src="item.image"></router-link>
                 <div class="des">{{item.name}}<br>￥{{item.salePrice}}</div>
               </li>
             </ul>

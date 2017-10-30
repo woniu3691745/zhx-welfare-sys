@@ -110,7 +110,7 @@ export default {
     this.get()
     this.quotas = this.$store.getters.quota
     // console.log('document.body.offsetHeight = ' + document.body.offsetHeight)
-    this.height = document.body.offsetHeight - 332
+    this.height = document.body.offsetHeight - 320
     this.init()
   },
   methods: {

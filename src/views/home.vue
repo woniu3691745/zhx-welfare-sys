@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-10-26 17:02:34
+ * @Last Modified time: 2017-10-30 19:34:17
  * home
  */
 <template>
@@ -75,11 +75,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
-.home-sel-page {
-  // overflow: hidden;
+.mint-tabbar.is-fixed {
+  height: 50px;
 }
-.home-page {
-  // display:block
+.mint-tab-item {
+  padding: 3px 0;
 }
 </style>

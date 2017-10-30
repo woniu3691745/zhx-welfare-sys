@@ -44,3 +44,11 @@
 .mint-button {
   border-radius: 0;
 }
+
+.mint-cell-wrapper {
+  padding: 0 5px; 
+}
+
+.mint-checklist-label {
+  padding: 5px 5px 0 5px;
+}

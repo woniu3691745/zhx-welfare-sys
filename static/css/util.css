@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-16 16:26:38 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-10-25 11:22:47
+ * @Last Modified time: 2017-10-30 15:35:15
  * css tools
  */
  /* 滚动条 start */
@@ -34,3 +34,7 @@ a:hover {
    -webkit-tap-highlight-color: transparent;
 }
 /* a标签 end */
+
+.mint-button::after {
+  background-color: unset;
+}

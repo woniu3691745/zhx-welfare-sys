@@ -160,7 +160,7 @@
     }
   }
 }
-.mint-button::after {
-  background-color: unset;
-}
+// .mint-button::after {
+//   background-color: unset;
+// }
 </style>

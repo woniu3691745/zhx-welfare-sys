@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-10-30 20:38:06
+ * @Last Modified time: 2017-10-31 10:57:06
  * 购物车组件
  */
 <template>
@@ -47,12 +47,12 @@
     </div>
     <div class="compute">
       <mt-checklist
-        v-model="value"
-        :options="['全选']">
+        v-model="allValue"
+        :options="allOption" @change="checkAll">
       </mt-checklist>
       <div class="sub">
-        <span>合计：￥97.90</span>
-        <mt-button type="danger">结算（2）</mt-button>
+        <span>合计：￥{{amount}}</span>
+        <mt-button type="danger">结算（{{quantity}}）</mt-button>
       </div>
     </div>
 
@@ -71,7 +71,15 @@ export default {
   data () {
     return {
       nums: 0,
-      value: ['全选'],  // 结算，全选
+      amount: 0,       // 总价
+      foodAmount: 0,
+      washAmount: 0,
+      quantity: 0,     // 商品数量
+      allValue: [],     // 结算，全选
+      allOption: [{
+        label: '全选',
+        value: '0'
+      }],
 
       washAllValue: [],     // 全选的值
       washAllOptions: [{    // 全选的默认值
@@ -82,32 +90,38 @@ export default {
       washOptions: [{       // 列表默认的值
         label: '<div>ddd</div>',
         value: 'A',
-        goodNums: 2
+        goodNums: 2,
+        price: 10
       },
       {
         label: '劳保B',
         value: 'B',
-        goodNums: 3
+        goodNums: 3,
+        price: 20
       },
       {
         label: '劳保C',
         value: 'C',
-        goodNums: 3
+        goodNums: 3,
+        price: 5
       },
       {
         label: '劳保D',
         value: 'D',
-        goodNums: 3
+        goodNums: 3,
+        price: 1
       },
       {
         label: '劳保E',
         value: 'E',
-        goodNums: 3
+        goodNums: 3,
+        price: 2
       },
       {
         label: '劳保F',
         value: 'F',
-        goodNums: 3
+        goodNums: 3,
+        price: 3
       }],
 
       foodAllValue: [],     // 全选的值
@@ -118,27 +132,39 @@ export default {
       foodValue: [],      // 列表选中的值
       foodOptions: [{     // 列表默认的值
         label: '食物A',
-        value: 'A'
+        value: 'A1',
+        goodNums: 3,
+        price: 3
       },
       {
         label: '食物B',
-        value: 'B'
+        value: 'B1',
+        goodNums: 3,
+        price: 3
       },
       {
         label: '食物C',
-        value: 'C'
+        value: 'C1',
+        goodNums: 3,
+        price: 3
       },
       {
         label: '食物B',
-        value: 'D'
+        value: 'D1',
+        goodNums: 3,
+        price: 3
       },
       {
         label: '食物C',
-        value: 'E'
+        value: 'E1',
+        goodNums: 3,
+        price: 3
       },
       {
         label: '食物D',
-        value: 'F'
+        value: 'F1',
+        goodNums: 3,
+        price: 3
       }],
       height: 0
     }
@@ -169,14 +195,26 @@ export default {
         this.washAllValue = ['0']
       } else {
         this.washAllValue = []
+        this.allValue = []
+        // console.log('washValue -> ' + this.washValue)
       }
+      this.washSum(val)
+      this.amount = this.washAmount + this.foodAmount
+      this.quantity = this.washValue.length + this.foodValue.length
+      this.clearAllCheckRadio()
     },
     washCheckAll () {
       if (this.washAllValue.length === 1) {
+        this.washValue = []
         this.washValue.push('A', 'B', 'C', 'D', 'E', 'F')
+        // console.log('washValue -> ' + this.washValue)
       } else {
         this.washValue = []
       }
+      this.washSum(this.washValue)
+      this.amount = this.washAmount + this.foodAmount
+      this.quantity = this.washValue.length + this.foodValue.length
+      this.clearAllCheckRadio()
     },
     // 劳保洗护 end
     // 食品饮料 start
@@ -185,14 +223,77 @@ export default {
         this.foodAllValue = ['0']
       } else {
         this.foodAllValue = []
+        this.allValue = []
+        // console.log('foodValue -> ' + this.foodValue)
       }
+      this.foodSum(val)
+      this.amount = this.washAmount + this.foodAmount
+      this.quantity = this.washValue.length + this.foodValue.length
+      this.clearAllCheckRadio()
     },
     foodCheckAll () {
       if (this.foodAllValue.length === 1) {
-        this.foodValue.push('A', 'B', 'C', 'D', 'E', 'F')
+        this.foodValue = []
+        this.foodValue.push('A1', 'B1', 'C1', 'D1', 'E1', 'F1')
+        // console.log('foodValue -> ' + this.foodValue)
       } else {
         this.foodValue = []
       }
+      this.foodSum(this.foodValue)
+      this.amount = this.washAmount + this.foodAmount
+      this.quantity = this.washValue.length + this.foodValue.length
+      this.clearAllCheckRadio()
+    },
+    // 全选 start
+    checkAll (val) {
+      if (this.allOption.length === val.length) {
+        this.washValue = []
+        this.washValue.push('A', 'B', 'C', 'D', 'E', 'F')
+        this.foodValue = []
+        this.foodValue.push('A1', 'B1', 'C1', 'D1', 'E1', 'F1')
+        // console.log('washValue -> ' + this.washValue + '----foodValue -> ' + this.foodValue)
+        this.washAllValue = ['0']
+        this.foodAllValue = ['0']
+      } else {
+        this.washAllValue = []
+        this.foodAllValue = []
+        this.washValue = []
+        this.foodValue = []
+      }
+      this.washSum(this.washValue)
+      this.foodSum(this.foodValue)
+      this.quantity = this.washValue.length + this.foodValue.length
+      this.amount = this.washAmount + this.foodAmount
+    },
+    clearAllCheckRadio () { // 处理全选单选按钮状态
+      if (this.washAllValue.length === 1 && this.foodAllValue.length === 1) {
+        this.allValue = ['0']
+      } else {
+        this.allValue = []
+      }
+    },
+    // 全选 end
+    washSum (val) {
+      let amountTemp = 0
+      this.washOptions.map(function (x) {
+        val.map(function (y) {
+          if (x.value === y) {
+            amountTemp += x.price
+          }
+        })
+      })
+      this.washAmount = amountTemp
+    },
+    foodSum (val) {
+      let amountTemp = 0
+      this.foodOptions.map(function (x) {
+        val.map(function (y) {
+          if (x.value === y) {
+            amountTemp += x.price
+          }
+        })
+      })
+      this.foodAmount = amountTemp
     },
     minus (itemId) {
       this.nums = itemId

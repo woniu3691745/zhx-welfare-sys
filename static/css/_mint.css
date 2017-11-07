@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-16 16:27:13 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-10-26 14:59:21
+ * @Last Modified time: 2017-10-31 11:22:21
  * 覆写Mint默认样式
  */
 .mint-cell-wrapper {
@@ -51,4 +51,8 @@
 
 .mint-checklist-label {
   padding: 5px 5px 0 5px;
+}
+
+.mint-header {
+  /* font-size: 13px */
 }

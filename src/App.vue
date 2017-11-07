@@ -1,6 +1,6 @@
 <template>
   <!-- <keep-alive> -->
-    <router-view/>
+    <router-view></router-view>
   <!-- </keep-alive> -->
 </template>
 
@@ -11,6 +11,6 @@ export default {
 </script>
 
 <style lang="less">
-  // 修改Mint的css默认样式
-  @import '../static/css/_mint.css';
+// 修改Mint的css默认样式
+@import "../static/css/_mint.css";
 </style>

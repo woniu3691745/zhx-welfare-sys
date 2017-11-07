@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-19 19:49:42 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-10-25 11:11:50
+ * @Last Modified time: 2017-11-07 17:47:18
  * 商品列表父组件
  */
 <template>

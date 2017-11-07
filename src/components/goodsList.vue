@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-19 19:50:05 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-10-26 17:08:03
+ * @Last Modified time: 2017-10-31 11:18:53
  * 商品列表
  *
  * @translate-change="translateChange"
@@ -174,7 +174,7 @@ export default {
   .good-description {
     flex: 2;
     font-size: 12px;
-    padding: 15px 15px;
+    padding: 10px 6px;
     .desc {
       height: 40px;
       margin-bottom: 35px;

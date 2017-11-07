@@ -2,14 +2,19 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-10-26 17:07:56
+ * @Last Modified time: 2017-11-07 18:16:14
  * 首页组件
  */
 <template>
   <div class="index-container">
     <div class="body-top">
       <div class="search">
-        <mt-search v-model="searchValue"></mt-search>
+        <!-- <mt-search v-model="searchValue"></mt-search> -->
+        <mt-header title="日用品">
+        <router-link :to="{path: '/home', query: {selected: 'index'}}" slot="left" >
+          <mt-button icon="back">返回</mt-button>
+        </router-link>
+      </mt-header>
       </div>
       <div class="index-money">
         <ul>
@@ -21,6 +26,11 @@
           </li>
         </ul>
       </div>
+      
+      <div class="index-space"></div>
+    </div>
+    
+    <div class="body-container" :style="{ height: height + 'px' }">
       <div class="index-swipe">
         <mt-swipe :auto="2000">
           <mt-swipe-item><img src="../assets/swipe/1.jpg"></img>
@@ -35,10 +45,6 @@
           </mt-swipe-item>
         </mt-swipe>
       </div>
-      <div class="index-space"></div>
-    </div>
-    
-    <div class="body-container" :style="{ height: height + 'px' }">
       <div class="index-subject">
         <ul>
           <li v-for="i in category" v-bind="i" :key="i.name">
@@ -110,7 +116,7 @@ export default {
     this.get()
     this.quotas = this.$store.getters.quota
     // console.log('document.body.offsetHeight = ' + document.body.offsetHeight)
-    this.height = document.body.offsetHeight - 320
+    this.height = document.body.offsetHeight - 135
     this.init()
   },
   methods: {
@@ -170,14 +176,14 @@ export default {
 .index-container {
   .body-top {
     width: 100%;
-    height: 280px;
+    // height: 280px;
     .index-money {
       width: 100%;
       height: 40px;
       font-size: 13px;
       ul {
         background-color: #fff;
-        padding: 5px 2px;
+        padding: 3px 0;
         width: 100%;
         white-space: nowrap;
         li {
@@ -190,8 +196,11 @@ export default {
         }
       }
     }
-    .index-swipe {
-      height: 190px;
+  }
+  .body-container {
+    overflow: auto;
+     .index-swipe {
+      height: 150px;
       padding: 0 2px;
       img {
         text-align: center;
@@ -199,9 +208,6 @@ export default {
         // border-radius: 5px;
       }
     }
-  }
-  .body-container {
-    overflow: auto;
     .index-subject {
       font-size: 13px;
       text-align: center;
@@ -235,6 +241,9 @@ export default {
         font-size: 6px;
         padding-right: 8px;
         padding-bottom: 4px;
+        span {
+          color: #444;
+        }
       }
       .index-gifts-body {
         height: auto;
@@ -297,19 +306,19 @@ export default {
   }
 }
 
-.mint-search {
-  height: auto;
-}
+// .mint-search {
+//   height: auto;
+// }
 
-.ow-height {
-  height: auto;
-}
-.index-bottom {
-  height: 150px;
-}
+// .ow-height {
+//   height: auto;
+// }
+// .index-bottom {
+//   height: 150px;
+// }
 
-a:link,
-a:visited {
-  color: #444;
-}
+// a:link,
+// a:visited {
+//   color: #444;
+// }
 </style>

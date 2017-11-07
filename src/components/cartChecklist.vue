@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-30 15:56:09 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-10-30 20:36:39
+ * @Last Modified time: 2017-10-31 11:23:23
  * 覆写 mint-ui checklist
  */
 <template>
@@ -205,7 +205,7 @@ export default {
     padding: 0 0;
   }
   .good-description {
-    min-width: 270px;
+    /* min-width: 270px; */
   }
   .desc {
     height: 40px;

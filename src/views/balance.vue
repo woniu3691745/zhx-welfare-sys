@@ -21,14 +21,14 @@
       <div class="wrapper" v-for="item in quotas" :key="item.itemTypeName">
          <span class="title">{{item.itemTypeName}}</span>
          <div class="content">
-           <div class="warn"><span>{{item.expireWarn}}</span></div>
+           <div class="warn" v-if="item.expireWarn !== ''"><span>{{item.expireWarn}}</span></div>
            <div class="balance">
              <div class="balance-left"><span>可以用余额：</span></div>
              <div class="balance-middle"><span>￥{{item.quota}}</span></div>
              <div class="balance-right"><span>明细></span></div>
            </div>
            <div class="button"><mt-button type="danger" size="large" @click="use(item.itemTypeId)">使用</mt-button></div>
-           <div class="description"><span>可用品类：清洁用品、洗涤用品</span></div>
+           <div class="description"><span>可用品类：{{item.desc}}</span></div>
          </div>
       </div>
       <div class="advice">
@@ -59,12 +59,13 @@ export default {
     this.height = document.body.offsetHeight - 88
   },
   mounted () {
+    // 页面完成获得焦点
+    debugger
     this.focus()
   },
   methods: {
     focus () {
       let select = this.$route.query.selected || 'balance'
-      debugger
       eventBus.$emit('focus', select)
     },
     use (categoryId) {
@@ -112,6 +113,7 @@ export default {
         border-radius: 10px;
         .warn {
           padding: 2px;
+          // height: 20px;
           text-align: center;
           font-size: 14px;
           border-top-left-radius: 10px;
@@ -121,7 +123,7 @@ export default {
         .balance {
           display: -webkit-box;
           padding: 0 10px;
-          margin-top: 10px;
+          margin-top: 15px;
           text-align: center;
           .balance-left {
             flex: 1;

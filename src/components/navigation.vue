@@ -34,7 +34,7 @@ export default {
     // if (this.$route.query.selected) {
     //   this.$router.push({ path: '/' + this.selected })
     // }
-    debugger
+    console.log('11111')
     eventBus.$on('focus',
       param => {
         this.selected = param

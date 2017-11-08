@@ -18,17 +18,17 @@
           </mt-swipe-item>
         </mt-swipe>
       </div>
-      <div class="wrapper" v-for="item in items" :key="item">
-         <span class="title">日用品</span>
+      <div class="wrapper" v-for="item in quotas" :key="item.itemTypeName">
+         <span class="title">{{item.itemTypeName}}</span>
          <div class="content">
-           <div class="warn"><span>您有300元将在3天后过期，请尽快使用</span></div>
+           <div class="warn"><span>{{item.expireWarn}}</span></div>
            <div class="balance">
              <div class="balance-left"><span>可以用余额：</span></div>
-             <div class="balance-middle"><span>￥458.00</span></div>
-             <div class="balance-right"><span>明细</span></div>
+             <div class="balance-middle"><span>￥{{item.quota}}</span></div>
+             <div class="balance-right"><span>明细></span></div>
            </div>
-           <div class="button"><mt-button type="danger" size="large">使用</mt-button></div>
-           <div class="description"><span>可够品类：清洁用品、洗涤用品</span></div>
+           <div class="button"><mt-button type="danger" size="large" @click="use(item.itemTypeId)">使用</mt-button></div>
+           <div class="description"><span>可用品类：清洁用品、洗涤用品</span></div>
          </div>
       </div>
       <div class="advice">
@@ -44,18 +44,33 @@
   </div>
 </template>
 <script>
+import eventBus from '../assets/eventBus'
 export default {
   name: 'balance-page',
   data () {
     return {
-      selected: 'index',
       items: 4,
-      height: 0
+      height: 0,
+      quotas: []
     }
   },
   created () {
+    this.quotas = this.$store.getters.quota
     this.height = document.body.offsetHeight - 88
-    // this.height = document.body.offsetHeight - 140
+  },
+  mounted () {
+    this.focus()
+  },
+  methods: {
+    focus () {
+      let select = this.$route.query.selected || 'balance'
+      debugger
+      eventBus.$emit('focus', select)
+    },
+    use (categoryId) {
+      // this.$router.push({path: '/mall', params: {categoryId: categoryId}})
+      this.$router.push({path: '/mall', query: {categoryId: categoryId, selected: 'mall'}})
+    }
   }
 }
 </script>

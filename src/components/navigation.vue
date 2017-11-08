@@ -1,6 +1,6 @@
 <template>
   <div>
-     <mt-tabbar v-model="selected" fixed >
+     <mt-tabbar v-model="selected" fixed>
         <mt-tab-item id="balance">
           <img slot="icon" src="../assets/icon/home.png">
           额度
@@ -11,7 +11,7 @@
         </mt-tab-item>
         <mt-tab-item id="mine">
           <img slot="icon" src="../assets/icon/my.png">
-          我的
+          我的{{msg}}
         </mt-tab-item>
     </mt-tabbar>
   </div>
@@ -19,24 +19,36 @@
 </template>
 
 <script>
+import eventBus from '../assets/eventBus'
 export default {
   name: 'navigation-page',
   data () {
     return {
       selected: 'balance',
-      isActive: false
+      isActive: false,
+      msg: ''
     }
   },
   mounted () {
     this.isActive = false
-    if (this.$route.query.selected) { this.$router.push({ path: '/' + this.selected }) }
+    // if (this.$route.query.selected) {
+    //   this.$router.push({ path: '/' + this.selected })
+    // }
+    debugger
+    eventBus.$on('focus',
+      param => {
+        this.selected = param
+      })
   },
+  methods: {
+  },
+  created () {},
   watch: {
     selected: function (val, oldVal) {
+      // 商城品类列表
       this.$emit('listenSelected', this.selected)
-      if (this.selected === 'mall') {
-        // this.isActive = false
-      } else {
+      if (this.selected !== 'mall') {
+        // this.selected = 'mine'
         this.$router.push({ path: '/' + this.selected })
       }
     }

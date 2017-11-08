@@ -2,10 +2,9 @@
   <div class="deatil">
     <div class="detail-top">
       <mt-header title="商品">
-        <router-link to="" slot="left">
-          <mt-button icon="back"  @click="back()">返回</mt-button>
+        <router-link :to="{path: '/mall', query: {selected: 'mall'}}" slot="left" >
+          <mt-button icon="back">返回</mt-button>
         </router-link>
-        <mt-button icon="more" slot="right"></mt-button>
       </mt-header>
     </div>
     <div class="detail-body" :style="{ height: height + 'px' }">
@@ -61,15 +60,12 @@ export default {
     }
   },
   methods: {
-    back () {
-      this.$router.go('-1')
-    },
     goodListByIdInfo (id) {
       this.$store
         .dispatch('GoodListById', id)
         .then(res => {
           // this.goodList = res.data
-          console.log('-> ' + JSON.stringify(res.data))
+          // console.log('-> ' + JSON.stringify(res.data))
         })
         .catch(res => {
           console.log(res)

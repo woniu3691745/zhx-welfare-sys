@@ -2,14 +2,14 @@
  * @Author: lidongliang 
  * @Date: 2017-10-19 19:49:42 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-08 14:20:04
+ * @Last Modified time: 2017-11-08 16:42:53
  * 商品列表父组件
  */
 <template>
   <div class="goods"  style="position: absolute;">
     <div class="goods-header">
       <mt-header title="精品推荐" fixed>
-        <router-link :to="{path: '/home', query: {selected: 'index'}}" slot="left" >
+        <router-link :to="{path: '/home', query: {selected: 'balance'}}" slot="left" >
           <mt-button icon="back">返回</mt-button>
         </router-link>
           <img slot="right" class="cart" src="../assets/cart.png" @click="cart()" />

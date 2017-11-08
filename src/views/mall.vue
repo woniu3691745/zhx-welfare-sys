@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-07 22:00:19
+ * @Last Modified time: 2017-11-08 20:24:50
  * 首页组件
  */
 <template>
@@ -11,10 +11,10 @@
       <div class="search">
         <!-- <mt-search v-model="searchValue"></mt-search> -->
         <mt-header title="日用品">
-        <router-link :to="{path: '/home', query: {selected: 'index'}}" slot="left" >
-          <mt-button icon="back">返回</mt-button>
-        </router-link>
-      </mt-header>
+          <router-link :to="{path: '/balance', query: {selected: 'balance'}}" slot="left" >
+            <mt-button icon="back">返回</mt-button>
+          </router-link>
+        </mt-header>
       </div>
       <div class="index-money">
         <ul>
@@ -96,6 +96,7 @@
 </template>
 
 <script>
+import eventBus from '../assets/eventBus'
 import { InfiniteScroll, Indicator } from 'mint-ui'
 import Vue from 'vue'
 Vue.use(InfiniteScroll)
@@ -118,6 +119,7 @@ export default {
     // console.log('document.body.offsetHeight = ' + document.body.offsetHeight)
     this.height = document.body.offsetHeight - 135
     this.init()
+    this.focus()
   },
   methods: {
     get () {
@@ -165,6 +167,11 @@ export default {
         .catch(res => {
           console.log(res)
         })
+    },
+    focus () {
+      let select = this.$route.query.selected || 'balance'
+      // 通知bottom按钮
+      eventBus.$emit('focus', select)
     }
   }
 }

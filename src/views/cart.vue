@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-07 16:10:26
+ * @Last Modified time: 2017-11-08 11:17:04
  * 购物车组件
  */
 <template>

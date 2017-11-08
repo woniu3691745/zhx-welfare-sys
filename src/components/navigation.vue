@@ -38,6 +38,7 @@ export default {
   },
   watch: {
     selected: function (val, oldVal) {
+      console.log('11 ' + this.selected)
       if (this.selected === 'mall') {
         // this.isActive = false
       } else {

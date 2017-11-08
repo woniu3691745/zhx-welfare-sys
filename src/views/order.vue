@@ -2,13 +2,13 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-07 14:56:16
+ * @Last Modified time: 2017-11-08 11:16:18
  * 订单组件
  */
 
 <template>
   <div>
-    <div class="order-top">
+    <div class="order-top" style="position: absolute;">
       <!-- <mt-header title="确认订单">
         <router-link to="" slot="left" fixed>
           <mt-button icon="back" @click="back()">返回</mt-button>

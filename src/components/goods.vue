@@ -2,11 +2,11 @@
  * @Author: lidongliang 
  * @Date: 2017-10-19 19:49:42 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-07 17:47:18
+ * @Last Modified time: 2017-11-08 11:16:39
  * 商品列表父组件
  */
 <template>
-  <div class="goods">
+  <div class="goods"  style="position: absolute;">
     <div class="goods-header">
       <mt-header title="精品推荐" fixed>
         <router-link :to="{path: '/home', query: {selected: 'index'}}" slot="left" >

@@ -1,5 +1,5 @@
 <template>
-  <div class="balance">
+  <div class="balance" style="position: absolute;">
     <div class="balance-header">
       <div class="name">企业额度</div>
     </div>

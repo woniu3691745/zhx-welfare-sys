@@ -148,14 +148,5 @@ export default {
   .mint-button {
     border-radius: 6px;
   }
-  // .balance-bottom {
-  //   position: absolute;
-  //   padding-bottom: 50px;
-  //   // margin-bottom: 100px;
-  //   width: 99%;
-  //   height: 50px;
-  //   border: 2px solid #fce59e;
-  //   opacity:1;
-  // }
 }
 </style>

@@ -2,13 +2,19 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-08 11:34:02
+ * @Last Modified time: 2017-11-08 14:44:38
  * home
  */
 <template>
   <div class="home">
-    <z-navigation></z-navigation>
-    <div class="mall-list" v-bind:class="{ idDisplay: isActive}"><span>日用品</span></div>
+    <z-navigation @listenSelected="select"></z-navigation>
+    <div class="mall-list" v-bind:class="{ idDisplay: isActive}" :style="{ marginTop: height + 'px' }" ref="mallList">
+      <ul>
+        <li><span>日用品</span></li>
+        <li><span>日用品</span></li>
+        <li><span>日用品</span></li>
+      </ul>
+    </div>
     <router-view></router-view>
   </div>
 </template>
@@ -19,26 +25,49 @@ export default {
   name: 'home-page',
   data () {
     return {
+      height: 0,
       selected: 'balance',
-      isActive: false
+      isActive: true
+    }
+  },
+  mounted () {
+    this.height = document.body.offsetHeight - 125
+  },
+  methods: {
+    select (data) {
+      console.log(' -> ' + JSON.stringify(this.$refs.mallList))
+      if (data === 'mall') {
+        this.isActive = false
+      } else {
+        this.isActive = true
+      }
     }
   },
   components: { 'z-navigation': navigation }
 }
 </script>
 <style lang="less" scoped>
+@import "../../static/css/util.css";
 .mall-list {
-  // overflow: auto;
   float: left;
-  height: 50px;
+  height: 70px;
   width: 80px;
   margin-left: 150px;
-  margin-top: 565px;
-  // margin-bottom: 250px;
-  // position: relative;
-  // z-index: 999999999999999;
+  margin-top: 0;
   border: 1px solid black;
-  // opacity:0.5;
-  z-index: 9999999;
+  // z-index: 9999999;
+  background-color: #eaeaea;
+  text-align: center;
+  ul {
+    // padding: 5px 5px;
+    li {
+      text-decoration: underline;
+      list-style: none;
+      
+    }
+  }
+}
+.idDisplay{
+  display: none;
 }
 </style>

@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-19 19:49:42 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-08 11:16:39
+ * @Last Modified time: 2017-11-08 14:20:04
  * 商品列表父组件
  */
 <template>
@@ -65,8 +65,8 @@ export default {
   },
   watch: {
     selected: function (val, oldVal) {
-      this.$refs.goodList.goodListInfo(val) // 调用子组件方法
-      this.$refs.goodList.get() // 调用子组件方法
+      this.$refs.goodList.goodListInfo(val)
+      this.$refs.goodList.get()
     }
   }
 }

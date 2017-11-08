@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-16 16:27:13 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-10-31 11:22:21
+ * @Last Modified time: 2017-11-07 21:21:15
  * 覆写Mint默认样式
  */
 .mint-cell-wrapper {
@@ -55,4 +55,5 @@
 
 .mint-header {
   /* font-size: 13px */
+  background-color: #ef4f4f;
 }

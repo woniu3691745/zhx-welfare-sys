@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-13 14:57:44 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-07 14:34:40
+ * @Last Modified time: 2017-11-07 18:26:37
  * 登录
  */
 
@@ -57,7 +57,7 @@ export default {
       // 登录
       if (this.loginForm.userId !== '' && this.loginForm.userPassword !== '') {
         this.$store.dispatch('LoginByUserName', this.loginForm).then(res => {
-          this.$router.push({path: '/home', query: {selected: 'index'}})
+          this.$router.push({path: '/home', query: {selected: 'balance'}})
         }).catch((res) => {
           console.log(res)
         })

@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-10-12 17:58:36
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-07 16:10:34
+ * @Last Modified time: 2017-11-07 20:51:00
  * 路由
  */
 
@@ -18,9 +18,9 @@ export const constantRouterMap = [
     component: resolve => require(['@/views/home.vue'], resolve),
     children: [
       {
-        path: '/index',
+        path: '/balance',
         name: '',
-        component: resolve => require(['@/views/index.vue'], resolve)
+        component: resolve => require(['@/views/balance.vue'], resolve)
       },
       {
         path: '/order',
@@ -36,11 +36,12 @@ export const constantRouterMap = [
         path: '/mine',
         name: '',
         component: resolve => require(['@/views/mine.vue'], resolve)
-      }
+      },
+      { path: '/mall',
+        component: resolve => require(['@/views/mall.vue'], resolve) }
     ]
   },
 
-  // { path: '/index', component: resolve => require(['@/components/index.vue'], resolve) },
   // { path: '/order', component: resolve => require(['@/components/order.vue'], resolve) },
   // { path: '/cart', component: resolve => require(['@/components/cart.vue'], resolve) },
   // { path: '/mine', component: resolve => require(['@/components/mine.vue'], resolve) },

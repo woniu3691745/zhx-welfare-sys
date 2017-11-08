@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-19 19:50:05 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-10-31 11:18:53
+ * @Last Modified time: 2017-11-07 21:55:34
  * 商品列表
  *
  * @translate-change="translateChange"
@@ -67,7 +67,7 @@ export default {
   },
   methods: {
     cart () {
-      this.$router.push({ path: '/home', query: { selected: 'cart' } })
+      this.$router.push({ path: '/cart' })
     },
     get () {
       setTimeout(function () {

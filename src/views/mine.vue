@@ -2,13 +2,13 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-10-19 20:42:20
+ * @Last Modified time: 2017-11-07 21:20:49
  * 我的组件
  */
 
 <template>
   <div>
-    <mt-button type="primary" size="large" @click="LogOut">退出</mt-button>
+    <mt-button type="danger" size="large" @click="LogOut">退出</mt-button>
   </div>
 </template>
 

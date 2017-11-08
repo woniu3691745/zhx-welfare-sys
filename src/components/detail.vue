@@ -49,23 +49,23 @@
   </div>  
 </template>
 <script>
-  export default {
-    name: 'detail',
-    data () {
-      return {
-        id: '',
-        height: 0,
-        goodsForm: {
-          brandName: ''
-        }
+export default {
+  name: 'detail',
+  data () {
+    return {
+      id: '',
+      height: 0,
+      goodsForm: {
+        brandName: ''
       }
+    }
+  },
+  methods: {
+    back () {
+      this.$router.go('-1')
     },
-    methods: {
-      back () {
-        this.$router.go('-1')
-      },
-      goodListByIdInfo (id) {
-        this.$store
+    goodListByIdInfo (id) {
+      this.$store
         .dispatch('GoodListById', id)
         .then(res => {
           // this.goodList = res.data
@@ -74,30 +74,32 @@
         .catch(res => {
           console.log(res)
         })
-      }
-    },
-    created () {
-      this.height = document.body.offsetHeight - 80
-    },
-    mounted () {
-      this.goodListByIdInfo(this.$route.query.id)
     }
+  },
+  created () {
+    this.height = document.body.offsetHeight - 80
+  },
+  mounted () {
+    this.goodListByIdInfo(this.$route.query.id)
   }
+}
 </script>
 <style lang="less" scoped>
 @import "../../static/css/util.css";
 
 .detail-goods-top {
-  :nth-child(2) {   // mint-cell-wrapper
+  :nth-child(2) {
+    // mint-cell-wrapper
     display: grid;
-    :nth-child(1) {   // mint-cell-title
+    :nth-child(1) {
+      // mint-cell-title
       display: flex;
       flex-direction: column;
       flex: 0;
     }
     .content {
       display: inline;
-       padding-bottom: 5px;
+      padding-bottom: 5px;
       .name {
         color: black;
         padding: 15px 0;
@@ -114,9 +116,11 @@
 }
 
 .detail-goods-bottom {
-  :nth-child(2) {   // mint-cell-wrapper
+  :nth-child(2) {
+    // mint-cell-wrapper
     display: grid;
-    :nth-child(1) {   // mint-cell-title
+    :nth-child(1) {
+      // mint-cell-title
       display: flex;
       flex-direction: column;
       flex: 0;

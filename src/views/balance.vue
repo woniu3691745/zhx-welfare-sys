@@ -60,7 +60,6 @@ export default {
   },
   mounted () {
     // 页面完成获得焦点
-    debugger
     this.focus()
   },
   methods: {

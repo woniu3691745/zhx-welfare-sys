@@ -34,10 +34,10 @@ export default {
     // if (this.$route.query.selected) {
     //   this.$router.push({ path: '/' + this.selected })
     // }
-    console.log('11111')
     eventBus.$on('focus',
       param => {
         this.selected = param
+        // this.$set(this.selected, param)
       })
   },
   methods: {

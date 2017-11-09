@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-08 20:37:29
+ * @Last Modified time: 2017-11-09 11:08:10
  * 首页组件
  */
 <template>
@@ -122,7 +122,6 @@ export default {
   },
   mounted () {
     // 页面完成获得焦点
-    debugger
     this.focus()
   },
   methods: {

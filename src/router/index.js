@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-10-12 17:58:36
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-08 18:27:44
+ * @Last Modified time: 2017-11-09 16:27:24
  * 路由
  */
 
@@ -34,6 +34,10 @@ export const constantRouterMap = [
         path: '/mine',
         name: '我的',
         component: resolve => require(['@/views/mine.vue'], resolve)
+      },
+      { path: '/cart',
+        name: '购物车',
+        component: resolve => require(['@/views/cart.vue'], resolve)
       }
     ]
   },

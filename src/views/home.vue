@@ -2,17 +2,17 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-08 19:56:52
+ * @Last Modified time: 2017-11-09 16:08:42
  * home
  */
 <template>
   <div class="home">
     <z-navigation @listenSelected="select"></z-navigation>
-    <div class="mall-list" v-bind:class="{ idDisplay: isActive}" :style="{ marginTop: height + 'px' }">
+    <!-- <div class="mall-list" v-bind:class="{ idDisplay: isActive}" :style="{ marginTop: height + 'px' }">
       <ul>
         <li v-for="index in item" :key="index.key"><span @click="link(index.key)">{{index.categoryName}}</span></li>
       </ul>
-    </div>
+    </div> -->
     <router-view></router-view>
   </div>
 </template>

@@ -1,0 +1,94 @@
+/*
+ * @Author: lidongliang 
+ * @Date: 2017-10-16 16:27:56 
+ * @Last Modified by: lidongliang
+ * @Last Modified time: 2017-11-13 17:15:11
+ * 共通样式
+ */
+.common-header {
+  border-bottom: 1px solid #bebebe;
+  .mint-header{
+    background-color: #ffffff; 
+    color: #030303;
+    line-height: 0.88rem;
+    height: 0.88rem;
+    font-size: 0.34rem;
+    .mint-header-button {
+      color: #231916;
+      font-size: 0.34rem
+    }
+   .mint-header-title {
+      margin: 0;
+    }
+  }
+  .mintui-back {
+    color: #231916;
+    font-size: 0.34rem
+  }
+}
+
+.common-form-filed {
+    width: 6.4rem;
+    margin: 0 auto;
+    margin-top: 1.2rem;
+    .mint-cell {
+      .mint-cell-wrapper {
+        background-position: bottom left;
+        .mint-cell-value {
+          input {
+            color: #969696
+          }
+        }
+      }
+    }
+    .mint-cell:last-child {
+      background-image: none;
+    } 
+  }
+  
+/******************************************************************************/
+/*清除外边距*/
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, figure, /*结构元素*/
+dl, dt, dd, ul, ol, li, /*列表元素*/
+fieldset, lengend, button, input, textarea, /*表单元素*/
+th, td, /*表格元素*/
+pre /*文本格式元素*/ {
+    margin: 0;
+    -webkit-tap-highlight-color:rgba(0,0,0,0);
+    -webkit-tap-highlight-color: transparent;
+}
+/*清除内边距*/
+ul, ol, menu, td, input{
+    padding: 0;
+}
+/*重置列表元素*/
+ul, ol {
+    list-style: none;
+}
+/*将字体扶正*/
+address, cite, dfn, em, var {
+    font-style: normal;
+}
+/*清下划线*/
+a {
+    text-decoration: none;
+    color: black;
+}
+/*鼠标略过a标签，显示下划线*/
+a:hover {
+    /*text-decoration: underline;*/
+}
+/*清浮动*/
+.clear:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}

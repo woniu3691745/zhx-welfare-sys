@@ -20,7 +20,7 @@
         </div>
     </div>
     <div class="bottom">
-
+      <mt-button class="index-login" type="primary">下一步</mt-button>
     </div>
   </div>
 </template>
@@ -61,9 +61,24 @@
     }
     .body {
       .register-pas {
+        
         width: 6.4rem;
         margin: 0 auto;
-        margin-top: 1.34rem; 
+        margin-top: 1.2rem;
+        .mint-cell {
+          .mint-cell-wrapper {
+            background-position: bottom left;
+            .mint-cell-value {
+              input {
+                color: #969696
+              }
+            }
+          }
+        }
+        .mint-cell:last-child {
+          background-image: none;
+          
+        } 
       }
     }
   }
@@ -71,7 +86,19 @@
     color: #231916;
     font-size: 0.34rem
   }
-  // .mint-header-title {
-  //   font-size: 32px;
-  // }
+  .bottom  {
+    margin-top: 2.45rem;
+    .index-login {
+        width: 6.2rem;
+        display: block;
+        margin: 0 auto;
+        height: 0.78rem;
+        line-height: 0.78rem;
+        text-align: center;
+        background: #f9404a;
+        color: #ffffff;
+        font-size: 0.36rem;
+        border-radius: 0.05rem;
+      }
+  }
 </style>

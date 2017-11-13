@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-10-12 17:58:36
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-09 16:27:24
+ * @Last Modified time: 2017-11-13 15:02:33
  * 路由
  */
 
@@ -13,6 +13,7 @@ Vue.use(Router)
 
 export const constantRouterMap = [
   { path: '/', redirect: '/home' },
+  { path: '/index', name: '首页', component: resolve => require(['@/views/index.vue'], resolve) },
   { path: '/login', name: '登录', component: resolve => require(['@/views/login.vue'], resolve) },
   {
     path: '/home',
@@ -46,7 +47,9 @@ export const constantRouterMap = [
   { path: '/cart', name: '购物车', component: resolve => require(['@/views/cart.vue'], resolve) },
 
   { path: '/goods', name: '商品', component: resolve => require(['@/components/goods.vue'], resolve) },
-  { path: '/detail', name: '商品详情', component: resolve => require(['@/components/detail.vue'], resolve) }
+  { path: '/detail', name: '商品详情', component: resolve => require(['@/components/detail.vue'], resolve) },
+
+  { path: '/register', name: '绑定手机号', component: resolve => require(['@/views/register/register.vue'], resolve) }
 ]
 
 export default new Router({

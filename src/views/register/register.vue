@@ -9,12 +9,12 @@
     </div>
     <div class="body">
         <div class="common-form-filed">
-          <mt-field label="福利账号" placeholder="请填写福利卡号/福利账号" v-model="username"></mt-field>
-          <mt-field label="卡背密码" placeholder="请填写卡背密码/账号密码" type="email" v-model="email"></mt-field>
+          <mt-field label="福利账号" placeholder="请填写福利卡号/福利账号" v-model="cardNum"></mt-field>
+          <mt-field label="卡背密码" placeholder="请填写卡背密码/账号密码" type="password" v-model="cardPassWord"></mt-field>
         </div>
     </div>
     <div class="bottom">
-      <mt-button class="index-login" type="primary">下一步</mt-button>
+      <router-link :to="{ path: '/bindPhoneNum'}"><mt-button class="index-login" type="primary">下一步</mt-button></router-link>
     </div>
   </div>
 </template>
@@ -24,8 +24,8 @@
    name: 'register-page',
    data () {
      return {
-       username: '',
-       email: ''
+       cardNum: '',
+       cardPassWord: ''
      }
    }
  }
@@ -33,28 +33,9 @@
 
 <style lang="less" scope>
   .register {
-    // .header {
-    //   border-bottom: 1px solid #bebebe;
-    //   .mint-header{
-    //     background-color: #ffffff; 
-    //     color: #030303;
-    //     line-height: 0.88rem;
-    //     height: 0.88rem;
-    //     font-size: 0.34rem;
-    //     .mint-header-button {
-    //       color: #231916;
-    //       font-size: 0.34rem
-    //     }
-    //    .mint-header-title {
-    //       margin: 0;
-    //     }
-    //   }
-    // }
     .body {
-      
     }
   }
-
   .bottom  {
     margin-top: 2.45rem;
     .index-login {
@@ -67,7 +48,7 @@
         background: #f9404a;
         color: #ffffff;
         font-size: 0.36rem;
-        border-radius: 0.05rem;
+        border-radius: 0.1rem;
       }
   }
 </style>

@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-16 16:27:13 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-13 15:45:59
+ * @Last Modified time: 2017-11-13 17:18:07
  * 覆写Mint默认样式
  */
 .mint-cell-wrapper {
@@ -40,10 +40,6 @@
 /* .circle-color-58 > div::before {
   background-color: #26a2ff !important;
 } */
-
-.mint-button {
-  border-radius: 0;
-}
 
 .mint-cell-wrapper {
   padding: 0 5px; 

@@ -62,7 +62,7 @@ export default {
         background: #f9404a;
         color: #ffffff;
         font-size: 0.36rem;
-        border-radius: 0.05rem;
+        border-radius: 0.1rem;
       }
       .index-register {
         width: 6.2rem;
@@ -77,7 +77,7 @@ export default {
         border: 1px solid #f9404a;
         box-sizing: border-box;
         margin-top: 0.32rem;
-        border-radius: 0.05rem;
+        border-radius: 0.1rem;
       }
     }
   }

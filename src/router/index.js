@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-10-12 17:58:36
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-13 15:02:33
+ * @Last Modified time: 2017-11-13 17:29:50
  * 路由
  */
 
@@ -49,7 +49,9 @@ export const constantRouterMap = [
   { path: '/goods', name: '商品', component: resolve => require(['@/components/goods.vue'], resolve) },
   { path: '/detail', name: '商品详情', component: resolve => require(['@/components/detail.vue'], resolve) },
 
-  { path: '/register', name: '绑定手机号', component: resolve => require(['@/views/register/register.vue'], resolve) }
+  { path: '/register', name: '注册', component: resolve => require(['@/views/register/register.vue'], resolve) },
+  { path: '/bindPhoneNum', name: '绑定手机号', component: resolve => require(['@/views/register/bindPhoneNum.vue'], resolve) },
+  { path: '/setPassWord', name: '设置登录密码', component: resolve => require(['@/views/register/setPassWord.vue'], resolve) }
 ]
 
 export default new Router({

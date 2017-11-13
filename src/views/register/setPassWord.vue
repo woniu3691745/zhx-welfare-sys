@@ -1,0 +1,59 @@
+<template>
+  <div class="setPassWord">
+    <div class="common-header">
+      <mt-header title="设置登录密码">
+        <router-link to="/bindPhoneNum" slot="left">
+          <mt-button icon="back"></mt-button>
+        </router-link>
+      </mt-header>
+    </div>
+    <div class="body">
+      <div class="common-form-filed">
+        <mt-field label="登录密码" placeholder="请输入密码" v-model="loginPassword"></mt-field>
+        <mt-field label="确认密码" placeholder="再次输入密码" v-model="loginConfirmPassword"></mt-field>
+        <div class="pwd-totip"> 密码由6-20位英文字母、数字组成，区分大小写</div>
+      </div>
+    </div>
+    <div class="bottom">
+      <router-link :to="{ path: '/setPassWord'}"><mt-button class="index-login" type="primary">下一步</mt-button></router-link>
+    </div>
+  </div>
+</template>
+
+<script>
+ export default {
+   name: 'setPassWord-page',
+   data () {
+     return {
+       loginPassword: '',
+       loginConfirmPassword: ''
+     }
+   }
+ }
+</script>
+
+<style lang="less" scoped>
+  .body {
+    .pwd-totip {
+      font-size: 0.28rem;
+      color: #4A90E2;
+      margin-top: 0.38rem;
+      // padding-left: 0.52rem;
+    }
+  }
+  .bottom  {
+    margin-top: 2.45rem;
+    .index-login {
+        width: 6.4rem;
+        display: block;
+        margin: 0 auto;
+        height: 0.78rem;
+        line-height: 0.78rem;
+        text-align: center;
+        background: #f9404a;
+        color: #ffffff;
+        font-size: 0.36rem;
+        border-radius: 0.1rem;
+      }
+  }
+</style>

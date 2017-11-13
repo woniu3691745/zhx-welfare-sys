@@ -6,7 +6,7 @@
  * 共通样式
  */
 .common-header {
-  border-bottom: 1px solid #bebebe;
+  border-bottom: 1px solid #ededed;
   .mint-header{
     background-color: #ffffff; 
     color: #030303;
@@ -34,6 +34,7 @@
     .mint-cell {
       .mint-cell-wrapper {
         background-position: bottom left;
+        background-image: none;
         .mint-cell-value {
           input {
             color: #969696
@@ -41,11 +42,24 @@
         }
       }
     }
-    .mint-cell:last-child {
-      background-image: none;
+    .mint-cell {
+      background-image: -webkit-linear-gradient(bottom, #d9d9d9, #d9d9d9 50%, transparent 50%);
+      background-image: linear-gradient(0deg, #d9d9d9, #d9d9d9 50%, transparent 50%);
+      background-size: 100% 1px;
+      background-repeat: no-repeat;
+      background-position: bottom;
     } 
   }
-  
+.pozitin-fixed {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+}
+.padding-top {
+  padding-top: 0.88rem;
+}
 /******************************************************************************/
 /*清除外边距*/
 body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, figure, /*结构元素*/

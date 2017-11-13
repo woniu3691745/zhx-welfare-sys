@@ -57,9 +57,9 @@ export default {
 </script>
 <style lang="less" scoped>
 .mint-tabbar.is-fixed {
-  height: 50px;
+  height: 0.98rem;
 }
 .mint-tab-item {
-  padding: 3px 0;
+ 
 }
 </style>

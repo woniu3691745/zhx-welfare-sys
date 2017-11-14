@@ -1,3 +1,10 @@
+/*
+ * @Author: lidongliang 
+ * @Date: 2017-11-14 19:04:03 
+ * @Last Modified by:   lidongliang 
+ * @Last Modified time: 2017-11-14 19:04:03 
+ * 详情
+ */
 <template>
   <div class="deatil">
     <div class="detail-top">
@@ -7,7 +14,8 @@
         </router-link>
       </mt-header>
     </div>
-    <div class="detail-body" :style="{ height: height + 'px' }">
+    <!-- <div class="detail-body" :style="{ height: height + 'px' }"> -->
+    <div class="detail-body">
       <mt-cell>
         <img src="../assets/swipe/4.jpg" alt="">
       </mt-cell>

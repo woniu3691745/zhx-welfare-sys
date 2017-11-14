@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-10-12 17:58:36
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-14 13:45:56
+ * @Last Modified time: 2017-11-14 19:31:40
  * 路由
  */
 
@@ -18,28 +18,28 @@ export const constantRouterMap = [
   {
     path: '/home',
     redirect: '/balance',
-    component: resolve => require(['@/views/home.vue'], resolve),
+    component: resolve => require(['@/views/main/home.vue'], resolve),
     children: [
       {
         path: '/balance',
         name: '额度',
-        component: resolve => require(['@/views/balance.vue'], resolve)
+        component: resolve => require(['@/views/main/balance.vue'], resolve)
       },
       {
         path: '/mall',
         name: '商城',
-        component: resolve => require(['@/views/mall.vue'], resolve)
+        component: resolve => require(['@/views/main/mall.vue'], resolve)
       },
       {
         path: '/mine',
         name: '我的',
-        component: resolve => require(['@/views/mine.vue'], resolve)
+        component: resolve => require(['@/views/main/mine.vue'], resolve)
       }
     ]
   },
 
-  { path: '/order', name: '订单', component: resolve => require(['@/views/order.vue'], resolve) },
-  { path: '/cart', name: '购物车', component: resolve => require(['@/views/cart.vue'], resolve) },
+  { path: '/order', name: '订单', component: resolve => require(['@/views/main/order.vue'], resolve) },
+  { path: '/cart', name: '购物车', component: resolve => require(['@/views/main/cart.vue'], resolve) },
   { path: '/goods', name: '商品', component: resolve => require(['@/components/goods.vue'], resolve) },
   { path: '/detail', name: '商品详情', component: resolve => require(['@/components/detail.vue'], resolve) },
 

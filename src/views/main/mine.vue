@@ -2,10 +2,9 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-14 14:44:34
- * 我的组件
+ * @Last Modified time: 2017-11-14 19:02:26
+ * 我的
  */
-
 <template>
   <div class="mine" style="position: absolute;">
     <div class="mine-header">
@@ -49,7 +48,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-@import "../../static/css/util.css";
+@import "../../../static/css/util.css";
 .mine {
   padding: 0 0;
   .advice {

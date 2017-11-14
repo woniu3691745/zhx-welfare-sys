@@ -1,3 +1,10 @@
+/*
+ * @Author: lidongliang 
+ * @Date: 2017-11-14 19:05:13 
+ * @Last Modified by:   lidongliang 
+ * @Last Modified time: 2017-11-14 19:05:13 
+ * 首页
+ */
 <template>
   <div class="index">
     <div class="header">

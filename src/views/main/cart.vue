@@ -2,8 +2,8 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-08 11:17:04
- * 购物车组件
+ * @Last Modified time: 2017-11-14 19:06:58
+ * 购物车
  */
 <template>
   <div>
@@ -62,7 +62,7 @@
 <script>
 
 import { InfiniteScroll, Indicator } from 'mint-ui'
-import ZMtChecklist from '../components/cartChecklist'
+import ZMtChecklist from '../../components/cartChecklist'
 import Vue from 'vue'
 Vue.use(InfiniteScroll)
 
@@ -322,7 +322,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-@import "../../static/css/util.css";
+@import "../../../static/css/util.css";
 
   .cart-top {
   }

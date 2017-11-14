@@ -27,10 +27,12 @@
            </span>
          </div>
          <div class="content">
-           <div class="warn clear">
-             <span class="prompt left">您有300元将在3天后过期，请您尽快使用</span>
-             <span class="right detail">明细</span>
-             </div>
+          <div class="warn-container">
+             <!-- <div class="warn clear">
+              <span class="prompt left">您有300元将在3天后过期，请您尽快使用</span>
+              <span class="right detail">明细</span>
+            </div> -->
+          </div>
            <!-- <div class="warn" v-if="item.expireWarn !== ''"><span>{{item.expireWarn}}</span></div> -->
            <div class="balance clear">
              <div class="balance-left left"><span>可以用余额：</span></div>
@@ -155,6 +157,11 @@ export default {
         height: 3.46rem;
         border: 1px solid red;
         border-radius: 10px;
+        .warn-container {
+          width: 100%;
+          height: 0.58rem;
+          
+        }
         .warn {
           width: 100%;
           height: 0.58rem;

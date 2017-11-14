@@ -50,7 +50,7 @@
             <img src="../assets/cart.png" height="20" width="20" slot="icon">
         </mt-button>
         <mt-button type="primary" class="button-width">加入购物车</mt-button>
-        <mt-button type="danger" class="button-width">立即购买</mt-button>
+        
       </mt-tabbar>
     </div>
   </div>  

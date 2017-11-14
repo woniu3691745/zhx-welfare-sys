@@ -22,7 +22,7 @@
       </span>
     </div>
     
-    <div class="body-container padding-top" :style="{ height: height + 'px' }">
+    <div class="body-container padding-top">
       <div class="index-swipe">
         <mt-swipe :auto="2000">
           <mt-swipe-item><img src="../../assets/swipe/1.jpg"></img>
@@ -66,20 +66,27 @@
           </div>
         </div>
       </div>
-      <div class="index-space"></div>
+      <div class="three-title">
+        <ul class="clear">
+          <li v-for="item in 10">三级目录</li>
+        </ul>
+      </div>
       <div class="index-gifts ow-height">
-        <div class="index-gifts-title">
-          <span>--精品推荐--</span>
-          <div class="index-gifts-title-link">
-            <router-link id="goods" :to="{ path: '/goods'}"><span>全部></span></router-link>
+        <div class="index-gifts-title clear">
+          <span class="title-content">热门推荐</span> 
+          <div class="index-gifts-title-link right    ">
+            <router-link id="goods" :to="{ path: '/goods'}"><span>查看全部></span></router-link>
           </div>
         </div>
         <div class="index-gifts-body-ow">
           <div class="index-gifts-product-list">
-            <ul>
-              <li v-for="item in competitiveProducts" v-bind="item" :key="item.id">
+            <ul class="clear">
+              <li v-for="item in competitiveProducts" v-bind="item" :key="item.id" class="left">
                 <router-link :to="{ path: '/detail', query: {id: item.id}}"><img v-bind:src="item.image"></router-link>
-                <div class="des">{{item.name}}<br>￥{{item.salePrice}}</div>
+                <div class="des">
+                  <p>{{item.name}}</p>
+                  <span>￥{{item.salePrice}}</span>
+                </div>
               </li>
             </ul>
           </div>
@@ -339,7 +346,10 @@ export default {
                 }
                 span {
                   font-size: 0.3rem;
-                  color: #FB4E51
+                  color: #FB4E51;
+                  display: block;
+                  text-align: center;
+                  margin-top: 0.05rem;
                 }
               }
             }
@@ -358,24 +368,65 @@ export default {
           ul {
             text-align: center;
             width: 100%;
-            overflow-x: scroll; // 滑动
+            padding-bottom: 1.2rem;
             li {
-              padding: 0 2px;
-              display: inline-block;
-              text-align: center;
-              vertical-align: text-top;
-              width: 170px;
+              margin-left: 0.2rem;
+              margin-top: 0.2rem;
+              width: 3.45rem;
+              padding-bottom: 0.1rem;
               img {
-                height: 150px;
-                border-radius: 8px;
-                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
-                  0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                display: block;
+                width: 3.45rem;
+                height: 3.45rem;
+                border: 1px solid #ebebeb;
+                box-sizing: border-box;
+                
               }
               .des {
+                width: 3.28rem;
+                margin: 0 auto;
                 white-space: normal;
+                p {
+                  font-size: ;
+                  color: #555555;
+                  height: 0.66rem;
+                  display: -webkit-box;
+                  -webkit-box-orient: vertical;
+                  -webkit-line-clamp: 2;
+                  overflow: hidden;
+                  margin-top: 0.1rem
+                }
+                span {
+                  font-size: 0.3rem;
+                  color: #FB4E51;
+                  margin-top: 0.08rem;
+                  display: block;
+                  text-align: center;
+                }
               }
             }
           }
+        }
+      }
+    }
+    .three-title {
+      width: 100%;
+      height: 1.64rem;
+      background: #EDEDED;
+      ul {
+        padding: 0.06rem 0 0 0.1rem;
+        li {
+          background: #FFFFFF;
+          border-radius: 0.16rem;
+          width: 1.36rem;
+          height: 0.59rem;
+          line-height: 0.59rem;
+          text-align: center;
+          font-size: 0.24rem;
+          color: #FF0000;
+          float: left;
+          margin-left: 0.08rem;
+          margin-top: 0.12rem;
         }
       }
     }

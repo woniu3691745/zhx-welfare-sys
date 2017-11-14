@@ -2,10 +2,10 @@
  * @Author: lidongliang
  * @Date: 2017-10-18 15:33:14
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-10-23 10:54:09
+ * @Last Modified time: 2017-11-14 14:22:52
  * 用户信息 module
  */
-import { loginByUserName, logout, getUserInfo } from '@/api/login'
+import { loginByUserName, logout, getUserInfo, resetLoginPassword } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 
 const user = {
@@ -39,9 +39,9 @@ const user = {
   actions: {
     // 用户名登录
     LoginByUserName ({ commit }, userInfo) {
-      const userId = userInfo.userId.trim()
+      const userId = userInfo.account.trim()
       return new Promise((resolve, reject) => {
-        loginByUserName(userId, userInfo.userPassword).then(response => {
+        loginByUserName(userId, userInfo.loginPassWord).then(response => {
           const data = response.data
           setToken(response.data.token)
           commit('SET_TOKEN', data.token)
@@ -70,6 +70,16 @@ const user = {
           commit('SET_TOKEN', '')
           commit('SET_QUOTA', [])
           removeToken()
+          resolve()
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    // 重置登录密码
+    ResetLoginPassword ({ commit, state }, resetLoginPasswordForm) {
+      return new Promise((resolve, reject) => {
+        resetLoginPassword(state.token, resetLoginPasswordForm).then(() => {
           resolve()
         }).catch(error => {
           reject(error)

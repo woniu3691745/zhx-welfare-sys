@@ -8,7 +8,7 @@
         <img src="../assets/index.png" alt="">
       </div>
       <div class="index-btn-con">
-        <router-link :to="{ path: '/detail'}"><mt-button class="index-login" type="default">登录</mt-button></router-link>
+        <router-link :to="{ path: '/login'}"><mt-button class="index-login" type="default">登录</mt-button></router-link>
         <router-link :to="{ path: '/register'}"><mt-button class="index-register" type="primary">注册</mt-button></router-link>
       </div>    
     </div>

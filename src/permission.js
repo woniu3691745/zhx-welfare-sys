@@ -4,7 +4,7 @@ import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { getToken } from '@/utils/auth' // 验权
 
-const whiteList = ['/index', '/register', '/login', '/authredirect']// 不重定向白名单
+const whiteList = ['/index', '/register', '/bindPhoneNum', '/setPassWord', '/setPayPassWord', '/login', '/resetLoginPassWord', '/authredirect']// 不重定向白名单
 router.beforeEach((to, from, next) => {
   // NProgress.configure({ ease: 'ease', speed: 500 })
   NProgress.start() // 开启Progress
@@ -22,6 +22,7 @@ router.beforeEach((to, from, next) => {
           // next({ ...to })
           next()
         }).catch(() => {
+          // 账号、密码错误
           store.dispatch('LogOut').then(() => {
             next({ path: '/login' })
           })

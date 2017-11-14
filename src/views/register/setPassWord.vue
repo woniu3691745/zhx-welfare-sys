@@ -1,3 +1,10 @@
+/*
+ * @Author: lidongliang 
+ * @Date: 2017-11-14 09:58:49 
+ * @Last Modified by: lidongliang
+ * @Last Modified time: 2017-11-14 14:17:34
+ * 设置登录密码
+ */
 <template>
   <div class="setPassWord">
     <div class="common-header">
@@ -9,13 +16,13 @@
     </div>
     <div class="body">
       <div class="common-form-filed">
-        <mt-field label="登录密码" placeholder="请输入密码" v-model="loginPassword"></mt-field>
-        <mt-field label="确认密码" placeholder="再次输入密码" v-model="loginConfirmPassword"></mt-field>
-        <div class="pwd-totip"> 密码由6-20位英文字母、数字组成，区分大小写</div>
+        <mt-field label="登录密码" placeholder="请输入密码" v-model="setPassWordForm.loginPassword"></mt-field>
+        <mt-field label="确认密码" placeholder="再次输入密码" v-model="setPassWordForm.loginConfirmPassword"></mt-field>
+        <div class="pwd-totip">密码由6-20位英文字母、数字组成，区分大小写</div>
       </div>
     </div>
     <div class="bottom">
-      <router-link :to="{ path: '/setPassWord'}"><mt-button class="index-login" type="primary">下一步</mt-button></router-link>
+      <router-link :to="{ path: '/setPayPassWord'}"><mt-button class="index-login" type="primary">下一步</mt-button></router-link>
     </div>
   </div>
 </template>
@@ -25,9 +32,14 @@
    name: 'setPassWord-page',
    data () {
      return {
-       loginPassword: '',
-       loginConfirmPassword: ''
+       setPassWordForm: {
+         loginPassword: '',
+         loginConfirmPassword: ''
+       }
      }
+   },
+   methods: {
+
    }
  }
 </script>
@@ -38,7 +50,6 @@
       font-size: 0.28rem;
       color: #4A90E2;
       margin-top: 0.38rem;
-      // padding-left: 0.52rem;
     }
   }
   .bottom  {

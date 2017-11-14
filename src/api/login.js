@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-10-18 15:33:43
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-10-23 10:43:48
+ * @Last Modified time: 2017-11-14 14:41:10
  * 登录API
  */
 import fetch from '@/utils/fetch'
@@ -38,6 +38,18 @@ export function getUserInfo (token) {
   }
   return fetch({
     url: '/api/user/info.cp',
+    method: 'post',
+    data
+  })
+}
+
+// 重置密码
+export function resetLoginPassword (token, resetLoginPasswordForm) {
+  const data = {
+    token
+  }
+  return fetch({
+    url: '/api/user/',
     method: 'post',
     data
   })

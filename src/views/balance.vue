@@ -4,7 +4,7 @@
       <mt-header title="企业额度">      
       </mt-header>
     </div>
-    <div class="balance-body padding-top" :style="{ height: height + 'px' }">
+    <div class="balance-body padding-top">
       <div class="index-swipe">
         <mt-swipe :auto="2000">
           <mt-swipe-item><img src="../assets/swipe/1.jpg"></img>
@@ -63,13 +63,13 @@ export default {
   data () {
     return {
       items: 4,
-      height: 0,
+      // height: 0,
       quotas: []
     }
   },
   created () {
     this.quotas = this.$store.getters.quota
-    this.height = document.body.offsetHeight - 88
+    // this.height = document.body.offsetHeight - 88
   },
   mounted () {
     // 页面完成获得焦点

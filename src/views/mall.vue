@@ -7,30 +7,22 @@
  */
 <template>
   <div class="index-container">
-    <div class="body-top">
-      <div class="search">
-        <!-- <mt-search v-model="searchValue"></mt-search> -->
-        <mt-header title="日用品">
-          <router-link :to="{path: '/balance', query: {selected: 'balance'}}" slot="left" >
-            <mt-button icon="back">返回</mt-button>
-          </router-link>
-        </mt-header>
+    <div class="body-top clear">
+      <div class="search left">
+        日用品 |
+        
       </div>
-      <div class="index-money">
-        <ul>
-          <li>
-            <span>我的额度</span>
-          </li>
-          <li v-for="item in quotas" v-bind="item" :key="item.itemTypeId">
-            <span>{{item.itemTypeName}}<br>￥{{item.quota}}</span>
-          </li>
-        </ul>
+      <div class="index-money left">
+          <span>余额：</span>
+          <span>￥458.00</span>
       </div>
       
-      <div class="index-space"></div>
+      <span class="right shop-car">
+        <span>99</span>
+      </span>
     </div>
     
-    <div class="body-container" :style="{ height: height + 'px' }">
+    <div class="body-container padding-top" :style="{ height: height + 'px' }">
       <div class="index-swipe">
         <mt-swipe :auto="2000">
           <mt-swipe-item><img src="../assets/swipe/1.jpg"></img>
@@ -45,20 +37,20 @@
           </mt-swipe-item>
         </mt-swipe>
       </div>
-      <div class="index-subject">
+      <!-- <div class="index-subject">
         <ul>
           <li v-for="i in category" v-bind="i" :key="i.name">
             <span>{{i.name}}</span>
           </li>
         </ul>
-      </div>
+      </div> -->
       <div class="index-space"></div>
       <div class="index-gifts">
         <div class="index-gifts-title">
-          <span>--超级大礼包--</span> 
-          <div class="index-gifts-title-link">
+          <span class="title-content">超级大礼包</span> 
+          <!-- <div class="index-gifts-title-link">
             <router-link id="goods" :to="{ path: '/goods'}"><span>全部></span></router-link>
-          </div>
+          </div> -->
         </div>
         <div class="index-gifts-body">
           <div class="index-gifts-product-list">
@@ -185,28 +177,57 @@ export default {
 
 .index-container {
   .body-top {
+    padding: 0 0.16rem;
     width: 100%;
-    // height: 280px;
-    .index-money {
-      width: 100%;
-      height: 40px;
-      font-size: 13px;
-      ul {
-        background-color: #fff;
-        padding: 3px 0;
-        width: 100%;
-        white-space: nowrap;
-        li {
-          padding: 0 5px;
-          width: auto;
-          height: inherit;
-          display: inline-block;
-          text-align: center;
-          vertical-align: middle;
-        }
-      }
+    position: fixed;
+    left: 0;
+    top: 0;
+    box-sizing: border-box;
+    background: #ffffff;
+    z-index: 100;
+    border: 1px solid #ebebeb;
+    .search {
+      font-size: 0.36rem;
+      color: #323232;
+      height: 0.88rem;
+      line-height: 0.88rem;
     }
+    .index-money {
+      font-size: 0.32rem;
+      color: #FB4E51;
+      height: 0.88rem;
+      line-height: 0.88rem;
+      margin-left: 0.11rem;
+    }
+    .shop-car {
+          position: relative;
+          margin-top: 0.08rem;
+          width: 0.8rem;
+          height: 0.8rem;
+          background: url('../assets/shop-car.png');
+          background-repeat: no-repeat;
+          background-size: 0.51rem 0.42rem;
+          background-position: 0 0.27rem;
+          span {
+            color: #ffffff;
+            text-align: center;
+            font-size: 0.22rem;
+            line-height: 0.4rem;
+            width: 0.4rem;
+            height: 0.4rem;
+            background: #FB4E51;
+            border-radius: 50%;
+            position: absolute;
+            right: 0;
+            top: 0;
+          }
+          
+        }
   }
+
+
+
+
   .body-container {
     overflow: auto;
      .index-swipe {
@@ -237,13 +258,34 @@ export default {
     .index-gifts {
       font-size: 14px;
       .index-gifts-title {
-        // text-align: -webkit-center;
-        padding-top: 5px;
-        padding-bottom: 10px;
-        padding-right: 2px;
-        padding-left: 8px;
-        .span {
+        width: 100%;
+        height: 0.88rem;
+        text-align: center;
+        .title-content:before {
+          content: '';
           display: block;
+          width: 0.8rem;
+          height: 1px;
+          background: black;
+          position: absolute;
+          left: -0.9rem;
+          top: 0.2rem;
+        }
+        .title-content:after {
+          content: '';
+          display: block;
+          width: 0.8rem;
+          height: 1px;
+          background: black;
+          position: absolute;
+          right: -0.9rem;
+          top: 0.2rem
+        }
+        .title-content {
+          font-size: 0.28rem;
+          height: 0.88rem;
+          line-height: 0.88rem;
+          position: relative;
         }
       }
       .index-gifts-title-link {

@@ -2,11 +2,11 @@
   <div>
      <mt-tabbar v-model="selected" fixed>
         <mt-tab-item id="balance">
-          <img slot="icon" src="../assets/icon/home.png">
+          <img slot="icon" src="../assets/icon/limit.png">
           额度
         </mt-tab-item>
         <mt-tab-item id="mall">
-          <img slot="icon" src="../assets/icon/home.png">
+          <img class="big-img" slot="icon" src="../assets/icon/home.png">
           商城
         </mt-tab-item>
         <mt-tab-item id="mine">
@@ -14,6 +14,14 @@
           我的{{msg}}
         </mt-tab-item>
     </mt-tabbar>
+    <div class="pozition-fixed">
+      <div class="pozition-fixeds">
+          
+            <img src="../assets/life.png" alt="">
+            <img src="../assets/food.png" alt="">
+            <img src="../assets/clothing.png" alt="">
+          
+    </div>
   </div>
   </div>
 </template>
@@ -56,10 +64,52 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-.mint-tabbar.is-fixed {
+.mint-tabbar {
+  z-index: 200;
   height: 0.98rem;
+  .mint-tab-item {
+    padding: 0.14rem 0 0.08rem 0;
+    .mint-tab-item-icon {
+      img {
+        width: 0.39rem;
+        height: 0.39rem;
+        margin: 0.03rem auto 0 auto;
+      }
+      .big-img {
+        width: 0.43rem;
+        height: 0.43rem;
+        margin: 0 auto 0 auto;
+      }
+    }
+    .mint-tab-item-label {
+      font-size: 0.2rem;
+    }
+  }
+  
 }
-.mint-tab-item {
- 
+
+.pozition-fixed {
+  display: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;;
+  background:rgba(0,0,0,0.5);
+  left: 0;
+  top: 0;
+  z-index: 100;
+  overflow: hidden;
+  .pozition-fixeds {
+    position: fixed;
+    width: 100%;
+    left: 0;
+    bottom: 1.5rem;
+    text-align: center;
+    font-size: 0;  
+      img {
+      width: 1.28rem;
+      margin: 0 0.15rem;
+      display: inline-block; 
+    }
+  }
 }
 </style>

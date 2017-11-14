@@ -48,7 +48,15 @@
 .mint-checklist-label {
   padding: 5px 5px 0 5px;
 }
-
+.mint-tab-item-icon {
+  width: 0.43rem;
+  height: 0.43rem;
+  margin: auto;
+}
+.mint-tab-item-label {
+  font-size: 0.2rem;
+  margin-top: 0.07rem;
+}
 .mint-header {
   /* font-size: 13px */
   /* background-color: #ef4f4f; */

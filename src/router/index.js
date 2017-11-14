@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-10-12 17:58:36
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-14 19:02:46
+ * @Last Modified time: 2017-11-14 19:31:40
  * 路由
  */
 
@@ -28,7 +28,7 @@ export const constantRouterMap = [
       {
         path: '/mall',
         name: '商城',
-        component: resolve => require(['@/views/mall.vue'], resolve)
+        component: resolve => require(['@/views/main/mall.vue'], resolve)
       },
       {
         path: '/mine',

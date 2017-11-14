@@ -1,3 +1,10 @@
+/*
+ * @Author: lidongliang 
+ * @Date: 2017-11-14 19:03:36 
+ * @Last Modified by:   lidongliang 
+ * @Last Modified time: 2017-11-14 19:03:36 
+ * 导航
+ */
 <template>
   <div>
      <mt-tabbar v-model="selected" fixed>
@@ -16,13 +23,11 @@
     </mt-tabbar>
     <div class="pozition-fixed">
       <div class="pozition-fixeds">
-          
-            <img src="../assets/life.png" alt="">
-            <img src="../assets/food.png" alt="">
-            <img src="../assets/clothing.png" alt="">
-          
+        <img src="../assets/life.png" alt="">
+        <img src="../assets/food.png" alt="">
+        <img src="../assets/clothing.png" alt="">
+      </div>
     </div>
-  </div>
   </div>
 </template>
 
@@ -42,14 +47,12 @@ export default {
     // if (this.$route.query.selected) {
     //   this.$router.push({ path: '/' + this.selected })
     // }
-    eventBus.$on('focus',
-      param => {
-        this.selected = param
-        // this.$set(this.selected, param)
-      })
+    eventBus.$on('focus', param => {
+      this.selected = param
+      // this.$set(this.selected, param)
+    })
   },
-  methods: {
-  },
+  methods: {},
   created () {},
   watch: {
     selected: function (val, oldVal) {
@@ -85,15 +88,14 @@ export default {
       font-size: 0.2rem;
     }
   }
-  
 }
 
 .pozition-fixed {
   display: none;
   position: fixed;
   width: 100%;
-  height: 100%;;
-  background:rgba(0,0,0,0.5);
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
   left: 0;
   top: 0;
   z-index: 100;
@@ -104,11 +106,11 @@ export default {
     left: 0;
     bottom: 1.5rem;
     text-align: center;
-    font-size: 0;  
-      img {
+    font-size: 0;
+    img {
       width: 1.28rem;
       margin: 0 0.15rem;
-      display: inline-block; 
+      display: inline-block;
     }
   }
 }

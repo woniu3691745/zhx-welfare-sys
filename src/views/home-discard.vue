@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-09 16:08:42
+ * @Last Modified time: 2017-11-14 17:55:09
  * home
  */
 <template>
@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import navigation from '../components/navigation'
+import navigation from '../../components/navigation'
 export default {
   name: 'home-page',
   data () {
@@ -58,7 +58,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-@import "../../static/css/util.css";
+@import "../../../static/css/util.css";
 .mall-list {
   position: fixed;
   width: 80px;

@@ -44,20 +44,23 @@
           </li>
         </ul>
       </div> -->
-      <div class="index-space"></div>
+      <!-- <div class="index-space"></div> -->
       <div class="index-gifts">
-        <div class="index-gifts-title">
+        <div class="index-gifts-title clear">
           <span class="title-content">超级大礼包</span> 
-          <!-- <div class="index-gifts-title-link">
-            <router-link id="goods" :to="{ path: '/goods'}"><span>全部></span></router-link>
-          </div> -->
+          <div class="index-gifts-title-link right    ">
+            <router-link id="goods" :to="{ path: '/goods'}"><span>查看全部></span></router-link>
+          </div>
         </div>
         <div class="index-gifts-body">
           <div class="index-gifts-product-list">
             <ul>
               <li v-for="item in bonusPackages" v-bind="item" :key="item.id">
                 <router-link :to="{ path: '/detail', query: {id: item.id}}"><img v-bind:src="item.image"></router-link>
-                <div class="des">{{item.name}}<br>￥{{item.salePrice}}</div>
+                <div class="des">
+                  <p>{{item.name}}</p>
+                  <span>￥{{item.salePrice}}</span>
+                </div>
               </li>
             </ul>
           </div>
@@ -261,6 +264,7 @@ export default {
         width: 100%;
         height: 0.88rem;
         text-align: center;
+        position: relative;
         .title-content:before {
           content: '';
           display: block;
@@ -286,19 +290,23 @@ export default {
           height: 0.88rem;
           line-height: 0.88rem;
           position: relative;
+          color: #555555;
         }
       }
       .index-gifts-title-link {
-        float: right;
-        font-size: 6px;
-        padding-right: 8px;
-        padding-bottom: 4px;
+        height: 0.88rem;
+        line-height: 0.88rem;
+        font-size: 0.24rem;
+        position: absolute;
+        top: 0;
+        right: 0.3rem;
         span {
-          color: #444;
+          color: #9A9A9A;
         }
       }
       .index-gifts-body {
         height: auto;
+        padding-bottom: 0.25rem;
         .index-gifts-product-list {
           width: 100%;
           font-size: 12px;
@@ -307,20 +315,42 @@ export default {
             overflow-x: scroll; // 滑动
             white-space: nowrap;
             li {
-              padding: 0 2px;
-              width: 120px;
+              padding-left: 0.14rem;
+              width: 2.88rem;
+              
               display: inline-block;
               text-align: center;
               vertical-align: text-top;
               img {
-                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
-                  0 6px 20px 0 rgba(0, 0, 0, 0.19);
-                height: 105px;
+                // box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+                //   0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                width: 100%;
+                height: 1.64rem;
+                border: 1px solid #ebebeb;
                 border-radius: 6px;
+                box-sizing: border-box
               }
               .des {
+                width: 2.64rem;
+                margin: 0 auto;
                 white-space: normal;
+                p {
+                  font-size: ;
+                  color: #555555;
+                  height: 0.66rem;
+                  display: -webkit-box;
+                  -webkit-box-orient: vertical;
+                  -webkit-line-clamp: 2;
+                  overflow: hidden;
+                }
+                span {
+                  font-size: 0.3rem;
+                  color: #FB4E51
+                }
               }
+            }
+            li:last-child {
+              padding-right: 0.14rem;
             }
           }
         }

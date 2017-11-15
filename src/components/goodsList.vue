@@ -2,46 +2,55 @@
  * @Author: lidongliang 
  * @Date: 2017-10-19 19:50:05 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-07 21:55:34
+ * @Last Modified time: 2017-11-15 15:20:06
  * 商品列表
  *
  * @translate-change="translateChange"
  */
 <template>
-  <div class="page-loadmore">
-    <div class="page-loadmore-wrapper" ref="wrapper" :style="{ height: wrapperHeight + 'px' }">
-      <mt-loadmore :top-method="loadTop" 
-                  @top-status-change="handleTopChange"
-                  :bottom-method="loadBottom" 
-                  @bottom-status-change="handleBottomChange" 
-                  :bottom-all-loaded="allLoaded" 
-                  :auto-fill="autoFill"
-                  ref="loadmore">
-        <ul class="page-loadmore-list">
-          <li v-for="item in goodList" v-bind="goodList" :key="item.id" class="page-loadmore-listitem">
-            <router-link :to="{ path: '/detail', query: {id: item.id}}"><img v-bind:src="item.image"></router-link>
-            <div class="good-description">
-              <div class="desc">{{item.name}}</div>
-              <span>
-                ￥{{ item.salePrice }}&nbsp;&nbsp;{{item.saleCount}}人已买
-                <span><img class="cart" src="../assets/cart.png" @click="cart()" /></span>
-              </span>
-            </div>
-          </li>
-        </ul>
-        <div slot="top" class="mint-loadmore-top">
-          <span v-show="topStatus !== 'loading'" :class="{ 'is-rotate': topStatus === 'drop' }">↓</span>
-          <span v-show="topStatus === 'loading'">
-            <mt-spinner type="fading-circle" color="#26a2ff"></mt-spinner>
-          </span>
-        </div>
-        <div slot="bottom" class="mint-loadmore-bottom">
-          <span v-show="bottomStatus !== 'loading'" :class="{ 'is-rotate': bottomStatus === 'drop' }">↑</span>
-          <span v-show="bottomStatus === 'loading'">
-            <mt-spinner type="fading-circle" color="#26a2ff"></mt-spinner>
-          </span>
-        </div>
-      </mt-loadmore>
+  <div>
+    <div class="common-header">
+      <mt-header title="商品列表">
+        <router-link to="/mall" slot="left">
+          <mt-button icon="back"></mt-button>
+        </router-link>
+      </mt-header>
+    </div>
+    <div class="page-loadmore">
+      <div class="page-loadmore-wrapper" ref="wrapper" :style="{ height: wrapperHeight + 'px' }">
+        <mt-loadmore :top-method="loadTop" 
+                    @top-status-change="handleTopChange"
+                    :bottom-method="loadBottom" 
+                    @bottom-status-change="handleBottomChange" 
+                    :bottom-all-loaded="allLoaded" 
+                    :auto-fill="autoFill"
+                    ref="loadmore">
+          <ul class="page-loadmore-list">
+            <li v-for="item in goodList" v-bind="goodList" :key="item.id" class="page-loadmore-listitem">
+              <router-link :to="{ path: '/detail', query: {id: item.id}}"><img v-bind:src="item.image"></router-link>
+              <div class="good-description">
+                <div class="desc">{{item.name}}</div>
+                <span>
+                  ￥{{ item.salePrice }}&nbsp;&nbsp;{{item.saleCount}}人已买
+                  <span><img class="cart" src="../assets/cart.png" @click="cart()" /></span>
+                </span>
+              </div>
+            </li>
+          </ul>
+          <div slot="top" class="mint-loadmore-top">
+            <span v-show="topStatus !== 'loading'" :class="{ 'is-rotate': topStatus === 'drop' }">↓</span>
+            <span v-show="topStatus === 'loading'">
+              <mt-spinner type="fading-circle" color="#26a2ff"></mt-spinner>
+            </span>
+          </div>
+          <div slot="bottom" class="mint-loadmore-bottom">
+            <span v-show="bottomStatus !== 'loading'" :class="{ 'is-rotate': bottomStatus === 'drop' }">↑</span>
+            <span v-show="bottomStatus === 'loading'">
+              <mt-spinner type="fading-circle" color="#26a2ff"></mt-spinner>
+            </span>
+          </div>
+        </mt-loadmore>
+      </div>
     </div>
   </div>
 </template>

@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 09:59:01 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-15 12:27:11
+ * @Last Modified time: 2017-11-15 15:00:38
  * 重置登录密码
  */
 <template>
@@ -64,7 +64,7 @@ export default {
       let me = this
       me.sendMsgDisabled = true
       let interval = window.setInterval(function () {
-        if ((me.time--) <= 1) {
+        if (me.time-- <= 1) {
           me.time = 60
           me.sendMsgDisabled = false
           window.clearInterval(interval)

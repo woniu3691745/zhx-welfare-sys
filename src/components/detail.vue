@@ -1,15 +1,15 @@
 /*
  * @Author: lidongliang 
  * @Date: 2017-11-14 19:04:03 
- * @Last Modified by:   lidongliang 
- * @Last Modified time: 2017-11-14 19:04:03 
+ * @Last Modified by: lidongliang
+ * @Last Modified time: 2017-11-15 15:22:10
  * 详情
  */
 <template>
   <div class="deatil">
     <div class="common-header">
       <mt-header title="详情">
-        <router-link to="/index" slot="left">
+        <router-link to="/mall" slot="left">
           <mt-button icon="back"></mt-button>
         </router-link>
       </mt-header>

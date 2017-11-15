@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-30 15:56:09 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-10-31 11:23:23
+ * @Last Modified time: 2017-11-15 15:00:11
  * 覆写 mint-ui checklist
  */
 <template>
@@ -64,7 +64,6 @@ if (process.env.NODE_ENV === 'component') {
  */
 export default {
   name: 'z-mt-checklist',
-
   props: {
     max: Number,
     title: String,
@@ -75,22 +74,18 @@ export default {
     },
     value: Array
   },
-
   components: { XCell },
-
   data () {
     return {
       goodNums: 1,
       currentValue: this.value
     }
   },
-
   computed: {
     limit () {
       return this.max < this.currentValue.length
     }
   },
-
   watch: {
     value (val) {
       this.currentValue = val
@@ -101,137 +96,138 @@ export default {
       this.$emit('input', val)
     }
   },
-
   methods: {
     minus (val, $event) {
       $event.preventDefault() // 不要执行与事件关联的默认动作
-      this.goodNums --
+      this.goodNums--
+      console.log('minus 1 -> ' + this.goodNums)
+      this.$emit('refreMinus', this.goodNums) // 点击 + - 后使父页面重新获得数据
     },
     increase (val, $event) {
       $event.preventDefault()
-      this.goodNums ++
-      console.log('1 -> ' + this.goodNums)
-      this.$emit('refreMinus', this.goodNums) // 点击 + - 后使父页面重新获得数据
+      this.goodNums++
+      console.log('increase 1 -> ' + this.goodNums)
+      this.$emit('refreIncrease', this.goodNums) // 点击 + - 后使父页面重新获得数据
     }
   }
 }
 </script>
 
 <style lang="css" scoped>
-  /* @import "../../../src/style/var.css"; */
+/* @import "../../../src/style/var.css"; */
 
-  @component-namespace mint {
-    @component checklist {
-      .mint-cell {
-        padding: 0;
-      }
-      @descendent label {
-        display: block;
-        padding: 0 10px;
-      }
-      @descendent title {
-        color: $checklist-title-color;
-        display: block;
-        font-size: 12px;
-        margin: 8px;
-      }
-      @when limit {
-        .mint-checkbox-core:not(:checked) {
-          background-color: $color-grey;
-          border-color: $color-grey;
-        }
+@component-namespace mint {
+  @component checklist {
+    .mint-cell {
+      padding: 0;
+    }
+    @descendent label {
+      display: block;
+      padding: 0 10px;
+    }
+    @descendent title {
+      color: $checklist-title-color;
+      display: block;
+      font-size: 12px;
+      margin: 8px;
+    }
+    @when limit {
+      .mint-checkbox-core:not(:checked) {
+        background-color: $color-grey;
+        border-color: $color-grey;
       }
     }
-    @component checkbox {
-      @when right {
-        float: right;
-      }
-      @descendent label {
-        vertical-align: middle;
-        margin-left: 6px;
-      }
-      @descendent input {
-        display: none;
-        &:checked {
-          + .mint-checkbox-core {
-            background-color: $color-blue;
-            border-color: $color-blue;
-            &::after {
-              border-color: $color-white;
-              transform: rotate(45deg) scale(1);
-            }
+  }
+  @component checkbox {
+    @when right {
+      float: right;
+    }
+    @descendent label {
+      vertical-align: middle;
+      margin-left: 6px;
+    }
+    @descendent input {
+      display: none;
+      &:checked {
+        + .mint-checkbox-core {
+          background-color: $color-blue;
+          border-color: $color-blue;
+          &::after {
+            border-color: $color-white;
+            transform: rotate(45deg) scale(1);
           }
         }
-        &[disabled] + .mint-checkbox-core {
-          background-color: $color-grey;
-          border-color: #ccc;
-        }
       }
-      @descendent core {
-        display: inline-block;
-        background-color: $color-white;
-        border-radius: 100%;
-        border: 1px solid #ccc;
-        position: relative;
-        size: 20px;
-        vertical-align: middle;
-        &::after {
-          border: 2px solid transparent;
-          border-left: 0;
-          border-top: 0;
-          content: " ";
-          position: absolute 3px * * 6px;
-          size: 4px 8px;
-          transform: rotate(45deg) scale(0);
-          transition: transform .2s;
-        }
+      &[disabled] + .mint-checkbox-core {
+        background-color: $color-grey;
+        border-color: #ccc;
+      }
+    }
+    @descendent core {
+      display: inline-block;
+      background-color: $color-white;
+      border-radius: 100%;
+      border: 1px solid #ccc;
+      position: relative;
+      size: 20px;
+      vertical-align: middle;
+      &::after {
+        border: 2px solid transparent;
+        border-left: 0;
+        border-top: 0;
+        content: " ";
+        position: absolute 3px * * 6px;
+        size: 4px 8px;
+        transform: rotate(45deg) scale(0);
+        transition: transform 0.2s;
       }
     }
   }
+}
 
-  .mint-checklist-label {
-    display: flex;
-  }
-  .list-content {
-    /* background-color: #fff; */
-    padding-left: 20px;
-    padding: 5px 0;
-    display: flex;
-    flex: 2;
-    font-size: 12px;
-    /* width: 100% */
-  }
-  .good-descriptio {
-    padding: 0 0;
-  }
-  .good-description {
-    /* min-width: 270px; */
-  }
-  .desc {
-    height: 40px;
-    margin-bottom: 35px;
-  }
-  .cart {
-    float: right;
-    height: 20px;
-    padding-right: 5px;
-  }
-  .compute {
-    float:left;
-    text-align: -webkit-center;
-    background-color: darkgray; 
-    height: 15px; 
-    width: 15px;
-    z-index: 99999;
-  }
-  .goodNums {
-    text-align: -webkit-center;
-    float: left;
-    height: 15px; 
-    min-width: 25px;
-    width: auto;
-  }
-  a:hover {
-    background-color: #fff;
-  }
+.mint-checklist-label {
+  display: flex;
+}
+.list-content {
+  /* background-color: #fff; */
+  padding-left: 20px;
+  padding: 5px 0;
+  display: flex;
+  flex: 2;
+  font-size: 12px;
+  /* width: 100% */
+}
+.good-descriptio {
+  padding: 0 0;
+}
+.good-description {
+  /* min-width: 270px; */
+}
+.desc {
+  height: 40px;
+  margin-bottom: 35px;
+}
+.cart {
+  float: right;
+  height: 20px;
+  padding-right: 5px;
+}
+.compute {
+  float: left;
+  text-align: -webkit-center;
+  background-color: darkgray;
+  height: 15px;
+  width: 15px;
+  z-index: 99999;
+}
+.goodNums {
+  text-align: -webkit-center;
+  float: left;
+  height: 15px;
+  min-width: 25px;
+  width: auto;
+}
+a:hover {
+  background-color: #fff;
+}
 </style>

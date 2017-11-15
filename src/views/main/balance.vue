@@ -1,8 +1,8 @@
 /*
  * @Author: lidongliang 
  * @Date: 2017-11-14 19:04:29 
- * @Last Modified by:   lidongliang 
- * @Last Modified time: 2017-11-14 19:04:29 
+ * @Last Modified by: lidongliang
+ * @Last Modified time: 2017-11-15 15:29:23
  * 额度
  */
 <template>
@@ -36,7 +36,7 @@
            </router-link>
          </div>
         <div class="content">
-          <router-link :to="{ path: '/cart', query: {itemTypeId: item.itemTypeId}}">
+          <router-link :to="{ path: '/', query: {itemTypeId: item.itemTypeId}}">
             <div class="warn clear" v-if="item.expireWarn !== ''">
               <span class="prompt left">{{item.expireWarn}}</span>
               <span class="right detail">查看</span>

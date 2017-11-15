@@ -7,10 +7,10 @@
  */
 <template>
   <div class="deatil">
-    <div class="detail-top">
-      <mt-header title="商品">
-        <router-link :to="{path: '/mall', query: {selected: 'mall'}}" slot="left" >
-          <mt-button icon="back">返回</mt-button>
+    <div class="common-header">
+      <mt-header title="详情">
+        <router-link to="/index" slot="left">
+          <mt-button icon="back"></mt-button>
         </router-link>
       </mt-header>
     </div>
@@ -153,12 +153,15 @@ export default {
     // width: 100%;
     height: auto;
   }
+  
   .detail-body {
-    overflow: auto;
-    height: 580px;
+    .mint-cell-wrapper {
+      width: 100%;
+      padding: 0;
+    }
     img {
-      padding: 5px 0px;
-      width: 99.9%;
+      
+      width: 100%;
     }
   }
   .detail-bottom {

@@ -2,10 +2,10 @@
  * @Author: lidongliang
  * @Date: 2017-10-18 15:33:14
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-14 14:26:05
+ * @Last Modified time: 2017-11-15 11:28:11
  * 注册 module
  */
-import { cardInfo, bindPhoneInfo, stLoginPassWordInfo, setPayPassWordInfo } from '@/api/register'
+import { cardInfo, bindPhoneInfo, stLoginPassWordInfo, setPayPassWordInfo, getIdCode } from '@/api/register'
 import { getToken } from '@/utils/auth'
 
 const register = {
@@ -55,6 +55,16 @@ const register = {
     SetPayPassWordInfo ({ commit, state }, setPayPassWordForm) {
       return new Promise((resolve, reject) => {
         setPayPassWordInfo(state.token, setPayPassWordForm).then(response => {
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    // 短信验证码
+    GetIdCode ({ commit, state }, idCodeForm) {
+      return new Promise((resolve, reject) => {
+        getIdCode(state.token, idCodeForm).then(response => {
           resolve(response)
         }).catch(error => {
           reject(error)

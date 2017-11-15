@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-10-18 15:33:43
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-14 14:41:10
+ * @Last Modified time: 2017-11-15 11:27:20
  * 登录API
  */
 import fetch from '@/utils/fetch'
@@ -50,6 +50,20 @@ export function resetLoginPassword (token, resetLoginPasswordForm) {
   }
   return fetch({
     url: '/api/user/',
+    method: 'post',
+    data
+  })
+}
+
+// 获取验证码
+export function getIdCode (token, bindIdCodeInfo) {
+  const data = {
+    data: {
+    },
+    token
+  }
+  return fetch({
+    url: '/api/',
     method: 'post',
     data
   })

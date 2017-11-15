@@ -2,10 +2,10 @@
  * @Author: lidongliang
  * @Date: 2017-10-18 15:33:14
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-14 14:22:52
+ * @Last Modified time: 2017-11-15 11:28:41
  * 用户信息 module
  */
-import { loginByUserName, logout, getUserInfo, resetLoginPassword } from '@/api/login'
+import { loginByUserName, logout, getUserInfo, resetLoginPassword, getIdCode } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 
 const user = {
@@ -81,6 +81,16 @@ const user = {
       return new Promise((resolve, reject) => {
         resetLoginPassword(state.token, resetLoginPasswordForm).then(() => {
           resolve()
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    // 短信验证码
+    GetIdCode ({ commit, state }, idCodeForm) {
+      return new Promise((resolve, reject) => {
+        getIdCode(state.token, idCodeForm).then(response => {
+          resolve(response)
         }).catch(error => {
           reject(error)
         })

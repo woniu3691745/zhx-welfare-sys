@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-10-23 10:40:22
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-14 14:16:57
+ * @Last Modified time: 2017-11-15 11:26:38
  * 注册API
  */
 import fetch from '@/utils/fetch'
@@ -51,6 +51,20 @@ export function stLoginPassWordInfo (token, setLoginPassWordInfo) {
 
 // step 1 ->  设置支付密码
 export function setPayPassWordInfo (token, setPayPassWordInfo) {
+  const data = {
+    data: {
+    },
+    token
+  }
+  return fetch({
+    url: '/api/',
+    method: 'post',
+    data
+  })
+}
+
+// 获取验证码
+export function getIdCode (token, bindIdCodeInfo) {
   const data = {
     data: {
     },

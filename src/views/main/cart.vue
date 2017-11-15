@@ -2,15 +2,15 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-15 15:27:16
+ * @Last Modified time: 2017-11-15 15:45:56
  * 购物车
  */
 <template>
   <div>
     <div class="common-header">
       <mt-header title="购物车">
-        <router-link to="" slot="left" fixed>
-          <mt-button icon="back" @click="back()">返回</mt-button>
+        <router-link to="/goodsList" slot="left" fixed>
+          <mt-button icon="back">返回</mt-button>
         </router-link>
         <!-- <mt-button icon="more" slot="right"></mt-button> -->
       </mt-header>
@@ -38,7 +38,7 @@
       </mt-checklist>
       <div class="sub">
         <span>合计：￥{{amount}}</span>
-        <mt-button type="danger">结算（{{quantity}}）</mt-button>
+          <mt-button type="danger" @click="confirmOrder">结算（{{quantity}}）</mt-button>
       </div>
     </div>
   </div>
@@ -257,6 +257,13 @@ export default {
     // 食品饮料 end
     refreCart (val) {
       console.log('val -> ' + val)
+    },
+    // 确认订单
+    confirmOrder () {
+      this.$router.push({
+        path: '/confirmOrder',
+        query: { selected: 'balance' }
+      })
     }
   }
 }

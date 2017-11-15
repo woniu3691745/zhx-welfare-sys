@@ -2,13 +2,17 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 09:59:01 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-15 15:41:36
- * 
+ * @Last Modified time: 2017-11-15 15:41:25
+ * 确认订单
  */
 <template>
-  <div class="">
-    <div class="header">
-        
+  <div class="confirmOrder">
+    <div class="common-header">
+      <mt-header title="确认订单">
+        <router-link to="/cart" slot="left">
+          <mt-button icon="back"></mt-button>
+        </router-link>
+      </mt-header>
     </div>
     <div class="body">
 
@@ -22,7 +26,7 @@
 <script>
  export default {
    // 组件名字
-   name: '-page',
+   name: 'confirmOrder-page',
    // 组合其它组件
    extends: {},
    // 组件属性、变量

@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-14 19:33:17
+ * @Last Modified time: 2017-11-15 13:36:26
  * 首页组件
  */
 <template>
@@ -21,79 +21,81 @@
         <span>99</span>
       </span>
     </div>
+    <ul class="clear body-containers" v-infinite-scroll="loadMore"
+                      infinite-scroll-disabled="loading"
+                      infinite-scroll-distance="100">
+      <li class="solid-top">
+        <div class="index-swipe">
+          <mt-swipe :auto="2000">
+            <mt-swipe-item><img src="../../assets/swipe/1.jpg"></img>
+            </mt-swipe-item>
+            <mt-swipe-item><img src="../../assets/swipe/2.jpg"></img>
+            </mt-swipe-item>
+            <mt-swipe-item><img src="../../assets/swipe/3.jpg"></img>
+            </mt-swipe-item>
+            <mt-swipe-item><img src="../../assets/swipe/4.jpg"></img>
+            </mt-swipe-item>
+            <mt-swipe-item><img src="../../assets/swipe/5.jpg"></img>
+            </mt-swipe-item>
+          </mt-swipe>
+        </div>
+
+        <div class="index-gift">
+          <div class="index-gifts-title clear">
+            <span class="title-content">超级大礼包</span> 
+            <div class="index-gifts-title-link right    ">
+              <router-link id="goods" :to="{ path: '/goods'}"><span>查看全部></span></router-link>
+            </div>
+          </div>
+          <div class="index-gifts-body">
+            <div class="index-gifts-product-list">
+              <ul>
+                <li v-for="item in bonusPackages" v-bind="item" :key="item.id">
+                  <router-link :to="{ path: '/detail', query: {id: item.id}}"><img v-bind:src="item.image"></router-link>
+                  <div class="des">
+                    <p>{{item.name}}</p>
+                    <span>￥{{item.salePrice}}</span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="three-title">
+          <ul class="clear">
+            <li v-for="item in 10">三级目录</li>
+          </ul>
+        </div>
+      </li>
+
+
+
+
+
+
+      <li v-for="item in competitiveProducts" v-bind="item" :key="item.id" class="left lis">
+        <router-link :to="{ path: '/detail', query: {id: item.id}}"><img v-bind:src="item.image"></router-link>
+        <div class="des">
+          <p>{{item.name}}</p>
+          <span>￥{{item.salePrice}}</span>
+        </div>
+      </li>
+    </ul>  
+
+
+
+
+
+
+
+
+
+
+
+
     
-    <div class="body-container padding-top">
-      <div class="index-swipe">
-        <mt-swipe :auto="2000">
-          <mt-swipe-item><img src="../../assets/swipe/1.jpg"></img>
-          </mt-swipe-item>
-          <mt-swipe-item><img src="../../assets/swipe/2.jpg"></img>
-          </mt-swipe-item>
-          <mt-swipe-item><img src="../../assets/swipe/3.jpg"></img>
-          </mt-swipe-item>
-          <mt-swipe-item><img src="../../assets/swipe/4.jpg"></img>
-          </mt-swipe-item>
-          <mt-swipe-item><img src="../../assets/swipe/5.jpg"></img>
-          </mt-swipe-item>
-        </mt-swipe>
-      </div>
-      <!-- <div class="index-subject">
-        <ul>
-          <li v-for="i in category" v-bind="i" :key="i.name">
-            <span>{{i.name}}</span>
-          </li>
-        </ul>
-      </div> -->
-      <!-- <div class="index-space"></div> -->
-      <div class="index-gifts">
-        <div class="index-gifts-title clear">
-          <span class="title-content">超级大礼包</span> 
-          <div class="index-gifts-title-link right    ">
-            <router-link id="goods" :to="{ path: '/goods'}"><span>查看全部></span></router-link>
-          </div>
-        </div>
-        <div class="index-gifts-body">
-          <div class="index-gifts-product-list">
-            <ul>
-              <li v-for="item in bonusPackages" v-bind="item" :key="item.id">
-                <router-link :to="{ path: '/detail', query: {id: item.id}}"><img v-bind:src="item.image"></router-link>
-                <div class="des">
-                  <p>{{item.name}}</p>
-                  <span>￥{{item.salePrice}}</span>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="three-title">
-        <ul class="clear">
-          <li v-for="item in 10">三级目录</li>
-        </ul>
-      </div>
-      <div class="index-gifts ow-height">
-        <div class="index-gifts-title clear">
-          <span class="title-content">热门推荐</span> 
-          <div class="index-gifts-title-link right    ">
-            <router-link id="goods" :to="{ path: '/goods'}"><span>查看全部></span></router-link>
-          </div>
-        </div>
-        <div class="index-gifts-body-ow">
-          <div class="index-gifts-product-list">
-            <ul class="clear">
-              <li v-for="item in competitiveProducts" v-bind="item" :key="item.id" class="left">
-                <router-link :to="{ path: '/detail', query: {id: item.id}}"><img v-bind:src="item.image"></router-link>
-                <div class="des">
-                  <p>{{item.name}}</p>
-                  <span>￥{{item.salePrice}}</span>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="index-space"></div>
-    </div>
   </div>
 </template>
 
@@ -126,6 +128,11 @@ export default {
     this.focus()
   },
   methods: {
+    loadMore () {
+      this.loading = true
+      this.competitiveProductsInfo()
+      this.loading = false
+    },
     get () {
       setTimeout(function () {
         Indicator.open({
@@ -134,7 +141,7 @@ export default {
       }, 300)
       setTimeout(function () {
         Indicator.close()
-      }, 1000)
+      }, 100)
     },
     init () {
       this.bonusPackagesInfo()
@@ -143,7 +150,7 @@ export default {
     bonusPackagesInfo () {
       let viewNums = {
         index: 0,
-        limit: 6,
+        limit: 5,
         sequenceType: 0
       }
       this.$store
@@ -166,7 +173,15 @@ export default {
         .dispatch('CompetitiveProductsInfo', viewNums)
         .then(res => {
           // console.log('competitiveProductsInfo -> ' + JSON.stringify(res.data))
-          this.competitiveProducts = res.data
+          console.log('1111')
+          if (this.competitiveProducts.length === 0) {
+            this.competitiveProducts = res.data
+          } else {
+            // debugger
+            res.data.forEach(element => {
+              this.competitiveProducts.push(element)
+            })
+          }
         })
         .catch(res => {
           console.log(res)
@@ -232,204 +247,202 @@ export default {
           
         }
   }
-  .body-container {
-    overflow: auto;
-     .index-swipe {
-      height: 150px;
-      padding: 0 2px;
-      img {
-        text-align: center;
-        width: 100%;
-        // border-radius: 5px;
-      }
-    }
-    .index-subject {
-      font-size: 13px;
-      text-align: center;
-      ul {
-        padding: 10px 0;
-        margin-top: 5px;
-        li {
-          padding: 0 30px;
-          height: inherit;
-          display: inline-block;
-          span {
-            display: block;
-          }
-        }
-      }
-    }
-    .index-gifts {
-      font-size: 14px;
-      .index-gifts-title {
-        width: 100%;
-        height: 0.88rem;
-        text-align: center;
-        position: relative;
-        .title-content:before {
-          content: '';
-          display: block;
-          width: 0.8rem;
-          height: 1px;
-          background: black;
-          position: absolute;
-          left: -0.9rem;
-          top: 0.2rem;
-        }
-        .title-content:after {
-          content: '';
-          display: block;
-          width: 0.8rem;
-          height: 1px;
-          background: black;
-          position: absolute;
-          right: -0.9rem;
-          top: 0.2rem
-        }
-        .title-content {
-          font-size: 0.28rem;
-          height: 0.88rem;
-          line-height: 0.88rem;
-          position: relative;
-          color: #555555;
-        }
-      }
-      .index-gifts-title-link {
-        height: 0.88rem;
-        line-height: 0.88rem;
-        font-size: 0.24rem;
-        position: absolute;
-        top: 0;
-        right: 0.3rem;
-        span {
-          color: #9A9A9A;
-        }
-      }
-      .index-gifts-body {
-        height: auto;
-        padding-bottom: 0.25rem;
-        .index-gifts-product-list {
-          width: 100%;
-          font-size: 12px;
-          ul {
-            width: 100%;
-            overflow-x: scroll; // 滑动
-            white-space: nowrap;
-            li {
-              padding-left: 0.14rem;
-              width: 2.88rem;
-              
-              display: inline-block;
-              text-align: center;
-              vertical-align: text-top;
-              img {
-                // box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
-                //   0 6px 20px 0 rgba(0, 0, 0, 0.19);
-                width: 100%;
-                height: 1.64rem;
-                border: 1px solid #ebebeb;
-                border-radius: 6px;
-                box-sizing: border-box
-              }
-              .des {
-                width: 2.64rem;
-                margin: 0 auto;
-                white-space: normal;
-                p {
-                  font-size: ;
-                  color: #555555;
-                  height: 0.66rem;
-                  display: -webkit-box;
-                  -webkit-box-orient: vertical;
-                  -webkit-line-clamp: 2;
-                  overflow: hidden;
-                }
-                span {
-                  font-size: 0.3rem;
-                  color: #FB4E51;
-                  display: block;
-                  text-align: center;
-                  margin-top: 0.05rem;
-                }
-              }
-            }
-            li:last-child {
-              padding-right: 0.14rem;
-            }
-          }
-        }
-      }
-      .index-gifts-body-ow {
-        height: auto;
-        .index-gifts-product-list {
-          width: 100%;
-          height: inherit - 20px;
-          font-size: 12px;
-          ul {
-            text-align: center;
-            width: 100%;
-            padding-bottom: 1.2rem;
-            li {
-              margin-left: 0.2rem;
-              margin-top: 0.2rem;
-              width: 3.45rem;
-              padding-bottom: 0.1rem;
-              img {
-                display: block;
-                width: 3.45rem;
-                height: 3.45rem;
-                border: 1px solid #ebebeb;
-                box-sizing: border-box;
-                
-              }
-              .des {
-                width: 3.28rem;
-                margin: 0 auto;
-                white-space: normal;
-                p {
-                  font-size: ;
-                  color: #555555;
-                  height: 0.66rem;
-                  display: -webkit-box;
-                  -webkit-box-orient: vertical;
-                  -webkit-line-clamp: 2;
-                  overflow: hidden;
-                  margin-top: 0.1rem
-                }
-                span {
-                  font-size: 0.3rem;
-                  color: #FB4E51;
-                  margin-top: 0.08rem;
-                  display: block;
-                  text-align: center;
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    .three-title {
-      width: 100%;
-      height: 1.64rem;
-      background: #EDEDED;
-      ul {
-        padding: 0.06rem 0 0 0.1rem;
-        li {
-          background: #FFFFFF;
-          border-radius: 0.16rem;
-          width: 1.36rem;
-          height: 0.59rem;
-          line-height: 0.59rem;
+  .body-containers {
+    padding-top: 0.88rem;
+    box-sizing: border-box;
+    .solid-top {
+      .index-swipe {
+        height: 150px;
+        padding: 0 2px;
+        img {
           text-align: center;
-          font-size: 0.24rem;
-          color: #FF0000;
-          float: left;
-          margin-left: 0.08rem;
-          margin-top: 0.12rem;
+          width: 100%;
+          height: 100%;
+          // border-radius: 5px;
+        }
+      }
+      .index-gift {
+        font-size: 0;
+        .index-gifts-title {
+          width: 100%;
+          height: 0.88rem;
+          text-align: center;
+          position: relative;
+          .title-content:before {
+            content: '';
+            display: block;
+            width: 0.8rem;
+            height: 1px;
+            background: black;
+            position: absolute;
+            left: -0.9rem;
+            top: 0.2rem;
+          }
+          .title-content:after {
+            content: '';
+            display: block;
+            width: 0.8rem;
+            height: 1px;
+            background: black;
+            position: absolute;
+            right: -0.9rem;
+            top: 0.2rem
+          }
+          .title-content {
+            font-size: 0.28rem;
+            height: 0.88rem;
+            line-height: 0.88rem;
+            position: relative;
+            color: #555555;
+          }
+          .index-gifts-title-link {
+            height: 0.88rem;
+            line-height: 0.88rem;
+            font-size: 0.24rem;
+            position: absolute;
+            top: 0;
+            right: 0.3rem;
+            span {
+              color: #9A9A9A;
+            }
+          }
+        }
+        .index-gifts-body {
+          height: auto;
+          padding-bottom: 0.25rem;
+          .index-gifts-product-list {
+            width: 100%;
+            font-size: 12px;
+            ul {
+              width: 100%;
+              overflow-x: scroll; // 滑动
+              white-space: nowrap;
+              li {
+                padding-left: 0.14rem;
+                width: 2.88rem;
+                
+                display: inline-block;
+                text-align: center;
+                vertical-align: text-top;
+                img {
+                  // box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+                  //   0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                  width: 100%;
+                  height: 1.64rem;
+                  border: 1px solid #ebebeb;
+                  border-radius: 6px;
+                  box-sizing: border-box
+                }
+                .des {
+                  width: 2.64rem;
+                  margin: 0 auto;
+                  white-space: normal;
+                  p {
+                    font-size: ;
+                    color: #555555;
+                    height: 0.66rem;
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 2;
+                    overflow: hidden;
+                  }
+                  span {
+                    font-size: 0.3rem;
+                    color: #FB4E51;
+                    display: block;
+                    text-align: center;
+                    margin-top: 0.05rem;
+                  }
+                }
+              }
+              li:last-child {
+                padding-right: 0.14rem;
+              }
+            }
+          }
+        }
+      }
+
+
+      .three-title {
+        width: 100%;
+        height: 1.64rem;
+        background: #EDEDED;
+        ul {
+          padding: 0.06rem 0 0 0.1rem;
+          li {
+            background: #FFFFFF;
+            border-radius: 0.16rem;
+            width: 1.36rem;
+            height: 0.59rem;
+            line-height: 0.59rem;
+            text-align: center;
+            font-size: 0.24rem;
+            color: #FF0000;
+            float: left;
+            margin-left: 0.08rem;
+            margin-top: 0.12rem;
+          }
         }
       }
     }
+
+
+    .lis {
+      margin-left: 0.2rem;
+      margin-top: 0.2rem;
+      width: 3.45rem;
+      padding-bottom: 0.1rem;
+      img {
+        display: block;
+        width: 3.45rem;
+        height: 3.45rem;
+        border: 1px solid #ebebeb;
+        box-sizing: border-box;
+        
+      }
+      .des {
+        width: 3.28rem;
+        margin: 0 auto;
+        white-space: normal;
+        p {
+          color: #555555;
+          height: 0.66rem;
+          font-size: 0.24rem;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+          overflow: hidden;
+          margin-top: 0.1rem;
+          text-align: center;
+        }
+        span {
+          font-size: 0.3rem;
+          color: #FB4E51;
+          margin-top: 0.08rem;
+          display: block;
+          text-align: center;
+        }
+      }
+    }
+
+
+
+
+
+
+
+
   }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 }
 </style>

@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-15 13:36:26
+ * @Last Modified time: 2017-11-15 16:43:35
  * 首页组件
  */
 <template>
@@ -10,13 +10,11 @@
     <div class="body-top clear">
       <div class="search left">
         日用品 |
-        
       </div>
       <div class="index-money left">
           <span>余额：</span>
           <span>￥458.00</span>
       </div>
-      
       <span class="right shop-car">
         <span>99</span>
       </span>
@@ -39,12 +37,11 @@
             </mt-swipe-item>
           </mt-swipe>
         </div>
-
         <div class="index-gift">
           <div class="index-gifts-title clear">
             <span class="title-content">超级大礼包</span> 
             <div class="index-gifts-title-link right    ">
-              <router-link id="goods" :to="{ path: '/goods'}"><span>查看全部></span></router-link>
+              <router-link id="goodsList" :to="{ path: '/goodsList'}"><span>查看全部></span></router-link>
             </div>
           </div>
           <div class="index-gifts-body">
@@ -61,20 +58,12 @@
             </div>
           </div>
         </div>
-
-
         <div class="three-title">
           <ul class="clear">
             <li v-for="item in 10">三级目录</li>
           </ul>
         </div>
       </li>
-
-
-
-
-
-
       <li v-for="item in competitiveProducts" v-bind="item" :key="item.id" class="left lis">
         <router-link :to="{ path: '/detail', query: {id: item.id}}"><img v-bind:src="item.image"></router-link>
         <div class="des">
@@ -83,19 +72,6 @@
         </div>
       </li>
     </ul>  
-
-
-
-
-
-
-
-
-
-
-
-
-    
   </div>
 </template>
 
@@ -141,7 +117,7 @@ export default {
       }, 300)
       setTimeout(function () {
         Indicator.close()
-      }, 100)
+      }, 1000)
     },
     init () {
       this.bonusPackagesInfo()

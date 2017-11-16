@@ -245,7 +245,6 @@ export default {
 .compute {
   float: left;
   text-align: -webkit-center;
-  background-color: darkgray;
   height: 0.4rem;
   width: 0.4rem;
   z-index: 99999;
@@ -256,7 +255,6 @@ export default {
 .computes {
   float: left;
   text-align: -webkit-center;
-  background-color: darkgray;
   height: 0.4rem;
   width: 0.4rem;
   z-index: 99999;

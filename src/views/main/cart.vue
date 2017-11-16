@@ -33,15 +33,17 @@
         </z-mt-checklist>
       </div>
     </div>
-    <div class="compute clear">
-      <mt-checklist class="left"
-        v-model="allValue"
-        :options="allOption" @change="checkAll">
-      </mt-checklist>
-      <mt-button class="right settle" type="danger" @click="confirmOrder">结算（{{quantity}}）</mt-button>
-      <div class="sub right">
-        <span class="all">合计：<span>￥{{amount}}</span></span>
-        <span class="balances">余额：￥{{amount}}</span>
+    <div class="compute">
+      <div class="compute-bg clear">
+        <mt-checklist class="left"
+          v-model="allValue"
+          :options="allOption" @change="checkAll">
+        </mt-checklist>
+        <mt-button class="right settle" type="danger" @click="confirmOrder">结算（{{quantity}}）</mt-button>
+        <div class="sub right">
+          <span class="all">合计：<span>￥{{amount}}</span></span>
+          <span class="balances">余额：￥{{amount}}</span>
+        </div>
       </div>
     </div>
   </div>
@@ -352,7 +354,9 @@ export default {
   position: fixed;
   bottom: 0.98rem;
   width: 100%;
-  background: #FFFFFF;
+  .compute-bg {
+    background: #FFFFFF;
+  }
   .mint-checklist {
     .mint-checklist-title {
       margin: 0;

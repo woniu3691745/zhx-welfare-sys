@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-16 15:04:42
+ * @Last Modified time: 2017-11-16 15:07:55
  * 首页组件
  */
 <template>
@@ -233,6 +233,7 @@ export default {
   }
   .body-containers {
     padding-top: 0.88rem;
+    padding-bottom: 0.88rem;
     box-sizing: border-box;
     .solid-top {
       .index-swipe {

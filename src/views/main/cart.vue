@@ -7,23 +7,25 @@
  */
 <template>
   <div>
-    <div class="common-header">
-      <mt-header title="购物车">
-        <router-link to="/goodsList" slot="left" fixed>
-          <mt-button icon="back">返回</mt-button>
-        </router-link>
-        <!-- <mt-button icon="more" slot="right"></mt-button> -->
-      </mt-header>
-      <!-- <div class="common-header">
-      <mt-header title="商品列表">
-        <router-link to="/mall" slot="left">
-          <mt-button icon="back"></mt-button>
-        </router-link>
-      </mt-header>
-    </div> -->
+    <div class="head-fix">
+      <div class="common-header">
+        <mt-header title="购物车">
+          <router-link to="/goodsList" slot="left" fixed>
+            <mt-button icon="back">返回</mt-button>
+          </router-link>
+          <!-- <mt-button icon="more" slot="right"></mt-button> -->
+        </mt-header>
+        <!-- <div class="common-header">
+        <mt-header title="商品列表">
+          <router-link to="/mall" slot="left">
+            <mt-button icon="back"></mt-button>
+          </router-link>
+        </mt-header>
+      </div> -->
+      </div>
     </div>
     <div class="quota">
-      <div class="">
+      <div class="quota-container">
         <z-mt-checklist
           v-model="washValue"
           align="left"
@@ -271,24 +273,37 @@ export default {
 </script>
 <style lang="less" scoped>
 @import "../../../static/css/util.css";
+.head-fix {
+  width: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 2;
+}
+
+
+
+
 .quota {
   overflow: auto;
 }
-.compute {
-  position: fixed;
-  bottom: 0.98rem;
-  width: 100%;
-  background: #FFFFFF;
-  .mint-checklist {
-    .mint-checklist-title {
-      margin: 0;
-      .mint-cell {
-        font-size: 0.26rem;
-        color: #323232;
+
+.quota {
+  padding-top: 1.04rem;
+  .quota-container {
+    padding-bottom: 1.96rem;
+    .mint-checklist-label {
+      .mint-checkbox {
+        padding-bottom: 0.2rem;
       }
     }
   }
-  
+}
+
+
+
+
+
   .mint-checklist:nth-child(2) {
     margin: 0px;
   }
@@ -321,6 +336,31 @@ export default {
     padding: 0;
     text-align: center;
     border-radius: 0;
+  }
+
+
+
+
+
+
+
+
+
+
+
+.compute {
+  position: fixed;
+  bottom: 0.98rem;
+  width: 100%;
+  background: #FFFFFF;
+  .mint-checklist {
+    .mint-checklist-title {
+      margin: 0;
+      .mint-cell {
+        font-size: 0.26rem;
+        color: #323232;
+      }
+    }
   }
 }
 </style>

@@ -22,20 +22,24 @@
             <span class="mint-checkbox-core"></span>
         </span>
         <!-- <span class="mint-checkbox-label" v-text="option.label || option"></span> -->
-        <span class="list-content">
-          <img src="../assets/aaa.jpg"></img>
+        <div class="list-content">
+          <img class="big-picture" src="../assets/aaa.jpg"></img>
           <div class="good-description">
             <div class="desc">农夫山泉 饮用天然矿泉水 400ml*24瓶 122整箱</div>
-            <span>
-              ￥58.90
-              <span class="cart">
+            <div class="clear good-description-absolute">
+              <span class="left good-money">￥58.90</span>
+              <div class="right good-delete">
+                <img src="../assets/delete.png" alt="">
+              </div>
+              <div class="cart right">
                 <div class="compute" @click="minus(option.value, $event)">-</div>
                 <span class="goodNums" v-text="option.goodNums"></span>
-                <div class="compute" @click="increase(option.value, $event)">+</div>
-              </span>
-            </span>
+                <div class="computes" @click="increase(option.value, $event)">+</div>
+              </div>
+              
+            </div>
           </div>
-        </span>
+        </div>
       </label>
     </x-cell>
   </div>
@@ -201,33 +205,83 @@ export default {
   padding: 0 0;
 }
 .good-description {
-  /* min-width: 270px; */
+  position: relative;
+  padding-right: 0.26rem;
+  background-image: -webkit-linear-gradient(bottom, #d9d9d9, #d9d9d9 50%, transparent 50%);
+  background-image: linear-gradient(0deg, #d9d9d9, #d9d9d9 50%, transparent 50%);
+  background-size: 100% 1px;
+  background-repeat: no-repeat;
+  background-position: bottom;
 }
-.desc {
-  height: 40px;
-  margin-bottom: 35px;
+.good-description-absolute {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  bottom: 0.08rem;
+  box-sizing: border-box;
+  padding-right: 0.26rem;
+}
+.good-delete {
+  width: 0.4rem;
+  height: 0.4rem;
+  background: #F5F5F5;
+
+}
+.good-delete img {
+  width: 100%;
+  height: 100%;;
+  
+
 }
 .cart {
-  float: right;
-  height: 20px;
-  padding-right: 5px;
+  margin-right: 0.3rem;
 }
+.good-money {
+  font-size: 0.28rem;
+  color: #FD404A;
+  line-height: 0.4rem;
+}
+
 .compute {
   float: left;
   text-align: -webkit-center;
   background-color: darkgray;
-  height: 15px;
-  width: 15px;
+  height: 0.4rem;
+  width: 0.4rem;
   z-index: 99999;
+  background: #F5F5F5;
+  line-height: 0.4rem;
+  font-size: 0.28rem;
+}
+.computes {
+  float: left;
+  text-align: -webkit-center;
+  background-color: darkgray;
+  height: 0.4rem;
+  width: 0.4rem;
+  z-index: 99999;
+  background: #F5F5F5;
+  line-height: 0.4rem;
+  font-size: 0.3rem;
 }
 .goodNums {
   text-align: -webkit-center;
   float: left;
-  height: 15px;
-  min-width: 25px;
-  width: auto;
+  height: 0.4rem;
+  width: 0.76rem;
+  line-height: 0.4rem;
+  font-size: 0.26rem;
 }
 a:hover {
   background-color: #fff;
 }
+
+
+
+  
+
+
+
+
+
 </style>

@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-16 14:39:48
+ * @Last Modified time: 2017-11-16 14:44:06
  * 首页组件
  */
 <template>
@@ -207,7 +207,6 @@ export default {
       margin-left: 0.11rem;
     }
     .shop-car {
-<<<<<<< HEAD
           position: relative;
           margin-top: 0.08rem;
           width: 0.8rem;
@@ -230,31 +229,6 @@ export default {
             top: 0;
           }
         }
-=======
-      position: relative;
-      margin-top: 0.08rem;
-      width: 0.8rem;
-      height: 0.8rem;
-      background: url('../../assets/shop-car.png');
-      background-repeat: no-repeat;
-      background-size: 0.51rem 0.42rem;
-      background-position: 0 0.27rem;
-      span {
-        color: #ffffff;
-        text-align: center;
-        font-size: 0.22rem;
-        line-height: 0.4rem;
-        width: 0.4rem;
-        height: 0.4rem;
-        background: #FB4E51;
-        border-radius: 50%;
-        position: absolute;
-        right: 0;
-        top: 0;
-      }
-      
-    }
->>>>>>> 10f065fb77a43d4ed25e543b16664369bf2368da
   }
   .body-containers {
     padding-top: 0.88rem;

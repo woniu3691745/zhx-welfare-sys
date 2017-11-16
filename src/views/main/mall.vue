@@ -19,7 +19,7 @@
         <span>99</span>
       </span>
     </div>
-    <ul class="clear body-containers" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="100">
+    <ul class="clear body-containers" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="5">
       <li class="solid-top">
         <div class="index-swipe">
           <mt-swipe :auto="2000">
@@ -232,6 +232,7 @@ export default {
   }
   .body-containers {
     padding-top: 0.88rem;
+    padding-bottom: 0.88rem;
     box-sizing: border-box;
     .solid-top {
       .index-swipe {

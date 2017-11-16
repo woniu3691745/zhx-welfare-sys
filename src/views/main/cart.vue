@@ -22,7 +22,7 @@
       </mt-header>
     </div> -->
     </div>
-    <div class="quota" :style="{ height: height + 'px' }">
+    <div class="quota">
       <div class="">
         <z-mt-checklist
           v-model="washValue"
@@ -31,14 +31,15 @@
         </z-mt-checklist>
       </div>
     </div>
-    <div class="compute">
-      <mt-checklist
+    <div class="compute clear">
+      <mt-checklist class="left"
         v-model="allValue"
         :options="allOption" @change="checkAll">
       </mt-checklist>
-      <div class="sub">
-        <span>合计：￥{{amount}}</span>
-          <mt-button type="danger" @click="confirmOrder">结算（{{quantity}}）</mt-button>
+      <mt-button class="right settle" type="danger" @click="confirmOrder">结算（{{quantity}}）</mt-button>
+      <div class="sub right">
+        <span class="all">合计：<span>￥{{amount}}</span></span>
+        <span class="balances">余额：￥{{amount}}</span>
       </div>
     </div>
   </div>
@@ -274,22 +275,52 @@ export default {
   overflow: auto;
 }
 .compute {
-  display: flex;
+  position: fixed;
+  bottom: 0.98rem;
+  width: 100%;
+  background: #FFFFFF;
   .mint-checklist {
-    flex: 2;
+    .mint-checklist-title {
+      margin: 0;
+      .mint-cell {
+        font-size: 0.26rem;
+        color: #323232;
+      }
+    }
   }
+  
   .mint-checklist:nth-child(2) {
     margin: 0px;
   }
   .sub {
-    margin-top: 8px;
-    border: 1px solid #d9d9d9;
-    background-color: #fff;
-    border-left: none;
-    border-right: none;
-    .mint-button {
-      height: 46px;
+    height: 0.88rem;
+    font-size: 0.24rem;
+    color: #323232;
+    margin-right: 0.2rem;
+    .all {
+      display: block;
+      margin-top: 0.1rem;
+      span {
+        font-size: 0.3rem;
+        color: #F9404A;
+        line-height: 0.33rem;
+      }
     }
+    .balances {
+      margin-top: 0.4rem;
+    }
+  }
+  .settle {
+    height: 46px;
+    background: #FD404A;
+    font-size: 0.28rem;
+    color: #FFFFFF;
+    width: 2rem;
+    height: 0.88rem;
+    line-height: 0.88rem;
+    padding: 0;
+    text-align: center;
+    border-radius: 0;
   }
 }
 </style>

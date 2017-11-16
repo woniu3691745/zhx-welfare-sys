@@ -7,43 +7,32 @@
  */
 <template>
   <div class="deatil">
-    <div class="common-header">
-      <mt-header title="详情">
-        <router-link to="/mall" slot="left">
-          <mt-button icon="back"></mt-button>
-        </router-link>
-      </mt-header>
+    <div class="head-fix">
+      <div class="common-header">
+        <mt-header title="详情">
+          <router-link to="/mall" slot="left">
+            <mt-button icon="back"></mt-button>
+          </router-link>
+        </mt-header>
+      </div>
     </div>
-    <!-- <div class="detail-body" :style="{ height: height + 'px' }"> -->
+
     <div class="detail-body">
-      <mt-cell>
-        <img src="../assets/swipe/4.jpg" alt="">
-      </mt-cell>
-      <mt-cell class="detail-goods-top">
-        <div class="content">
-          <span class="name">使用“xxx配送“区分货源及包邮条件使用“xxx配送11“区分货源及包邮条件</span>
-          <div class="money">￥58.9</div>
-          <div class="salesNum">20人已买</div>
-        </div>
-      </mt-cell>
-      <!-- <mt-cell title="已选" to="" is-link value="">
-        <span>卓蓝雅 生姜防脱发洗发水，1件</span>
-      </mt-cell> -->
-      <mt-cell title="重量" value="4.9kg" > 
-      </mt-cell>
-      <mt-cell title="运费">
-        <span>单笔订单满108元，包邮</span>
-      </mt-cell>
-      <mt-cell class="detail-goods-bottom">
-        <div class="content">
-          <span class="name">- 商品详情 -</span>
-          <div class="detail">
-            <img src="../assets/swipe/3.jpg" alt="">
-            <span>asdasd</span>
-          </div>
-        </div>
-      </mt-cell>
+      
+      <div class="big-pic">
+        <!-- <img src="../assets/aaa.png" alt=""> -->
+      </div>
+
+
+
+
     </div>
+
+
+
+
+
+
     <div class="detail-bottom">
       <mt-tabbar fixed>
         <mt-button size="large" type="default">
@@ -91,33 +80,33 @@ export default {
 <style lang="less" scoped>
 @import "../../static/css/util.css";
 
-.detail-goods-top {
-  :nth-child(2) {
-    // mint-cell-wrapper
-    display: grid;
-    :nth-child(1) {
-      // mint-cell-title
-      display: flex;
-      flex-direction: column;
-      flex: 0;
-    }
-    .content {
-      display: inline;
-      padding-bottom: 5px;
-      .name {
-        color: black;
-        padding: 15px 0;
-      }
-      .money {
-        float: left;
-      }
-      .salesNum {
-        font-size: 12px;
-        float: right;
-      }
+
+.head-fix {
+  width: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 2;
+}
+.detail-body {
+  padding-top: 0.88rem;
+  .big-pic {
+    width: 7.5rem;
+    img {
+      width: 100%;
     }
   }
 }
+
+
+
+
+
+
+
+
+
+
 
 .detail-goods-bottom {
   :nth-child(2) {

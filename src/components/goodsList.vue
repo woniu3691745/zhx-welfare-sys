@@ -30,9 +30,9 @@
               <router-link :to="{ path: '/detail', query: {id: item.id}}"><img v-bind:src="item.image"></router-link>
               <div class="good-description">
                 <div class="desc">{{item.name}}</div>
-                <span>
-                  ￥{{ item.salePrice }}&nbsp;&nbsp;{{item.saleCount}}人已买
-                  <span><img class="cart" src="../assets/cart.png" @click="cart()" /></span>
+                <span class="span-block clear">
+                  <span class="sale-price left">￥{{ item.salePrice }}</span>
+                  <span class="car-shopping right"><img class="cart" src="../assets/cart.png" @click="cart()" /></span>
                 </span>
               </div>
             </li>
@@ -168,41 +168,65 @@ export default {
   overflow: scroll;
   .page-loadmore-list {
     background-color: #fff;
+    .page-loadmore-listitem {
+      display: flex;
+      height: 2.4rem;
+      border: none;
+
+      a {
+        width: 2.4rem;
+        height: 2.4rem;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      
+      .good-description {
+        flex: 2;
+        font-size: 12px;
+        padding: 0.18rem 0.38rem 0.16rem 0.2rem;
+        box-sizing: border-box;
+        height: 2.4rem;
+        border-bottom: 1px solid #eeddee;
+        .desc {
+          font-size: 0.32rem;
+          color: #323232;
+          line-height: 0.36rem;
+          margin-bottom: 0.75rem
+        }
+        .span-block {
+          display: block;
+          .sale-price {
+            font-size: 0.4rem;
+            color: #FE414B;
+            height: 0.6rem;
+            line-height: 0.6rem
+          }
+        }
+        .car-shopping {
+          width: 0.6rem;
+          height: 0.6rem;
+         
+          .cart {
+            float: right;
+            height: 100%;
+            width: 100%;
+          }
+        }
+        
+      }
+    }
+    
   }
 }
 
-.page-loadmore-listitem {
-  display: flex;
-  height: 115px;
-  a {
-    padding: 5px 5px;
-  }
-  img {
-    width: 100px;
-  }
-  .good-description {
-    flex: 2;
-    font-size: 12px;
-    padding: 10px 6px;
-    .desc {
-      height: 40px;
-      margin-bottom: 35px;
-    }
-    .cart {
-      float: right;
-      height: 20px;
-      width: 20px;
-      padding-right: 15px;
-    }
-  }
-}
 
-.page-loadmore-listitem:first-child {
-  border-top: 1px solid #eee;
-}
+
+
 
 .mint-loadmore-top {
-  margin-top: -48px;
+  font-size: 0.3rem;
 }
 
 .mint-loadmore-top span {

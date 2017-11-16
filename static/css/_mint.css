@@ -37,16 +37,16 @@
   margin-left: 4px;
   color: white;
 }
-
+.mint-checklist-title {
+  margin: 0;
+}
 /* .circle-color-58 > div::before {
   background-color: #26a2ff !important;
 } */
 
 
 
-.mint-checklist-label {
-  padding: 5px 5px 0 5px;
-}
+
 .mint-tab-item-icon {
   width: 0.43rem;
   height: 0.43rem;

@@ -201,29 +201,29 @@ export default {
       margin-left: 0.11rem;
     }
     .shop-car {
-          position: relative;
-          margin-top: 0.08rem;
-          width: 0.8rem;
-          height: 0.8rem;
-          background: url('../../assets/shop-car.png');
-          background-repeat: no-repeat;
-          background-size: 0.51rem 0.42rem;
-          background-position: 0 0.27rem;
-          span {
-            color: #ffffff;
-            text-align: center;
-            font-size: 0.22rem;
-            line-height: 0.4rem;
-            width: 0.4rem;
-            height: 0.4rem;
-            background: #FB4E51;
-            border-radius: 50%;
-            position: absolute;
-            right: 0;
-            top: 0;
-          }
-          
-        }
+      position: relative;
+      margin-top: 0.08rem;
+      width: 0.8rem;
+      height: 0.8rem;
+      background: url('../../assets/shop-car.png');
+      background-repeat: no-repeat;
+      background-size: 0.51rem 0.42rem;
+      background-position: 0 0.27rem;
+      span {
+        color: #ffffff;
+        text-align: center;
+        font-size: 0.22rem;
+        line-height: 0.4rem;
+        width: 0.4rem;
+        height: 0.4rem;
+        background: #FB4E51;
+        border-radius: 50%;
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+      
+    }
   }
   .body-containers {
     padding-top: 0.88rem;

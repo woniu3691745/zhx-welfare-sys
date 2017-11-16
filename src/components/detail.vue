@@ -20,11 +20,17 @@
     <div class="detail-body">
       
       <div class="big-pic">
-        <!-- <img src="../assets/aaa.png" alt=""> -->
+        <img src="../assets/aaa.jpg" alt="">
       </div>
-
-
-
+      <p class="goods-name">
+        卓蓝雅 生姜防脱生发无硅油洗发脱生发无硅油洗发水，礼品包装
+      </p>
+      <span class="good-money">
+        ￥58.9
+      </span>
+      <div class="height-20"></div>
+      <div class="infor-good"></div>
+      <div class="height-20"></div>
 
     </div>
 
@@ -36,7 +42,9 @@
     <div class="detail-bottom">
       <mt-tabbar fixed>
         <mt-button size="large" type="default">
-            <img src="../assets/cart.png" height="20" width="20" slot="icon">
+            <span class="right shop-car">
+              <span>99</span>
+            </span>
         </mt-button>
         <mt-button type="primary" class="button-width">加入购物车</mt-button>
         
@@ -89,78 +97,101 @@ export default {
   z-index: 2;
 }
 .detail-body {
-  padding-top: 0.88rem;
+  padding: 0.88rem 0;
   .big-pic {
     width: 7.5rem;
     img {
       width: 100%;
     }
   }
-}
-
-
-
-
-
-
-
-
-
-
-
-.detail-goods-bottom {
-  :nth-child(2) {
-    // mint-cell-wrapper
-    display: grid;
-    :nth-child(1) {
-      // mint-cell-title
-      display: flex;
-      flex-direction: column;
-      flex: 0;
-    }
-    .content {
-      // display: inline;
-      text-align: -webkit-center;
-      padding: 5px;
-      .name {
-        color: black;
-        padding: 5px;
-      }
-      .money {
-        float: left;
-      }
-      .salesNum {
-        font-size: 12px;
-        float: right;
-      }
-    }
+  .goods-name {
+    font-size: 0.3rem;
+    color: #323232;
+    line-height: 0.44rem;
+    margin-top: 0.24rem;
+    padding: 0 0.36rem 0 0.24rem;
+  }
+  .good-money {
+    display: block;
+    padding-left: 0.24rem;
+    margin-top: 0.24rem;
+    line-height: 0.88rem;
+    height: 0.88rem;
+    font-size: 0.4rem;
+    color: #FE414B;
+  }
+  .height-20 {
+    height: 0.2rem;
+    width: 100%;
+    background: #F5F5F5;
+  }
+  .infor-good {
+    width: 100%;
+    height: 1.78rem;
   }
 }
 
-.deatil {
-  .detail-top {
-    // width: 100%;
-    height: auto;
-  }
-  
-  .detail-body {
-    .mint-cell-wrapper {
-      width: 100%;
+
+
+
+
+
+
+
+
+
+
+.detail-bottom {
+  .mint-tabbar {
+    .mint-button--large {
+      background: #FFFFFF;
+      box-shadow: inset 0 1px 0 0 #DCDCDC;
+      height: 0.88rem;
+      width: 3.2rem;
+      padding: 0;
+      text-align: center;
+      .shop-car {
+        position: relative;
+        margin-top: 0.08rem;
+        width: 0.8rem;
+        height: 0.8rem;
+        background: url('../assets/shop-car.png');
+        background-repeat: no-repeat;
+        background-size: 0.51rem 0.42rem;
+        background-position: 0 0.27rem;
+        margin-right: 1.2rem;
+        span {
+          color: #ffffff;
+          text-align: center;
+          font-size: 0.22rem;
+          line-height: 0.4rem;
+          width: 0.4rem;
+          height: 0.4rem;
+          background: #FB4E51;
+          border-radius: 50%;
+          position: absolute;
+          right: 0;
+          top: 0;
+        }
+        
+      }
+    }
+    .mint-button--normal {
+      background: #FD9040;
+      width: 4.3rem;
+      height: 0.88rem;
+      text-align: center;
+      line-height: 0.88rem;
+      font-size: 0.28rem;;
+      color: #FFFFFF;
+      border-radius: 0;
       padding: 0;
     }
-    img {
-      
-      width: 100%;
-    }
   }
-  .detail-bottom {
-    .button-width {
-      width: 200px;
-      // background: none;
-    }
-  }
+  
+
 }
-// .mint-button::after {
-//   background-color: unset;
-// }
+
+  
+
 </style>

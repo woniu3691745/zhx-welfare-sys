@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-16 15:07:55
+ * @Last Modified time: 2017-11-16 17:39:57
  * 首页组件
  */
 <template>
@@ -16,7 +16,9 @@
           <span>￥{{quota}}</span>
       </div>
       <span class="right shop-car">
-        <span>99</span>
+        <router-link :to="{ path: '/cart', query: {itemTypeName: this.itemTypeName}}"> 
+          <span >99</span>
+        </router-link>
       </span>
     </div>
     <ul class="clear body-containers" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="50">
@@ -39,7 +41,7 @@
           <div class="index-gifts-title clear">
             <span class="title-content">超级大礼包</span> 
             <div class="index-gifts-title-link right    ">
-              <router-link id="goodsList" :to="{ path: '/goodsList'}"><span>查看全部></span></router-link>
+              <router-link id="goodsList" :to="{ path: '/goodsList', query: {itemTypeName: this.itemTypeName}}"><span>查看全部></span></router-link>
             </div>
           </div>
           <div class="index-gifts-body">
@@ -58,7 +60,7 @@
         </div>
         <div class="three-title">
           <ul class="clear">
-            <li v-for="item in 10" :key="item">三级目录</li>
+            <li v-for="i in categorys" :key="i.TYPEID">{{i.TYPENAME}}</li>
           </ul>
         </div>
       </li>
@@ -83,9 +85,10 @@ export default {
   data () {
     return {
       quota: this.$route.query.quota, // 余额
-      bonusPackages: [],      // 大礼包
-      competitiveProducts: [],    // 商品
-      categorys: [],     // 商品种类
+      bonusPackages: [], // 大礼包
+      competitiveProducts: [], // 商品
+      categorys: [], // 商品种类
+      itemTypeName: this.$route.query.itemTypeName, // 种类
       index: 0,
       limit: 2
     }
@@ -121,6 +124,7 @@ export default {
     },
     init () {
       this.bonusPackagesInfo()
+      this.categoryInfo(this.itemTypeName)
       // this.competitiveProductsInfo()
     },
     // 大礼包接口
@@ -140,7 +144,19 @@ export default {
         })
     },
     // 类品过滤种类
-    categoryInfo () {},
+    categoryInfo (itemTypeName) {
+      let viewNums = {
+        itemType: itemTypeName
+      }
+      this.$store
+        .dispatch('CatalogueInfo', viewNums)
+        .then(res => {
+          this.categorys = res.data
+        })
+        .catch(res => {
+          console.log(res)
+        })
+    },
     // 品类信息
     competitiveProductsInfo () {
       let viewNums = {
@@ -148,19 +164,17 @@ export default {
         limit: this.limit,
         sequenceType: 0
       }
-
       this.$store
         .dispatch('CompetitiveProductsInfo', viewNums)
         .then(res => {
           if (this.competitiveProducts.length === 0) {
             this.competitiveProducts = res.data
-            console.log('this.competitiveProducts.length ' + this.competitiveProducts.length)
           } else {
             res.data.forEach(element => {
               this.competitiveProducts.push(element)
             })
-            // this.limit = this.limit + 1
           }
+          // 分页
           this.index = this.index + 1
         })
         .catch(res => {
@@ -202,34 +216,34 @@ export default {
     }
     .index-money {
       font-size: 0.32rem;
-      color: #FB4E51;
+      color: #fb4e51;
       height: 0.88rem;
       line-height: 0.88rem;
       margin-left: 0.11rem;
     }
     .shop-car {
-          position: relative;
-          margin-top: 0.08rem;
-          width: 0.8rem;
-          height: 0.8rem;
-          background: url('../../assets/shop-car.png');
-          background-repeat: no-repeat;
-          background-size: 0.51rem 0.42rem;
-          background-position: 0 0.27rem;
-          span {
-            color: #ffffff;
-            text-align: center;
-            font-size: 0.22rem;
-            line-height: 0.4rem;
-            width: 0.4rem;
-            height: 0.4rem;
-            background: #FB4E51;
-            border-radius: 50%;
-            position: absolute;
-            right: 0;
-            top: 0;
-          }
-        }
+      position: relative;
+      margin-top: 0.08rem;
+      width: 0.8rem;
+      height: 0.8rem;
+      background: url("../../assets/shop-car.png");
+      background-repeat: no-repeat;
+      background-size: 0.51rem 0.42rem;
+      background-position: 0 0.27rem;
+      span {
+        color: #ffffff;
+        text-align: center;
+        font-size: 0.22rem;
+        line-height: 0.4rem;
+        width: 0.4rem;
+        height: 0.4rem;
+        background: #fb4e51;
+        border-radius: 50%;
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+    }
   }
   .body-containers {
     padding-top: 0.88rem;
@@ -254,7 +268,7 @@ export default {
           text-align: center;
           position: relative;
           .title-content:before {
-            content: '';
+            content: "";
             display: block;
             width: 0.8rem;
             height: 1px;
@@ -264,14 +278,14 @@ export default {
             top: 0.2rem;
           }
           .title-content:after {
-            content: '';
+            content: "";
             display: block;
             width: 0.8rem;
             height: 1px;
             background: black;
             position: absolute;
             right: -0.9rem;
-            top: 0.2rem
+            top: 0.2rem;
           }
           .title-content {
             font-size: 0.28rem;
@@ -288,7 +302,7 @@ export default {
             top: 0;
             right: 0.3rem;
             span {
-              color: #9A9A9A;
+              color: #9a9a9a;
             }
           }
         }
@@ -305,7 +319,7 @@ export default {
               li {
                 padding-left: 0.14rem;
                 width: 2.88rem;
-                
+
                 display: inline-block;
                 text-align: center;
                 vertical-align: text-top;
@@ -316,7 +330,7 @@ export default {
                   height: 1.64rem;
                   border: 1px solid #ebebeb;
                   border-radius: 6px;
-                  box-sizing: border-box
+                  box-sizing: border-box;
                 }
                 .des {
                   width: 2.64rem;
@@ -333,7 +347,7 @@ export default {
                   }
                   span {
                     font-size: 0.3rem;
-                    color: #FB4E51;
+                    color: #fb4e51;
                     display: block;
                     text-align: center;
                     margin-top: 0.05rem;
@@ -350,18 +364,18 @@ export default {
       .three-title {
         width: 100%;
         height: 1.64rem;
-        background: #EDEDED;
+        background: #ededed;
         ul {
           padding: 0.06rem 0 0 0.1rem;
           li {
-            background: #FFFFFF;
+            background: #ffffff;
             border-radius: 0.16rem;
             width: 1.36rem;
             height: 0.59rem;
             line-height: 0.59rem;
             text-align: center;
             font-size: 0.24rem;
-            color: #FF0000;
+            color: #ff0000;
             float: left;
             margin-left: 0.08rem;
             margin-top: 0.12rem;
@@ -398,7 +412,7 @@ export default {
         }
         span {
           font-size: 0.3rem;
-          color: #FB4E51;
+          color: #fb4e51;
           margin-top: 0.08rem;
           display: block;
           text-align: center;

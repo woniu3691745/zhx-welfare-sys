@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 19:03:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-15 20:58:41
+ * @Last Modified time: 2017-11-16 15:53:03
  * 导航
  */
 <template>
@@ -54,20 +54,30 @@ export default {
     hiddleMallTypeButton ($event) {
       this.display = 'none'
     },
-    goLife (categoryId) {
-      this.commonGo(categoryId)
+    // itemTypeName 额度种类
+    goLife (itemTypeName) {
+      this.commonGo(itemTypeName)
     },
-    goFood (categoryId) {
-      this.commonGo(categoryId)
+    goFood (itemTypeName) {
+      this.commonGo(itemTypeName)
     },
-    goClothing (categoryId) {
-      this.commonGo(categoryId)
+    goClothing (itemTypeName) {
+      this.commonGo(itemTypeName)
     },
-    commonGo (categoryId) {
+    /*
+    * itemTypeName 额度种类
+    * selected 导航
+    * type 进入商城方式
+    */
+    commonGo (itemTypeName) {
       this.display = 'none'
       this.$router.push({
         path: '/mall',
-        query: { categoryId: categoryId, selected: 'mall', type: 'unDirect' }
+        query: {
+          itemTypeName: itemTypeName,
+          selected: 'mall',
+          type: 'unDirect'
+        }
       })
       this.$emit('listenSelected', 'mall')
     }

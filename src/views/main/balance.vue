@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 19:04:29 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-16 11:23:00
+ * @Last Modified time: 2017-11-16 15:52:22
  * 额度
  */
 <template>
@@ -99,16 +99,23 @@ export default {
       let select = this.$route.query.selected || 'balance'
       eventBus.$emit('focus', select)
     },
-    // 去使用
     /*
-    * categoryId 商城种类
-    * quota 对应商城余额
+    * itemTypeName 额度种类
+    * selected 导航
+    * type 进入商城方式
+    * quota 商城余额
     */
-    use (categoryId, quota) {
+    use (itemTypeName, quota) {
       // this.$router.push({path: '/mall', params: {categoryId: categoryId}})
       this.$router.push({
         path: '/mall',
-        query: { categoryId: categoryId, selected: 'mall', type: 'direct', flag: '1', quota: quota }
+        query: {
+          itemTypeName: itemTypeName,
+          selected: 'mall',
+          type: 'direct',
+          flag: '1',
+          quota: quota
+        }
       })
     }
   }

@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-15 17:12:22
+ * @Last Modified time: 2017-11-16 14:39:48
  * 首页组件
  */
 <template>
@@ -13,15 +13,13 @@
       </div>
       <div class="index-money left">
           <span>余额：</span>
-          <span>￥458.00</span>
+          <span>￥{{quota}}</span>
       </div>
       <span class="right shop-car">
         <span>99</span>
       </span>
     </div>
-    <ul class="clear body-containers" v-infinite-scroll="loadMore"
-                      infinite-scroll-disabled="loading"
-                      infinite-scroll-distance="100">
+    <ul class="clear body-containers" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="100">
       <li class="solid-top">
         <div class="index-swipe">
           <mt-swipe :auto="2000">
@@ -60,7 +58,7 @@
         </div>
         <div class="three-title">
           <ul class="clear">
-            <li v-for="item in 10">三级目录</li>
+            <li v-for="item in 10" :key="item">三级目录</li>
           </ul>
         </div>
       </li>
@@ -81,34 +79,26 @@ import { InfiniteScroll, Indicator } from 'mint-ui'
 import Vue from 'vue'
 Vue.use(InfiniteScroll)
 export default {
-  name: 'index-page',
+  name: 'mall-page',
   data () {
     return {
-      searchValue: '',
-      quotas: '',
-      height: 0,
-      category: [{ name: '洗涤用品' }, { name: '清洁用品' }, { name: '日用品' }],
-      bonusPackages: [],
-      competitiveProducts: []
+      quota: this.$route.query.quota, // 余额
+      bonusPackages: [],      // 大礼包
+      competitiveProducts: [],    // 商品
+      categorys: [],     // 商品种类
+      index: 0,
+      limit: 6
     }
   },
   created () {
     this.get()
-    this.quotas = this.$store.getters.quota
-    // console.log('document.body.offsetHeight = ' + document.body.offsetHeight)
-    this.height = document.body.offsetHeight - 135
     this.init()
   },
   mounted () {
-    // 页面完成获得焦点
     this.focus()
   },
   methods: {
-    loadMore () {
-      this.loading = true
-      this.competitiveProductsInfo()
-      this.loading = false
-    },
+    // 加载圈
     get () {
       setTimeout(function () {
         Indicator.open({
@@ -117,12 +107,23 @@ export default {
       }, 300)
       setTimeout(function () {
         Indicator.close()
+      }, 3000)
+    },
+    // 下拉更多
+    loadMore () {
+      // this.loading = true
+      // console.log('loadMore start ')
+      setTimeout(() => {
+        this.competitiveProductsInfo()
       }, 1000)
+      // console.log('loadMore end ')
+      // this.loading = false
     },
     init () {
       this.bonusPackagesInfo()
-      this.competitiveProductsInfo()
+      // this.competitiveProductsInfo()
     },
+    // 大礼包接口
     bonusPackagesInfo () {
       let viewNums = {
         index: 0,
@@ -132,29 +133,33 @@ export default {
       this.$store
         .dispatch('BonusPackagesInfo', viewNums)
         .then(res => {
-          // console.log('bonusPackagesInfo -> ' + JSON.stringify(res.data))
           this.bonusPackages = res.data
         })
         .catch(res => {
           console.log(res)
         })
     },
+    // 类品过滤种类
+    categoryInfo () {},
+    // 品类信息
     competitiveProductsInfo () {
       let viewNums = {
-        index: 0,
-        limit: 9,
+        index: this.index,
+        limit: this.limit,
         sequenceType: 0
       }
+      console.log(1)
       this.$store
         .dispatch('CompetitiveProductsInfo', viewNums)
         .then(res => {
-          // console.log('competitiveProductsInfo -> ' + JSON.stringify(res.data))
           if (this.competitiveProducts.length === 0) {
             this.competitiveProducts = res.data
           } else {
             res.data.forEach(element => {
               this.competitiveProducts.push(element)
             })
+            this.index = this.index + 5
+            this.limit = this.limit + 5
           }
         })
         .catch(res => {
@@ -164,10 +169,11 @@ export default {
     focus () {
       let select = this.$route.query.selected || 'balance'
       // 进入商城方式
-      // 1、direct-> 去使用
-      // 2、undirect -> button
+      // type
+      //  1、direct-> 去使用
+      //  2、undirect -> 导航按钮
       let type = this.$route.query.type
-      // 通知bottom按钮
+      // 通知导航按钮
       eventBus.$emit('focus', select, type)
     }
   }
@@ -222,7 +228,6 @@ export default {
             right: 0;
             top: 0;
           }
-          
         }
   }
   .body-containers {
@@ -340,8 +345,6 @@ export default {
           }
         }
       }
-
-
       .three-title {
         width: 100%;
         height: 1.64rem;
@@ -364,8 +367,6 @@ export default {
         }
       }
     }
-
-
     .lis {
       margin-left: 0.2rem;
       margin-top: 0.2rem;
@@ -377,7 +378,6 @@ export default {
         height: 3.45rem;
         border: 1px solid #ebebeb;
         box-sizing: border-box;
-        
       }
       .des {
         width: 3.28rem;
@@ -403,24 +403,6 @@ export default {
         }
       }
     }
-
-
-
-
-
-
-
-
   }
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 }
 </style>

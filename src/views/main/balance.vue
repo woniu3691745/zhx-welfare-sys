@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 19:04:29 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-15 19:44:30
+ * @Last Modified time: 2017-11-16 11:23:00
  * 额度
  */
 <template>
@@ -54,7 +54,7 @@
             </div>
             </div>
           <div class="button">
-            <mt-button type="danger" size="large" @click="use(item.itemTypeId)">去使用</mt-button>
+            <mt-button type="danger" size="large" @click="use(item.itemTypeId, item.quota)">去使用</mt-button>
           </div>
           <div class="description">
             <span>可用品类：{{item.desc}}</span>
@@ -100,11 +100,15 @@ export default {
       eventBus.$emit('focus', select)
     },
     // 去使用
-    use (categoryId) {
+    /*
+    * categoryId 商城种类
+    * quota 对应商城余额
+    */
+    use (categoryId, quota) {
       // this.$router.push({path: '/mall', params: {categoryId: categoryId}})
       this.$router.push({
         path: '/mall',
-        query: { categoryId: categoryId, selected: 'mall', type: 'direct', flag: '1' }
+        query: { categoryId: categoryId, selected: 'mall', type: 'direct', flag: '1', quota: quota }
       })
     }
   }

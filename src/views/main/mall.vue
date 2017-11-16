@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-15 16:43:35
+ * @Last Modified time: 2017-11-15 17:12:22
  * 首页组件
  */
 <template>
@@ -149,11 +149,9 @@ export default {
         .dispatch('CompetitiveProductsInfo', viewNums)
         .then(res => {
           // console.log('competitiveProductsInfo -> ' + JSON.stringify(res.data))
-          console.log('1111')
           if (this.competitiveProducts.length === 0) {
             this.competitiveProducts = res.data
           } else {
-            // debugger
             res.data.forEach(element => {
               this.competitiveProducts.push(element)
             })
@@ -165,8 +163,12 @@ export default {
     },
     focus () {
       let select = this.$route.query.selected || 'balance'
+      // 进入商城方式
+      // 1、direct-> 去使用
+      // 2、undirect -> button
+      let type = this.$route.query.type
       // 通知bottom按钮
-      eventBus.$emit('focus', select)
+      eventBus.$emit('focus', select, type)
     }
   }
 }

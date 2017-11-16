@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 19:04:29 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-15 15:29:23
+ * @Last Modified time: 2017-11-15 19:44:30
  * 额度
  */
 <template>
@@ -99,11 +99,12 @@ export default {
       let select = this.$route.query.selected || 'balance'
       eventBus.$emit('focus', select)
     },
+    // 去使用
     use (categoryId) {
       // this.$router.push({path: '/mall', params: {categoryId: categoryId}})
       this.$router.push({
         path: '/mall',
-        query: { categoryId: categoryId, selected: 'mall' }
+        query: { categoryId: categoryId, selected: 'mall', type: 'direct', flag: '1' }
       })
     }
   }

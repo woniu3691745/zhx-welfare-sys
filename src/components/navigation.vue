@@ -1,8 +1,8 @@
 /*
  * @Author: lidongliang 
  * @Date: 2017-11-14 19:03:36 
- * @Last Modified by:   lidongliang 
- * @Last Modified time: 2017-11-14 19:03:36 
+ * @Last Modified by: lidongliang
+ * @Last Modified time: 2017-11-15 20:58:41
  * 导航
  */
 <template>
@@ -13,19 +13,17 @@
           额度
         </mt-tab-item>
         <mt-tab-item id="mall">
-          <img class="big-img" slot="icon" src="../assets/icon/home.png">
+          <img class="big-img" slot="icon" src="../assets/icon/home.png" @click="showMallTypeButton($event)" >
           商城
         </mt-tab-item>
         <mt-tab-item id="mine">
           <img slot="icon" src="../assets/icon/my.png">
-          我的{{msg}}
+          我的
         </mt-tab-item>
     </mt-tabbar>
-    <div class="pozition-fixed">
+    <div class="pozition-fixed" @click="hiddleMallTypeButton($event)" :style="{ display: display}">
       <div class="pozition-fixeds">
-        <img src="../assets/life.png" alt="">
-        <img src="../assets/food.png" alt="">
-        <img src="../assets/clothing.png" alt="">
+        <img v-bind:src="'api'+ item.icon" @click="goFood(item.itemTypeId)" v-for="item in quotas" :key="item.itemTypeName">
       </div>
     </div>
   </div>
@@ -38,29 +36,88 @@ export default {
   data () {
     return {
       selected: 'balance',
-      isActive: false,
-      msg: ''
+      display: 'none'
     }
   },
   mounted () {
-    this.isActive = false
-    // if (this.$route.query.selected) {
-    //   this.$router.push({ path: '/' + this.selected })
-    // }
     eventBus.$on('focus', param => {
       this.selected = param
       // this.$set(this.selected, param)
     })
   },
-  methods: {},
-  created () {},
+  methods: {
+    // 点击商城按钮焦点内
+    showMallTypeButton ($event) {
+      this.display = 'block'
+    },
+    // 点击商城按钮焦点外
+    hiddleMallTypeButton ($event) {
+      this.display = 'none'
+    },
+    goLife (categoryId) {
+      this.commonGo(categoryId)
+    },
+    goFood (categoryId) {
+      this.commonGo(categoryId)
+    },
+    goClothing (categoryId) {
+      this.commonGo(categoryId)
+    },
+    commonGo (categoryId) {
+      this.display = 'none'
+      this.$router.push({
+        path: '/mall',
+        query: { categoryId: categoryId, selected: 'mall', type: 'unDirect' }
+      })
+      this.$emit('listenSelected', 'mall')
+    }
+  },
+  created () {
+    this.quotas = this.$store.getters.quota
+  },
   watch: {
     selected: function (val, oldVal) {
-      // 商城品类列表
-      this.$emit('listenSelected', this.selected)
-      if (this.selected !== 'mall') {
-        // this.selected = 'mine'
-        this.$router.push({ path: '/' + this.selected })
+      // console.log('this.$route.query.type = ' + this.$route.query.type)
+      // 直接点击商城按钮
+      if (this.$route.query.type === undefined) {
+        if (val === 'mall') {
+          this.display = 'block'
+        } else {
+          this.display = 'none'
+          this.$router.push({
+            path: '/' + val,
+            query: { selected: val, type: 'unDirect' }
+          })
+        }
+      }
+      // case 1 通过直接点击商城按钮进入商城后，在商城里点击商城按钮
+      if (this.$route.query.type === 'unDirect') {
+        if (val === 'mall') {
+          this.display = 'block'
+        } else {
+          this.display = 'none'
+          this.$router.push({
+            path: '/' + val,
+            query: { selected: val, type: 'unDirect' }
+          })
+        }
+      }
+      // case 2 通过去使用进入商城后，在商城里点击商城按钮
+      if (this.$route.query.type === 'direct') {
+        // console.log('this.$route.query.flag = ' + this.$route.query.flag)
+        if (val === 'mall') {
+          if (this.$route.query.flag) {
+            this.display = 'none'
+          } else {
+            this.display = 'block'
+          }
+        } else {
+          this.display = 'none'
+          this.$router.push({
+            path: '/' + val,
+            query: { selected: val, type: 'direct' }
+          })
+        }
       }
     }
   }
@@ -91,7 +148,7 @@ export default {
 }
 
 .pozition-fixed {
-  display: none;
+  // display: none;
   position: fixed;
   width: 100%;
   height: 100%;

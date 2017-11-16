@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-16 14:44:06
+ * @Last Modified time: 2017-11-16 15:04:42
  * 首页组件
  */
 <template>
@@ -19,7 +19,7 @@
         <span>99</span>
       </span>
     </div>
-    <ul class="clear body-containers" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="100">
+    <ul class="clear body-containers" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="50">
       <li class="solid-top">
         <div class="index-swipe">
           <mt-swipe :auto="2000">
@@ -87,7 +87,7 @@ export default {
       competitiveProducts: [],    // 商品
       categorys: [],     // 商品种类
       index: 0,
-      limit: 6
+      limit: 2
     }
   },
   created () {
@@ -148,19 +148,20 @@ export default {
         limit: this.limit,
         sequenceType: 0
       }
-      console.log(1)
+
       this.$store
         .dispatch('CompetitiveProductsInfo', viewNums)
         .then(res => {
           if (this.competitiveProducts.length === 0) {
             this.competitiveProducts = res.data
+            console.log('this.competitiveProducts.length ' + this.competitiveProducts.length)
           } else {
             res.data.forEach(element => {
               this.competitiveProducts.push(element)
             })
-            this.index = this.index + 5
-            this.limit = this.limit + 5
+            // this.limit = this.limit + 1
           }
+          this.index = this.index + 1
         })
         .catch(res => {
           console.log(res)

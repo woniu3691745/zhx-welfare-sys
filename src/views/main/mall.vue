@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-15 17:12:22
+ * @Last Modified time: 2017-11-17 17:04:30
  * 首页组件
  */
 <template>
@@ -13,15 +13,15 @@
       </div>
       <div class="index-money left">
           <span>余额：</span>
-          <span>￥458.00</span>
+          <span>￥{{quota}}</span>
       </div>
       <span class="right shop-car">
-        <span>99</span>
+        <router-link :to="{ path: '/cart', query: {itemTypeName: this.itemTypeName}}"> 
+          <span >99</span>
+        </router-link>
       </span>
     </div>
-    <ul class="clear body-containers" v-infinite-scroll="loadMore"
-                      infinite-scroll-disabled="loading"
-                      infinite-scroll-distance="100">
+    <ul class="clear body-containers" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="50">
       <li class="solid-top">
         <div class="index-swipe">
           <mt-swipe :auto="2000">
@@ -41,14 +41,15 @@
           <div class="index-gifts-title clear">
             <span class="title-content">超级大礼包</span> 
             <div class="index-gifts-title-link right    ">
-              <router-link id="goodsList" :to="{ path: '/goodsList'}"><span>查看全部></span></router-link>
+              <router-link id="goodsList" :to="{ path: '/goodsList', query: {itemTypeName: this.itemTypeName}}"><span>查看全部></span></router-link>
             </div>
           </div>
           <div class="index-gifts-body">
             <div class="index-gifts-product-list">
               <ul>
                 <li v-for="item in bonusPackages" v-bind="item" :key="item.id">
-                  <router-link :to="{ path: '/detail', query: {id: item.id}}"><img v-bind:src="item.image"></router-link>
+                  <!-- <router-link :to="{ path: '/detail', query: {id: item.id}}"></router-link> -->
+                  <img v-bind:src="item.image" @click="detail(item.id)">
                   <div class="des">
                     <p>{{item.name}}</p>
                     <span>￥{{item.salePrice}}</span>
@@ -60,7 +61,7 @@
         </div>
         <div class="three-title">
           <ul class="clear">
-            <li v-for="item in 10">三级目录</li>
+            <li v-for="i in categorys" :key="i.TYPEID">{{i.TYPENAME}}</li>
           </ul>
         </div>
       </li>
@@ -81,47 +82,52 @@ import { InfiniteScroll, Indicator } from 'mint-ui'
 import Vue from 'vue'
 Vue.use(InfiniteScroll)
 export default {
-  name: 'index-page',
+  name: 'mall-page',
   data () {
     return {
-      searchValue: '',
-      quotas: '',
-      height: 0,
-      category: [{ name: '洗涤用品' }, { name: '清洁用品' }, { name: '日用品' }],
-      bonusPackages: [],
-      competitiveProducts: []
+      categoryName: '',                             // 种类名称
+      quota: this.$route.query.quota,               // 余额（通过路由获得）
+      bonusPackages: [],                            // 大礼包
+      competitiveProducts: [],                      // 商品
+      categorys: [],                                // 商品种类
+      itemTypeName: this.$route.query.itemTypeName, // 种类
+      index: 0,
+      limit: 2
     }
   },
   created () {
-    this.get()
-    this.quotas = this.$store.getters.quota
-    // console.log('document.body.offsetHeight = ' + document.body.offsetHeight)
-    this.height = document.body.offsetHeight - 135
-    this.init()
+    // 定义商城信息事件
+    // quota 余额（通过事件参数获得）
+    // itemTypeName 额度类型
+    eventBus.$on('refurbishMallData', param => {
+      this.quota = param.quota
+      this.init(param.itemTypeName)
+      this.itemTypeName = param.itemTypeName  // 导航按钮
+    })
+  },
+  destroyed () {
+    eventBus.$off('refurbishMallData')
   },
   mounted () {
-    // 页面完成获得焦点
-    this.focus()
+    this.loading1()                 // 加载
+    this.init(this.itemTypeName)
+    this.focus()                    // 导航栏焦点
   },
   methods: {
+    // 下拉更多
     loadMore () {
-      this.loading = true
-      this.competitiveProductsInfo()
-      this.loading = false
-    },
-    get () {
-      setTimeout(function () {
-        Indicator.open({
-          spinnerType: 'fading-circle'
-        })
-      }, 300)
-      setTimeout(function () {
-        Indicator.close()
+      // this.loading = true
+      // console.log('loadMore start ')
+      setTimeout(() => {
+        this.competitiveProductsInfo()
       }, 1000)
+      // console.log('loadMore end ')
+      // this.loading = false
     },
-    init () {
-      this.bonusPackagesInfo()
-      this.competitiveProductsInfo()
+    init (itemTypeName) {
+      this.bonusPackagesInfo()          // 大礼包
+      this.categoryInfo(itemTypeName)   // 类品过滤种类
+      this.competitiveProductsInfo()    // 品类信息
     },
     bonusPackagesInfo () {
       let viewNums = {
@@ -132,8 +138,20 @@ export default {
       this.$store
         .dispatch('BonusPackagesInfo', viewNums)
         .then(res => {
-          // console.log('bonusPackagesInfo -> ' + JSON.stringify(res.data))
           this.bonusPackages = res.data
+        })
+        .catch(res => {
+          console.log(res)
+        })
+    },
+    categoryInfo (itemTypeName) {
+      let viewNums = {
+        itemType: itemTypeName
+      }
+      this.$store
+        .dispatch('CatalogueInfo', viewNums)
+        .then(res => {
+          this.categorys = res.data
         })
         .catch(res => {
           console.log(res)
@@ -141,14 +159,13 @@ export default {
     },
     competitiveProductsInfo () {
       let viewNums = {
-        index: 0,
-        limit: 9,
+        index: this.index,
+        limit: this.limit,
         sequenceType: 0
       }
       this.$store
         .dispatch('CompetitiveProductsInfo', viewNums)
         .then(res => {
-          // console.log('competitiveProductsInfo -> ' + JSON.stringify(res.data))
           if (this.competitiveProducts.length === 0) {
             this.competitiveProducts = res.data
           } else {
@@ -156,19 +173,39 @@ export default {
               this.competitiveProducts.push(element)
             })
           }
+          // 分页
+          this.index = this.index + 1
         })
         .catch(res => {
           console.log(res)
         })
     },
+    detail (id) {
+      // console.log('this.itemTypeName ' + this.itemTypeName)
+      this.$router.push({
+        path: '/detail',
+        query: { itemTypeName: this.itemTypeName, id: id }
+      })
+    },
     focus () {
       let select = this.$route.query.selected || 'balance'
       // 进入商城方式
-      // 1、direct-> 去使用
-      // 2、undirect -> button
-      let type = this.$route.query.type
-      // 通知bottom按钮
-      eventBus.$emit('focus', select, type)
+      // type
+      //  1、direct-> 去使用
+      //  2、undirect -> 导航按钮
+      // let type = this.$route.query.type
+      // 通知导航按钮事件
+      eventBus.$emit('focus', select)
+    },
+    loading1 () {
+      setTimeout(function () {
+        Indicator.open({
+          spinnerType: 'fading-circle'
+        })
+      }, 300)
+      setTimeout(function () {
+        Indicator.close()
+      }, 3000)
     }
   }
 }
@@ -195,38 +232,38 @@ export default {
     }
     .index-money {
       font-size: 0.32rem;
-      color: #FB4E51;
+      color: #fb4e51;
       height: 0.88rem;
       line-height: 0.88rem;
       margin-left: 0.11rem;
     }
     .shop-car {
-          position: relative;
-          margin-top: 0.08rem;
-          width: 0.8rem;
-          height: 0.8rem;
-          background: url('../../assets/shop-car.png');
-          background-repeat: no-repeat;
-          background-size: 0.51rem 0.42rem;
-          background-position: 0 0.27rem;
-          span {
-            color: #ffffff;
-            text-align: center;
-            font-size: 0.22rem;
-            line-height: 0.4rem;
-            width: 0.4rem;
-            height: 0.4rem;
-            background: #FB4E51;
-            border-radius: 50%;
-            position: absolute;
-            right: 0;
-            top: 0;
-          }
-          
-        }
+      position: relative;
+      margin-top: 0.08rem;
+      width: 0.8rem;
+      height: 0.8rem;
+      background: url("../../assets/shop-car.png");
+      background-repeat: no-repeat;
+      background-size: 0.51rem 0.42rem;
+      background-position: 0 0.27rem;
+      span {
+        color: #ffffff;
+        text-align: center;
+        font-size: 0.22rem;
+        line-height: 0.4rem;
+        width: 0.4rem;
+        height: 0.4rem;
+        background: #fb4e51;
+        border-radius: 50%;
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+    }
   }
   .body-containers {
     padding-top: 0.88rem;
+    padding-bottom: 0.88rem;
     box-sizing: border-box;
     .solid-top {
       .index-swipe {
@@ -247,7 +284,7 @@ export default {
           text-align: center;
           position: relative;
           .title-content:before {
-            content: '';
+            content: "";
             display: block;
             width: 0.8rem;
             height: 1px;
@@ -257,14 +294,14 @@ export default {
             top: 0.2rem;
           }
           .title-content:after {
-            content: '';
+            content: "";
             display: block;
             width: 0.8rem;
             height: 1px;
             background: black;
             position: absolute;
             right: -0.9rem;
-            top: 0.2rem
+            top: 0.2rem;
           }
           .title-content {
             font-size: 0.28rem;
@@ -281,7 +318,7 @@ export default {
             top: 0;
             right: 0.3rem;
             span {
-              color: #9A9A9A;
+              color: #9a9a9a;
             }
           }
         }
@@ -298,7 +335,7 @@ export default {
               li {
                 padding-left: 0.14rem;
                 width: 2.88rem;
-                
+
                 display: inline-block;
                 text-align: center;
                 vertical-align: text-top;
@@ -309,7 +346,7 @@ export default {
                   height: 1.64rem;
                   border: 1px solid #ebebeb;
                   border-radius: 6px;
-                  box-sizing: border-box
+                  box-sizing: border-box;
                 }
                 .des {
                   width: 2.64rem;
@@ -326,7 +363,7 @@ export default {
                   }
                   span {
                     font-size: 0.3rem;
-                    color: #FB4E51;
+                    color: #fb4e51;
                     display: block;
                     text-align: center;
                     margin-top: 0.05rem;
@@ -340,23 +377,21 @@ export default {
           }
         }
       }
-
-
       .three-title {
         width: 100%;
         height: 1.64rem;
-        background: #EDEDED;
+        background: #ededed;
         ul {
           padding: 0.06rem 0 0 0.1rem;
           li {
-            background: #FFFFFF;
+            background: #ffffff;
             border-radius: 0.16rem;
             width: 1.36rem;
             height: 0.59rem;
             line-height: 0.59rem;
             text-align: center;
             font-size: 0.24rem;
-            color: #FF0000;
+            color: #ff0000;
             float: left;
             margin-left: 0.08rem;
             margin-top: 0.12rem;
@@ -364,8 +399,6 @@ export default {
         }
       }
     }
-
-
     .lis {
       margin-left: 0.2rem;
       margin-top: 0.2rem;
@@ -377,7 +410,6 @@ export default {
         height: 3.45rem;
         border: 1px solid #ebebeb;
         box-sizing: border-box;
-        
       }
       .des {
         width: 3.28rem;
@@ -396,31 +428,13 @@ export default {
         }
         span {
           font-size: 0.3rem;
-          color: #FB4E51;
+          color: #fb4e51;
           margin-top: 0.08rem;
           display: block;
           text-align: center;
         }
       }
     }
-
-
-
-
-
-
-
-
   }
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
 }
 </style>

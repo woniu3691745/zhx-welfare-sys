@@ -36,6 +36,7 @@
     margin: 0 auto;
     margin-top: 1.2rem;
     .mint-cell {
+     
       .mint-cell-wrapper {
         background-position: bottom left;
         background-image: none;
@@ -110,4 +111,84 @@ a:hover {
 
 .right {
     float: right;
+}
+
+
+
+
+
+
+
+
+// 购物车
+.compute {
+  border-top: 1px solid #ebebeb;
+  box-sizing: border-box;
+  .mint-cell {
+    background-image: none;
+    .mint-cell-wrapper {
+      background-image: none;
+    }
+  }
+}
+.quota-container {
+  
+
+  .mint-checklist-label {
+    padding: 0 0 0 0.26rem;
+    .list-content {
+      padding: 0.1rem 0;
+      .big-picture {
+        width: 1.56rem;
+        height: 1.6rem;
+      }
+      .good-description {
+        margin-left: 0.44rem;
+        
+        .desc {
+          font-size: 0.24rem;
+          color: #323232;
+          line-height: 0.36rem;
+          margin-bottom: 0;
+        }
+      }
+      
+
+
+
+
+
+    }
+  }
+  .mint-checkbox-core {
+    width: 0.4rem;
+    height: 0.4rem;
+  }
+  .mint-cell-wrapper {
+    background-image: none;
+  }
+  .mint-cell {
+    background-image: none;
+    margin-top: 0.12rem;
+  }
+  .mint-checkbox-core::after {
+    border: 2px solid transparent;
+    border-left: 0;
+    border-top: 0;
+    content: " ";
+    top: 0.06rem;
+    left: 0.13rem;
+    position: absolute;
+    width: 0.08rem;
+    height: 0.16rem;
+    -webkit-transform: rotate(45deg) scale(0);
+    transform: rotate(45deg) scale(0);
+    -webkit-transition: -webkit-transform .2s;
+    transition: -webkit-transform .2s;
+    transition: transform .2s;
+    transition: transform .2s, -webkit-transform .2s;
+  }
+  .mint-checkbox-core {
+    margin-top: 0.2rem;
+  }
 }

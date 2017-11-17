@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-10-12 17:58:36
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-15 15:39:58
+ * @Last Modified time: 2017-11-16 20:39:07
  * 路由
  */
 
@@ -30,6 +30,7 @@ export const constantRouterMap = [
         name: '商城',
         component: resolve => require(['@/views/main/mall.vue'], resolve)
       },
+      { path: '/cart', name: '购物车', component: resolve => require(['@/views/main/cart.vue'], resolve) },
       {
         path: '/mine',
         name: '我的',
@@ -39,9 +40,9 @@ export const constantRouterMap = [
   },
 
   { path: '/order', name: '订单', component: resolve => require(['@/views/main/order.vue'], resolve) },
-  { path: '/cart', name: '购物车', component: resolve => require(['@/views/main/cart.vue'], resolve) },
+
   { path: '/goods', name: '商品', component: resolve => require(['@/components/goods.vue'], resolve) },
-  { path: '/goodsList', name: '商品', component: resolve => require(['@/components/goodsList.vue'], resolve) },
+  { path: '/goodsList', name: '商品列表', component: resolve => require(['@/components/goodsList.vue'], resolve) },
   { path: '/detail', name: '商品详情', component: resolve => require(['@/components/detail.vue'], resolve) },
   /**
    * 注册
@@ -58,7 +59,18 @@ export const constantRouterMap = [
   /**
    * 订单
    */
-  { path: '/confirmOrder', name: '确认订单', component: resolve => require(['@/views/order/confirmOrder.vue'], resolve) }
+  { path: '/confirmOrder', name: '确认订单', component: resolve => require(['@/views/order/confirmOrder.vue'], resolve) },
+  { path: '/addAddress', name: '添加地址', component: resolve => require(['@/views/order/addAddress.vue'], resolve) },
+  { path: '/selectAddress', name: '选择地址', component: resolve => require(['@/views/order/selectAddress.vue'], resolve) },
+  { path: '/inputPwd', name: '支付密码', component: resolve => require(['@/views/order/inputPwd.vue'], resolve) },
+  { path: '/success', name: '支付成功', component: resolve => require(['@/views/order/success.vue'], resolve) },
+  { path: '/fail', name: '支付失败', component: resolve => require(['@/views/order/fail.vue'], resolve) },
+
+  /**
+   * 我的
+   */
+  { path: '/mineOrder', name: '我的订单', component: resolve => require(['@/views/mine/mineOrder.vue'], resolve) }
+
 ]
 
 export default new Router({

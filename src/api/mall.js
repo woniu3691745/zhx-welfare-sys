@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-11-16 16:38:25
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-16 17:29:33
+ * @Last Modified time: 2017-11-17 14:02:41
  * 商城信息API
  */
 import fetch from '@/utils/fetch'
@@ -11,7 +11,7 @@ import fetch from '@/utils/fetch'
 export function catalogueInfo (token, catalogueForm) {
   const data = {
     data: {
-      productTypeId: '1000001'
+      productTypeId: catalogueForm.itemType
     },
     token
   }

@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 19:03:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-16 15:53:03
+ * @Last Modified time: 2017-11-17 16:42:20
  * 导航
  */
 <template>
@@ -23,7 +23,7 @@
     </mt-tabbar>
     <div class="pozition-fixed" @click="hiddleMallTypeButton($event)" :style="{ display: display}">
       <div class="pozition-fixeds">
-        <img v-bind:src="'api'+ item.icon" @click="goFood(item.itemTypeId)" v-for="item in quotas" :key="item.itemTypeName">
+        <img v-bind:src="'api'+ item.icon" @click="goFood(item.itemTypeId, item.quota)" v-for="item in quotas" :key="item.itemTypeName">
       </div>
     </div>
   </div>
@@ -40,6 +40,7 @@ export default {
     }
   },
   mounted () {
+    // 通知导航按钮事件
     eventBus.$on('focus', param => {
       this.selected = param
       // this.$set(this.selected, param)
@@ -55,21 +56,21 @@ export default {
       this.display = 'none'
     },
     // itemTypeName 额度种类
-    goLife (itemTypeName) {
-      this.commonGo(itemTypeName)
+    goLife (itemTypeName, quota) {
+      this.commonGo(itemTypeName, quota)
     },
-    goFood (itemTypeName) {
-      this.commonGo(itemTypeName)
+    goFood (itemTypeName, quota) {
+      this.commonGo(itemTypeName, quota)
     },
-    goClothing (itemTypeName) {
-      this.commonGo(itemTypeName)
+    goClothing (itemTypeName, quota) {
+      this.commonGo(itemTypeName, quota)
     },
     /*
     * itemTypeName 额度种类
     * selected 导航
     * type 进入商城方式
     */
-    commonGo (itemTypeName) {
+    commonGo (itemTypeName, quota) {
       this.display = 'none'
       this.$router.push({
         path: '/mall',
@@ -79,9 +80,11 @@ export default {
           type: 'unDirect'
         }
       })
-      this.$emit('listenSelected', 'mall')
+      // 通知商城信息事件
+      eventBus.$emit('refurbishMallData', {itemTypeName, quota})
     }
   },
+  beforeDestory () {},
   created () {
     this.quotas = this.$store.getters.quota
   },
@@ -91,7 +94,11 @@ export default {
       // 直接点击商城按钮
       if (this.$route.query.type === undefined) {
         if (val === 'mall') {
-          this.display = 'block'
+          if (this.$route.query.flag) {
+            this.display = 'none'
+          } else {
+            this.display = 'block'
+          }
         } else {
           this.display = 'none'
           this.$router.push({

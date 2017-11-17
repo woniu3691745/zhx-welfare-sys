@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-16 18:09:38
+ * @Last Modified time: 2017-11-17 17:04:30
  * 首页组件
  */
 <template>
@@ -48,7 +48,8 @@
             <div class="index-gifts-product-list">
               <ul>
                 <li v-for="item in bonusPackages" v-bind="item" :key="item.id">
-                  <router-link :to="{ path: '/detail', query: {id: item.id}}"><img v-bind:src="item.image"></router-link>
+                  <!-- <router-link :to="{ path: '/detail', query: {id: item.id}}"></router-link> -->
+                  <img v-bind:src="item.image" @click="detail(item.id)">
                   <div class="des">
                     <p>{{item.name}}</p>
                     <span>￥{{item.salePrice}}</span>
@@ -84,34 +85,35 @@ export default {
   name: 'mall-page',
   data () {
     return {
-      quota: this.$route.query.quota, // 余额
-      bonusPackages: [], // 大礼包
-      competitiveProducts: [], // 商品
-      categorys: [], // 商品种类
+      categoryName: '',                             // 种类名称
+      quota: this.$route.query.quota,               // 余额（通过路由获得）
+      bonusPackages: [],                            // 大礼包
+      competitiveProducts: [],                      // 商品
+      categorys: [],                                // 商品种类
       itemTypeName: this.$route.query.itemTypeName, // 种类
       index: 0,
       limit: 2
     }
   },
   created () {
-    this.get()
-    this.init()
+    // 定义商城信息事件
+    // quota 余额（通过事件参数获得）
+    // itemTypeName 额度类型
+    eventBus.$on('refurbishMallData', param => {
+      this.quota = param.quota
+      this.init(param.itemTypeName)
+      this.itemTypeName = param.itemTypeName  // 导航按钮
+    })
+  },
+  destroyed () {
+    eventBus.$off('refurbishMallData')
   },
   mounted () {
-    this.focus()
+    this.loading1()                 // 加载
+    this.init(this.itemTypeName)
+    this.focus()                    // 导航栏焦点
   },
   methods: {
-    // 加载圈
-    get () {
-      setTimeout(function () {
-        Indicator.open({
-          spinnerType: 'fading-circle'
-        })
-      }, 300)
-      setTimeout(function () {
-        Indicator.close()
-      }, 3000)
-    },
     // 下拉更多
     loadMore () {
       // this.loading = true
@@ -122,12 +124,11 @@ export default {
       // console.log('loadMore end ')
       // this.loading = false
     },
-    init () {
-      this.bonusPackagesInfo()
-      this.categoryInfo(this.itemTypeName)
-      // this.competitiveProductsInfo()
+    init (itemTypeName) {
+      this.bonusPackagesInfo()          // 大礼包
+      this.categoryInfo(itemTypeName)   // 类品过滤种类
+      this.competitiveProductsInfo()    // 品类信息
     },
-    // 大礼包接口
     bonusPackagesInfo () {
       let viewNums = {
         index: 0,
@@ -143,7 +144,6 @@ export default {
           console.log(res)
         })
     },
-    // 类品过滤种类
     categoryInfo (itemTypeName) {
       let viewNums = {
         itemType: itemTypeName
@@ -157,7 +157,6 @@ export default {
           console.log(res)
         })
     },
-    // 品类信息
     competitiveProductsInfo () {
       let viewNums = {
         index: this.index,
@@ -181,15 +180,32 @@ export default {
           console.log(res)
         })
     },
+    detail (id) {
+      // console.log('this.itemTypeName ' + this.itemTypeName)
+      this.$router.push({
+        path: '/detail',
+        query: { itemTypeName: this.itemTypeName, id: id }
+      })
+    },
     focus () {
       let select = this.$route.query.selected || 'balance'
       // 进入商城方式
       // type
       //  1、direct-> 去使用
       //  2、undirect -> 导航按钮
-      let type = this.$route.query.type
-      // 通知导航按钮
-      eventBus.$emit('focus', select, type)
+      // let type = this.$route.query.type
+      // 通知导航按钮事件
+      eventBus.$emit('focus', select)
+    },
+    loading1 () {
+      setTimeout(function () {
+        Indicator.open({
+          spinnerType: 'fading-circle'
+        })
+      }, 300)
+      setTimeout(function () {
+        Indicator.close()
+      }, 3000)
     }
   }
 }

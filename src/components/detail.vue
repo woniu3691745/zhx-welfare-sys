@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 19:04:03 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-15 15:22:10
+ * @Last Modified time: 2017-11-17 16:39:53
  * 详情
  */
 <template>
@@ -10,15 +10,13 @@
     <div class="head-fix">
       <div class="common-header">
         <mt-header title="详情">
-          <router-link to="/mall" slot="left">
+          <router-link :to="{ path: '/mall', query: {selected: 'mall', itemTypeName: this.itemTypeName, flag: 1}}" slot="left">
             <mt-button icon="back"></mt-button>
           </router-link>
         </mt-header>
       </div>
     </div>
-
     <div class="detail-body">
-      
       <div class="big-pic">
         <img src="../assets/aaa.jpg" alt="">
       </div>
@@ -31,14 +29,7 @@
       <div class="height-20"></div>
       <div class="infor-good"></div>
       <div class="height-20"></div>
-
     </div>
-
-
-
-
-
-
     <div class="detail-bottom">
       <mt-tabbar fixed>
         <mt-button size="large" type="default">
@@ -47,7 +38,6 @@
             </span>
         </mt-button>
         <mt-button type="primary" class="button-width">加入购物车</mt-button>
-        
       </mt-tabbar>
     </div>
   </div>  
@@ -61,7 +51,8 @@ export default {
       height: 0,
       goodsForm: {
         brandName: ''
-      }
+      },
+      itemTypeName: this.$route.query.itemTypeName // 种类
     }
   },
   methods: {
@@ -78,7 +69,7 @@ export default {
     }
   },
   created () {
-    this.height = document.body.offsetHeight - 80
+    // this.height = document.body.offsetHeight - 80
   },
   mounted () {
     this.goodListByIdInfo(this.$route.query.id)
@@ -87,8 +78,6 @@ export default {
 </script>
 <style lang="less" scoped>
 @import "../../static/css/util.css";
-
-
 .head-fix {
   width: 100%;
   position: fixed;
@@ -130,17 +119,6 @@ export default {
     height: 1.78rem;
   }
 }
-
-
-
-
-
-
-
-
-
-
-
 .detail-bottom {
   .mint-tabbar {
     .mint-button--large {
@@ -173,7 +151,6 @@ export default {
           right: 0;
           top: 0;
         }
-        
       }
     }
     .mint-button--normal {
@@ -188,10 +165,5 @@ export default {
       padding: 0;
     }
   }
-  
-
 }
-
-  
-
 </style>

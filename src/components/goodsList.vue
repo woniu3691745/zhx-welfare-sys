@@ -32,7 +32,7 @@
                 <div class="desc">{{item.name}}</div>
                 <span class="span-block clear">
                   <span class="sale-price left">￥{{ item.salePrice }}</span>
-                  <span class="car-shopping right"><img class="cart" src="../assets/cart.png" @click="cart()" /></span>
+                  <span class="car-shopping right"><img class="cart" src="../assets/red-car.png" @click="cart()" /></span>
                 </span>
               </div>
             </li>
@@ -192,8 +192,13 @@ export default {
         .desc {
           font-size: 0.32rem;
           color: #323232;
-          line-height: 0.36rem;
-          margin-bottom: 0.75rem
+          line-height: 0.4rem;
+          margin-bottom: 0.75rem;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+          overflow: hidden;
+          
         }
         .span-block {
           display: block;

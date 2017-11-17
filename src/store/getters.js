@@ -9,6 +9,10 @@ const getters = {
   name: state => state.user.name,
   roles: state => state.user.roles,
   token: state => state.user.token,
-  quota: state => state.user.quota
+  quota: state => state.user.quota,
+  getCardNo: state => state.register.cardNo,
+  getSigninPwd: state => state.register.signinPwd,
+  getPhoneNo: state => state.register.phoneNo,
+  getCaptchaId: state => state.register.captchaId
 }
 export default getters

@@ -1,6 +1,6 @@
 /*
- * @Author: lidongliang 
- * @Date: 2017-11-14 09:58:49 
+ * @Author: lidongliang
+ * @Date: 2017-11-14 09:58:49
  * @Last Modified by: lidongliang
  * @Last Modified time: 2017-11-14 14:17:34
  * 设置登录密码
@@ -22,26 +22,46 @@
       </div>
     </div>
     <div class="bottom">
-      <router-link :to="{ path: '/setPayPassWord'}"><mt-button class="index-login" type="primary">下一步</mt-button></router-link>
+      <mt-button class="index-login" type="primary" @click="handleSubmit">下一步</mt-button>
+      <router-link :to="{ path: '/setPayPassWord'}"><mt-button class="index-login" type="primary">下一步1</mt-button></router-link>
     </div>
   </div>
 </template>
 
 <script>
- export default {
-   name: 'setPassWord-page',
-   data () {
-     return {
-       setPassWordForm: {
-         loginPassword: '',
-         loginConfirmPassword: ''
-       }
-     }
-   },
-   methods: {
-
-   }
- }
+  import {MessageBox} from 'mint-ui'
+  export default {
+    name: 'setPassWord-page',
+    data () {
+      return {
+        setPassWordForm: {
+          loginPassword: '',
+          loginConfirmPassword: ''
+        }
+      }
+    },
+    methods: {
+      handleSubmit () {
+        const signinPwdPatten = /\w{6,20}/
+        if (!signinPwdPatten.test(this.setPassWordForm.loginPassword)) {
+          MessageBox({
+            message: '密码由6-20位英文字母、数字组成',
+            closeOnClickModal: true,
+            showConfirmButton: false
+          })
+        } else if (this.setPassWordForm.loginPassword !== this.setPassWordForm.loginConfirmPassword) {
+          MessageBox({
+            message: '两次输入的密码不一致',
+            closeOnClickModal: true,
+            showConfirmButton: false
+          })
+        } else {
+          this.$store.dispatch('VX_SET_SIGNIN_PWD', this.setPassWordForm.loginPassword)
+          this.$router.push({path: '/setPayPassWord'})
+        }
+      }
+    }
+  }
 </script>
 
 <style lang="less" scoped>

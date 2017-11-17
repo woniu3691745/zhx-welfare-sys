@@ -1,6 +1,6 @@
 /*
- * @Author: lidongliang 
- * @Date: 2017-11-14 09:58:33 
+ * @Author: lidongliang
+ * @Date: 2017-11-14 09:58:33
  * @Last Modified by: lidongliang
  * @Last Modified time: 2017-11-14 14:06:03
  * 注册
@@ -21,12 +21,16 @@
       </div>
     </div>
     <div class="bottom">
-      <router-link :to="{ path: '/bindPhoneNum'}"><mt-button class="index-login" type="primary">下一步</mt-button></router-link>
+      <mt-button class="index-login" type="primary" @click="handleSubmit">下一步</mt-button>
+      <router-link :to="{ path: '/bindPhoneNum'}"><mt-button class="index-login" type="primary">下一步1</mt-button></router-link>
     </div>
   </div>
 </template>
 
 <script>
+ import { MessageBox } from 'mint-ui'
+ import {verfiyCardAndPwd} from '@/api/register'
+ import {mapGetters} from 'vuex'
  export default {
    name: 'register-page',
    data () {
@@ -38,6 +42,60 @@
      }
    },
    methods: {
+     handleSubmit () {
+       let cardNo = this.registerForm.cardNum
+       let password = this.registerForm.cardPassWord
+       let cardNoPattern = /\d{5,7}/ // 数字 16 -19
+       let pswdLengthPattern = /\d{6}/ // 数字 16 -19
+
+       if (!cardNoPattern.test(cardNo)) {
+         MessageBox({
+           message: '卡号格式不正确',
+           closeOnClickModal: true,
+           showConfirmButton: false
+         })
+       } else if (!pswdLengthPattern.test(password)) {
+         MessageBox({
+           message: '密码格式不正确',
+           closeOnClickModal: true,
+           showConfirmButton: false
+         })
+       } else {
+         console.log('submit')
+         let reqData = {
+//           token: this.token,
+           bizData: {
+             WelfareCard: {
+               CardNo: cardNo,
+               Password: password
+             }
+           }
+         }
+         verfiyCardAndPwd(reqData).then(res => {
+           let data = res.data
+           let bizData = data.bizData
+           if (data.result) {
+             this.$store.dispatch('VX_SET_CARD_NO', cardNo)
+             this.$router.push({path: '/bindPhoneNum'})
+           } else {
+             MessageBox({
+               message: bizData.message || '验证失败',
+               closeOnClickModal: true,
+               showConfirmButton: false
+             })
+           }
+         }).catch(() => {
+           MessageBox({
+             message: '验证失败',
+             closeOnClickModal: true,
+             showConfirmButton: false
+           })
+         })
+       }
+     }
+   },
+   computed: {
+     ...mapGetters(['token'])
    }
  }
 </script>

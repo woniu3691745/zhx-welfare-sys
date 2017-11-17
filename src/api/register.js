@@ -6,6 +6,25 @@
  * 注册API
  */
 import fetch from '@/utils/fetch'
+import axios from 'axios'
+
+const tdDomain = 'http://10.7.13.109:8080'
+
+export function verfiyCardAndPwd (reqData) {
+  return axios.post(tdDomain + '/register/validateWelfare.cp', reqData)
+}
+
+export function getCaptcha (reqData) {
+  return axios.post(tdDomain + '/register/sendCaptacha.cp', reqData)
+}
+
+export function verfiyCaptcha (reqData) {
+  return axios.post(tdDomain + '/register/validateCaptacha.cp', reqData)
+}
+
+export function setPayPwd (reqData) {
+  return axios.post(tdDomain + '/register/verifyIdentity.cp', reqData)
+}
 
 // step 1 -> 福利卡
 export function cardInfo (token, cardInfo) {

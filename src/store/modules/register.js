@@ -5,19 +5,19 @@
  * @Last Modified time: 2017-11-15 11:28:11
  * 注册 module
  */
-import { cardInfo, bindPhoneInfo, stLoginPassWordInfo, setPayPassWordInfo, getIdCode } from '@/api/register'
+import { cardInfo, bindPhoneInfo, stLoginPassWordInfo, setPayPassWordInfo, getIdCode, getCaptcha } from '@/api/register'
 import { getToken } from '@/utils/auth'
+import config from '@/config'
+const captchaCooldownDuration = config.captchaCooldownDuration
 
 const register = {
-
   state: {
-    token: getToken()
-  },
-
-  mutations: {
-    SET_TOKEN: (state, token) => {
-      state.token = token
-    }
+    token: getToken(),
+    captchaId: '',
+    captchaDate: '',
+    cardNo: '',
+    phoneNo: '',
+    signinPwd: ''
   },
 
   actions: {
@@ -70,6 +70,72 @@ const register = {
           reject(error)
         })
       })
+    },
+    VX_SET_CARD_NO ({commit}, cardNo) {
+      commit('VX_SET_CARD_NO', cardNo)
+    },
+    // 获取验证码
+    VX_GET_CAPTCHA ({commit, state}, phoneNo) {
+      return new Promise((resolve, reject) => {
+        const reqData = {
+          bizData: {
+            Captacha: {
+              PhoneNo: phoneNo
+            }
+          }
+        }
+        console.log(new Date() - new Date(state.captchaDate) > captchaCooldownDuration)
+        if (!state.captchaDate || new Date() - new Date(state.captchaDate) > captchaCooldownDuration) {
+          getCaptcha(reqData).then(res => {
+            const data = res.data
+            const bizData = data.bizData
+            if (data.result) {
+              const captchaInfo = {
+                captchaId: bizData.Captacha.ID,
+                captchaDate: new Date()
+              }
+              commit('VX_GET_CAPTCHA', captchaInfo)
+              resolve()
+            } else {
+              reject(data.message)
+            }
+          }).catch(() => {
+            const err = {
+              info: '获取短信验证码失败，请重试'
+            }
+            reject(err.info)
+          })
+        } else {
+          const err = {
+            info: '短信发送过于频繁'
+          }
+          reject(err.info)
+        }
+      })
+    },
+    VX_SET_PHONE_NO ({commit}, phoneNo) {
+      commit('VX_SET_PHONE_NO', phoneNo)
+    },
+    VX_SET_SIGNIN_PWD ({commit}, signinPwd) {
+      commit('VX_SET_SIGNIN_PWD', signinPwd)
+    }
+  },
+  mutations: {
+    SET_TOKEN: (state, token) => {
+      state.token = token
+    },
+    VX_SET_CARD_NO (state, cardNo) {
+      state.cardNo = cardNo
+    },
+    VX_GET_CAPTCHA (state, captchaInfo) {
+      state.captchaId = captchaInfo.captchaId
+      state.captchaDate = captchaInfo.captchaDate
+    },
+    VX_SET_PHONE_NO (state, phoneNo) {
+      state.phoneNo = phoneNo
+    },
+    VX_SET_SIGNIN_PWD (state, signinPwd) {
+      state.signinPwd = signinPwd
     }
   }
 }

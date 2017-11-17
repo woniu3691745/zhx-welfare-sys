@@ -1,6 +1,6 @@
 /*
- * @Author: lidongliang 
- * @Date: 2017-11-14 09:58:19 
+ * @Author: lidongliang
+ * @Date: 2017-11-14 09:58:19
  * @Last Modified by: lidongliang
  * @Last Modified time: 2017-11-15 12:26:41
  * 绑定手机号
@@ -25,12 +25,17 @@
       </div>
     </div>
     <div class="bottom">
-      <router-link :to="{ path: '/setPassWord'}"><mt-button class="index-login" type="primary">下一步</mt-button></router-link>
+      <mt-button class="index-login" type="primary" @click="handleSubmit">下一步</mt-button>
+      <router-link :to="{ path: '/setPassWord'}"><mt-button class="index-login" type="primary">下一步1</mt-button></router-link>
     </div>
   </div>
 </template>
 
 <script>
+import {MessageBox} from 'mint-ui'
+import {mapGetters} from 'vuex'
+import {verfiyCaptcha} from '@/api/register'
+const phoneNoPattern = /^1\d{10}/ //
 export default {
   name: 'bindPhoneNum-page',
   data () {
@@ -45,15 +50,24 @@ export default {
   },
   methods: {
     getIdCode () {
+      const phoneNo = this.bindForm.phoneNum
+      if (!phoneNoPattern.test(phoneNo)) {
+        MessageBox({
+          message: '请填写正确的手机号',
+          closeOnClickModal: true,
+          showConfirmButton: false
+        })
+        return
+      }
       this.setTime()
-      this.$store
-        .dispatch('GetIdCode', this.loginForm)
-        .then(res => {
-          // console.log('res -> ' + JSON.stringify(res))
+      this.$store.dispatch('VX_GET_CAPTCHA', phoneNo).catch(err => {
+        console.log('err', err)
+        MessageBox({
+          message: err || '短信验证码获取失败，请重试',
+          closeOnClickModal: true,
+          showConfirmButton: false
         })
-        .catch(res => {
-          console.log(res)
-        })
+      })
     },
     setTime () {
       let me = this
@@ -65,7 +79,63 @@ export default {
           window.clearInterval(interval)
         }
       }, 1000)
+    },
+    handleSubmit () {
+      const phoneNo = this.bindForm.phoneNum
+      const captcha = this.bindForm.identifyingCode
+      const captchaPattern = /\d{6}/ // 6位验证码
+
+      if (!phoneNoPattern.test(phoneNo)) {
+        MessageBox({
+          message: '手机号格式不正确',
+          closeOnClickModal: true,
+          showConfirmButton: false
+        })
+      } else if (!captchaPattern.test(captcha)) {
+        MessageBox({
+          message: '请输入6位数字验证码',
+          closeOnClickModal: true,
+          showConfirmButton: false
+        })
+      } else {
+        const reqData = {
+//          token: this.token,
+          bizData: {
+            Captacha: {
+              PhoneNo: phoneNo,
+              ID: this.getCaptchaId,
+              Code: this.bindForm.identifyingCode
+            }
+          }
+        }
+        console.log('reqData', reqData)
+        verfiyCaptcha(reqData).then(res => {
+          console.log('verfiy', res)
+          const data = res.data
+          const bizData = data.bizData
+          if (data.result) {
+            this.$store.dispatch('VX_SET_PHONE_NO', phoneNo)
+            this.$router.push({path: '/setPassWord'})
+          } else {
+            MessageBox({
+              message: bizData.message || '验证失败',
+              closeOnClickModal: true,
+              showConfirmButton: false
+            })
+          }
+        }).catch((err) => {
+          console.log('err', err)
+          MessageBox({
+            message: '验证失败',
+            closeOnClickModal: true,
+            showConfirmButton: false
+          })
+        })
+      }
     }
+  },
+  computed: {
+    ...mapGetters(['token', 'getCaptchaId'])
   }
 }
 </script>

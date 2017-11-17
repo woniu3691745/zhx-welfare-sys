@@ -1,6 +1,6 @@
 /*
- * @Author: lidongliang 
- * @Date: 2017-11-14 09:59:01 
+ * @Author: lidongliang
+ * @Date: 2017-11-14 09:59:01
  * @Last Modified by: lidongliang
  * @Last Modified time: 2017-11-14 15:04:45
  * 登录
@@ -16,7 +16,7 @@
     </div>
     <div class="body">
       <div class="common-form-filed">
-        <mt-field label="账号" placeholder="手机号/福利卡号/福利账号" v-model="loginForm.account"></mt-field>
+        <mt-field label="账号" placeholder="手机号" v-model="loginForm.account"></mt-field>
         <mt-field label="登录密码" placeholder="请填写登录密码" type="password" v-model="loginForm.loginPassWord"></mt-field>
       </div>
     </div>
@@ -32,6 +32,7 @@
 
 <script>
 import { MessageBox } from 'mint-ui'
+const phoneNoPattern = /^1\d{10}/ //
 export default {
   name: 'login-page',
   data () {
@@ -44,7 +45,7 @@ export default {
   },
   methods: {
     onSubmit: function () {
-      if (this.loginForm.account === '') {
+      if (phoneNoPattern.test(this.loginForm.account)) {
         MessageBox({
           message: '请填写账户',
           closeOnClickModal: true,

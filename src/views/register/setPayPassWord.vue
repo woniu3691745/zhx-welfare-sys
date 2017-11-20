@@ -19,8 +19,8 @@
       <div class="common-form-filed">
         <mt-field label="姓名" placeholder="请输入姓名" v-model="setPayPassWordForm.username"></mt-field>
         <mt-field label="身份证号" placeholder="请填写您本人的身份证号" v-model="setPayPassWordForm.identityCard"></mt-field>
-        <mt-field label="支付密码" placeholder="请输入6位密码" v-model="setPayPassWordForm.payPassWord"></mt-field>
-        <mt-field label="确认密码" placeholder="请再次输入您的支付密码" v-model="setPayPassWordForm.confirmPayPassWord"></mt-field>
+        <mt-field label="支付密码" type="password" placeholder="请输入6位密码" v-model="setPayPassWordForm.payPassWord"></mt-field>
+        <mt-field label="确认密码" type="password" placeholder="请再次输入您的支付密码" v-model="setPayPassWordForm.confirmPayPassWord"></mt-field>
         <div class="pwd-totip">温馨提示：支付密码必须与登录密码不同，支付时需要使用支付密码；为确保您的账号，身份证号码是您找回密码的唯一凭证。</div>
       </div>
     </div>
@@ -57,7 +57,6 @@
         const customerNamePatten = /\W{2,6}/
         const payPwdPatten = /\d{6}/
 
-        console.log(customerNamePatten, payPwdPatten)
         if (!customerNamePatten.test(this.setPayPassWordForm.username)) {
           MessageBox({
             message: '请输入正确的姓名',
@@ -82,6 +81,12 @@
             closeOnClickModal: true,
             showConfirmButton: false
           })
+        } else if (this.setPayPassWordForm.payPassWord === this.getSigninPwd) {
+          MessageBox({
+            message: '支付密码不能与登录密码相同',
+            closeOnClickModal: true,
+            showConfirmButton: false
+          })
         } else {
           const reqData = {
             bizData: {
@@ -95,6 +100,7 @@
               }
             }
           }
+          console.log('page submit', reqData)
           setPayPwd(reqData).then(res => {
             const data = res.data
             if (data.result) {

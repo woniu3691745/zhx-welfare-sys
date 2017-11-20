@@ -81,6 +81,7 @@ function checkIdcard (idcard) {
   }
   var idcard, Y, JYM;
   var S, M;
+  var ereg;
   var idcard_array = new Array();
   idcard_array = idcard.split("");
   //地区检验

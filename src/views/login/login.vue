@@ -32,7 +32,8 @@
 
 <script>
 import { MessageBox } from 'mint-ui'
-const phoneNoPattern = /^1\d{10}/ //
+const phoneNoPattern = /^1\d{10}/
+const signinPwdPatten = /\w{6,20}/
 export default {
   name: 'login-page',
   data () {
@@ -45,40 +46,59 @@ export default {
   },
   methods: {
     onSubmit: function () {
-      if (phoneNoPattern.test(this.loginForm.account)) {
+      if (!phoneNoPattern.test(this.loginForm.account)) {
         MessageBox({
           message: '请填写账户',
           closeOnClickModal: true,
           showConfirmButton: false
         })
-      } else if (this.loginForm.loginPassWord === '') {
+      } else if (!signinPwdPatten.test(this.loginForm.loginPassWord)) {
         MessageBox({
-          message: '请填写密码',
+          message: '密码格式错',
           closeOnClickModal: true,
           showConfirmButton: false
         })
-      }
-      // 登录
-      if (
-        this.loginForm.account !== '' &&
-        this.loginForm.loginPassWord !== ''
-      ) {
-        this.$store
-          .dispatch('LoginByUserName', this.loginForm)
-          .then(res => {
-            console.log('res -> ' + JSON.stringify(res))
-            this.$router.push({
-              path: '/home',
-              query: { selected: 'balance' }
-            })
+      } else {
+        const reqData = {
+          bizData: {
+            Login: {
+              PhoneNo: this.loginForm.account,
+              SigninPwd: this.loginForm.loginPassWord
+            }
+          }
+        }
+        this.$store.dispatch('LoginByUserName', reqData).then(res => {
+          console.log('res -> ' + JSON.stringify(res))
+          this.$router.push({
+            path: '/home',
+            query: { selected: 'balance' }
           })
+        })
           .catch(res => {
             console.log(res)
           })
-      } else {
-        console.log('error submit!!')
-        return false
       }
+      // 登录
+//      if (
+//        this.loginForm.account !== '' &&
+//        this.loginForm.loginPassWord !== ''
+//      ) {
+//        this.$store
+//          .dispatch('LoginByUserName', this.loginForm)
+//          .then(res => {
+//            console.log('res -> ' + JSON.stringify(res))
+//            this.$router.push({
+//              path: '/home',
+//              query: { selected: 'balance' }
+//            })
+//          })
+//          .catch(res => {
+//            console.log(res)
+//          })
+//      } else {
+//        console.log('error submit!!')
+//        return false
+//      }
     }
   }
 }

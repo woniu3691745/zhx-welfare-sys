@@ -24,7 +24,7 @@
             <span class="tel right">11111111111</span> 
           </div>
           <div class="position-fix">
-            <img class="address-icon" slot="icon" src="../../assets/aaa.jpg" width="24" height="24">
+            <img class="address-icon" slot="icon" src="../../assets/aaa.jpg">
             <p>收货地址收货地址收货地址收货地址</p>
             <img class="next-icon" slot="icon" src="../../assets/aaa.jpg">
           </div>
@@ -39,7 +39,7 @@
         
       </div>
 
-      <div class="hheight-22"></div>
+      <div class="height-22"></div>
       <div class="clear nomeny-cue">
         <span class="left shop-kind">日用品</span>
         <span class="right shop-delait">可使用额度：￥300.00</span>
@@ -66,7 +66,7 @@
         <span class="left shop-kind">运费 ¥20.00 </span>
         <span class="right shop-delait">已减免</span>
       </div>
-      <div class="hheight-22"></div>
+      <div class="height-22"></div>
       <div class="clear nomeny-alls border-1px">
         <span class="right shop-kind">¥20.00 </span>
         <span class="right shop-delait">共1件商品 使用额度支付小计：</span>
@@ -183,7 +183,7 @@
       .add-adderss {
         padding: 0.58rem 0 0.7rem 0;
         .button-width {
-          border: 2px solid #C8C8C8;
+          border: 1px solid #C8C8C8;
           box-sizing: border-box;
           border-radius: 8px;
           width: 1.96rem;
@@ -196,7 +196,7 @@
         }
       }      
     }
-    .hheight-22 {
+    .height-22 {
       height: 0.22rem;
       background: #F5F5F5;
     }

@@ -17,7 +17,7 @@
     <div class="mine-body">
       <div>
         <div class="header-pic-container clear">
-          <img class="left" src="../../assets/aaa.jpg" alt="">
+          <img class="left" src="../../assets/group.png" alt="">
           <div class="left user-name-container">
             <p>ID：用户名</p>
             <p>用户的企业名称</p>
@@ -32,21 +32,21 @@
       <div class="mine-order-contain">
         <div>
           <div>
-            <img class="left" src="../../assets/aaa.jpg" alt="">
+            <img class="left" src="../../assets/needPay.png" alt="">
             <p>99</p>
           </div>
           <p>待付款</p>
         </div>
         <div>
           <div>
-            <img class="left" src="../../assets/aaa.jpg" alt="">
+            <img class="left" src="../../assets/pendingShipment.png" alt="">
             <p>99</p>
           </div>
           <p>待付款</p>
         </div>
         <div>
           <div>
-            <img class="left" src="../../assets/aaa.jpg" alt="">
+            <img class="left" src="../../assets/allOrder.png" alt="">
             <p>99</p>
           </div>
           <p>待付款</p>
@@ -137,7 +137,7 @@ export default {
         p {
           position: absolute;
           right: -0.13rem;
-          top: -0.08rem;
+          top: 0;
           background: #FFFFFF;
           border: 1px solid #FB4E51;
           color: #FB4E51;
@@ -148,6 +148,7 @@ export default {
           text-align: center;
           font-size: 0.22rem;
           box-sizing: border-box;
+          margin-top: 0;
         }
       }
       p {

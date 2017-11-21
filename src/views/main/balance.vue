@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 19:04:29 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-21 11:18:53
+ * @Last Modified time: 2017-11-21 19:12:25
  * 额度
  */
 <template>
@@ -54,7 +54,7 @@
             </div>
             </div>
           <div class="button">
-            <mt-button type="danger" size="large" @click="use(item.typeId, item.balance)">去使用</mt-button>
+            <mt-button type="danger" size="large" @click="use(item.typeId)">去使用</mt-button>
           </div>
           <div class="description">
             <span>可用品类：{{item.desc}}</span>
@@ -62,7 +62,7 @@
         </div>
       </div>
       <div class="advice">
-        <p class="kindly-reminder" v-if="quotas.length > 1">温馨提示：您每次只能选择一种品类进行支付和购物</p>
+        <!-- <p class="kindly-reminder" v-if="quotas.length > 1">温馨提示：您每次只能选择一种品类进行支付和购物</p> -->
         <div class="importants">
           <span>重要提示：</span>
           <p class="margin-top">1、请在有效期内使用您的额度，过期后额度将清零作废，额度有效期由您所在的企业规定。</p>
@@ -103,9 +103,8 @@ export default {
     * typeId 额度种类
     * selected 导航
     * type 进入商城方式
-    * quota 商城余额
     */
-    use (typeId, quota) {
+    use (typeId) {
       // this.$router.push({path: '/mall', params: {categoryId: categoryId}})
       this.$router.push({
         path: '/mall',
@@ -113,8 +112,7 @@ export default {
           typeId: typeId,
           selected: 'mall',
           type: 'direct',
-          flag: '1',
-          quota: quota
+          flag: '1'
         }
       })
     }

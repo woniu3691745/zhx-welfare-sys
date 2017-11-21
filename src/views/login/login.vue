@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-11-14 09:59:01
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-21 10:29:57
+ * @Last Modified time: 2017-11-21 20:16:18
  * 登录
  */
 <template>
@@ -68,7 +68,7 @@ export default {
           }
         }
         this.$store.dispatch('LoginByUserName', reqData).then(res => {
-          console.log('res -> ' + JSON.stringify(res))
+          // console.log('res -> ' + JSON.stringify(res))
           this.$router.push({
             path: '/home',
             query: { selected: 'balance' }

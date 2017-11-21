@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 19:03:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-21 15:03:49
+ * @Last Modified time: 2017-11-21 20:32:23
  * 导航
  */
 <template>
@@ -72,6 +72,7 @@ export default {
     * type 进入商城方式
     */
     commonGo (typeId, balance) {
+      // console.log('typeId = ' + typeId, 'balance = ' + balance)
       this.display = 'none'
       this.$router.push({
         path: '/mall',

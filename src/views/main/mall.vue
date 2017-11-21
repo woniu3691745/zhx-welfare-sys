@@ -2,18 +2,18 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-21 15:42:17
+ * @Last Modified time: 2017-11-21 20:40:16
  * 首页组件
  */
 <template>
   <div class="index-container">
     <div class="body-top clear">
       <div class="search left">
-        日用品 |
+        {{typeName}} |
       </div>
       <div class="index-money left">
           <span>余额：</span>
-          <span>￥{{quota}}</span>
+          <span>￥{{balance}}</span>
       </div>
       <span class="right shop-car">
         <router-link :to="{ path: '/cart', query: {typeId: this.typeId}}"> 
@@ -47,7 +47,7 @@
           <div class="index-gifts-body">
             <div class="index-gifts-product-list">
               <ul>
-                <li v-for="item in bonusPackages" v-bind="item" :key="item.productId">
+                <li v-for="item in bonusPackages"  :key="item.productId">
                   <!-- <router-link :to="{ path: '/detail', query: {id: item.id}}"></router-link> -->
                   <img v-bind:src="item.imgUrl" @click="detail(item.productId)">
                   <div class="des">
@@ -65,11 +65,11 @@
           </ul>
         </div>
       </li>
-      <li v-for="item in competitiveProducts" v-bind="item" :key="item.productId" class="left lis">
-        <router-link :to="{ path: '/detail', query: {id: item.productId}}"><img v-bind:src="item.imgUrl"></router-link>
+      <li v-for="n in competitiveProducts" :key="n.productId" class="left lis">
+        <router-link :to="{ path: '/detail', query: {id: n.productId}}"><img v-bind:src="n.imgUrl"></router-link>
         <div class="des">
-          <p>{{item.productName}}</p>
-          <span>￥{{item.salePrice}}</span>
+          <p>{{n.productName}}</p>
+          <span>￥{{n.salePrice}}</span>
         </div>
       </li>
     </ul>  
@@ -85,8 +85,9 @@ export default {
   name: 'mall-page',
   data () {
     return {
-      categoryName: '',                             // 种类名称
-      quota: this.$route.query.quota,               // 余额（通过路由获得）
+      typeName: '',                             // 种类名称
+      // quota: this.$route.query.quota,               // 余额（通过路由获得）
+      balance: '',
       bonusPackages: [],                            // 大礼包
       competitiveProducts: [],                      // 商品
       categorys: [],                                // 商品种类
@@ -100,7 +101,7 @@ export default {
     // quota 余额（通过事件参数获得）
     // typeId 额度类型
     eventBus.$on('refurbishMallData', param => {
-      this.quota = param.quota
+      // this.quota = param.quota
       this.init(param.typeId)
       this.typeId = param.typeId  // 导航按钮
     })
@@ -119,12 +120,13 @@ export default {
       // this.loading = true
       // console.log('loadMore start ')
       setTimeout(() => {
-        this.competitiveProductsInfo()
+        this.competitiveProductsInfo(this.typeId)
       }, 1000)
       // console.log('loadMore end ')
       // this.loading = false
     },
     init (typeId) {
+      this.index = 0
       this.bonusPackagesInfo(typeId)            // 大礼包
       this.categoryInfo(typeId)                 // 类品过滤种类
       this.competitiveProductsInfo(typeId)      // 品类信息
@@ -132,11 +134,13 @@ export default {
     },
     quotaInfo (typeId) {
       let categoryInfo = {
-        category: typeId
+        productTypeId: typeId
       }
       this.$store
         .dispatch('QuotaInfo', categoryInfo)
         .then(res => {
+          this.balance = res.balance
+          this.typeName = res.typeName
         })
         .catch(res => {
           console.log(res)
@@ -147,12 +151,11 @@ export default {
         index: 0,
         limit: 5,
         sequenceType: 0,
-        productTypeId: this.typeId || typeId
+        productTypeId: typeId
       }
       this.$store
         .dispatch('BonusPackagesInfo', viewNums)
         .then(res => {
-          // console.log('bonusPackagesInfo', res)
           this.bonusPackages = res.data
         })
         .catch(res => {
@@ -166,7 +169,6 @@ export default {
       this.$store
         .dispatch('CatalogueInfo', viewNums)
         .then(res => {
-          // console.log('Catalogueinfo', res)
           this.categorys = res.data
         })
         .catch(res => {
@@ -178,12 +180,11 @@ export default {
         index: this.index,
         limit: this.limit,
         sequenceType: 0,
-        productTypeId: this.typeId || typeId
+        productTypeId: typeId
       }
       this.$store
         .dispatch('CompetitiveProductsInfo', viewNums)
         .then(res => {
-          // console.log('CompetitiveProductsInfo', res)
           if (this.competitiveProducts.length === 0) {
             this.competitiveProducts = res.data
           } else {
@@ -199,7 +200,6 @@ export default {
         })
     },
     detail (id) {
-      // console.log('this.typeId ' + this.typeId)
       this.$router.push({
         path: '/detail',
         query: { typeId: this.typeId, id: id }

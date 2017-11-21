@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-10-18 15:33:14
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-21 15:42:05
+ * @Last Modified time: 2017-11-21 20:31:15
  * 主页信息 module
  */
 import { bonusPackagesInfo, competitiveProductsInfo, quotaInfo } from '@/api/index'
@@ -49,8 +49,7 @@ const index = {
     // 通过额度种类获得种类额度信息
     QuotaInfo ({ commit, state }, category) {
       return new Promise((resolve, reject) => {
-        quotaInfo(state.token, category).then(response => {
-          console.log('response.data.data ' + response.data.data)
+        quotaInfo(state.token, category.productTypeId).then(response => {
           resolve(response.data.data)
         }).catch(error => {
           reject(error)

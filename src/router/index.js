@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-10-12 17:58:36
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-16 20:39:07
+ * @Last Modified time: 2017-11-21 09:47:26
  * 路由
  */
 
@@ -65,6 +65,8 @@ export const constantRouterMap = [
   { path: '/inputPwd', name: '支付密码', component: resolve => require(['@/views/order/inputPwd.vue'], resolve) },
   { path: '/success', name: '支付成功', component: resolve => require(['@/views/order/success.vue'], resolve) },
   { path: '/fail', name: '支付失败', component: resolve => require(['@/views/order/fail.vue'], resolve) },
+  { path: '/orderDetail', name: '订单详情', component: resolve => require(['@/views/order/orderDetail.vue'], resolve) },
+  { path: '/logisticsDetail', name: '物流详情', component: resolve => require(['@/views/order/logisticsDetail.vue'], resolve) },
 
   /**
    * 我的

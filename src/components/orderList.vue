@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-19 19:50:05 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-16 20:21:46
+ * @Last Modified time: 2017-11-21 09:42:38
  * 订单列表
  *
  * @translate-change="translateChange"
@@ -26,16 +26,17 @@
                 <span class="right order-status">待收货</span>
               </p>
               <div class="all-thing">
-                <div class="all-thing-pic">
-                  <img slot="icon" src="../assets/aaa.jpg" width="24" height="24">
-                  <img slot="icon" src="../assets/aaa.jpg" width="24" height="24">
-                  <img slot="icon" src="../assets/aaa.jpg" width="24" height="24">
-                  <img slot="icon" src="../assets/aaa.jpg" width="24" height="24">
-                  <img slot="icon" src="../assets/aaa.jpg" width="24" height="24">
-                  <img slot="icon" src="../assets/aaa.jpg" width="24" height="24">
-                  <img slot="icon" src="../assets/aaa.jpg" width="24" height="24">
-                </div>
-               
+                <router-link to="/orderDetail">
+                  <div class="all-thing-pic">
+                    <img slot="icon" src="../assets/aaa.jpg" width="24" height="24">
+                    <img slot="icon" src="../assets/aaa.jpg" width="24" height="24">
+                    <img slot="icon" src="../assets/aaa.jpg" width="24" height="24">
+                    <img slot="icon" src="../assets/aaa.jpg" width="24" height="24">
+                    <img slot="icon" src="../assets/aaa.jpg" width="24" height="24">
+                    <img slot="icon" src="../assets/aaa.jpg" width="24" height="24">
+                    <img slot="icon" src="../assets/aaa.jpg" width="24" height="24">
+                  </div>
+                </router-link>
               </div>
               <div class="pay-money">
                 <p class="reality-money">共1件商品   实付款 <span>￥14.90</span></p>

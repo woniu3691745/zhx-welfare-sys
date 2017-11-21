@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-21 14:09:03
+ * @Last Modified time: 2017-11-21 15:42:17
  * 首页组件
  */
 <template>
@@ -47,11 +47,11 @@
           <div class="index-gifts-body">
             <div class="index-gifts-product-list">
               <ul>
-                <li v-for="item in bonusPackages" v-bind="item" :key="item.id">
+                <li v-for="item in bonusPackages" v-bind="item" :key="item.productId">
                   <!-- <router-link :to="{ path: '/detail', query: {id: item.id}}"></router-link> -->
-                  <img v-bind:src="item.image" @click="detail(item.id)">
+                  <img v-bind:src="item.imgUrl" @click="detail(item.productId)">
                   <div class="des">
-                    <p>{{item.name}}</p>
+                    <p>{{item.productName}}</p>
                     <span>￥{{item.salePrice}}</span>
                   </div>
                 </li>
@@ -65,10 +65,10 @@
           </ul>
         </div>
       </li>
-      <li v-for="item in competitiveProducts" v-bind="item" :key="item.id" class="left lis">
-        <router-link :to="{ path: '/detail', query: {id: item.id}}"><img v-bind:src="item.image"></router-link>
+      <li v-for="item in competitiveProducts" v-bind="item" :key="item.productId" class="left lis">
+        <router-link :to="{ path: '/detail', query: {id: item.productId}}"><img v-bind:src="item.imgUrl"></router-link>
         <div class="des">
-          <p>{{item.name}}</p>
+          <p>{{item.productName}}</p>
           <span>￥{{item.salePrice}}</span>
         </div>
       </li>
@@ -125,10 +125,10 @@ export default {
       // this.loading = false
     },
     init (typeId) {
-      this.bonusPackagesInfo()          // 大礼包
-      this.categoryInfo(typeId)   // 类品过滤种类
-      this.competitiveProductsInfo()    // 品类信息
-      // this.quotaInfo(typeId)      // 通过额度种类获得额度信息
+      this.bonusPackagesInfo(typeId)            // 大礼包
+      this.categoryInfo(typeId)                 // 类品过滤种类
+      this.competitiveProductsInfo(typeId)      // 品类信息
+      this.quotaInfo(typeId)                    // 通过额度种类获得额度信息
     },
     quotaInfo (typeId) {
       let categoryInfo = {
@@ -137,22 +137,22 @@ export default {
       this.$store
         .dispatch('QuotaInfo', categoryInfo)
         .then(res => {
-          console.log('res = ' + res.data)
         })
         .catch(res => {
           console.log(res)
         })
     },
-    bonusPackagesInfo () {
+    bonusPackagesInfo (typeId) {
       let viewNums = {
         index: 0,
         limit: 5,
-        sequenceType: 0
+        sequenceType: 0,
+        productTypeId: this.typeId || typeId
       }
       this.$store
         .dispatch('BonusPackagesInfo', viewNums)
         .then(res => {
-          console.log('bonusPackagesInfo', res)
+          // console.log('bonusPackagesInfo', res)
           this.bonusPackages = res.data
         })
         .catch(res => {
@@ -166,23 +166,24 @@ export default {
       this.$store
         .dispatch('CatalogueInfo', viewNums)
         .then(res => {
-          console.log('Catalogueinfo', res)
+          // console.log('Catalogueinfo', res)
           this.categorys = res.data
         })
         .catch(res => {
           console.log(res)
         })
     },
-    competitiveProductsInfo () {
+    competitiveProductsInfo (typeId) {
       let viewNums = {
         index: this.index,
         limit: this.limit,
-        sequenceType: 0
+        sequenceType: 0,
+        productTypeId: this.typeId || typeId
       }
       this.$store
         .dispatch('CompetitiveProductsInfo', viewNums)
         .then(res => {
-          console.log('CompetitiveProductsInfo', res)
+          // console.log('CompetitiveProductsInfo', res)
           if (this.competitiveProducts.length === 0) {
             this.competitiveProducts = res.data
           } else {

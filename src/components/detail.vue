@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 19:04:03 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-20 10:16:11
+ * @Last Modified time: 2017-11-21 16:07:41
  * 商品详情
  */
 <template>
@@ -18,13 +18,13 @@
     </div>
     <div class="detail-body">
       <div class="big-pic">
-        <img src="../assets/aaa.jpg" alt="">
+        <img v-bind:src="goodsForm.imgUrl">
       </div>
       <p class="goods-name">
-        {{goodsForm.des}}
+        {{goodsForm.productName}}
       </p>
       <span class="good-money">
-        ￥{{goodsForm.price}}
+        ￥{{goodsForm.salePrice}}
       </span>
       <div class="height-20"></div>
       <div class="infor-good"></div>
@@ -34,7 +34,7 @@
       <mt-tabbar fixed>
         <mt-button size="large" type="default">
             <span class="right shop-car">
-              <span>{{goodsForm.cartNum}}</span>
+              <span>{{goodsForm.saleCount}}</span>
             </span>
         </mt-button>
         <mt-button type="primary" class="button-width" @click="addCart">加入购物车</mt-button>
@@ -48,10 +48,11 @@ export default {
   data () {
     return {
       goodsForm: {
-        id: this.$route.query.id,   // 商品ID
-        des: '卓蓝雅 生姜防脱生发无硅油洗发脱生发无硅油洗发水，礼品包装',  // 商品描述
-        price: '58.9',    // 价格
-        cartNum: '99'     // 购物车数量
+        productTypeId: this.$route.query.id,   // 商品ID
+        imgUrl: '',                            // 商品图片
+        productName: '',                       // 商品描述
+        salePrice: '',                         // 价格
+        saleCount: ''                          // 购物车数量
       },
       typeId: this.$route.query.typeId // 种类
     }
@@ -60,9 +61,9 @@ export default {
     goodListByIdInfo (id) {
       this.$store
         .dispatch('GoodListById', id)
-        .then(res => {
-          // this.goodList = res.data
-          // console.log('-> ' + JSON.stringify(res.data))
+        .then(req => {
+          console.log('req.data ' + JSON.stringify(req.data))
+          Object.assign(this.goodsForm, req.data)
         })
         .catch(res => {
           console.log(res)
@@ -76,7 +77,7 @@ export default {
     // this.height = document.body.offsetHeight - 80
   },
   mounted () {
-    this.goodListByIdInfo(this.id)
+    this.goodListByIdInfo(this.goodsForm.productTypeId)
   }
 }
 </script>

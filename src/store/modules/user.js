@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-10-18 15:33:14
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-21 11:03:53
+ * @Last Modified time: 2017-11-21 15:42:44
  * 用户信息 module
  */
 import { loginByUserName, logout, getUserInfo, resetLoginPassword, getIdCode } from '@/api/login'
@@ -54,7 +54,6 @@ const user = {
     // 获取用户信息
     GetUserInfo ({ commit, state }) {
       return new Promise((resolve, reject) => {
-        console.log(state.token)
         getUserInfo(state.token).then(response => {
           const data = response.data
           commit('SET_QUOTA', data.data)

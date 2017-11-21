@@ -172,6 +172,16 @@ export default {
     background: #f5f5f5;
     padding-left: 0.2rem;
   }
+  
+}
+.mine-header {
+  margin-top: 0.4rem;
+  button {
+    font-size: 0.32rem;
+    width: 6.8rem;
+    margin: 0 auto;
+    height: 0.88rem;
+  }
 }
 // .mine {
 //   padding: 0 0;

@@ -151,17 +151,15 @@ export default {
       img {
         width: 0.39rem;
         height: 0.39rem;
-        margin: 0.03rem auto 0 auto;
-      }
-      .big-img {
-        width: 0.43rem;
-        height: 0.43rem;
         margin: 0 auto 0 auto;
       }
+      // .big-img {
+      //   width: 0.43rem;
+      //   height: 0.43rem;
+      //   margin: 0 auto 0 auto;
+      // }
     }
-    .mint-tab-item-label {
-      font-size: 0.2rem;
-    }
+    
   }
 }
 

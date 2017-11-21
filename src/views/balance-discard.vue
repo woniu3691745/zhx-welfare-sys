@@ -19,9 +19,9 @@
           </mt-swipe-item>
         </mt-swipe>
       </div>
-      <div class="wrapper" v-for="item in quotas" :key="item.itemTypeName">
+      <div class="wrapper" v-for="item in quotas" :key="item.typeId">
          <div class="show-name-all clear">
-           <span class="title left">{{item.itemTypeName}}</span>
+           <span class="title left">{{item.typeId}}</span>
            <span class="right shop-car">
              <span>99</span>
            </span>

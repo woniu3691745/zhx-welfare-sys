@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 19:04:29 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-16 15:52:22
+ * @Last Modified time: 2017-11-21 11:18:53
  * 额度
  */
 <template>
@@ -26,19 +26,19 @@
           </mt-swipe-item>
         </mt-swipe>
       </div>
-      <div class="wrapper" v-for="item in quotas" :key="item.itemTypeName">
+      <div class="wrapper" v-for="item in quotas" :key="item.typeId">
          <div class="show-name-all clear">
-           <span class="title left">{{item.itemTypeName}}</span>
-           <router-link :to="{ path: '/cart', query: {itemTypeId: item.itemTypeId}}">
+           <span class="title left">{{item.typeName}}</span>
+           <router-link :to="{ path: '/cart', query: {itemTypeId: item.typeId}}">
             <span class="right shop-car">
               <span>99</span>
             </span>
            </router-link>
          </div>
         <div class="content">
-          <router-link :to="{ path: '/', query: {itemTypeId: item.itemTypeId}}">
-            <div class="warn clear" v-if="item.expireWarn !== ''">
-              <span class="prompt left">{{item.expireWarn}}</span>
+          <router-link :to="{ path: '/', query: {itemTypeId: item.typeId}}">
+            <div class="warn clear" v-if="item.limitFlag !== ''">
+              <span class="prompt left">{{item.limitFlag}}</span>
               <span class="right detail">查看</span>
             </div> 
             <div v-else :style="{ height: height + 'rem' }">
@@ -50,11 +50,11 @@
               <span>可以用余额：</span>
             </div>
             <div class="balance-middle left">
-              <span>￥{{item.quota}}</span>
+              <span>￥{{item.balance}}</span>
             </div>
             </div>
           <div class="button">
-            <mt-button type="danger" size="large" @click="use(item.itemTypeId, item.quota)">去使用</mt-button>
+            <mt-button type="danger" size="large" @click="use(item.typeId, item.balance)">去使用</mt-button>
           </div>
           <div class="description">
             <span>可用品类：{{item.desc}}</span>
@@ -100,17 +100,17 @@ export default {
       eventBus.$emit('focus', select)
     },
     /*
-    * itemTypeName 额度种类
+    * typeId 额度种类
     * selected 导航
     * type 进入商城方式
     * quota 商城余额
     */
-    use (itemTypeName, quota) {
+    use (typeId, quota) {
       // this.$router.push({path: '/mall', params: {categoryId: categoryId}})
       this.$router.push({
         path: '/mall',
         query: {
-          itemTypeName: itemTypeName,
+          typeId: typeId,
           selected: 'mall',
           type: 'direct',
           flag: '1',

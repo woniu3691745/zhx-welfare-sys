@@ -33,8 +33,8 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api/': {
-        // target: 'http://10.6.10.58:8080',
-        target: 'http://10.7.13.78:8080',
+        target: 'http://10.6.10.58:8080',
+        // target: 'http://10.7.13.78:8080',
         changeOrigin: true,
         pathRewrite: {
             '^/api': '/WelfareMall-interface'

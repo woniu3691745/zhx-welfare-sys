@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-21 09:28:38
+ * @Last Modified time: 2017-11-21 14:09:03
  * 首页组件
  */
 <template>
@@ -16,7 +16,7 @@
           <span>￥{{quota}}</span>
       </div>
       <span class="right shop-car">
-        <router-link :to="{ path: '/cart', query: {itemTypeName: this.itemTypeName}}"> 
+        <router-link :to="{ path: '/cart', query: {typeId: this.typeId}}"> 
           <span >99</span>
         </router-link>
       </span>
@@ -41,7 +41,7 @@
           <div class="index-gifts-title clear">
             <span class="title-content">超级大礼包</span> 
             <div class="index-gifts-title-link right    ">
-              <router-link id="goodsList" :to="{ path: '/goodsList', query: {itemTypeName: this.itemTypeName}}"><span>查看全部></span></router-link>
+              <router-link id="goodsList" :to="{ path: '/goodsList', query: {typeId: this.typeId}}"><span>查看全部></span></router-link>
             </div>
           </div>
           <div class="index-gifts-body">
@@ -90,7 +90,7 @@ export default {
       bonusPackages: [],                            // 大礼包
       competitiveProducts: [],                      // 商品
       categorys: [],                                // 商品种类
-      itemTypeName: this.$route.query.itemTypeName, // 种类
+      typeId: this.$route.query.typeId,             // 种类
       index: 0,
       limit: 2
     }
@@ -98,11 +98,11 @@ export default {
   created () {
     // 定义商城信息事件
     // quota 余额（通过事件参数获得）
-    // itemTypeName 额度类型
+    // typeId 额度类型
     eventBus.$on('refurbishMallData', param => {
       this.quota = param.quota
-      this.init(param.itemTypeName)
-      this.itemTypeName = param.itemTypeName  // 导航按钮
+      this.init(param.typeId)
+      this.typeId = param.typeId  // 导航按钮
     })
   },
   destroyed () {
@@ -110,7 +110,7 @@ export default {
   },
   mounted () {
     this.loading1()                 // 加载
-    this.init(this.itemTypeName)
+    this.init(this.typeId)
     this.focus()                    // 导航栏焦点
   },
   methods: {
@@ -124,15 +124,15 @@ export default {
       // console.log('loadMore end ')
       // this.loading = false
     },
-    init (itemTypeName) {
+    init (typeId) {
       this.bonusPackagesInfo()          // 大礼包
-      this.categoryInfo(itemTypeName)   // 类品过滤种类
+      this.categoryInfo(typeId)   // 类品过滤种类
       this.competitiveProductsInfo()    // 品类信息
-      // this.quotaInfo(itemTypeName)      // 通过额度种类获得额度信息
+      // this.quotaInfo(typeId)      // 通过额度种类获得额度信息
     },
-    quotaInfo (itemTypeName) {
+    quotaInfo (typeId) {
       let categoryInfo = {
-        category: itemTypeName
+        category: typeId
       }
       this.$store
         .dispatch('QuotaInfo', categoryInfo)
@@ -159,9 +159,9 @@ export default {
           console.log(res)
         })
     },
-    categoryInfo (itemTypeName) {
+    categoryInfo (typeId) {
       let viewNums = {
-        itemType: itemTypeName
+        itemType: typeId
       }
       this.$store
         .dispatch('CatalogueInfo', viewNums)
@@ -198,10 +198,10 @@ export default {
         })
     },
     detail (id) {
-      // console.log('this.itemTypeName ' + this.itemTypeName)
+      // console.log('this.typeId ' + this.typeId)
       this.$router.push({
         path: '/detail',
-        query: { itemTypeName: this.itemTypeName, id: id }
+        query: { typeId: this.typeId, id: id }
       })
     },
     focus () {

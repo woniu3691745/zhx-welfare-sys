@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-19 19:50:05 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-15 15:20:06
+ * @Last Modified time: 2017-11-21 14:18:45
  * 商品列表
  *
  * @translate-change="translateChange"
@@ -26,10 +26,10 @@
                     :auto-fill="autoFill"
                     ref="loadmore">
           <ul class="page-loadmore-list">
-            <li v-for="item in goodList" v-bind="goodList" :key="item.id" class="page-loadmore-listitem">
-              <router-link :to="{ path: '/detail', query: {id: item.id}}"><img v-bind:src="item.image"></router-link>
+            <li v-for="item in goodList" v-bind="goodList" :key="item.productId" class="page-loadmore-listitem">
+              <router-link :to="{ path: '/detail', query: {id: item.productId}}"><img v-bind:src="item.imgUrl"></router-link>
               <div class="good-description">
-                <div class="desc">{{item.name}}</div>
+                <div class="desc">{{item.productName}}</div>
                 <span class="span-block clear">
                   <span class="sale-price left">￥{{ item.salePrice }}</span>
                   <span class="car-shopping right"><img class="cart" src="../assets/red-car.png" @click="cart()" /></span>
@@ -70,8 +70,8 @@ export default {
       bottomStatus: '',
       topStatus: '',
       wrapperHeight: 0,
-      // translate: 0,
-      sequenceType: 1
+      sequenceType: 1,
+      productTypeId: this.$route.query.typeId     // 种类
     }
   },
   methods: {
@@ -133,6 +133,7 @@ export default {
       let viewNums = {
         index: 0,
         limit: 8,
+        productTypeId: this.productTypeId,
         sequenceType: val || this.sequenceType
       }
       this.$store

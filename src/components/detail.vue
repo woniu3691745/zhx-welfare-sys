@@ -10,7 +10,7 @@
     <div class="head-fix">
       <div class="common-header">
         <mt-header title="详情">
-          <router-link :to="{ path: '/mall', query: {selected: 'mall', itemTypeName: this.itemTypeName, flag: 1}}" slot="left">
+          <router-link :to="{ path: '/mall', query: {selected: 'mall', typeId: this.typeId, flag: 1}}" slot="left">
             <mt-button icon="back"></mt-button>
           </router-link>
         </mt-header>
@@ -53,7 +53,7 @@ export default {
         price: '58.9',    // 价格
         cartNum: '99'     // 购物车数量
       },
-      itemTypeName: this.$route.query.itemTypeName // 种类
+      typeId: this.$route.query.typeId // 种类
     }
   },
   methods: {

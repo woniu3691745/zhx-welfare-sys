@@ -138,6 +138,7 @@ export default {
       this.$store
         .dispatch('BonusPackagesInfo', viewNums)
         .then(res => {
+          console.log('bonusPackagesInfo', res)
           this.bonusPackages = res.data
         })
         .catch(res => {
@@ -151,6 +152,7 @@ export default {
       this.$store
         .dispatch('CatalogueInfo', viewNums)
         .then(res => {
+          console.log('Catalogueinfo', res)
           this.categorys = res.data
         })
         .catch(res => {
@@ -166,6 +168,7 @@ export default {
       this.$store
         .dispatch('CompetitiveProductsInfo', viewNums)
         .then(res => {
+          console.log('CompetitiveProductsInfo', res)
           if (this.competitiveProducts.length === 0) {
             this.competitiveProducts = res.data
           } else {
@@ -353,7 +356,7 @@ export default {
                   margin: 0 auto;
                   white-space: normal;
                   p {
-                    font-size: ;
+                    font-size: 0.24rem;
                     color: #555555;
                     height: 0.66rem;
                     display: -webkit-box;

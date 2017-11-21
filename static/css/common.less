@@ -5,6 +5,32 @@
  * @Last Modified time: 2017-11-14 19:05:57
  * 共通样式
  */
+.border-1px {
+  background-image: -webkit-linear-gradient(bottom, #d9d9d9, #d9d9d9 50%, transparent 50%);
+  background-image: linear-gradient(0deg, #d9d9d9, #d9d9d9 50%, transparent 50%);
+  background-size: 100% 1px;
+  background-repeat: no-repeat;
+  background-position: bottom;
+}
+.border-top-1px {
+  background-image: -webkit-linear-gradient(top, #d9d9d9, #d9d9d9 50%, transparent 50%);
+  background-image: linear-gradient(180deg, #d9d9d9, #d9d9d9 50%, transparent 50%);
+  background-size: 100% 1px;
+  background-repeat: no-repeat;
+  background-position: top left;
+  background-origin: content-box;
+}
+
+
+
+
+
+
+
+
+
+
+
 .mint-button::after {
   background-color: unset;
 }
@@ -128,6 +154,25 @@ a:hover {
     background-image: none;
     .mint-cell-wrapper {
       background-image: none;
+      height: 0.88rem;
+      font-size: 0.26rem;
+      .mint-checkbox-core {
+        width: 0.4rem;
+        height: 0.4rem;
+        
+      }
+      .mint-checkbox-core::after {
+        border: 2px solid transparent;
+        border-left: 0;
+        border-top: 0;
+        content: " ";
+        top: 0.06rem;
+        left: 0.13rem;
+        position: absolute;
+        width: 0.08rem;
+        height: 0.16rem;
+        border-color: #fff;
+      }
     }
   }
 }
@@ -195,6 +240,87 @@ a:hover {
 // 确认订单
 .address-container {  
   .mint-cell-wrapper {
+    background-image: none;
+  }
+}
+// 地址管理
+.addAddress-body {
+  
+  .mint-cell{
+    padding: 0 0.28rem;
+    height: 0.88rem;
+    .mint-cell-wrapper {
+      // height: 0.88rem;
+      background-image: none;
+
+      .mint-cell-title {
+        font-size: 0.28rem;
+        color: #404040;
+        width: 1.54rem;
+      }
+      .mint-cell-value {
+        input {
+          font-size: 0.28rem;
+          color: #323232;
+          line-height: 1.2;
+        }
+      }
+    }
+  }
+  .height-88 {
+    .mint-cell-wrapper {
+      height: 0.88rem;
+      .is-link {
+        font-size: 0.28rem;
+        color: #969696;
+      }
+    }
+  .pretermit {
+    .mint-cell-wrapper {
+      height: 0.88rem;
+    }
+  }
+    .mint-cell-allow-right::after {
+      border: solid 2px #c8c8cd;
+      border-bottom-width: 0;
+      border-left-width: 0;
+      content: " ";
+      top: 50%;
+      right: 20px;
+      position: absolute;
+      width: 0.15rem;
+      height: 0.15rem;
+      -webkit-transform: translateY(-50%) rotate(45deg);
+      transform: translateY(-50%) rotate(45deg);
+    }
+  } 
+  .is-textarea {
+    height: 2rem;
+    textarea {
+      font-size: 0.26rem;
+      color: #969696;
+    }
+    
+  }
+  
+}
+// 我的
+.mine-body {
+  .mint-cell {
+    .mint-cell-wrapper {
+      height: 0.88rem;
+      font-size: 0.28rem;
+      color: #323232;
+      .mint-cell-title {
+        padding-left: 0.44rem;
+      }
+    }
+    .mint-cell-allow-right::after {
+      width: 0.16rem;
+      height: 0.16rem;
+    }
+  }
+  .mine-no-bg .mint-cell-wrapper {
     background-image: none;
   }
 }

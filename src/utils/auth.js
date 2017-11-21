@@ -11,7 +11,8 @@ import Cookies from 'js-cookie'
 const TokenKey = 'zhx-Token'
 
 export function getToken () {
-  return Cookies.get(TokenKey)
+  // return Cookies.get(TokenKey)
+  return '123'
 }
 
 export function setToken (token) {

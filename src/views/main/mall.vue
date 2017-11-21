@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-17 17:04:30
+ * @Last Modified time: 2017-11-21 09:28:38
  * 首页组件
  */
 <template>
@@ -128,6 +128,20 @@ export default {
       this.bonusPackagesInfo()          // 大礼包
       this.categoryInfo(itemTypeName)   // 类品过滤种类
       this.competitiveProductsInfo()    // 品类信息
+      // this.quotaInfo(itemTypeName)      // 通过额度种类获得额度信息
+    },
+    quotaInfo (itemTypeName) {
+      let categoryInfo = {
+        category: itemTypeName
+      }
+      this.$store
+        .dispatch('QuotaInfo', categoryInfo)
+        .then(res => {
+          console.log('res = ' + res.data)
+        })
+        .catch(res => {
+          console.log(res)
+        })
     },
     bonusPackagesInfo () {
       let viewNums = {

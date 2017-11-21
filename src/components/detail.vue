@@ -2,8 +2,8 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 19:04:03 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-17 16:39:53
- * 详情
+ * @Last Modified time: 2017-11-20 10:16:11
+ * 商品详情
  */
 <template>
   <div class="deatil">
@@ -21,10 +21,10 @@
         <img src="../assets/aaa.jpg" alt="">
       </div>
       <p class="goods-name">
-        卓蓝雅 生姜防脱生发无硅油洗发脱生发无硅油洗发水，礼品包装
+        {{goodsForm.des}}
       </p>
       <span class="good-money">
-        ￥58.9
+        ￥{{goodsForm.price}}
       </span>
       <div class="height-20"></div>
       <div class="infor-good"></div>
@@ -34,10 +34,10 @@
       <mt-tabbar fixed>
         <mt-button size="large" type="default">
             <span class="right shop-car">
-              <span>99</span>
+              <span>{{goodsForm.cartNum}}</span>
             </span>
         </mt-button>
-        <mt-button type="primary" class="button-width">加入购物车</mt-button>
+        <mt-button type="primary" class="button-width" @click="addCart">加入购物车</mt-button>
       </mt-tabbar>
     </div>
   </div>  
@@ -47,10 +47,11 @@ export default {
   name: 'detail',
   data () {
     return {
-      id: '',
-      height: 0,
       goodsForm: {
-        brandName: ''
+        id: this.$route.query.id,   // 商品ID
+        des: '卓蓝雅 生姜防脱生发无硅油洗发脱生发无硅油洗发水，礼品包装',  // 商品描述
+        price: '58.9',    // 价格
+        cartNum: '99'     // 购物车数量
       },
       itemTypeName: this.$route.query.itemTypeName // 种类
     }
@@ -66,13 +67,16 @@ export default {
         .catch(res => {
           console.log(res)
         })
+    },
+    addCart () {
+      console.log('add ' + this.goodsForm.id + ' is successful')
     }
   },
   created () {
     // this.height = document.body.offsetHeight - 80
   },
   mounted () {
-    this.goodListByIdInfo(this.$route.query.id)
+    this.goodListByIdInfo(this.id)
   }
 }
 </script>

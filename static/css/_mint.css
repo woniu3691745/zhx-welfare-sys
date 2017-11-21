@@ -57,9 +57,9 @@
   margin-top: 0.07rem; */
 }
 .mint-tab-item .mint-tab-item-label {
-  
-    font-size: 0.26rem;
-    color: #323232;
+  margin-top: 0.05rem;
+  font-size: 0.24rem;
+  color: #323232;
   
 }
 html body {

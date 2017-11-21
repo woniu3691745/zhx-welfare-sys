@@ -9,12 +9,18 @@
  */
 <template>
   <div>
-    <div class="common-header">
+    <div class="common-header header-car clear">
       <mt-header title="商品列表">
         <router-link to="/mall" slot="left">
           <mt-button icon="back"></mt-button>
         </router-link>
+        
       </mt-header>
+      <span class="right shop-car">
+          
+            <span >99</span>
+          
+        </span>
     </div>
     <div class="page-loadmore">
       <div class="page-loadmore-wrapper" ref="wrapper" :style="{ height: wrapperHeight + 'px' }">
@@ -28,7 +34,7 @@
           <ul class="page-loadmore-list">
             <li v-for="item in goodList" v-bind="goodList" :key="item.productId" class="page-loadmore-listitem">
               <router-link :to="{ path: '/detail', query: {id: item.productId}}"><img v-bind:src="item.imgUrl"></router-link>
-              <div class="good-description">
+              <div class="good-description border-1px">
                 <div class="desc">{{item.productName}}</div>
                 <span class="span-block clear">
                   <span class="sale-price left">￥{{ item.salePrice }}</span>
@@ -159,6 +165,34 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.header-car {
+  position: relative;
+  .shop-car {
+      position: absolute;
+      right: 0.16rem;
+      top: 0;
+      margin-top: 0.08rem;
+      width: 0.8rem;
+      height: 0.8rem;
+      background: url("../assets/shop-car.png");
+      background-repeat: no-repeat;
+      background-size: 0.51rem 0.42rem;
+      background-position: 0 0.27rem;
+      span {
+        color: #ffffff;
+        text-align: center;
+        font-size: 0.22rem;
+        line-height: 0.4rem;
+        width: 0.4rem;
+        height: 0.4rem;
+        background: #fb4e51;
+        border-radius: 50%;
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+    }
+}
 .page-loadmore .mint-spinner {
   display: inline-block;
   vertical-align: middle;
@@ -189,7 +223,6 @@ export default {
         padding: 0.18rem 0.38rem 0.16rem 0.2rem;
         box-sizing: border-box;
         height: 2.4rem;
-        border-bottom: 1px solid #eeddee;
         .desc {
           font-size: 0.32rem;
           color: #323232;

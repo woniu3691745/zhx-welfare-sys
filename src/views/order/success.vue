@@ -14,8 +14,13 @@
         </router-link>
       </mt-header>
     </div>
-    <div class="body">
-      <mt-button class="index-login" type="primary" @click.native="onSubmit">查看详情</mt-button>
+    <div class="success-body">
+      <div class="success-body-container">
+        <img src="../../assets/success.png" alt="">
+        <p>订单支付成功！</p>
+        <mt-button class="index-login" type="primary" @click.native="onSubmit">查看详情</mt-button>
+      </div>
+      
     </div>
     <div class="bottom">
 
@@ -55,5 +60,34 @@
 </script>
 
 <style lang="less" scoped>
-
+.success-body {
+  .success-body-container {
+    img {
+      width: 1.86rem;
+      height: 1.86rem;
+      display: block;
+      font-size: 0;
+      margin: 0 auto;
+      margin-top: 1.18rem;
+    }
+    p {
+      text-align: center;
+      margin-top: 0.54rem;
+      color: #323232;
+      font-size: 0.36rem;
+    }
+    button {
+      background: #FFFFFF;
+      border: 1px solid #C8C8C8;
+      border-radius: 0.08rem;
+      display: block;
+      margin: 0 auto;
+      width: 3.46rem;
+      height: 0.88rem;
+      font-size: 0.32rem;
+      color: #323232;
+      margin-top: 0.54rem;
+    }
+  }
+}
 </style>

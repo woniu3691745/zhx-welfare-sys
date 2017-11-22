@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-16 16:27:56 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-14 19:05:57
+ * @Last Modified time: 2017-11-22 15:32:05
  * 共通样式
  */
 .border-1px {
@@ -20,16 +20,6 @@
   background-position: top left;
   background-origin: content-box;
 }
-
-
-
-
-
-
-
-
-
-
 
 .mint-button::after {
   background-color: unset;
@@ -62,7 +52,6 @@
     margin: 0 auto;
     margin-top: 1.2rem;
     .mint-cell {
-     
       .mint-cell-wrapper {
         background-position: bottom left;
         background-image: none;
@@ -92,6 +81,7 @@
 .padding-top {
   padding-top: 0.88rem;
 }
+
 /******************************************************************************/
 /*清除外边距*/
 body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, figure, /*结构元素*/
@@ -99,48 +89,43 @@ dl, dt, dd, ul, ol, li, /*列表元素*/
 fieldset, lengend, button, input, textarea, /*表单元素*/
 th, td, /*表格元素*/
 pre /*文本格式元素*/ {
-    margin: 0;
-    -webkit-tap-highlight-color:rgba(0,0,0,0);
-    -webkit-tap-highlight-color: transparent;
+  margin: 0;
+  -webkit-tap-highlight-color:rgba(0,0,0,0);
+  -webkit-tap-highlight-color: transparent;
 }
 /*清除内边距*/
 ul, ol, menu, td, input{
-    padding: 0;
+  padding: 0;
 }
 /*重置列表元素*/
 ul, ol {
-    list-style: none;
+  list-style: none;
 }
 /*将字体扶正*/
 address, cite, dfn, em, var {
-    font-style: normal;
+  font-style: normal;
 }
 /*清下划线*/
 a {
-    text-decoration: none;
-    color: black;
+  text-decoration: none;
+  color: black;
+}
+/*鼠标略过a标签，显示下划线*/
+a:hover {
+  /*text-decoration: underline;*/
 }
 /*清浮动*/
 .clear:after {
-    content: '';
-    display: block;
-    clear: both;
+  content: '';
+  display: block;
+  clear: both;
 }
-
 .left {
-    float: left;
+  float: left;
 }
-
 .right {
-    float: right;
+  float: right;
 }
-
-
-
-
-
-
-
 
 // 购物车
 .compute {
@@ -155,7 +140,6 @@ a {
       .mint-checkbox-core {
         width: 0.4rem;
         height: 0.4rem;
-        
       }
       .mint-checkbox-core::after {
         border: 2px solid transparent;
@@ -173,8 +157,6 @@ a {
   }
 }
 .quota-container {
-  
-
   .mint-checklist-label {
     padding: 0 0 0 0.26rem;
     .list-content {
@@ -185,7 +167,6 @@ a {
       }
       .good-description {
         margin-left: 0.44rem;
-        
         .desc {
           font-size: 0.24rem;
           color: #323232;
@@ -193,12 +174,6 @@ a {
           margin-bottom: 0;
         }
       }
-      
-
-
-
-
-
     }
   }
   .mint-checkbox-core {
@@ -241,14 +216,12 @@ a {
 }
 // 地址管理
 .addAddress-body {
-  
   .mint-cell{
     padding: 0 0.28rem;
     height: 0.88rem;
     .mint-cell-wrapper {
       // height: 0.88rem;
       background-image: none;
-
       .mint-cell-title {
         font-size: 0.28rem;
         color: #404040;
@@ -276,7 +249,7 @@ a {
       height: 0.88rem;
     }
   }
-    .mint-cell-allow-right::after {
+  .mint-cell-allow-right::after {
       border: solid 2px #c8c8cd;
       border-bottom-width: 0;
       border-left-width: 0;
@@ -296,9 +269,7 @@ a {
       font-size: 0.26rem;
       color: #969696;
     }
-    
   }
-  
 }
 // 我的
 .mine-body {

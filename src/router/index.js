@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-10-12 17:58:36
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-22 10:47:36
+ * @Last Modified time: 2017-11-22 16:14:43
  * 路由
  */
 
@@ -60,7 +60,6 @@ export const constantRouterMap = [
    * 订单
    */
   { path: '/confirmOrder', name: '确认订单', component: resolve => require(['@/views/order/confirmOrder.vue'], resolve) },
-  { path: '/addAddress', name: '添加地址', component: resolve => require(['@/views/order/addAddress.vue'], resolve) },
   { path: '/selectAddress', name: '选择地址', component: resolve => require(['@/views/order/selectAddress.vue'], resolve) },
   { path: '/inputPwd', name: '支付密码', component: resolve => require(['@/views/order/inputPwd.vue'], resolve) },
   { path: '/success', name: '支付成功', component: resolve => require(['@/views/order/success.vue'], resolve) },
@@ -69,10 +68,17 @@ export const constantRouterMap = [
   { path: '/logisticsDetail', name: '物流详情', component: resolve => require(['@/views/order/logisticsDetail.vue'], resolve) },
 
   /**
-   * 我的
+   * 我的-地址
    */
-  { path: '/mineOrder', name: '我的订单', component: resolve => require(['@/views/mine/mineOrder.vue'], resolve) }
+  { path: '/mineOrder', name: '我的订单', component: resolve => require(['@/views/mine/mineOrder.vue'], resolve) },
+  { path: '/addressMs', name: '管理收货地址', component: resolve => require(['@/views/address/addressManage.vue'], resolve) },
+  { path: '/addAddress', name: '添加地址', component: resolve => require(['@/views/address/addAddress.vue'], resolve) },
+  { path: '/addressEdit', name: '编辑收货人', component: resolve => require(['@/views/address/addressEdit.vue'], resolve) },
 
+  /**
+   *  我的-账户
+   */
+  { path: '/accountManagement', name: '编辑收货人', component: resolve => require(['@/views/account/accountManagement.vue'], resolve) }
 ]
 
 export default new Router({

@@ -2,16 +2,16 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-15 15:56:29
+ * @Last Modified time: 2017-11-22 16:15:05
  * 我的
  */
 <template>
   <div class="mine">
     <div class="common-header">
       <mt-header title="我的">
-        <router-link to="/balance" slot="left">
+        <!-- <router-link to="/balance" slot="left"> -->
           <!-- <mt-button icon="back"></mt-button> -->
-        </router-link>
+        <!-- </router-link> -->
       </mt-header>
     </div>
     <div class="mine-body">
@@ -27,7 +27,6 @@
           我的额度：日用品：¥1000.00/食品：¥1000.00/服装：¥1000.00
         </div>
         <mt-cell title="我的订单" is-link></mt-cell>
-        <!-- <mt-cell title="标题文字" style="height: 100px;"></mt-cell> -->
       </div>
       <div class="mine-order-contain">
         <div>
@@ -53,8 +52,8 @@
         </div>
       </div>
       <div class="hheight-22"></div>
-      <mt-cell class="mine-no-bg" title="地址管理" is-link></mt-cell>
-      <mt-cell title="账户安全" is-link></mt-cell>
+      <mt-cell class="mine-no-bg" title="地址管理" is-link to="/addressMs"></mt-cell>
+      <mt-cell title="账户安全" is-link to="/accountManagement"></mt-cell>
       <mt-cell title="联系客服" is-link></mt-cell>
     </div>
     <div class="mine-header">
@@ -75,8 +74,7 @@ export default {
   data () {
     return {
       selected: 'index',
-      items: 4,
-      height: 0
+      items: 4
     }
   },
   methods: {
@@ -92,8 +90,6 @@ export default {
     }
   },
   created () {
-    this.height = document.body.offsetHeight - 88
-    // this.height = document.body.offsetHeight - 140
   }
 }
 </script>
@@ -158,7 +154,6 @@ export default {
         margin-top: 0.2rem;
       }
     }
-
   }
   .hheight-22 {
     height: 0.22rem;
@@ -172,7 +167,6 @@ export default {
     background: #f5f5f5;
     padding-left: 0.2rem;
   }
-  
 }
 .mine-header {
   margin-top: 0.4rem;
@@ -183,19 +177,4 @@ export default {
     height: 0.88rem;
   }
 }
-// .mine {
-//   padding: 0 0;
-//   .advice {
-//     font-size: 14px;
-//     padding: 0 20px;
-//     z-index: -1;
-//     // border: 1px solid red;
-//     p {
-//       font-size: 12px;
-//     }
-//   }
-//   .mint-button {
-//     border-radius: 0px;
-//   }
-// }
 </style>

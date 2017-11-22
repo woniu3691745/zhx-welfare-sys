@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-21 20:40:16
+ * @Last Modified time: 2017-11-22 14:31:26
  * 首页组件
  */
 <template>
@@ -40,14 +40,16 @@
         <div class="index-gift">
           <div class="index-gifts-title clear">
             <span class="title-content">超级大礼包</span> 
-            <div class="index-gifts-title-link right    ">
-              <router-link id="goodsList" :to="{ path: '/goodsList', query: {typeId: this.typeId}}"><span>查看全部></span></router-link>
+            <div class="index-gifts-title-link right">
+              <router-link id="goodsList" :to="{ path: '/goodsList', query: {typeId: this.typeId}}">
+                <span>查看全部></span>
+              </router-link>
             </div>
           </div>
           <div class="index-gifts-body">
             <div class="index-gifts-product-list">
               <ul>
-                <li v-for="item in bonusPackages"  :key="item.productId">
+                <li v-for="item in bonusPackages" :key="item.productId">
                   <!-- <router-link :to="{ path: '/detail', query: {id: item.id}}"></router-link> -->
                   <img v-bind:src="item.imgUrl" @click="detail(item.productId)">
                   <div class="des">
@@ -65,11 +67,13 @@
           </ul>
         </div>
       </li>
-      <li v-for="n in competitiveProducts" :key="n.productId" class="left lis">
-        <router-link :to="{ path: '/detail', query: {id: n.productId}}"><img v-bind:src="n.imgUrl"></router-link>
+      <li v-for="item in competitiveProducts" :key="item.productId" class="left lis">
+        <img v-bind:src="item.imgUrl" @click="detail(item.productId)">
+        <!-- <router-link :to="{ path: '/detail', query: {id: n.productId}}"> -->
+        <!-- <img v-bind:src="n.imgUrl"></router-link> -->
         <div class="des">
-          <p>{{n.productName}}</p>
-          <span>￥{{n.salePrice}}</span>
+          <p>{{item.productName}}</p>
+          <span>￥{{item.salePrice}}</span>
         </div>
       </li>
     </ul>  
@@ -102,6 +106,7 @@ export default {
     // typeId 额度类型
     eventBus.$on('refurbishMallData', param => {
       // this.quota = param.quota
+      this.clear()
       this.init(param.typeId)
       this.typeId = param.typeId  // 导航按钮
     })
@@ -215,6 +220,12 @@ export default {
       // 通知导航按钮事件
       eventBus.$emit('focus', select)
     },
+    // 每次点击前清空数据
+    clear () {
+      this.bonusPackages = []
+      this.competitiveProducts = []
+      this.categorys = []
+    },
     loading1 () {
       setTimeout(function () {
         Indicator.open({
@@ -223,7 +234,7 @@ export default {
       }, 300)
       setTimeout(function () {
         Indicator.close()
-      }, 3000)
+      }, 1000)
     }
   }
 }

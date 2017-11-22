@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 09:59:01 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-21 09:43:45
+ * @Last Modified time: 2017-11-22 15:25:34
  * 订单详情
  */
 <template>
@@ -60,7 +60,7 @@
         </div>
         <div class="border-1px">
           <div class="statue-pay-cancel clear">
-            <span class="pay right">
+            <span class="pay right" @click="go">
               去支付
             </span>
             <span class="cancel right">
@@ -68,10 +68,8 @@
             </span>
           </div>
         </div>
-
         <p class="clear order-num-contain">
           <span class="left num">子订单号：1475874589658745</span>
-          
         </p>
         <div class="all-thing">
           <router-link to="/orderDetail">
@@ -96,12 +94,6 @@
             </span>
           </div>
         </div>
-
-
-
-
-
-
         <div class="pay-money">
           <p class="reality-money">共1件商品   实付款 <span>￥14.90</span></p>
           <p class="freight">（含运费 20元）</p>
@@ -115,7 +107,6 @@
         <p class="clear order-time-logistics">
           <span class="left num">配送日期：2017-11-8，10：12：12</span>
         </p>
-        
       </div>
     </div>
     <div class="bottom">
@@ -141,7 +132,11 @@
    components: {},
    watch: {},
    // 方法
-   methods: {},
+   methods: {
+     go () {
+       this.$router.push('/logisticsDetail')
+     }
+   },
    // 生命周期函数
   //  beforeCreate: {},
    mounted () {}
@@ -149,6 +144,7 @@
 </script>
 
 <style lang="less" scoped>
+@import "../../../static/css/util.css";
 .order-detail-body {
   .order-status-head {
     padding: 0 0.3rem 0 0.48rem;

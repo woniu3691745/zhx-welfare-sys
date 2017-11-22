@@ -2,28 +2,23 @@
  * @Author: lidongliang 
  * @Date: 2017-10-19 19:50:05 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-21 14:18:45
+ * @Last Modified time: 2017-11-22 14:44:48
  * 商品列表
- *
- * @translate-change="translateChange"
  */
 <template>
   <div>
     <div class="common-header header-car clear">
       <mt-header title="商品列表">
-        <router-link to="/mall" slot="left">
+        <router-link :to="{ path: '/mall', query: {selected: 'mall', typeId: this.typeId, flag: 1}}" slot="left">
           <mt-button icon="back"></mt-button>
         </router-link>
-        
       </mt-header>
       <span class="right shop-car">
-          
-            <span >99</span>
-          
+          <span @click="cart">99</span>
         </span>
     </div>
     <div class="page-loadmore">
-      <div class="page-loadmore-wrapper" ref="wrapper" :style="{ height: wrapperHeight + 'px' }">
+      <div class="page-loadmore-wrapper" ref="wrapper">
         <mt-loadmore :top-method="loadTop" 
                     @top-status-change="handleTopChange"
                     :bottom-method="loadBottom" 
@@ -33,12 +28,15 @@
                     ref="loadmore">
           <ul class="page-loadmore-list">
             <li v-for="item in goodList" v-bind="goodList" :key="item.productId" class="page-loadmore-listitem">
-              <router-link :to="{ path: '/detail', query: {id: item.productId}}"><img v-bind:src="item.imgUrl"></router-link>
+              <!-- <router-link :to="{ path: '/detail', query: {id: item.productId}}"><img v-bind:src="item.imgUrl"></router-link> -->
+              <img v-bind:src="item.imgUrl" @click="detail(item.productId)">
               <div class="good-description border-1px">
                 <div class="desc">{{item.productName}}</div>
                 <span class="span-block clear">
                   <span class="sale-price left">￥{{ item.salePrice }}</span>
-                  <span class="car-shopping right"><img class="cart" src="../assets/red-car.png" @click="cart()" /></span>
+                  <span class="car-shopping right">
+                    <img class="cart" src="../assets/red-car.png" @click="cart(item.productId)"/>
+                  </span>
                 </span>
               </div>
             </li>
@@ -75,14 +73,13 @@ export default {
       autoFill: false,
       bottomStatus: '',
       topStatus: '',
-      wrapperHeight: 0,
-      sequenceType: 1,
-      productTypeId: this.$route.query.typeId     // 种类
+      typeId: this.$route.query.typeId // 种类
     }
   },
   methods: {
-    cart () {
-      this.$router.push({ path: '/cart' })
+    cart (productId) {
+      console.log('add ' + productId + ' is successful')
+      // this.$router.push({ path: '/cart' })
     },
     get () {
       setTimeout(function () {
@@ -134,13 +131,12 @@ export default {
         this.$refs.loadmore.onTopLoaded()
       }, 1500)
     },
-    goodListInfo (val) {
-      // console.log('selected is ' + val)
+    goodListInfo () {
       let viewNums = {
         index: 0,
-        limit: 8,
-        productTypeId: this.productTypeId,
-        sequenceType: val || this.sequenceType
+        limit: 18,
+        sequenceType: 0,
+        productTypeId: this.typeId
       }
       this.$store
         .dispatch('GoodList', viewNums)
@@ -150,17 +146,20 @@ export default {
         .catch(res => {
           console.log(res)
         })
-    },
-    childrenFun () {
-      console.log('123123123123')
     }
+  },
+  detail (id) {
+    this.$router.push({
+      path: '/detail',
+      query: { typeId: this.typeId, id: id }
+    })
   },
   created () {
     this.get()
     this.goodListInfo()
   },
   mounted () {
-    this.wrapperHeight = document.documentElement.clientHeight - this.$refs.wrapper.getBoundingClientRect().top
+    // this.wrapperHeight = document.documentElement.clientHeight - this.$refs.wrapper.getBoundingClientRect().top
   }
 }
 </script>
@@ -168,30 +167,30 @@ export default {
 .header-car {
   position: relative;
   .shop-car {
+    position: absolute;
+    right: 0.16rem;
+    top: 0;
+    margin-top: 0.08rem;
+    width: 0.8rem;
+    height: 0.8rem;
+    background: url("../assets/shop-car.png");
+    background-repeat: no-repeat;
+    background-size: 0.51rem 0.42rem;
+    background-position: 0 0.27rem;
+    span {
+      color: #ffffff;
+      text-align: center;
+      font-size: 0.22rem;
+      line-height: 0.4rem;
+      width: 0.4rem;
+      height: 0.4rem;
+      background: #fb4e51;
+      border-radius: 50%;
       position: absolute;
-      right: 0.16rem;
+      right: 0;
       top: 0;
-      margin-top: 0.08rem;
-      width: 0.8rem;
-      height: 0.8rem;
-      background: url("../assets/shop-car.png");
-      background-repeat: no-repeat;
-      background-size: 0.51rem 0.42rem;
-      background-position: 0 0.27rem;
-      span {
-        color: #ffffff;
-        text-align: center;
-        font-size: 0.22rem;
-        line-height: 0.4rem;
-        width: 0.4rem;
-        height: 0.4rem;
-        background: #fb4e51;
-        border-radius: 50%;
-        position: absolute;
-        right: 0;
-        top: 0;
-      }
     }
+  }
 }
 .page-loadmore .mint-spinner {
   display: inline-block;
@@ -199,7 +198,6 @@ export default {
 }
 
 .page-loadmore-wrapper {
-  // display: flex;
   overflow: scroll;
   .page-loadmore-list {
     background-color: #fff;
@@ -207,7 +205,6 @@ export default {
       display: flex;
       height: 2.4rem;
       border: none;
-
       a {
         width: 2.4rem;
         height: 2.4rem;
@@ -216,7 +213,6 @@ export default {
           height: 100%;
         }
       }
-      
       .good-description {
         flex: 2;
         font-size: 12px;
@@ -232,37 +228,29 @@ export default {
           -webkit-box-orient: vertical;
           -webkit-line-clamp: 2;
           overflow: hidden;
-          
         }
         .span-block {
           display: block;
           .sale-price {
             font-size: 0.4rem;
-            color: #FE414B;
+            color: #fe414b;
             height: 0.6rem;
-            line-height: 0.6rem
+            line-height: 0.6rem;
           }
         }
         .car-shopping {
           width: 0.6rem;
           height: 0.6rem;
-         
           .cart {
             float: right;
             height: 100%;
             width: 100%;
           }
         }
-        
       }
     }
-    
   }
 }
-
-
-
-
 
 .mint-loadmore-top {
   font-size: 0.3rem;

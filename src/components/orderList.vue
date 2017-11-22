@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-19 19:50:05 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-21 09:42:38
+ * @Last Modified time: 2017-11-22 14:19:02
  * 订单列表
  *
  * @translate-change="translateChange"
@@ -53,33 +53,15 @@
                 </div>
               </div>
               <div data-v-d5ab74ae="" class="hheight-22"></div>
-            
-            
-            
-            
             </li>
-
-
-
-
-
-
-
-
-
-
-
-
             <li v-for="item in orderList" v-bind="orderList" :key="item.id" class="page-loadmore-listitem">
               <router-link :to="{ path: '/detail', query: {id: item.id}}"><img v-bind:src="item.image"></router-link>
               <div class="order-description">
-                <!-- 此次修改 -->
                 <div class="desc">{{item.name}}</div>
                 <span class="span-block clear">
                   <span class="sale-price left">￥{{ item.salePrice }}</span>
                   <span class="car-shopping right"><img class="cart" src="../assets/cart.png" @click="cart()" /></span>
                 </span>
-                
               </div>
             </li>
           </ul>
@@ -210,7 +192,6 @@ export default {
 }
 
 .page-loadmore-wrapper {
-  
   .page-loadmore-list {
      background-color: #fff;
     .order-num {
@@ -265,7 +246,6 @@ export default {
         .reality-money {
           font-size: 0.26rem;
           color: #323232;
-          
           height: 0.56rem;
           text-align:  right;
           padding-right: 0.3rem;
@@ -285,7 +265,6 @@ export default {
           line-height: 0.37rem;
           margin-top: 0.06rem;
         }
-        
       }
       .statue-pay-cancel {
         padding: 0.18rem 0.36rem 0.14rem 0;
@@ -316,29 +295,10 @@ export default {
       } 
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   
     .page-loadmore-listitem {
       display: flex;
       height: 2.4rem;
       border: none;
-
       a {
         width: 2.4rem;
         height: 2.4rem;
@@ -347,7 +307,6 @@ export default {
           height: 100%;
         }
       }
-      
       .order-description {
         flex: 2;
         font-size: 12px;
@@ -373,17 +332,14 @@ export default {
         .car-shopping {
           width: 0.6rem;
           height: 0.6rem;
-         
           .cart {
             float: right;
             height: 100%;
             width: 100%;
           }
         }
-        
       }
     }
-    
   }
 }
 

@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 19:04:03 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-21 16:07:41
+ * @Last Modified time: 2017-11-22 14:40:18
  * 商品详情
  */
 <template>
@@ -32,7 +32,7 @@
     </div>
     <div class="detail-bottom">
       <mt-tabbar fixed>
-        <mt-button size="large" type="default">
+        <mt-button size="large" type="default" @click="cart">
             <span class="right shop-car">
               <span>{{goodsForm.saleCount}}</span>
             </span>
@@ -58,11 +58,10 @@ export default {
     }
   },
   methods: {
-    goodListByIdInfo (id) {
+    goodListByIdInfo (productTypeId) {
       this.$store
-        .dispatch('GoodListById', id)
+        .dispatch('GoodListById', productTypeId)
         .then(req => {
-          console.log('req.data ' + JSON.stringify(req.data))
           Object.assign(this.goodsForm, req.data)
         })
         .catch(res => {
@@ -70,11 +69,13 @@ export default {
         })
     },
     addCart () {
-      console.log('add ' + this.goodsForm.id + ' is successful')
+      console.log('add ' + this.goodsForm.productTypeId + ' is successful')
+    },
+    cart () {
+      this.$router.push({ path: '/cart' })
     }
   },
   created () {
-    // this.height = document.body.offsetHeight - 80
   },
   mounted () {
     this.goodListByIdInfo(this.goodsForm.productTypeId)

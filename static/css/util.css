@@ -32,5 +32,6 @@ a:visited {
 a:hover {
   background:none;
    -webkit-tap-highlight-color: transparent;
+   -webkit-font-smoothing: antialiased;
 }
 /* a标签 end */

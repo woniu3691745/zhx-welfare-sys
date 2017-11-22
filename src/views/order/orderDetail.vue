@@ -301,6 +301,7 @@
       height: 0.94rem;
       line-height: 0.94rem;
       padding-left: 0.2rem;
+      box-sizing: border-box;
     }
   
   

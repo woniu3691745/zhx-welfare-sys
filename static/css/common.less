@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-16 16:27:56 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-22 15:32:05
+ * @Last Modified time: 2017-11-22 19:34:32
  * 共通样式
  */
 .border-1px {
@@ -12,6 +12,7 @@
   background-repeat: no-repeat;
   background-position: bottom;
 }
+
 .border-top-1px {
   background-image: -webkit-linear-gradient(top, #d9d9d9, #d9d9d9 50%, transparent 50%);
   background-image: linear-gradient(180deg, #d9d9d9, #d9d9d9 50%, transparent 50%);
@@ -71,6 +72,7 @@
       background-position: bottom;
     } 
   }
+
 .pozitin-fixed {
   position: fixed;
   left: 0;
@@ -78,6 +80,7 @@
   width: 100%;
   z-index: 10;
 }
+
 .padding-top {
   padding-top: 0.88rem;
 }
@@ -93,36 +96,46 @@ pre /*文本格式元素*/ {
   -webkit-tap-highlight-color:rgba(0,0,0,0);
   -webkit-tap-highlight-color: transparent;
 }
+
 /*清除内边距*/
 ul, ol, menu, td, input{
   padding: 0;
 }
+
 /*重置列表元素*/
 ul, ol {
   list-style: none;
 }
+
 /*将字体扶正*/
 address, cite, dfn, em, var {
   font-style: normal;
 }
-/*清下划线*/
-a {
+/* a标 */
+a:link,
+
+a:visited {
+  /* color: #fff; */
   text-decoration: none;
-  color: black;
 }
-/*鼠标略过a标签，显示下划线*/
+
 a:hover {
-  /*text-decoration: underline;*/
+  background: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
 }
+
 /*清浮动*/
 .clear:after {
   content: '';
   display: block;
   clear: both;
 }
+
 .left {
   float: left;
 }
+
 .right {
   float: right;
 }

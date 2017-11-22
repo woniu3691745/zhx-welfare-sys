@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-19 19:50:05 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-22 14:44:48
+ * @Last Modified time: 2017-11-22 15:50:11
  * 商品列表
  */
 <template>
@@ -35,7 +35,7 @@
                 <span class="span-block clear">
                   <span class="sale-price left">￥{{ item.salePrice }}</span>
                   <span class="car-shopping right">
-                    <img class="cart" src="../assets/red-car.png" @click="cart(item.productId)"/>
+                    <img class="cart" src="../assets/red-car.png" @click="addCart(item.productId)"/>
                   </span>
                 </span>
               </div>
@@ -77,9 +77,11 @@ export default {
     }
   },
   methods: {
-    cart (productId) {
+    cart () {
+      this.$router.push({ path: '/cart' })
+    },
+    addCart (productId) {
       console.log('add ' + productId + ' is successful')
-      // this.$router.push({ path: '/cart' })
     },
     get () {
       setTimeout(function () {

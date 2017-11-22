@@ -2,16 +2,16 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-22 15:47:44
+ * @Last Modified time: 2017-11-22 16:15:05
  * 我的
  */
 <template>
   <div class="mine">
     <div class="common-header">
       <mt-header title="我的">
-        <router-link to="/balance" slot="left">
+        <!-- <router-link to="/balance" slot="left"> -->
           <!-- <mt-button icon="back"></mt-button> -->
-        </router-link>
+        <!-- </router-link> -->
       </mt-header>
     </div>
     <div class="mine-body">
@@ -52,8 +52,8 @@
         </div>
       </div>
       <div class="hheight-22"></div>
-      <mt-cell class="mine-no-bg" title="地址管理" is-link to="//github.com"></mt-cell>
-      <mt-cell title="账户安全" is-link></mt-cell>
+      <mt-cell class="mine-no-bg" title="地址管理" is-link to="/addressMs"></mt-cell>
+      <mt-cell title="账户安全" is-link to="/accountManagement"></mt-cell>
       <mt-cell title="联系客服" is-link></mt-cell>
     </div>
     <div class="mine-header">

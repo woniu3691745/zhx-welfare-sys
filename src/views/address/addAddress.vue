@@ -2,17 +2,12 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 09:59:01 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-16 19:43:02
+ * @Last Modified time: 2017-11-22 16:00:34
  * 添加收货地址
  */
 <template>
   <div class="addAddress">
     <div class="common-header">
-      <!-- <mt-header title="确认订单">
-        <router-link to="/cart" slot="left">
-          <mt-button icon="back"></mt-button>
-        </router-link>
-      </mt-header> -->
       <mt-header title="添加收货地址">
         <router-link to="/confirmOrder" slot="left">
           <mt-button icon="back"></mt-button>

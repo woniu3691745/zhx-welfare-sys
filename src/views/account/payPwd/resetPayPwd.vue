@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 09:59:01 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-22 20:21:43
+ * @Last Modified time: 2017-11-22 20:24:05
  * 重置支付密码
  */
 <template>
@@ -87,7 +87,7 @@
 </script>
 
 <style lang="less" scoped>
-@import "../../../static/css/util.css";
+@import "../../../../static/css/util.css";
 .identifyingCode1 {
     border: 0.02rem solid #f9404a;
     height: 0.18rem;

@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-10-12 17:58:36
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-22 20:12:18
+ * @Last Modified time: 2017-11-22 20:23:52
  * 路由
  */
 
@@ -80,7 +80,7 @@ export const constantRouterMap = [
    */
   { path: '/accountManagement', name: '账户管理', component: resolve => require(['@/views/account/accountManagement.vue'], resolve) },
   { path: '/resetLoginPwd', name: '重置登录密码', component: resolve => require(['@/views/account/resetLoginPwd.vue'], resolve) },
-  { path: '/resetPayPwd', name: '重置支付密码', component: resolve => require(['@/views/account/resetPayPwd.vue'], resolve) },
+  { path: '/resetPayPwd', name: '重置支付密码', component: resolve => require(['@/views/account/payPwd/resetPayPwd.vue'], resolve) },
   { path: '/resetBindPhone', name: '更换绑定手机号', component: resolve => require(['@/views/account/resetBindPhone.vue'], resolve) }
 ]
 

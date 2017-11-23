@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 19:04:03 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-23 14:31:47
+ * @Last Modified time: 2017-11-23 15:32:58
  * 商品详情
  */
 <template>
@@ -72,7 +72,12 @@ export default {
       console.log('add ' + this.goodsForm.productSku + ' is successful')
     },
     cart () {
-      this.$router.push({ path: '/cart' })
+      this.$router.push({
+        path: '/cart',
+        query: {
+          typeId: this.typeId
+        }
+      })
     }
   },
   created () {

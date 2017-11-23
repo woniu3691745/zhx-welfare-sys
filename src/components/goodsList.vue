@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-19 19:50:05 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-23 14:30:53
+ * @Last Modified time: 2017-11-23 16:16:39
  * 商品列表
  */
 <template>
@@ -77,11 +77,30 @@ export default {
     }
   },
   methods: {
+    // 跳转购物车
     cart () {
-      this.$router.push({ path: '/cart' })
+      this.$router.push({
+        path: '/cart',
+        query: {
+          typeId: this.typeId
+        }
+      })
     },
+    // 加入购物车
     addCart (productSku) {
-      console.log('add ' + productSku + ' is successful')
+      let cartForm = {
+        cartType: this.typeId,
+        mallSku: productSku,
+        skuCount: '1'
+      }
+      this.$store
+        .dispatch('AddCart', cartForm)
+        .then(res => {
+          console.log('res ' + res)
+        })
+        .catch(res => {
+          console.log(res)
+        })
     },
     get () {
       setTimeout(function () {

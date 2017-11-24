@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-24 15:36:59
+ * @Last Modified time: 2017-11-24 16:48:08
  * 购物车
  */
 <template>
@@ -19,17 +19,22 @@
     <div class="quota">
       <div class="quota-container">
         <z-mt-checklist
-          v-model="washValue"
           align="left"
-          :options="washOptions" @change="washCheck" @refreMinus="minus" @refreIncrease="increase" @refreDelAll="delAll">
+          v-model="washValue"
+          :options="washOptions" 
+          @change="washCheck"
+          @refreMinus="minus" 
+          @refreIncrease="increase" 
+          @refreDelAll="delAll">
         </z-mt-checklist>
       </div>
     </div>
     <div class="compute">
       <div class="compute-bg clear">
         <mt-checklist class="left"
-          v-model="allValue"
-          :options="allOption" @change="checkAll">
+          v-model="allValue" 
+          :options="allOption" 
+          @change="checkAll">
         </mt-checklist>
         <mt-button class="right settle" type="danger" @click="confirmOrder">结算（{{quantity}}）</mt-button>
         <div class="sub right">
@@ -68,8 +73,8 @@ export default {
         }
       ],
       washAllValue: [],        // 全选的值
-      washValue: [],           // 列表选中的值
-      washOptions: []          // 购物车商品信息
+      washValue: [],           // 绑定值
+      washOptions: []          // 选择项
     }
   },
   created () {
@@ -104,6 +109,9 @@ export default {
       this.quantity = this.washValue.length
       this.clearAllCheckRadio()
     },
+    washCheck1 (val) {
+      // this.washValue = [val]
+    },
     // 全选
     checkAll (val) {
       let temp = []
@@ -137,6 +145,7 @@ export default {
         val.map(function (y) {
           if (x.mallSku === y.mallSku) {
             amountTemp += x.mallUnitPrice
+            amountTemp *= x.skuCount
           }
         })
       })
@@ -200,6 +209,8 @@ export default {
     // 增加
     increase (option) {
       if (option.skuCount < 99) {
+        // to do something
+        this.washCheck1(option)
         let cartForm = {
           cartDetailId: option.cartDetailId,
           cartType: this.cartType,
@@ -258,6 +269,7 @@ export default {
     },
     // 购物车列表
     cartInfoList () {
+      let amountTmp = 0
       let cartForm = {
         index: this.index,
         limit: this.limit,
@@ -267,6 +279,10 @@ export default {
         .dispatch('ListCart', cartForm)
         .then(res => {
           this.washOptions = res.bizData.data
+          res.bizData.data.map(
+            x => (amountTmp += x.totalPrice)
+          )
+          this.amount = amountTmp
         })
         .catch(res => {
           console.log(res)

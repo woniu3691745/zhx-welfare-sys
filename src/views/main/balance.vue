@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 19:04:29 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-22 15:32:53
+ * @Last Modified time: 2017-11-24 15:59:39
  * 额度
  */
 <template>
@@ -29,7 +29,7 @@
       <div class="wrapper" v-for="item in quotas" :key="item.typeId">
          <div class="show-name-all clear">
            <span class="title left">{{item.typeName}}</span>
-           <router-link :to="{ path: '/cart', query: {itemTypeId: item.typeId}}">
+           <router-link :to="{ path: '/cart', query: {typeId: item.typeId}}">
             <span class="right shop-car">
               <span>99</span>
             </span>

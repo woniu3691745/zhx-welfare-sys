@@ -292,3 +292,64 @@ a:hover {
     background-image: none;
   }
 }
+// 地址管理（）
+.addressManage {
+  .delete-container {
+    position: relative;
+    .mint-radiolist {
+      .mint-radiolist-title {
+        margin: 0
+      }
+      .mint-cell {
+        background-image: none;
+        .mint-cell-wrapper {
+          background-image: none;
+          font-size: 0.28rem;
+          color: #323232;
+          height: 0.88rem;
+          .mint-radio-core {
+            width: 0.4rem;
+            height: 0.4rem;
+          }
+          .mint-radio-core:after {
+            width: 0.18rem;
+            height: 0.18rem;
+            top: 0.09rem;
+            left: 0.09rem;
+          }
+          .mint-radio-input:checked + .mint-radio-core {
+            background: #FD404A;
+            border-color: #FD404A;
+          }
+        }
+      }
+    }
+    .editor-delete-container {
+      position: absolute;
+      right: 0;
+      top: 0;
+      font-size: 0.26rem;
+      color: #323232;
+      padding: 0.19rem 0 0.24rem 0;
+      span {
+        width: 1rem;
+        height: 0.5rem;
+        line-height: 0.5rem;
+        border: 1px solid #969696;
+        border-radius: 0.04rem;
+        text-align: center;
+        margin-right: 0.28rem;
+      }
+      span:first-child {
+        margin-right: 0.4rem;
+      }
+    }
+  }
+  
+}
+// 编辑收货地址
+// .addressEdit {
+//   .mint-cell {
+//     background-image: none;
+//   }
+// }

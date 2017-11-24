@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-23 20:14:26
+ * @Last Modified time: 2017-11-24 15:25:10
  * 购物车
  */
 <template>
@@ -21,7 +21,7 @@
         <z-mt-checklist
           v-model="washValue"
           align="left"
-          :options="washOptions" @change="washCheck" @refreMinus="minus" @refreIncrease="increase">
+          :options="washOptions" @change="washCheck" @refreMinus="minus" @refreIncrease="increase" @refreDelAll="delAll">
         </z-mt-checklist>
       </div>
     </div>
@@ -34,7 +34,7 @@
         <mt-button class="right settle" type="danger" @click="confirmOrder">结算（{{quantity}}）</mt-button>
         <div class="sub right">
           <span class="all">合计：<span>￥{{amount}}</span></span>
-          <span class="balances">余额：￥{{amount}}</span>
+          <span class="balances">余额：￥{{balance}}</span>
         </div>
       </div>
     </div>
@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { InfiniteScroll, Indicator } from 'mint-ui'
+import { InfiniteScroll, Indicator, MessageBox } from 'mint-ui'
 import ZMtChecklist from '../../components/cartChecklist'
 import Vue from 'vue'
 Vue.use(InfiniteScroll)
@@ -55,6 +55,7 @@ export default {
       limit: '10',
       typeId: this.$route.query.typeId,
       cartType: this.$route.query.typeId,     // 种类
+      balance: '',                            // 余额
       nums: 0,
       amount: 0,                              // 总价
       mallUnitPrice: 0,                       // 商品价钱
@@ -141,37 +142,111 @@ export default {
       })
       this.mallUnitPrice = amountTemp
     },
+    // 额度
+    quotaInfo () {
+      let categoryInfo = {
+        productTypeId: this.cartType
+      }
+      this.$store
+        .dispatch('QuotaInfo', categoryInfo)
+        .then(res => {
+          this.balance = res.balance
+          this.typeName = res.typeName
+        })
+        .catch(res => {
+          console.log(res)
+        })
+    },
     // 减少
-    minus (itemId) {
-      this.nums = itemId
-      console.log('减少 -> ' + itemId)
-      this.washOptions = [
-        {
-          label: '<div>ddd</div>',
-          value: 'A',
-          goodNums: 11,
-          price: 1
-        },
-        {
-          label: '劳保C',
-          value: 'C',
-          goodNums: 3,
-          price: 1
-        }
-      ]
+    minus (option) {
+      let cartForm = {
+        cartDetailId: option.cartDetailId,
+        cartType: this.cartType,
+        mallSku: option.mallSku,
+        skuCount: '1'
+      }
+      if (option.skuCount === 1) {
+        MessageBox.confirm('确定执行此操作?').then(action => {
+          this.$store
+          .dispatch('AddCartMinus', cartForm)
+          .then(res => {
+            if (res.result) {
+              this.cartInfoList()
+            } else {
+              alert('del is error.')
+            }
+          })
+          .catch(res => {
+            console.log(res)
+          })
+        }).catch(error => {
+          console.log(error)
+        })
+      } else {
+        this.$store
+          .dispatch('AddCartMinus', cartForm)
+          .then(res => {
+            if (res.result) {
+              this.cartInfoList()
+            } else {
+              alert('del is error.')
+            }
+          })
+          .catch(res => {
+            console.log(res)
+          })
+      }
     },
     // 增加
-    increase (itemId) {
-      this.nums = itemId
-      console.log('增加 -> ' + itemId)
-      this.washOptions = [
-        {
-          label: '<div>ddd</div>',
-          value: 'A',
-          goodNums: 11,
-          price: 11
+    increase (option) {
+      if (option.skuCount < 99) {
+        let cartForm = {
+          cartDetailId: option.cartDetailId,
+          cartType: this.cartType,
+          mallSku: option.mallSku,
+          skuCount: '1'
         }
-      ]
+        this.$store
+        .dispatch('AddCartPlus', cartForm)
+        .then(res => {
+          if (res.result) {
+            this.cartInfoList()
+          } else {
+            alert(res.message)
+          }
+        })
+        .catch(res => {
+          console.log(res)
+        })
+      } else {
+        MessageBox({
+          title: '提示',
+          message: '最大数量为99',
+          showCancelButton: true
+        })
+      }
+    },
+    // 购物车移除
+    delAll (option) {
+      MessageBox.confirm('确定执行此操作?').then(action => {
+        let cartForm = {
+          cartDetailId: option.cartDetailId
+        }
+        this.$store
+          .dispatch('DelCart', cartForm)
+          .then(res => {
+            if (res.result) {
+              this.cartInfoList()
+            } else {
+              alert(res.message)
+            }
+          })
+          .catch(res => {
+            console.log(res)
+          })
+      }).catch(error => {
+        console.log(error)
+      })
     },
     // 确认订单
     confirmOrder () {
@@ -200,6 +275,7 @@ export default {
   },
   mounted () {
     this.cartInfoList()
+    this.quotaInfo()
   }
 }
 </script>

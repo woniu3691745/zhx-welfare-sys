@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-10-23 10:40:22
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-23 15:09:55
+ * @Last Modified time: 2017-11-24 14:34:28
  * 购物车API
  */
 import fetch from '@/utils/fetch'
@@ -64,7 +64,7 @@ export function addCartMinus (token, cartForm) {
 export function delCart (token, cartForm) {
   const data = {
     bizData: {
-      cartType: cartForm.cartType
+      cartDetailId: cartForm.cartDetailId
     },
     token
   }

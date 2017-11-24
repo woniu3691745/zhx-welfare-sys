@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-30 15:56:09 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-23 16:26:21
+ * @Last Modified time: 2017-11-24 14:54:08
  * 覆写 mint-ui checklist
  */
 <template>
@@ -30,14 +30,14 @@
             <div class="clear good-description-absolute">
               <span class="left good-money">￥{{option.mallUnitPrice}}</span>
               <div class="right good-delete">
-                <img src="../assets/delete.png" alt="">
+                <img src="../assets/delete.png" @click="delAll(option, $event)">
               </div>
               <div class="cart right">
-                <div class="compute" @click="minus(option.value, $event)">-</div>
+                <div class="compute" @click="minus(option, $event)">-</div>
+                <!-- <input class="goodNums" type="number" min="3" max="10" :value="option.skuCount"> -->
                 <span class="goodNums" v-text="option.skuCount"></span>
-                <div class="computes" @click="increase(option.value, $event)">+</div>
+                <div class="computes" @click="increase(option, $event)">+</div>
               </div>
-              
             </div>
           </div>
         </div>
@@ -82,7 +82,7 @@ export default {
   components: { XCell },
   data () {
     return {
-      goodNums: 1,
+      // goodNums: 1,
       currentValue: this.value
     }
   },
@@ -95,32 +95,29 @@ export default {
     value (val) {
       this.currentValue = val
     },
-
     currentValue (val) {
       if (this.limit) val.pop()
       this.$emit('input', val)
     }
   },
   methods: {
-    minus (val, $event) {
-      $event.preventDefault() // 不要执行与事件关联的默认动作
-      this.goodNums--
-      console.log('minus 1 -> ' + this.goodNums)
-      this.$emit('refreMinus', this.goodNums) // 点击 + - 后使父页面重新获得数据
-    },
-    increase (val, $event) {
+    minus (option, $event) {
       $event.preventDefault()
-      this.goodNums++
-      console.log('increase 1 -> ' + this.goodNums)
-      this.$emit('refreIncrease', this.goodNums) // 点击 + - 后使父页面重新获得数据
+      this.$emit('refreMinus', option)
+    },
+    increase (option, $event) {
+      $event.preventDefault()
+      this.$emit('refreIncrease', option)
+    },
+    delAll (option, $event) {
+      $event.preventDefault()
+      this.$emit('refreDelAll', option)
     }
   }
 }
 </script>
 
 <style lang="css" scoped>
-/* @import "../../../src/style/var.css"; */
-
 @component-namespace mint {
   @component checklist {
     .mint-cell {
@@ -194,13 +191,11 @@ export default {
   display: flex;
 }
 .list-content {
-  /* background-color: #fff; */
   padding-left: 20px;
   padding: 5px 0;
   display: flex;
   flex: 2;
   font-size: 12px;
-  /* width: 100% */
 }
 .good-descriptio {
   padding: 0 0;
@@ -231,8 +226,6 @@ export default {
 .good-delete img {
   width: 100%;
   height: 100%;;
-  
-
 }
 .cart {
   margin-right: 0.3rem;
@@ -242,7 +235,6 @@ export default {
   color: #FD404A;
   line-height: 0.4rem;
 }
-
 .compute {
   float: left;
   text-align: -webkit-center;
@@ -274,13 +266,4 @@ export default {
 a:hover {
   background-color: #fff;
 }
-
-
-
-  
-
-
-
-
-
 </style>

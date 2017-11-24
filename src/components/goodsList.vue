@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-19 19:50:05 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-23 16:16:39
+ * @Last Modified time: 2017-11-24 14:19:02
  * 商品列表
  */
 <template>
@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import { InfiniteScroll, Indicator } from 'mint-ui'
+import { InfiniteScroll, Indicator, MessageBox } from 'mint-ui'
 import Vue from 'vue'
 Vue.use(InfiniteScroll)
 
@@ -96,7 +96,11 @@ export default {
       this.$store
         .dispatch('AddCart', cartForm)
         .then(res => {
-          console.log('res ' + res)
+          MessageBox({
+            message: res.message,
+            closeOnClickModal: true,
+            showConfirmButton: true
+          })
         })
         .catch(res => {
           console.log(res)

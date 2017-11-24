@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-10-12 17:58:36
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-22 16:14:43
+ * @Last Modified time: 2017-11-22 20:23:52
  * 路由
  */
 
@@ -55,7 +55,7 @@ export const constantRouterMap = [
    * 登录
    */
   { path: '/login', name: '登录', component: resolve => require(['@/views/login/login.vue'], resolve) },
-  { path: '/resetLoginPassWord', name: '重置登录密码', component: resolve => require(['@/views/login/resetLoginPassWord.vue'], resolve) },
+  { path: '/resetLoginPassWord', name: '登录密码', component: resolve => require(['@/views/login/resetLoginPassWord.vue'], resolve) },
   /**
    * 订单
    */
@@ -78,7 +78,10 @@ export const constantRouterMap = [
   /**
    *  我的-账户
    */
-  { path: '/accountManagement', name: '编辑收货人', component: resolve => require(['@/views/account/accountManagement.vue'], resolve) }
+  { path: '/accountManagement', name: '账户管理', component: resolve => require(['@/views/account/accountManagement.vue'], resolve) },
+  { path: '/resetLoginPwd', name: '重置登录密码', component: resolve => require(['@/views/account/resetLoginPwd.vue'], resolve) },
+  { path: '/resetPayPwd', name: '重置支付密码', component: resolve => require(['@/views/account/payPwd/resetPayPwd.vue'], resolve) },
+  { path: '/resetBindPhone', name: '更换绑定手机号', component: resolve => require(['@/views/account/resetBindPhone.vue'], resolve) }
 ]
 
 export default new Router({

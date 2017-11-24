@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-30 15:56:09 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-15 15:00:11
+ * @Last Modified time: 2017-11-23 16:26:21
  * 覆写 mint-ui checklist
  */
 <template>
@@ -23,17 +23,18 @@
         </span>
         <!-- <span class="mint-checkbox-label" v-text="option.label || option"></span> -->
         <div class="list-content">
-          <img class="big-picture" src="../assets/aaa.jpg"></img>
+          <!-- <img class="big-picture" src="../assets/aaa.jpg"></img> -->
+          <img class="big-picture" v-bind:src="option.imgUrl">
           <div class="good-description">
-            <div class="desc">农夫山泉 饮用天然矿泉水 400ml*24瓶 122整箱</div>
+            <div class="desc">{{option.productName}}</div>
             <div class="clear good-description-absolute">
-              <span class="left good-money">￥58.90</span>
+              <span class="left good-money">￥{{option.mallUnitPrice}}</span>
               <div class="right good-delete">
                 <img src="../assets/delete.png" alt="">
               </div>
               <div class="cart right">
                 <div class="compute" @click="minus(option.value, $event)">-</div>
-                <span class="goodNums" v-text="option.goodNums"></span>
+                <span class="goodNums" v-text="option.skuCount"></span>
                 <div class="computes" @click="increase(option.value, $event)">+</div>
               </div>
               

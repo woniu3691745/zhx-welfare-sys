@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-10-23 10:40:22
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-21 15:44:56
+ * @Last Modified time: 2017-11-23 10:25:57
  * 商品列表API
  */
 import fetch from '@/utils/fetch'
@@ -25,10 +25,10 @@ export function goodList (token, orderListForm) {
   })
 }
 // 获得商品详细信息
-export function goodListById (token, productTypeId) {
+export function goodListById (token, productSku) {
   const data = {
     data: {
-      productId: productTypeId
+      productSku: productSku
     },
     token
   }

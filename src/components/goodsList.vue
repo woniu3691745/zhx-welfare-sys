@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-19 19:50:05 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-22 15:50:11
+ * @Last Modified time: 2017-11-23 16:16:39
  * 商品列表
  */
 <template>
@@ -28,14 +28,14 @@
                     ref="loadmore">
           <ul class="page-loadmore-list">
             <li v-for="item in goodList" v-bind="goodList" :key="item.productId" class="page-loadmore-listitem">
-              <!-- <router-link :to="{ path: '/detail', query: {id: item.productId}}"><img v-bind:src="item.imgUrl"></router-link> -->
-              <img v-bind:src="item.imgUrl" @click="detail(item.productId)">
+              <router-link :to="{ path: '/detail', query: {sku: item.productSku}}"><img v-bind:src="item.imgUrl"></router-link>
+              <!-- <img v-bind:src="item.imgUrl" @click="detail(item.productSku)"> -->
               <div class="good-description border-1px">
                 <div class="desc">{{item.productName}}</div>
                 <span class="span-block clear">
                   <span class="sale-price left">￥{{ item.salePrice }}</span>
                   <span class="car-shopping right">
-                    <img class="cart" src="../assets/red-car.png" @click="addCart(item.productId)"/>
+                    <img class="cart" src="../assets/red-car.png" @click="addCart(item.productSku)"/>
                   </span>
                 </span>
               </div>
@@ -77,11 +77,30 @@ export default {
     }
   },
   methods: {
+    // 跳转购物车
     cart () {
-      this.$router.push({ path: '/cart' })
+      this.$router.push({
+        path: '/cart',
+        query: {
+          typeId: this.typeId
+        }
+      })
     },
-    addCart (productId) {
-      console.log('add ' + productId + ' is successful')
+    // 加入购物车
+    addCart (productSku) {
+      let cartForm = {
+        cartType: this.typeId,
+        mallSku: productSku,
+        skuCount: '1'
+      }
+      this.$store
+        .dispatch('AddCart', cartForm)
+        .then(res => {
+          console.log('res ' + res)
+        })
+        .catch(res => {
+          console.log(res)
+        })
     },
     get () {
       setTimeout(function () {
@@ -150,10 +169,10 @@ export default {
         })
     }
   },
-  detail (id) {
+  detail (productSku) {
     this.$router.push({
       path: '/detail',
-      query: { typeId: this.typeId, id: id }
+      query: { typeId: this.typeId, sku: productSku }
     })
   },
   created () {

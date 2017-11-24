@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 19:04:03 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-22 14:40:18
+ * @Last Modified time: 2017-11-23 15:32:58
  * 商品详情
  */
 <template>
@@ -48,7 +48,7 @@ export default {
   data () {
     return {
       goodsForm: {
-        productTypeId: this.$route.query.id,   // 商品ID
+        productSku: this.$route.query.sku,   // 商品ID
         imgUrl: '',                            // 商品图片
         productName: '',                       // 商品描述
         salePrice: '',                         // 价格
@@ -58,9 +58,9 @@ export default {
     }
   },
   methods: {
-    goodListByIdInfo (productTypeId) {
+    goodListByIdInfo (productSku) {
       this.$store
-        .dispatch('GoodListById', productTypeId)
+        .dispatch('GoodListById', productSku)
         .then(req => {
           Object.assign(this.goodsForm, req.data)
         })
@@ -69,16 +69,21 @@ export default {
         })
     },
     addCart () {
-      console.log('add ' + this.goodsForm.productTypeId + ' is successful')
+      console.log('add ' + this.goodsForm.productSku + ' is successful')
     },
     cart () {
-      this.$router.push({ path: '/cart' })
+      this.$router.push({
+        path: '/cart',
+        query: {
+          typeId: this.typeId
+        }
+      })
     }
   },
   created () {
   },
   mounted () {
-    this.goodListByIdInfo(this.goodsForm.productTypeId)
+    this.goodListByIdInfo(this.goodsForm.productSku)
   }
 }
 </script>

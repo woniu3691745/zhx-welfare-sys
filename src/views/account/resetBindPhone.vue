@@ -2,22 +2,19 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 09:59:01 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-22 20:12:43
- * 账户管理
+ * @Last Modified time: 2017-11-22 19:35:38
+ * 更换手机号
  */
 <template>
-  <div class="accountManagement">
+  <div class="resetBindPhone">
     <div class="common-header">
-      <mt-header title="账户管理">
-        <router-link to="/mine" slot="left" fixed>
+      <mt-header title="更换手机号">
+        <router-link to="/accountManagement" slot="left" fixed>
           <mt-button icon="back"></mt-button>
         </router-link>
       </mt-header>
     </div>
     <div class="body">
-      <mt-cell title="重置登录密码" to="/resetLoginPwd"></mt-cell>
-      <mt-cell title="重置支付密码" to="/resetPayPwd"></mt-cell>
-      <mt-cell title="更换手机号" to="/resetBindPhone"></mt-cell>
     </div>
     <div class="bottom">
       <mt-button class="index-login" type="primary" @click.native="onSubmit">登录</mt-button>
@@ -28,7 +25,7 @@
 <script>
  export default {
    // 组件名字
-   name: 'accountManagement-page',
+   name: 'resetBindPhone-page',
    // 组合其它组件
    extends: {},
    // 组件属性、变量
@@ -52,6 +49,7 @@
 </script>
 
 <style lang="less" scoped>
+@import "../../../static/css/util.css";
 .bottom {
   margin-top: 2.45rem;
   .forget {

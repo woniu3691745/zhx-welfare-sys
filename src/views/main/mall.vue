@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-22 15:42:00
+ * @Last Modified time: 2017-11-23 14:30:45
  * 首页组件
  */
 <template>
@@ -51,7 +51,7 @@
               <ul>
                 <li v-for="item in bonusPackages" :key="item.productId">
                   <!-- <router-link :to="{ path: '/detail', query: {id: item.id}}"></router-link> -->
-                  <img v-bind:src="item.imgUrl" @click="detail(item.productId)">
+                  <img v-bind:src="item.imgUrl" @click="detail(item.productSku)">
                   <div class="des">
                     <p>{{item.productName}}</p>
                     <span>￥{{item.salePrice}}</span>
@@ -68,7 +68,7 @@
         </div>
       </li>
       <li v-for="item in competitiveProducts" :key="item.productId" class="left lis">
-        <img v-bind:src="item.imgUrl" @click="detail(item.productId)">
+        <img v-bind:src="item.imgUrl" @click="detail(item.productSku)">
         <!-- <router-link :to="{ path: '/detail', query: {id: n.productId}}"> -->
         <!-- <img v-bind:src="n.imgUrl"></router-link> -->
         <div class="des">
@@ -204,10 +204,10 @@ export default {
           console.log(res)
         })
     },
-    detail (id) {
+    detail (productSku) {
       this.$router.push({
         path: '/detail',
-        query: { typeId: this.typeId, id: id }
+        query: { typeId: this.typeId, sku: productSku }
       })
     },
     focus () {

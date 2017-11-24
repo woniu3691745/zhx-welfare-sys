@@ -2,15 +2,16 @@
  * @Author: lidongliang
  * @Date: 2017-10-18 15:33:14
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-21 15:42:44
+ * @Last Modified time: 2017-11-22 20:01:20
  * 用户信息 module
+ *
+ * 1.通过commit -> 2.经过mutation -> 3.改变数据state
  */
 import { loginByUserName, logout, getUserInfo, resetLoginPassword, getIdCode } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 
 const user = {
 
-  // 定义数据状态
   state: {
     token: getToken(),
     name: '',
@@ -18,8 +19,6 @@ const user = {
     quota: []
   },
 
-  // 改变数据状态
-  // mutations -> state
   mutations: {
     SET_TOKEN: (state, token) => {
       state.token = token
@@ -35,7 +34,6 @@ const user = {
     }
   },
 
-  // commit -> mutation
   actions: {
     // 用户名登录
     LoginByUserName ({ commit }, userInfo) {

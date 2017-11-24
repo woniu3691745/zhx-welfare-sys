@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-16 16:26:38 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-22 15:39:43
+ * @Last Modified time: 2017-11-22 19:33:35
  * css 工具
  */
  /* 滚动条 start */
@@ -23,15 +23,3 @@
   background-color: #e0e0e0;
 }
 
-/* a标签 start */
-a:link,
-a:visited {
-  color: #fff;
-  text-decoration: none;
-}
-a:hover {
-  background:none;
-   -webkit-tap-highlight-color: transparent;
-   -webkit-font-smoothing: antialiased;
-}
-/* a标签 end */

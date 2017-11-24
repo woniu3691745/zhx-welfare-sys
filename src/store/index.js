@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-10-18 15:32:53
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-16 16:39:34
+ * @Last Modified time: 2017-11-23 14:35:10
  * vuex
  */
 import Vue from 'vue'
@@ -12,6 +12,7 @@ import index from './modules/index'
 import goodList from './modules/goodList'
 import register from './modules/register'
 import mall from './modules/mall'
+import cart from './modules/cart'
 import getters from './getters'
 
 Vue.use(Vuex)
@@ -22,7 +23,8 @@ export default new Vuex.Store({
     register,
     index,
     mall,
-    goodList
+    goodList,
+    cart
   },
   getters
 })

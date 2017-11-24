@@ -50,7 +50,7 @@
             </span>
           </div>
           <div slot="bottom" class="mint-loadmore-bottom">
-            <span v-show="bottomStatus !== 'loading'" :class="{ 'is-rotate': bottomStatus === 'drop' }">↑</span>
+            <span class="loadmore-bottoms" v-show="bottomStatus !== 'loading'" :class="{ 'is-rotate': bottomStatus === 'drop' }">↑</span>
             <span v-show="bottomStatus === 'loading'">
               <mt-spinner type="fading-circle" color="#26a2ff"></mt-spinner>
             </span>
@@ -143,7 +143,7 @@ export default {
         // }
         // this.goodListInfo()
         this.$refs.loadmore.onBottomLoaded()
-      }, 1500)
+      }, 150000)
     },
     loadTop () {
       // setTimeout(() => {
@@ -233,7 +233,7 @@ export default {
   }
 
   .page-loadmore-wrapper {
-    // overflow: scroll;
+    overflow: scroll;
     .page-loadmore-list {
       background-color: #fff;
       padding-top: 0.88rem;
@@ -333,5 +333,8 @@ export default {
 
 .mint-loadmore-bottom {
   text-align: -webkit-center !important;
+}
+.mint-loadmore-bottom .loadmore-bottoms {
+  font-size: 0.3rem;
 }
 </style>

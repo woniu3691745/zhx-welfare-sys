@@ -208,6 +208,7 @@ export default {
   background-size: 100% 1px;
   background-repeat: no-repeat;
   background-position: bottom;
+  width: 100%;
 }
 .good-description-absolute {
   position: absolute;

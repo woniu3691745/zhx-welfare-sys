@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-24 15:25:10
+ * @Last Modified time: 2017-11-24 15:36:59
  * 购物车
  */
 <template>
@@ -100,7 +100,7 @@ export default {
         this.allValue = []
       }
       this.washSum(val)
-      this.amount = this.mallUnitPrice
+      this.amount = this.mallUnitPrice.toFixed(2)
       this.quantity = this.washValue.length
       this.clearAllCheckRadio()
     },
@@ -120,7 +120,7 @@ export default {
       }
       this.washSum(this.washValue)
       this.quantity = this.washValue.length
-      this.amount = this.mallUnitPrice
+      this.amount = this.mallUnitPrice.toFixed(2)
     },
     // 处理全选单选按钮状态
     clearAllCheckRadio () {

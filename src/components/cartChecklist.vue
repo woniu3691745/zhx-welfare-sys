@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-30 15:56:09 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-24 14:54:08
+ * @Last Modified time: 2017-11-27 20:56:44
  * 覆写 mint-ui checklist
  */
 <template>
@@ -34,7 +34,6 @@
               </div>
               <div class="cart right">
                 <div class="compute" @click="minus(option, $event)">-</div>
-                <!-- <input class="goodNums" type="number" min="3" max="10" :value="option.skuCount"> -->
                 <span class="goodNums" v-text="option.skuCount"></span>
                 <div class="computes" @click="increase(option, $event)">+</div>
               </div>
@@ -47,6 +46,7 @@
 </template>
 
 <script>
+import eventBus from '../assets/eventBus'
 import XCell from 'mint-ui/packages/cell/index.js'
 if (process.env.NODE_ENV === 'component') {
   require('mint-ui/packages/cell/style.css')
@@ -82,14 +82,20 @@ export default {
   components: { XCell },
   data () {
     return {
-      // goodNums: 1,
-      currentValue: this.value
+      currentValue: this.value,
+      status: true
     }
   },
   computed: {
     limit () {
       return this.max < this.currentValue.length
     }
+  },
+  created () {
+    eventBus.$on('status', param => {
+      this.status = param
+      console.log('this.status ' + this.status)
+    })
   },
   watch: {
     value (val) {
@@ -104,10 +110,16 @@ export default {
     minus (option, $event) {
       $event.preventDefault()
       this.$emit('refreMinus', option)
+      if (this.status) {
+        option.skuCount -= 1
+      }
     },
     increase (option, $event) {
       $event.preventDefault()
       this.$emit('refreIncrease', option)
+      if (this.status) {
+        option.skuCount += 1
+      }
     },
     delAll (option, $event) {
       $event.preventDefault()

@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-24 16:48:08
+ * @Last Modified time: 2017-11-27 21:12:42
  * 购物车
  */
 <template>
@@ -50,6 +50,7 @@
 import { InfiniteScroll, Indicator, MessageBox } from 'mint-ui'
 import ZMtChecklist from '../../components/cartChecklist'
 import Vue from 'vue'
+import eventBus from '../../assets/eventBus'
 Vue.use(InfiniteScroll)
 
 export default {
@@ -59,22 +60,17 @@ export default {
       index: '0',
       limit: '10',
       typeId: this.$route.query.typeId,
-      cartType: this.$route.query.typeId,     // 种类
-      balance: '',                            // 余额
-      nums: 0,
-      amount: 0,                              // 总价
-      mallUnitPrice: 0,                       // 商品价钱
-      quantity: 0,                            // 商品数量
-      allValue: [],                           // 结算，全选
-      allOption: [
-        {
-          label: '全选',
-          value: '0'
-        }
-      ],
-      washAllValue: [],        // 全选的值
-      washValue: [],           // 绑定值
-      washOptions: []          // 选择项
+      cartType: this.$route.query.typeId,                 // 种类
+      balance: '',                                        // 余额
+      // nums: 0,
+      amount: 0,                                          // 总价
+      mallUnitPrice: 0,                                   // 商品价钱
+      quantity: 0,                                        // 商品数量
+      allValue: [],                                       // 结算，全选
+      allOption: [{ label: '全选', value: '0' }],         // 全选默认值
+      washAllValue: [],                                   // 全部选中的值
+      washValue: [],                                      // 选中的绑定值
+      washOptions: []                                     // 购物车列表选择项
     }
   },
   created () {
@@ -99,7 +95,7 @@ export default {
     // 单选
     washCheck (val) {
       if (this.washOptions.length === val.length) {
-        this.washAllValue = [val[0].mallSku]
+        this.washAllValue = [val[0].mallSku]  // 选中->全选
       } else {
         this.washAllValue = []
         this.allValue = []
@@ -108,9 +104,6 @@ export default {
       this.amount = this.mallUnitPrice.toFixed(2)
       this.quantity = this.washValue.length
       this.clearAllCheckRadio()
-    },
-    washCheck1 (val) {
-      // this.washValue = [val]
     },
     // 全选
     checkAll (val) {
@@ -144,8 +137,9 @@ export default {
       this.washOptions.map(function (x) {
         val.map(function (y) {
           if (x.mallSku === y.mallSku) {
-            amountTemp += x.mallUnitPrice
-            amountTemp *= x.skuCount
+            // amountTemp += x.mallUnitPrice           // 商品单价
+            // amountTemp *= x.skuCount                // 商品数量
+            amountTemp += (x.mallUnitPrice * x.skuCount)
           }
         })
       })
@@ -175,14 +169,17 @@ export default {
         skuCount: '1'
       }
       if (option.skuCount === 1) {
+        eventBus.$emit('status', false)
         MessageBox.confirm('确定执行此操作?').then(action => {
           this.$store
           .dispatch('AddCartMinus', cartForm)
           .then(res => {
             if (res.result) {
-              this.cartInfoList()
+              eventBus.$emit('status', true)
+              this.cartInfoList(true)
             } else {
-              alert('del is error.')
+              eventBus.$emit('status', false)
+              alert(res.message)
             }
           })
           .catch(res => {
@@ -196,12 +193,14 @@ export default {
           .dispatch('AddCartMinus', cartForm)
           .then(res => {
             if (res.result) {
-              this.cartInfoList()
+              this.cartInfoList(true)
             } else {
-              alert('del is error.')
+              eventBus.$emit('status', false)
+              alert(res.message)
             }
           })
           .catch(res => {
+            eventBus.$emit('status', false)
             console.log(res)
           })
       }
@@ -209,8 +208,6 @@ export default {
     // 增加
     increase (option) {
       if (option.skuCount < 99) {
-        // to do something
-        this.washCheck1(option)
         let cartForm = {
           cartDetailId: option.cartDetailId,
           cartType: this.cartType,
@@ -221,8 +218,10 @@ export default {
         .dispatch('AddCartPlus', cartForm)
         .then(res => {
           if (res.result) {
-            this.cartInfoList()
+            eventBus.$emit('status', true)
+            this.cartInfoList(true)
           } else {
+            eventBus.$emit('status', false)
             alert(res.message)
           }
         })
@@ -235,6 +234,7 @@ export default {
           message: '最大数量为99',
           showCancelButton: true
         })
+        eventBus.$emit('status', false)
       }
     },
     // 购物车移除
@@ -265,11 +265,18 @@ export default {
       //   path: '/confirmOrder',
       //   query: { selected: 'balance' }
       // })
-      console.log('washValue  = ' + JSON.stringify(this.washValue))
+      if (this.amount > this.balance) {
+        MessageBox({
+          title: '提示',
+          message: '额度不足！',
+          showCancelButton: false
+        })
+      } else {
+        console.log('washValue  = ' + JSON.stringify(this.washValue))
+      }
     },
     // 购物车列表
-    cartInfoList () {
-      let amountTmp = 0
+    cartInfoList (operation) {
       let cartForm = {
         index: this.index,
         limit: this.limit,
@@ -278,11 +285,19 @@ export default {
       this.$store
         .dispatch('ListCart', cartForm)
         .then(res => {
-          this.washOptions = res.bizData.data
-          res.bizData.data.map(
-            x => (amountTmp += x.totalPrice)
-          )
-          this.amount = amountTmp
+          if (!operation) {
+            this.washOptions = res.bizData.data
+          } else {
+            if (this.washValue.length && this.washValue.length === this.washOptions.length) {
+              let amountTemp = 0
+              res.bizData.data.map(
+                x => {
+                  amountTemp += x.totalPrice
+                }
+              )
+              this.amount = amountTemp
+            }
+          }
         })
         .catch(res => {
           console.log(res)

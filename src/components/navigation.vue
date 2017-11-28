@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 19:03:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-28 14:47:33
+ * @Last Modified time: 2017-11-28 17:38:53
  * 导航
  */
 <template>
@@ -23,7 +23,7 @@
     </mt-tabbar>
     <div class="pozition-fixed" @click="hiddleMallTypeButton($event)" :style="{ display: display}">
       <div class="pozition-fixeds">
-        <img v-bind:src="'api'+ item.icon" @click="goFood(item.typeId, item.balance)" v-for="item in quotas" :key="item.typeId">
+        <img v-bind:src="'WelfareMall-interface'+ item.icon" @click="goFood(item.typeId, item.balance)" v-for="item in quotas" :key="item.typeId">
       </div>
     </div>
   </div>

@@ -32,11 +32,11 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/api/': {
+      '/WelfareMall-interface/': {
         target: 'http://10.6.10.58:8080',
         changeOrigin: true,
         pathRewrite: {
-            '^/api': '/WelfareMall-interface'
+            '^/WelfareMall-interface': '/WelfareMall-interface'
         }
       }
     },

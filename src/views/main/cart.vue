@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-28 09:57:28
+ * @Last Modified time: 2017-11-28 17:17:57
  * 购物车
  */
 <template>
@@ -265,14 +265,22 @@ export default {
       //   path: '/confirmOrder',
       //   query: { selected: 'balance' }
       // })
-      if (this.amount > this.balance) {
+      if (this.washValue.length) {
+        if (this.amount > this.balance) {
+          MessageBox({
+            title: '提示',
+            message: '额度不足！',
+            showCancelButton: false
+          })
+        } else {
+          console.log('washValue  = ' + JSON.stringify(this.washValue))
+        }
+      } else {
         MessageBox({
           title: '提示',
-          message: '额度不足！',
+          message: '请选择商品！',
           showCancelButton: false
         })
-      } else {
-        console.log('washValue  = ' + JSON.stringify(this.washValue))
       }
     },
     // 购物车列表

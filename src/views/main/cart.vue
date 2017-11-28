@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-27 21:12:42
+ * @Last Modified time: 2017-11-28 09:57:28
  * 购物车
  */
 <template>
@@ -288,11 +288,21 @@ export default {
           if (!operation) {
             this.washOptions = res.bizData.data
           } else {
-            if (this.washValue.length && this.washValue.length === this.washOptions.length) {
+            // console.log('washValue--->' + this.washValue.length)
+            // console.log('washOptions--->' + this.washOptions.length)
+            // console.log('--->' + this.washValue.length === this.washOptions.length)
+            // if (this.washValue.length && (this.washValue.length === this.washOptions.length)) {
+            if (this.washValue.length) {
               let amountTemp = 0
               res.bizData.data.map(
                 x => {
-                  amountTemp += x.totalPrice
+                  this.washValue.map(
+                    y => {
+                      if (y.mallSku === x.mallSku) {
+                        amountTemp += x.totalPrice
+                      }
+                    }
+                  )
                 }
               )
               this.amount = amountTemp

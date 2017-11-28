@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-10-23 10:40:22
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-24 14:34:28
+ * @Last Modified time: 2017-11-28 14:44:08
  * 购物车API
  */
 import fetch from '@/utils/fetch'
@@ -18,7 +18,7 @@ export function addCart (token, cartForm) {
     token
   }
   return fetch({
-    url: '/api/cart/add.cp',
+    url: '/cart/add.cp',
     method: 'post',
     data
   })
@@ -36,7 +36,7 @@ export function addCartPlus (token, cartForm) {
     token
   }
   return fetch({
-    url: '/api/cart/plus.cp',
+    url: '/cart/plus.cp',
     method: 'post',
     data
   })
@@ -54,7 +54,7 @@ export function addCartMinus (token, cartForm) {
     token
   }
   return fetch({
-    url: '/api/cart/minus.cp',
+    url: '/cart/minus.cp',
     method: 'post',
     data
   })
@@ -69,7 +69,7 @@ export function delCart (token, cartForm) {
     token
   }
   return fetch({
-    url: '/api/cart/del.cp',
+    url: '/cart/del.cp',
     method: 'post',
     data
   })
@@ -84,7 +84,7 @@ export function cleanupCart (token, cartForm) {
     token
   }
   return fetch({
-    url: '/api/cart/cleanup.cp',
+    url: '/cart/cleanup.cp',
     method: 'post',
     data
   })
@@ -101,7 +101,7 @@ export function listCart (token, cartForm) {
     token
   }
   return fetch({
-    url: '/api/cart/list.cp',
+    url: '/cart/list.cp',
     method: 'post',
     data
   })
@@ -116,7 +116,7 @@ export function countCart (token, cartForm) {
     token
   }
   return fetch({
-    url: '/api/cart/count.cp',
+    url: '/cart/count.cp',
     method: 'post',
     data
   })

@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-11-16 16:38:25
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-21 11:09:10
+ * @Last Modified time: 2017-11-28 14:43:39
  * 商城信息API
  */
 import fetch from '@/utils/fetch'
@@ -17,7 +17,7 @@ export function catalogueInfo (token, catalogueForm) {
     token
   }
   return fetch({
-    url: '/api/product/type3.cp',
+    url: '/product/type3.cp',
     method: 'post',
     data
   })

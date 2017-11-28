@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-10-18 15:33:43
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-21 10:45:37
+ * @Last Modified time: 2017-11-28 14:44:30
  * 登录API
  */
 import fetch from '@/utils/fetch'
@@ -18,7 +18,7 @@ export function loginByUserName (PhoneNo, SigninPwd) {
     }
   }
   return fetch({
-    url: '/api/login.cp',
+    url: '/login.cp',
     method: 'post',
     data
   })
@@ -29,7 +29,7 @@ export function logout (token) {
     token
   }
   return fetch({
-    url: '/api/logout.cp',
+    url: '/logout.cp',
     method: 'post',
     data
   })
@@ -40,7 +40,7 @@ export function getUserInfo (token) {
     token
   }
   return fetch({
-    url: '/api/wcc/balance.cp',
+    url: '/wcc/balance.cp',
     method: 'post',
     data
   })
@@ -52,7 +52,7 @@ export function resetLoginPassword (token, resetLoginPasswordForm) {
     token
   }
   return fetch({
-    url: '/api/user/',
+    url: '/user/',
     method: 'post',
     data
   })

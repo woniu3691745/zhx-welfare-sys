@@ -2,13 +2,13 @@
  * @Author: lidongliang
  * @Date: 2017-10-23 10:40:22
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-15 11:26:38
+ * @Last Modified time: 2017-11-28 14:55:32
  * 注册API
  */
 import fetch from '@/utils/fetch'
 import axios from 'axios'
 
-const tdDomain = 'http://10.7.13.109:8080'
+const tdDomain = 'https://mall-uat.zihexin.cn:8087/WelfareMall-interface'
 
 export function verfiyCardAndPwd (reqData) {
   return axios.post(tdDomain + '/register/validateWelfare.cp', reqData)

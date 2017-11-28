@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-10-23 10:40:22
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-21 18:57:40
+ * @Last Modified time: 2017-11-28 14:44:23
  * 首页API
  */
 import fetch from '@/utils/fetch'
@@ -19,7 +19,7 @@ export function bonusPackagesInfo (token, viewNums) {
     token
   }
   return fetch({
-    url: '/api/product/gift.cp',
+    url: '/product/gift.cp',
     method: 'post',
     data
   })
@@ -37,7 +37,7 @@ export function competitiveProductsInfo (token, viewNums) {
     token
   }
   return fetch({
-    url: '/api/product/top.cp',
+    url: '/product/top.cp',
     method: 'post',
     data
   })
@@ -52,7 +52,7 @@ export function quotaInfo (token, productTypeId) {
     token
   }
   return fetch({
-    url: '/api/wcc/balance/type.cp',
+    url: '/wcc/balance/type.cp',
     method: 'post',
     data
   })

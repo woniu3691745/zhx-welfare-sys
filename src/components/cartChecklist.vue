@@ -94,7 +94,7 @@ export default {
   created () {
     eventBus.$on('status', param => {
       this.status = param
-      console.log('this.status ' + this.status)
+      // console.log('this.status ' + this.status)
     })
   },
   watch: {

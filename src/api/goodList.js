@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-10-23 10:40:22
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-23 10:25:57
+ * @Last Modified time: 2017-11-28 14:44:15
  * 商品列表API
  */
 import fetch from '@/utils/fetch'
@@ -19,7 +19,7 @@ export function goodList (token, orderListForm) {
     token
   }
   return fetch({
-    url: '/api/product/all.cp',
+    url: '/product/all.cp',
     method: 'post',
     data
   })
@@ -33,7 +33,7 @@ export function goodListById (token, productSku) {
     token
   }
   return fetch({
-    url: '/api/product/detail.cp',
+    url: '/product/detail.cp',
     method: 'post',
     data
   })

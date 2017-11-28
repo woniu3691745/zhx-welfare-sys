@@ -292,6 +292,7 @@ a:hover {
       height: 0.88rem;
       font-size: 0.28rem;
       color: #323232;
+      background-origin: border-box;
       .mint-cell-title {
         padding-left: 0.44rem;
       }
@@ -371,4 +372,47 @@ a:hover {
   .mint-loadmore-top {
     margin-top: -0.5rem;
   }
+}
+// 账户管理 
+.account-management-body {
+  .mint-cell-wrapper {
+    font-size: 0.32rem;
+    color: #000000;
+    padding-left: 0.38rem;
+    height: 0.88rem;
+    line-height: 0.88rem;
+    background-origin: border-box
+  }
+  .mint-cell:first-child .mint-cell-wrapper {
+    background-image: none;
+  }
+  // .mint-cell:last-child .mint-cell-wrapper {
+  //   background-image: none;
+  // }
+}
+// 重置登录密码 
+.reset-login-pwd-body {
+  .common-form-filed {
+    .mint-cell-wrapper {
+      height: 0.88rem;
+      font-size: 0.28rem;
+      .mint-cell-title {
+        width: 2rem;
+      }
+    }
+  }
+  
+}
+// 重置支付密码
+.reset-pay-pwd-body {
+  .common-form-filed {
+    .mint-cell-wrapper {
+      height: 0.88rem;
+      font-size: 0.28rem;
+      .mint-cell-title {
+        width: 2rem;
+      }
+    }
+  }
+  
 }

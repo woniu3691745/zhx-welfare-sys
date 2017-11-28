@@ -14,7 +14,7 @@
         </router-link>
       </mt-header>
     </div>
-    <div class="body">
+    <div class="reset-login-pwd-body">
       <div class="common-form-filed">
         <mt-field label="手机号" placeholder="请输入手机号" v-model="resetForm.phoneNum">
         </mt-field>
@@ -76,25 +76,25 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.body {
+.reset-login-pwd-body {
   .identifyingCode1 {
     border: 0.02rem solid #f9404a;
-    height: 0.18rem;
-    line-height: 0.18rem;
+    height: 0.2rem;
+    line-height: 0.2rem;
     padding: 0.05rem 0.2rem;
     border-radius: 0.1rem;
     margin-left: 0.1rem;
-    font-size: 0.01rem;
+    font-size: 0.2rem;
     color: #f9404a;
   }
   .identifyingCode2 {
     border: 0.02rem solid #26a2ff;
-    height: 0.18rem;
-    line-height: 0.18rem;
+    height: 0.2rem;
+    line-height: 0.2rem;
     padding: 0.05rem 0.2rem;
     border-radius: 0.1rem;
     margin-left: 0.1rem;
-    font-size: 0.01rem;
+    font-size: 0.2rem;
     color: #26a2ff;
   }
   .pwd-totip {

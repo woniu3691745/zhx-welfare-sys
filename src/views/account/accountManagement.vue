@@ -14,7 +14,7 @@
         </router-link>
       </mt-header>
     </div>
-    <div class="body">
+    <div class="account-management-body">
       <mt-cell title="重置登录密码" to="/resetLoginPwd"></mt-cell>
       <mt-cell title="重置支付密码" to="/resetPayPwd"></mt-cell>
       <mt-cell title="更换手机号" to="/resetBindPhone"></mt-cell>
@@ -52,6 +52,13 @@
 </script>
 
 <style lang="less" scoped>
+.body {
+  .mint-cell {
+    .mint-cell-text {
+      font-size: 0.3rem;
+    }
+  }
+}
 .bottom {
   margin-top: 2.45rem;
   .forget {

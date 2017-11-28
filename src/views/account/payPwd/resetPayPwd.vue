@@ -14,7 +14,7 @@
         </router-link>
       </mt-header>
     </div>
-    <div class="body">
+    <div class="reset-pay-pwd-body">
       <div class="common-form-filed">
         </mt-field>
         <mt-field label="验证码" placeholder="请输入短信验证码" v-model="bindForm.identifyingCode">
@@ -90,12 +90,12 @@
 @import "../../../../static/css/util.css";
 .identifyingCode1 {
     border: 0.02rem solid #f9404a;
-    height: 0.18rem;
-    line-height: 0.18rem;
+    height: 0.2rem;
+    line-height: 0.2rem;
     padding: 0.05rem 0.2rem;
     border-radius: 0.1rem;
     margin-left: 0.1rem;
-    font-size: 0.01rem;
+    font-size: 0.2rem;
     color: #f9404a;
   }
   .identifyingCode2 {

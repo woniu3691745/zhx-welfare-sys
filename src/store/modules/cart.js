@@ -2,10 +2,10 @@
  * @Author: lidongliang
  * @Date: 2017-10-18 15:33:14
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-23 14:45:38
+ * @Last Modified time: 2017-11-28 18:22:18
  * 购物车 module
  */
-import { addCart, addCartPlus, addCartMinus, delCart, cleanupCart, listCart, countCart } from '@/api/cart'
+import { addCart, addCartPlus, addCartMinus, delCart, cleanupCart, listCart, countCart, settleCart } from '@/api/cart'
 import { getToken } from '@/utils/auth'
 
 const cart = {
@@ -85,6 +85,16 @@ const cart = {
     CountCart ({ commit, state }, cartForm) {
       return new Promise((resolve, reject) => {
         countCart(state.token, cartForm).then(response => {
+          resolve(response.data)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    // 结算
+    SettleCart ({ commit, state }, cartForm) {
+      return new Promise((resolve, reject) => {
+        settleCart(state.token, cartForm).then(response => {
           resolve(response.data)
         }).catch(error => {
           reject(error)

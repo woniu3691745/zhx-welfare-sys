@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-10-23 10:40:22
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-28 14:44:08
+ * @Last Modified time: 2017-11-28 18:28:45
  * 购物车API
  */
 import fetch from '@/utils/fetch'
@@ -117,6 +117,22 @@ export function countCart (token, cartForm) {
   }
   return fetch({
     url: '/cart/count.cp',
+    method: 'post',
+    data
+  })
+}
+
+// 结算
+export function settleCart (token, cartForm) {
+  const data = {
+    bizData: {
+      cartType: cartForm.cartType,
+      mallSkus: cartForm.mallSkus
+    },
+    token
+  }
+  return fetch({
+    url: '/cart/settle.cp',
     method: 'post',
     data
   })

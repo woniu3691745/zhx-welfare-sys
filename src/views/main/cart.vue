@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-28 17:17:57
+ * @Last Modified time: 2017-11-28 18:29:35
  * 购物车
  */
 <template>
@@ -261,10 +261,6 @@ export default {
     },
     // 确认订单
     confirmOrder () {
-      // this.$router.push({
-      //   path: '/confirmOrder',
-      //   query: { selected: 'balance' }
-      // })
       if (this.washValue.length) {
         if (this.amount > this.balance) {
           MessageBox({
@@ -273,7 +269,29 @@ export default {
             showCancelButton: false
           })
         } else {
-          console.log('washValue  = ' + JSON.stringify(this.washValue))
+          let mallSkus = []
+          this.washValue.map(x => mallSkus.push(x.mallSku))
+          const cartForm = {
+            cartType: this.cartType,
+            mallSkus: mallSkus
+          }
+          this.$store.dispatch('SettleCart', cartForm).then(res => {
+            if (res.result) {
+              this.$router.push({
+                path: '/confirmOrder',
+                query: { selected: this.cartType }
+              })
+            } else {
+              MessageBox({
+                title: '提示',
+                message: '结算失败！',
+                showCancelButton: false
+              })
+            }
+          })
+          .catch(res => {
+            console.log(res)
+          })
         }
       } else {
         MessageBox({

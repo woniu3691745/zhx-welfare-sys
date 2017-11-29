@@ -61,7 +61,6 @@ export default {
       }
       this.setTime()
       this.$store.dispatch('VX_GET_CAPTCHA', phoneNo).catch(err => {
-        console.log('err', err)
         MessageBox({
           message: err || '短信验证码获取失败，请重试',
           closeOnClickModal: true,
@@ -108,9 +107,7 @@ export default {
             }
           }
         }
-        console.log('reqData', reqData)
         verfiyCaptcha(reqData).then(res => {
-          console.log('verfiy', res)
           const data = res.data
           const bizData = data.bizData
           if (data.result) {
@@ -123,8 +120,7 @@ export default {
               showConfirmButton: false
             })
           }
-        }).catch((err) => {
-          console.log('err', err)
+        }).catch(() => {
           MessageBox({
             message: '验证失败',
             closeOnClickModal: true,

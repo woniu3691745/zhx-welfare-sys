@@ -16,8 +16,8 @@
     </div>
     <div class="body">
       <div class="common-form-filed">
-        <mt-field label="登录密码" placeholder="请输入密码" v-model="setPassWordForm.loginPassword"></mt-field>
-        <mt-field label="确认密码" placeholder="再次输入密码" v-model="setPassWordForm.loginConfirmPassword"></mt-field>
+        <mt-field label="登录密码" type="password" placeholder="请输入密码" v-model="setPassWordForm.loginPassword"></mt-field>
+        <mt-field label="确认密码" type="password" placeholder="再次输入密码" v-model="setPassWordForm.loginConfirmPassword"></mt-field>
         <div class="pwd-totip">密码由6-20位英文字母、数字组成，区分大小写</div>
       </div>
     </div>

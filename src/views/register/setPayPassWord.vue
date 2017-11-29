@@ -100,12 +100,10 @@
               }
             }
           }
-          console.log('page submit', reqData)
           setPayPwd(reqData).then(res => {
             const data = res.data
             if (data.result) {
               this.$router.push({path: '/login'})
-              console.log('success')
             } else {
               MessageBox({
                 message: data.message || '提交注册信息失败',

@@ -61,7 +61,6 @@
            showConfirmButton: false
          })
        } else {
-         console.log('submit')
          let reqData = {
 //           token: this.token,
            bizData: {

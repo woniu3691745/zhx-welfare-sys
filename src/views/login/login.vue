@@ -39,8 +39,8 @@ export default {
   data () {
     return {
       loginForm: {
-        account: '15808812156',
-        loginPassWord: '1'
+        account: '',
+        loginPassWord: ''
       }
     }
   },

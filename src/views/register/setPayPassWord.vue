@@ -27,9 +27,9 @@
     <div class="bottom">
       <div class="bottom">
         <mt-button class="index-login" type="primary" @click="handleSubmit">完成</mt-button>
-        <router-link :to="{ path: '/login'}">
-          <mt-button class="index-login" type="primary">完成1</mt-button>
-        </router-link>
+        <!--<router-link :to="{ path: '/login'}">-->
+          <!--<mt-button class="index-login" type="primary">完成1</mt-button>-->
+        <!--</router-link>-->
       </div>
     </div>
   </div>
@@ -104,6 +104,7 @@
           setPayPwd(reqData).then(res => {
             const data = res.data
             if (data.result) {
+              this.$router.push({path: '/login'})
               console.log('success')
             } else {
               MessageBox({

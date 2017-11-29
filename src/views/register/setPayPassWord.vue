@@ -1,8 +1,8 @@
 /*
 * @Author: lidongliang
 * @Date: 2017-11-14 09:59:01
-* @Last Modified by: lidongliang
-* @Last Modified time: 2017-11-14 14:17:26
+ * @Last Modified by: lidongliang
+ * @Last Modified time: 2017-11-29 16:23:49
 * 设置支付密码
 */
 
@@ -27,9 +27,9 @@
     <div class="bottom">
       <div class="bottom">
         <mt-button class="index-login" type="primary" @click="handleSubmit">完成</mt-button>
-        <router-link :to="{ path: '/login'}">
+        <!-- <router-link :to="{ path: '/login'}">
           <mt-button class="index-login" type="primary">完成1</mt-button>
-        </router-link>
+        </router-link> -->
       </div>
     </div>
   </div>

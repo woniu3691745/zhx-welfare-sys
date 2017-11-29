@@ -26,7 +26,7 @@
     </div>
     <div class="bottom">
       <mt-button class="index-login" type="primary" @click="handleSubmit">下一步</mt-button>
-      <router-link :to="{ path: '/setPassWord'}"><mt-button class="index-login" type="primary">下一步1</mt-button></router-link>
+      <!--<router-link :to="{ path: '/setPassWord'}"><mt-button class="index-login" type="primary">下一步1</mt-button></router-link>-->
     </div>
   </div>
 </template>

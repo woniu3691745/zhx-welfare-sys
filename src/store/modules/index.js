@@ -2,10 +2,10 @@
  * @Author: lidongliang
  * @Date: 2017-10-18 15:33:14
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-10-23 16:24:43
+ * @Last Modified time: 2017-11-21 20:31:15
  * 主页信息 module
  */
-import { bonusPackagesInfo, competitiveProductsInfo } from '@/api/index'
+import { bonusPackagesInfo, competitiveProductsInfo, quotaInfo } from '@/api/index'
 import { getToken } from '@/utils/auth'
 
 const index = {
@@ -40,6 +40,16 @@ const index = {
     CompetitiveProductsInfo ({ commit, state }, viewNums) {
       return new Promise((resolve, reject) => {
         competitiveProductsInfo(state.token, viewNums).then(response => {
+          resolve(response.data.data)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    // 通过额度种类获得种类额度信息
+    QuotaInfo ({ commit, state }, category) {
+      return new Promise((resolve, reject) => {
+        quotaInfo(state.token, category.productTypeId).then(response => {
           resolve(response.data.data)
         }).catch(error => {
           reject(error)

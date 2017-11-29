@@ -2,15 +2,16 @@
  * @Author: lidongliang
  * @Date: 2017-10-18 15:33:14
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-15 11:28:41
+ * @Last Modified time: 2017-11-22 20:01:20
  * 用户信息 module
+ *
+ * 1.通过commit -> 2.经过mutation -> 3.改变数据state
  */
 import { loginByUserName, logout, getUserInfo, resetLoginPassword, getIdCode } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 
 const user = {
 
-  // 定义数据状态
   state: {
     token: getToken(),
     name: '',
@@ -18,8 +19,6 @@ const user = {
     quota: []
   },
 
-  // 改变数据状态
-  // mutations -> state
   mutations: {
     SET_TOKEN: (state, token) => {
       state.token = token
@@ -35,16 +34,15 @@ const user = {
     }
   },
 
-  // commit -> mutation
   actions: {
     // 用户名登录
     LoginByUserName ({ commit }, userInfo) {
-      const userId = userInfo.account.trim()
+      const userId = userInfo.bizData.Login.PhoneNo.trim()
       return new Promise((resolve, reject) => {
-        loginByUserName(userId, userInfo.loginPassWord).then(response => {
+        loginByUserName(userId, userInfo.bizData.Login.SigninPwd).then(response => {
           const data = response.data
-          setToken(response.data.token)
-          commit('SET_TOKEN', data.token)
+          setToken(response.data.bizData.Login.Token)
+          commit('SET_TOKEN', data.bizData.Login.Token)
           resolve(response)
         }).catch(error => {
           reject(error)
@@ -55,8 +53,8 @@ const user = {
     GetUserInfo ({ commit, state }) {
       return new Promise((resolve, reject) => {
         getUserInfo(state.token).then(response => {
-          const data = response.data.data
-          commit('SET_QUOTA', data.quota)
+          const data = response.data
+          commit('SET_QUOTA', data.data)
           resolve(response)
         }).catch(error => {
           reject(error)

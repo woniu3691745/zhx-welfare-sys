@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 19:04:29 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-16 15:52:22
+ * @Last Modified time: 2017-11-24 15:59:39
  * 额度
  */
 <template>
@@ -26,19 +26,19 @@
           </mt-swipe-item>
         </mt-swipe>
       </div>
-      <div class="wrapper" v-for="item in quotas" :key="item.itemTypeName">
+      <div class="wrapper" v-for="item in quotas" :key="item.typeId">
          <div class="show-name-all clear">
-           <span class="title left">{{item.itemTypeName}}</span>
-           <router-link :to="{ path: '/cart', query: {itemTypeId: item.itemTypeId}}">
+           <span class="title left">{{item.typeName}}</span>
+           <router-link :to="{ path: '/cart', query: {typeId: item.typeId}}">
             <span class="right shop-car">
               <span>99</span>
             </span>
            </router-link>
          </div>
         <div class="content">
-          <router-link :to="{ path: '/', query: {itemTypeId: item.itemTypeId}}">
-            <div class="warn clear" v-if="item.expireWarn !== ''">
-              <span class="prompt left">{{item.expireWarn}}</span>
+          <router-link :to="{ path: '/', query: {itemTypeId: item.typeId}}">
+            <div class="warn clear" v-if="item.limitFlag !== ''">
+              <span class="prompt left">{{item.limitFlag}}</span>
               <span class="right detail">查看</span>
             </div> 
             <div v-else :style="{ height: height + 'rem' }">
@@ -50,11 +50,11 @@
               <span>可以用余额：</span>
             </div>
             <div class="balance-middle left">
-              <span>￥{{item.quota}}</span>
+              <span>￥{{item.balance}}</span>
             </div>
             </div>
           <div class="button">
-            <mt-button type="danger" size="large" @click="use(item.itemTypeId, item.quota)">去使用</mt-button>
+            <mt-button type="danger" size="large" @click="use(item.typeId)">去使用</mt-button>
           </div>
           <div class="description">
             <span>可用品类：{{item.desc}}</span>
@@ -62,7 +62,7 @@
         </div>
       </div>
       <div class="advice">
-        <p class="kindly-reminder" v-if="quotas.length > 1">温馨提示：您每次只能选择一种品类进行支付和购物</p>
+        <!-- <p class="kindly-reminder" v-if="quotas.length > 1">温馨提示：您每次只能选择一种品类进行支付和购物</p> -->
         <div class="importants">
           <span>重要提示：</span>
           <p class="margin-top">1、请在有效期内使用您的额度，过期后额度将清零作废，额度有效期由您所在的企业规定。</p>
@@ -100,21 +100,19 @@ export default {
       eventBus.$emit('focus', select)
     },
     /*
-    * itemTypeName 额度种类
+    * typeId 额度种类
     * selected 导航
     * type 进入商城方式
-    * quota 商城余额
     */
-    use (itemTypeName, quota) {
+    use (typeId) {
       // this.$router.push({path: '/mall', params: {categoryId: categoryId}})
       this.$router.push({
         path: '/mall',
         query: {
-          itemTypeName: itemTypeName,
+          typeId: typeId,
           selected: 'mall',
           type: 'direct',
-          flag: '1',
-          quota: quota
+          flag: '1'
         }
       })
     }

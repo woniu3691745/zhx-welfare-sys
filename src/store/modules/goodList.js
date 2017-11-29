@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-10-18 15:33:14
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-10-26 17:19:33
+ * @Last Modified time: 2017-11-21 15:59:11
  * 商品列表信息 module
  */
 import { goodList, goodListById } from '@/api/goodList'
@@ -35,7 +35,7 @@ const goodLists = {
     GoodListById ({ commit, state }, id) {
       return new Promise((resolve, reject) => {
         goodListById(state.token, id).then(response => {
-          resolve(response.data.data)
+          resolve(response.data)
         }).catch(error => {
           reject(error)
         })

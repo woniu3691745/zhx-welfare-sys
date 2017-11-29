@@ -2,12 +2,12 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 09:59:01 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-16 19:43:02
+ * @Last Modified time: 2017-11-22 16:00:34
  * 添加收货地址
  */
 <template>
   <div class="addAddress">
-    <div class="header">
+    <div class="common-header">
       <mt-header title="添加收货地址">
         <router-link to="/confirmOrder" slot="left">
           <mt-button icon="back"></mt-button>
@@ -15,14 +15,15 @@
         <mt-button icon="" slot="right" @click="saveAddress">保存</mt-button>
       </mt-header>
     </div>
-    <div class="body">
-      <mt-field label="收货人" placeholder="收货人姓名" v-model="consignee"></mt-field>
-      <mt-field label="联系电话" placeholder="请输入手机号" v-model="phoneNum"></mt-field>
-      <mt-cell title="所在地区" is-link to="//github.com" value="请选择">
+    <div class="addAddress-body">
+      <mt-field class="border-1px" label="收货人" placeholder="收货人姓名" v-model="consignee"></mt-field>
+      <mt-field class="border-1px" label="联系电话" placeholder="请输入手机号" v-model="phoneNum"></mt-field>
+      <mt-cell class="border-1px height-88" title="所在地区" is-link to="" value="请选择">
       </mt-cell>
       <mt-field placeholder="请填写详细地址，不少于5个字" type="textarea" rows="4" v-model="detailedAddress"></mt-field>
-      <mt-cell title="设为默认">
-        <mt-switch v-model="value">Switch</mt-switch>
+      <div data-v-d5ab74ae="" class="hheight-22"></div>
+      <mt-cell title="设为默认" class="pretermit">
+        <mt-switch v-model="value"></mt-switch>
       </mt-cell>
     </div>
     <div class="bottom">
@@ -68,5 +69,21 @@
 </script>
 
 <style lang="less" scoped>
-
+.addAddress-body {
+  .hheight-22 {
+    height: 0.22rem;
+    background: #F5F5F5;
+  } 
+  .mint-cell{
+    padding: 0 0.28rem;
+    
+    .mint-cell-wrapper {
+      .mint-cell-title {
+        font-size: 0.28rem;
+      }
+    }
+    
+  }
+  
+}
 </style>

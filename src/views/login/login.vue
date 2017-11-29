@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-11-14 09:59:01
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-14 15:04:45
+ * @Last Modified time: 2017-11-21 20:16:18
  * 登录
  */
 <template>
@@ -33,14 +33,14 @@
 <script>
 import { MessageBox } from 'mint-ui'
 const phoneNoPattern = /^1\d{10}/
-const signinPwdPatten = /\w{6,20}/
+const signinPwdPatten = /\w{1,20}/
 export default {
   name: 'login-page',
   data () {
     return {
       loginForm: {
-        account: '',
-        loginPassWord: ''
+        account: '15808812156',
+        loginPassWord: '1'
       }
     }
   },
@@ -68,7 +68,7 @@ export default {
           }
         }
         this.$store.dispatch('LoginByUserName', reqData).then(res => {
-          console.log('res -> ' + JSON.stringify(res))
+          // console.log('res -> ' + JSON.stringify(res))
           this.$router.push({
             path: '/home',
             query: { selected: 'balance' }

@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-15 15:45:56
+ * @Last Modified time: 2017-11-28 18:29:35
  * 购物车
  */
 <template>
@@ -10,39 +10,36 @@
     <div class="head-fix">
       <div class="common-header">
         <mt-header title="购物车">
-          <router-link to="/goodsList" slot="left" fixed>
-            <mt-button icon="back">返回</mt-button>
-          </router-link>
-          <!-- <mt-button icon="more" slot="right"></mt-button> -->
-        </mt-header>
-        <!-- <div class="common-header">
-        <mt-header title="商品列表">
-          <router-link to="/mall" slot="left">
+          <router-link :to="{ path: '/goodsList', query: { typeId: this.typeId}}" slot="left">
             <mt-button icon="back"></mt-button>
           </router-link>
         </mt-header>
-      </div> -->
       </div>
     </div>
     <div class="quota">
       <div class="quota-container">
         <z-mt-checklist
-          v-model="washValue"
           align="left"
-          :options="washOptions" @change="washCheck" @refreMinus="minus" @refreIncrease="increase">
+          v-model="washValue"
+          :options="washOptions" 
+          @change="washCheck"
+          @refreMinus="minus" 
+          @refreIncrease="increase" 
+          @refreDelAll="delAll">
         </z-mt-checklist>
       </div>
     </div>
     <div class="compute">
       <div class="compute-bg clear">
         <mt-checklist class="left"
-          v-model="allValue"
-          :options="allOption" @change="checkAll">
+          v-model="allValue" 
+          :options="allOption" 
+          @change="checkAll">
         </mt-checklist>
         <mt-button class="right settle" type="danger" @click="confirmOrder">结算（{{quantity}}）</mt-button>
         <div class="sub right">
           <span class="all">合计：<span>￥{{amount}}</span></span>
-          <span class="balances">余额：￥{{amount}}</span>
+          <span class="balances">余额：￥{{balance}}</span>
         </div>
       </div>
     </div>
@@ -50,81 +47,34 @@
 </template>
 
 <script>
-import { InfiniteScroll, Indicator } from 'mint-ui'
+import { InfiniteScroll, Indicator, MessageBox } from 'mint-ui'
 import ZMtChecklist from '../../components/cartChecklist'
 import Vue from 'vue'
+import eventBus from '../../assets/eventBus'
 Vue.use(InfiniteScroll)
 
 export default {
   name: 'cart-page',
   data () {
     return {
-      nums: 0,
-      amount: 0, // 总价
-      washAmount: 0,
-      quantity: 0, // 商品数量
-      allValue: [], // 结算，全选
-      allOption: [
-        {
-          label: '全选',
-          value: '0'
-        }
-      ],
-
-      washAllValue: [], // 全选的值
-      washAllOptions: [
-        {
-          // 全选的默认值
-          label: '劳保洗护',
-          value: '0'
-        }
-      ],
-      washValue: [], // 列表选中的值
-      washOptions: [
-        {
-          // 列表默认的值
-          label: '<div>ddd</div>',
-          value: 'A',
-          goodNums: 2,
-          price: 10
-        },
-        {
-          label: '劳保B',
-          value: 'B',
-          goodNums: 3,
-          price: 20
-        },
-        {
-          label: '劳保C',
-          value: 'C',
-          goodNums: 3,
-          price: 5
-        },
-        {
-          label: '劳保D',
-          value: 'D',
-          goodNums: 3,
-          price: 1
-        },
-        {
-          label: '劳保E',
-          value: 'E',
-          goodNums: 3,
-          price: 2
-        },
-        {
-          label: '劳保F',
-          value: 'F',
-          goodNums: 3,
-          price: 3
-        }
-      ],
-      height: 500
+      index: '0',
+      limit: '10',
+      typeId: this.$route.query.typeId,
+      cartType: this.$route.query.typeId,                 // 种类
+      balance: '',                                        // 余额
+      // nums: 0,
+      amount: 0,                                          // 总价
+      mallUnitPrice: 0,                                   // 商品价钱
+      quantity: 0,                                        // 商品数量
+      allValue: [],                                       // 结算，全选
+      allOption: [{ label: '全选', value: '0' }],         // 全选默认值
+      washAllValue: [],                                   // 全部选中的值
+      washValue: [],                                      // 选中的绑定值
+      washOptions: []                                     // 购物车列表选择项
     }
   },
   created () {
     this.get()
-    // this.height = document.body.offsetHeight - 145
   },
   components: { 'z-mt-checklist': ZMtChecklist },
   methods: {
@@ -142,38 +92,28 @@ export default {
     back () {
       this.$router.back()
     },
-    // 商品 start
+    // 单选
     washCheck (val) {
       if (this.washOptions.length === val.length) {
-        this.washAllValue = ['0']
+        this.washAllValue = [val[0].mallSku]  // 选中->全选
       } else {
         this.washAllValue = []
         this.allValue = []
       }
       this.washSum(val)
-      this.amount = this.washAmount
+      this.amount = this.mallUnitPrice.toFixed(2)
       this.quantity = this.washValue.length
       this.clearAllCheckRadio()
     },
-    washCheckAll () {
-      if (this.washAllValue.length === 1) {
-        this.washValue = []
-        this.washValue.push('A', 'B', 'C', 'D', 'E', 'F')
-        // console.log('washValue -> ' + this.washValue)
-      } else {
-        this.washValue = []
-      }
-      this.washSum(this.washValue)
-      this.amount = this.washAmount
-      this.quantity = this.washValue.length
-      this.clearAllCheckRadio()
-    },
-    // 商品 end
-    // 全选 start
+    // 全选
     checkAll (val) {
+      let temp = []
       if (this.allOption.length === val.length) {
         this.washValue = []
-        this.washValue.push('A', 'B', 'C', 'D', 'E', 'F')
+        this.washOptions.map(function (x) {
+          temp.push(x)
+        })
+        this.washValue = temp
         this.washAllValue = ['0']
       } else {
         this.washAllValue = []
@@ -181,95 +121,228 @@ export default {
       }
       this.washSum(this.washValue)
       this.quantity = this.washValue.length
-      this.amount = this.washAmount
+      this.amount = this.mallUnitPrice.toFixed(2)
     },
+    // 处理全选单选按钮状态
     clearAllCheckRadio () {
-      // 处理全选单选按钮状态
       if (this.washAllValue.length === 1) {
         this.allValue = ['0']
       } else {
         this.allValue = []
       }
     },
-    // 全选 end
+    // 求和
     washSum (val) {
       let amountTemp = 0
       this.washOptions.map(function (x) {
         val.map(function (y) {
-          if (x.value === y) {
-            amountTemp += x.price
+          if (x.mallSku === y.mallSku) {
+            // amountTemp += x.mallUnitPrice           // 商品单价
+            // amountTemp *= x.skuCount                // 商品数量
+            amountTemp += (x.mallUnitPrice * x.skuCount)
           }
         })
       })
-      this.washAmount = amountTemp
+      this.mallUnitPrice = amountTemp
+    },
+    // 额度
+    quotaInfo () {
+      let categoryInfo = {
+        productTypeId: this.cartType
+      }
+      this.$store
+        .dispatch('QuotaInfo', categoryInfo)
+        .then(res => {
+          this.balance = res.balance
+          this.typeName = res.typeName
+        })
+        .catch(res => {
+          console.log(res)
+        })
     },
     // 减少
-    minus (itemId) {
-      this.nums = itemId
-      console.log('减少 -> ' + itemId)
-      this.washOptions = [
-        {
-          label: '<div>ddd</div>',
-          value: 'A',
-          goodNums: 11,
-          price: 1
-        },
-        {
-          label: '劳保C',
-          value: 'C',
-          goodNums: 3,
-          price: 1
-        }
-      ]
+    minus (option) {
+      let cartForm = {
+        cartDetailId: option.cartDetailId,
+        cartType: this.cartType,
+        mallSku: option.mallSku,
+        skuCount: '1'
+      }
+      if (option.skuCount === 1) {
+        eventBus.$emit('status', false)
+        MessageBox.confirm('确定执行此操作?').then(action => {
+          this.$store
+          .dispatch('AddCartMinus', cartForm)
+          .then(res => {
+            if (res.result) {
+              eventBus.$emit('status', true)
+              this.cartInfoList(true)
+            } else {
+              eventBus.$emit('status', false)
+              alert(res.message)
+            }
+          })
+          .catch(res => {
+            console.log(res)
+          })
+        }).catch(error => {
+          console.log(error)
+        })
+      } else {
+        this.$store
+          .dispatch('AddCartMinus', cartForm)
+          .then(res => {
+            if (res.result) {
+              this.cartInfoList(true)
+            } else {
+              eventBus.$emit('status', false)
+              alert(res.message)
+            }
+          })
+          .catch(res => {
+            eventBus.$emit('status', false)
+            console.log(res)
+          })
+      }
     },
     // 增加
-    increase (itemId) {
-      this.nums = itemId
-      console.log('增加 -> ' + itemId)
-      this.washOptions = [
-        {
-          label: '<div>ddd</div>',
-          value: 'A',
-          goodNums: 11,
-          price: 11
-        },
-        {
-          label: '劳保B',
-          value: 'B',
-          goodNums: 2,
-          price: 11
-        },
-        {
-          label: '劳保C',
-          value: 'C',
-          goodNums: 3,
-          price: 11
-        },
-        {
-          label: '劳保D',
-          value: 'D',
-          goodNums: 4,
-          price: 11
-        },
-        {
-          label: '劳保E',
-          value: 'E',
-          goodNums: 5,
-          price: 11
+    increase (option) {
+      if (option.skuCount < 99) {
+        let cartForm = {
+          cartDetailId: option.cartDetailId,
+          cartType: this.cartType,
+          mallSku: option.mallSku,
+          skuCount: '1'
         }
-      ]
+        this.$store
+        .dispatch('AddCartPlus', cartForm)
+        .then(res => {
+          if (res.result) {
+            eventBus.$emit('status', true)
+            this.cartInfoList(true)
+          } else {
+            eventBus.$emit('status', false)
+            alert(res.message)
+          }
+        })
+        .catch(res => {
+          console.log(res)
+        })
+      } else {
+        MessageBox({
+          title: '提示',
+          message: '最大数量为99',
+          showCancelButton: true
+        })
+        eventBus.$emit('status', false)
+      }
     },
-    // 食品饮料 end
-    refreCart (val) {
-      console.log('val -> ' + val)
+    // 购物车移除
+    delAll (option) {
+      MessageBox.confirm('确定执行此操作?').then(action => {
+        let cartForm = {
+          cartDetailId: option.cartDetailId
+        }
+        this.$store
+          .dispatch('DelCart', cartForm)
+          .then(res => {
+            if (res.result) {
+              this.cartInfoList()
+            } else {
+              alert(res.message)
+            }
+          })
+          .catch(res => {
+            console.log(res)
+          })
+      }).catch(error => {
+        console.log(error)
+      })
     },
     // 确认订单
     confirmOrder () {
-      this.$router.push({
-        path: '/confirmOrder',
-        query: { selected: 'balance' }
-      })
+      if (this.washValue.length) {
+        if (this.amount > this.balance) {
+          MessageBox({
+            title: '提示',
+            message: '额度不足！',
+            showCancelButton: false
+          })
+        } else {
+          let mallSkus = []
+          this.washValue.map(x => mallSkus.push(x.mallSku))
+          const cartForm = {
+            cartType: this.cartType,
+            mallSkus: mallSkus
+          }
+          this.$store.dispatch('SettleCart', cartForm).then(res => {
+            if (res.result) {
+              this.$router.push({
+                path: '/confirmOrder',
+                query: { selected: this.cartType }
+              })
+            } else {
+              MessageBox({
+                title: '提示',
+                message: '结算失败！',
+                showCancelButton: false
+              })
+            }
+          })
+          .catch(res => {
+            console.log(res)
+          })
+        }
+      } else {
+        MessageBox({
+          title: '提示',
+          message: '请选择商品！',
+          showCancelButton: false
+        })
+      }
+    },
+    // 购物车列表
+    cartInfoList (operation) {
+      let cartForm = {
+        index: this.index,
+        limit: this.limit,
+        cartType: this.cartType
+      }
+      this.$store
+        .dispatch('ListCart', cartForm)
+        .then(res => {
+          if (!operation) {
+            this.washOptions = res.bizData.data
+          } else {
+            // console.log('washValue--->' + this.washValue.length)
+            // console.log('washOptions--->' + this.washOptions.length)
+            // console.log('--->' + this.washValue.length === this.washOptions.length)
+            // if (this.washValue.length && (this.washValue.length === this.washOptions.length)) {
+            if (this.washValue.length) {
+              let amountTemp = 0
+              res.bizData.data.map(
+                x => {
+                  this.washValue.map(
+                    y => {
+                      if (y.mallSku === x.mallSku) {
+                        amountTemp += x.totalPrice
+                      }
+                    }
+                  )
+                }
+              )
+              this.amount = amountTemp
+            }
+          }
+        })
+        .catch(res => {
+          console.log(res)
+        })
     }
+  },
+  mounted () {
+    this.cartInfoList()
+    this.quotaInfo()
   }
 }
 </script>
@@ -282,14 +355,9 @@ export default {
   top: 0;
   z-index: 2;
 }
-
-
-
-
 .quota {
   overflow: auto;
 }
-
 .quota {
   padding-top: 1.04rem;
   .quota-container {
@@ -301,61 +369,45 @@ export default {
     }
   }
 }
-
-
-
-
-
-  .mint-checklist:nth-child(2) {
-    margin: 0px;
-  }
-  .sub {
-    height: 0.88rem;
-    font-size: 0.24rem;
-    color: #323232;
-    margin-right: 0.2rem;
-    .all {
-      display: block;
-      margin-top: 0.1rem;
-      span {
-        font-size: 0.3rem;
-        color: #F9404A;
-        line-height: 0.33rem;
-      }
-    }
-    .balances {
-      margin-top: 0.4rem;
+.mint-checklist:nth-child(2) {
+  margin: 0px;
+}
+.sub {
+  height: 0.88rem;
+  font-size: 0.24rem;
+  color: #323232;
+  margin-right: 0.2rem;
+  .all {
+    display: block;
+    margin-top: 0.1rem;
+    span {
+      font-size: 0.3rem;
+      color: #f9404a;
+      line-height: 0.33rem;
     }
   }
-  .settle {
-    height: 46px;
-    background: #FD404A;
-    font-size: 0.28rem;
-    color: #FFFFFF;
-    width: 2rem;
-    height: 0.88rem;
-    line-height: 0.88rem;
-    padding: 0;
-    text-align: center;
-    border-radius: 0;
+  .balances {
+    margin-top: 0.4rem;
   }
-
-
-
-
-
-
-
-
-
-
-
+}
+.settle {
+  height: 46px;
+  background: #fd404a;
+  font-size: 0.28rem;
+  color: #ffffff;
+  width: 2rem;
+  height: 0.88rem;
+  line-height: 0.88rem;
+  padding: 0;
+  text-align: center;
+  border-radius: 0;
+}
 .compute {
   position: fixed;
   bottom: 0.98rem;
   width: 100%;
   .compute-bg {
-    background: #FFFFFF;
+    background: #ffffff;
   }
   .mint-checklist {
     .mint-checklist-title {

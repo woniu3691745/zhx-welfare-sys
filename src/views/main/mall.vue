@@ -2,21 +2,21 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-17 17:04:30
+ * @Last Modified time: 2017-11-23 14:30:45
  * 首页组件
  */
 <template>
   <div class="index-container">
     <div class="body-top clear">
       <div class="search left">
-        日用品 |
+        {{typeName}} |
       </div>
       <div class="index-money left">
           <span>余额：</span>
-          <span>￥{{quota}}</span>
+          <span>￥{{balance}}</span>
       </div>
       <span class="right shop-car">
-        <router-link :to="{ path: '/cart', query: {itemTypeName: this.itemTypeName}}"> 
+        <router-link :to="{ path: '/cart', query: {typeId: this.typeId}}"> 
           <span >99</span>
         </router-link>
       </span>
@@ -40,18 +40,20 @@
         <div class="index-gift">
           <div class="index-gifts-title clear">
             <span class="title-content">超级大礼包</span> 
-            <div class="index-gifts-title-link right    ">
-              <router-link id="goodsList" :to="{ path: '/goodsList', query: {itemTypeName: this.itemTypeName}}"><span>查看全部></span></router-link>
+            <div class="index-gifts-title-link right">
+              <router-link id="goodsList" :to="{ path: '/goodsList', query: {typeId: this.typeId}}">
+                <span>查看全部></span>
+              </router-link>
             </div>
           </div>
           <div class="index-gifts-body">
             <div class="index-gifts-product-list">
               <ul>
-                <li v-for="item in bonusPackages" v-bind="item" :key="item.id">
+                <li v-for="item in bonusPackages" :key="item.productId">
                   <!-- <router-link :to="{ path: '/detail', query: {id: item.id}}"></router-link> -->
-                  <img v-bind:src="item.image" @click="detail(item.id)">
+                  <img v-bind:src="item.imgUrl" @click="detail(item.productSku)">
                   <div class="des">
-                    <p>{{item.name}}</p>
+                    <p>{{item.productName}}</p>
                     <span>￥{{item.salePrice}}</span>
                   </div>
                 </li>
@@ -65,10 +67,12 @@
           </ul>
         </div>
       </li>
-      <li v-for="item in competitiveProducts" v-bind="item" :key="item.id" class="left lis">
-        <router-link :to="{ path: '/detail', query: {id: item.id}}"><img v-bind:src="item.image"></router-link>
+      <li v-for="item in competitiveProducts" :key="item.productId" class="left lis">
+        <img v-bind:src="item.imgUrl" @click="detail(item.productSku)">
+        <!-- <router-link :to="{ path: '/detail', query: {id: n.productId}}"> -->
+        <!-- <img v-bind:src="n.imgUrl"></router-link> -->
         <div class="des">
-          <p>{{item.name}}</p>
+          <p>{{item.productName}}</p>
           <span>￥{{item.salePrice}}</span>
         </div>
       </li>
@@ -85,12 +89,13 @@ export default {
   name: 'mall-page',
   data () {
     return {
-      categoryName: '',                             // 种类名称
-      quota: this.$route.query.quota,               // 余额（通过路由获得）
+      typeName: '',                             // 种类名称
+      // quota: this.$route.query.quota,               // 余额（通过路由获得）
+      balance: '',
       bonusPackages: [],                            // 大礼包
       competitiveProducts: [],                      // 商品
       categorys: [],                                // 商品种类
-      itemTypeName: this.$route.query.itemTypeName, // 种类
+      typeId: this.$route.query.typeId,             // 种类
       index: 0,
       limit: 2
     }
@@ -98,11 +103,12 @@ export default {
   created () {
     // 定义商城信息事件
     // quota 余额（通过事件参数获得）
-    // itemTypeName 额度类型
+    // typeId 额度类型
     eventBus.$on('refurbishMallData', param => {
-      this.quota = param.quota
-      this.init(param.itemTypeName)
-      this.itemTypeName = param.itemTypeName  // 导航按钮
+      // this.quota = param.quota
+      this.clear()
+      this.init(param.typeId)
+      this.typeId = param.typeId  // 导航按钮
     })
   },
   destroyed () {
@@ -110,7 +116,7 @@ export default {
   },
   mounted () {
     this.loading1()                 // 加载
-    this.init(this.itemTypeName)
+    this.init(this.typeId)
     this.focus()                    // 导航栏焦点
   },
   methods: {
@@ -119,21 +125,38 @@ export default {
       // this.loading = true
       // console.log('loadMore start ')
       setTimeout(() => {
-        this.competitiveProductsInfo()
+        this.competitiveProductsInfo(this.typeId)
       }, 1000)
       // console.log('loadMore end ')
       // this.loading = false
     },
-    init (itemTypeName) {
-      this.bonusPackagesInfo()          // 大礼包
-      this.categoryInfo(itemTypeName)   // 类品过滤种类
-      this.competitiveProductsInfo()    // 品类信息
+    init (typeId) {
+      this.index = 0
+      this.bonusPackagesInfo(typeId)            // 大礼包
+      this.categoryInfo(typeId)                 // 类品过滤种类
+      this.competitiveProductsInfo(typeId)      // 品类信息
+      this.quotaInfo(typeId)                    // 通过额度种类获得额度信息
     },
-    bonusPackagesInfo () {
+    quotaInfo (typeId) {
+      let categoryInfo = {
+        productTypeId: typeId
+      }
+      this.$store
+        .dispatch('QuotaInfo', categoryInfo)
+        .then(res => {
+          this.balance = res.balance
+          this.typeName = res.typeName
+        })
+        .catch(res => {
+          console.log(res)
+        })
+    },
+    bonusPackagesInfo (typeId) {
       let viewNums = {
         index: 0,
         limit: 5,
-        sequenceType: 0
+        sequenceType: 0,
+        productTypeId: typeId
       }
       this.$store
         .dispatch('BonusPackagesInfo', viewNums)
@@ -144,9 +167,9 @@ export default {
           console.log(res)
         })
     },
-    categoryInfo (itemTypeName) {
+    categoryInfo (typeId) {
       let viewNums = {
-        itemType: itemTypeName
+        itemType: typeId
       }
       this.$store
         .dispatch('CatalogueInfo', viewNums)
@@ -157,11 +180,12 @@ export default {
           console.log(res)
         })
     },
-    competitiveProductsInfo () {
+    competitiveProductsInfo (typeId) {
       let viewNums = {
         index: this.index,
         limit: this.limit,
-        sequenceType: 0
+        sequenceType: 0,
+        productTypeId: typeId
       }
       this.$store
         .dispatch('CompetitiveProductsInfo', viewNums)
@@ -180,11 +204,10 @@ export default {
           console.log(res)
         })
     },
-    detail (id) {
-      // console.log('this.itemTypeName ' + this.itemTypeName)
+    detail (productSku) {
       this.$router.push({
         path: '/detail',
-        query: { itemTypeName: this.itemTypeName, id: id }
+        query: { typeId: this.typeId, sku: productSku }
       })
     },
     focus () {
@@ -197,6 +220,12 @@ export default {
       // 通知导航按钮事件
       eventBus.$emit('focus', select)
     },
+    // 每次点击前清空数据
+    clear () {
+      this.bonusPackages = []
+      this.competitiveProducts = []
+      this.categorys = []
+    },
     loading1 () {
       setTimeout(function () {
         Indicator.open({
@@ -205,7 +234,7 @@ export default {
       }, 300)
       setTimeout(function () {
         Indicator.close()
-      }, 3000)
+      }, 1000)
     }
   }
 }
@@ -353,7 +382,7 @@ export default {
                   margin: 0 auto;
                   white-space: normal;
                   p {
-                    font-size: ;
+                    font-size: 0.24rem;
                     color: #555555;
                     height: 0.66rem;
                     display: -webkit-box;

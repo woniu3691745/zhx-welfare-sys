@@ -2,16 +2,17 @@
  * @Author: lidongliang
  * @Date: 2017-10-17 18:37:24
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-16 18:01:26
+ * @Last Modified time: 2017-11-28 15:34:10
  * axios config
  */
 import axios from 'axios'
 import store from '@/store'
-import { getToken } from '@/utils/auth'
+// import { getToken } from '@/utils/auth'
 
 // 创建axios实例
 const service = axios.create({
   // baseURL: process.env.BASE_API, // api的base_url
+  baseURL: 'https://mall-uat.zihexin.cn:8087/WelfareMall-interface',
   timeout: 5000                  // 请求超时时间
 })
 
@@ -19,7 +20,7 @@ const service = axios.create({
 service.interceptors.request.use(config => {
   // Do something before request is sent
   if (store.getters.token) {
-    config.headers['X-Token'] = getToken()
+    // config.headers['X-Token'] = getToken()
   }
   return config
 }, error => {

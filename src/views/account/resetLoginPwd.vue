@@ -2,19 +2,19 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 09:59:01 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-22 20:14:01
+ * @Last Modified time: 2017-11-22 20:15:04
  * 重置登录密码
  */
 <template>
-  <div class="resetLoginPassWord">
+  <div class="resetLoginPwd">
     <div class="common-header">
       <mt-header title="重置登录密码">
-        <router-link to="/login" slot="left">
+        <router-link to="/accountManagement" slot="left">
           <mt-button icon="back"></mt-button>
         </router-link>
       </mt-header>
     </div>
-    <div class="body">
+    <div class="reset-login-pwd-body">
       <div class="common-form-filed">
         <mt-field label="手机号" placeholder="请输入手机号" v-model="resetForm.phoneNum">
         </mt-field>
@@ -28,14 +28,14 @@
       </div>
     </div>
     <div class="bottom">
-      <router-link :to="{ path: '/login'}"><mt-button class="index-login" type="primary">确认</mt-button></router-link>
+      <router-link :to="{ path: '/login'}"><mt-button class="index-login" type="primary">完成</mt-button></router-link>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'resetLoginPassWord-page',
+  name: 'resetLoginPwd-page',
   data () {
     return {
       resetForm: {
@@ -76,25 +76,25 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.body {
+.reset-login-pwd-body {
   .identifyingCode1 {
     border: 0.02rem solid #f9404a;
-    height: 0.18rem;
-    line-height: 0.18rem;
+    height: 0.2rem;
+    line-height: 0.2rem;
     padding: 0.05rem 0.2rem;
     border-radius: 0.1rem;
     margin-left: 0.1rem;
-    font-size: 0.01rem;
+    font-size: 0.2rem;
     color: #f9404a;
   }
   .identifyingCode2 {
     border: 0.02rem solid #26a2ff;
-    height: 0.18rem;
-    line-height: 0.18rem;
+    height: 0.2rem;
+    line-height: 0.2rem;
     padding: 0.05rem 0.2rem;
     border-radius: 0.1rem;
     margin-left: 0.1rem;
-    font-size: 0.01rem;
+    font-size: 0.2rem;
     color: #26a2ff;
   }
   .pwd-totip {

@@ -2,24 +2,32 @@
  * @Author: lidongliang 
  * @Date: 2017-10-19 19:49:42 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-16 20:23:53
+ * @Last Modified time: 2017-11-22 15:27:07
  * 我的订单
  */
 <template>
   <div class="myOrder">
     <div class="common-header">
-      <mt-header title="我的订单" fixed>
+      <mt-header title="我的订单" fixed class="border-1px">
         <router-link :to="{path: '/home', query: {selected: 'balance'}}" slot="left" >
           <mt-button icon="back">返回</mt-button>
         </router-link>
       </mt-header>
     </div>
     <div class="myOrder-body">
-      <mt-navbar v-model="selected">
-        <mt-tab-item id="1">全部</mt-tab-item>
-        <mt-tab-item id="2">代付款</mt-tab-item>
-        <mt-tab-item id="3">待收货</mt-tab-item>
-        <mt-tab-item id="4">已完成</mt-tab-item>
+      <mt-navbar v-model="selected" class="border-1px">
+        <div class="router-padding">
+          <mt-tab-item id="1">全部</mt-tab-item>
+        </div>
+        <div class="router-padding">
+          <mt-tab-item id="2">代付款</mt-tab-item>
+        </div>
+        <div class="router-padding">
+          <mt-tab-item id="3">待收货</mt-tab-item>
+        </div>
+        <div class="router-padding">
+          <mt-tab-item id="4">已完成</mt-tab-item>
+        </div>
       </mt-navbar>
 
       <mt-tab-container v-model="selected">
@@ -80,7 +88,38 @@ export default {
     margin-top: 10px;
   }
   .myOrder-body {
-    margin-top: 40px;
+    padding-top: 1.8rem;
   }
+  .mint-navbar {
+    position: fixed;
+    width: 100%;
+    left: 0;
+    top: 0.88rem;
+    z-index: 2;
+    .router-padding {
+      display: block;
+      padding: 0 0.2rem;
+      font-size: 0;
+      -ms-flex: 1;
+      flex: 1;
+      .mint-tab-item {
+        padding: 0.3rem 0;
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
+.mint-navbar .mint-tab-item.is-selected {
+  border-bottom: 0.06rem solid #FB4049;
+  box-sizing: border-box;
+  color: #323232;
+
 }
 </style>

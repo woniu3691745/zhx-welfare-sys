@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-19 19:49:42 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-08 16:42:53
+ * @Last Modified time: 2017-11-22 20:14:43
  * 商品列表父组件
  */
 <template>
@@ -10,7 +10,7 @@
     <div class="goods-header">
       <mt-header title="精品推荐" fixed>
         <router-link :to="{path: '/home', query: {selected: 'balance'}}" slot="left" >
-          <mt-button icon="back">返回</mt-button>
+          <mt-button icon="back"></mt-button>
         </router-link>
           <img slot="right" class="cart" src="../assets/cart.png" @click="cart()" />
           <mt-badge size="small" slot="right" type="error" class="cartNum">10</mt-badge>
@@ -57,8 +57,7 @@ export default {
   methods: {
     cart () {
       this.$router.push({ path: '/home', query: { selected: 'cart' } })
-    },
-    childrenFun () { console.log('123') }
+    }
   },
   created () {
     this.selected = '1'

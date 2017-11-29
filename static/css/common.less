@@ -2,9 +2,26 @@
  * @Author: lidongliang 
  * @Date: 2017-10-16 16:27:56 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-14 19:05:57
+ * @Last Modified time: 2017-11-22 19:34:32
  * 共通样式
  */
+.border-1px {
+  background-image: -webkit-linear-gradient(bottom, #d9d9d9, #d9d9d9 50%, transparent 50%);
+  background-image: linear-gradient(0deg, #d9d9d9, #d9d9d9 50%, transparent 50%);
+  background-size: 100% 1px;
+  background-repeat: no-repeat;
+  background-position: bottom;
+}
+
+.border-top-1px {
+  background-image: -webkit-linear-gradient(top, #d9d9d9, #d9d9d9 50%, transparent 50%);
+  background-image: linear-gradient(180deg, #d9d9d9, #d9d9d9 50%, transparent 50%);
+  background-size: 100% 1px;
+  background-repeat: no-repeat;
+  background-position: top left;
+  background-origin: content-box;
+}
+
 .mint-button::after {
   background-color: unset;
 }
@@ -36,7 +53,6 @@
     margin: 0 auto;
     margin-top: 1.2rem;
     .mint-cell {
-     
       .mint-cell-wrapper {
         background-position: bottom left;
         background-image: none;
@@ -56,6 +72,7 @@
       background-position: bottom;
     } 
   }
+
 .pozitin-fixed {
   position: fixed;
   left: 0;
@@ -63,9 +80,11 @@
   width: 100%;
   z-index: 10;
 }
+
 .padding-top {
   padding-top: 0.88rem;
 }
+
 /******************************************************************************/
 /*清除外边距*/
 body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, figure, /*结构元素*/
@@ -73,52 +92,53 @@ dl, dt, dd, ul, ol, li, /*列表元素*/
 fieldset, lengend, button, input, textarea, /*表单元素*/
 th, td, /*表格元素*/
 pre /*文本格式元素*/ {
-    margin: 0;
-    -webkit-tap-highlight-color:rgba(0,0,0,0);
-    -webkit-tap-highlight-color: transparent;
+  margin: 0;
+  -webkit-tap-highlight-color:rgba(0,0,0,0);
+  -webkit-tap-highlight-color: transparent;
 }
+
 /*清除内边距*/
 ul, ol, menu, td, input{
-    padding: 0;
+  padding: 0;
 }
+
 /*重置列表元素*/
 ul, ol {
-    list-style: none;
+  list-style: none;
 }
+
 /*将字体扶正*/
 address, cite, dfn, em, var {
-    font-style: normal;
+  font-style: normal;
 }
-/*清下划线*/
-a {
-    text-decoration: none;
-    color: black;
+/* a标 */
+a:link,
+
+a:visited {
+  /* color: #fff; */
+  text-decoration: none;
 }
-/*鼠标略过a标签，显示下划线*/
+
 a:hover {
-    /*text-decoration: underline;*/
+  background: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
 }
+
 /*清浮动*/
 .clear:after {
-    content: '';
-    display: block;
-    clear: both;
+  content: '';
+  display: block;
+  clear: both;
 }
 
 .left {
-    float: left;
+  float: left;
 }
 
 .right {
-    float: right;
+  float: right;
 }
-
-
-
-
-
-
-
 
 // 购物车
 .compute {
@@ -128,12 +148,28 @@ a:hover {
     background-image: none;
     .mint-cell-wrapper {
       background-image: none;
+      height: 0.88rem;
+      font-size: 0.26rem;
+      .mint-checkbox-core {
+        width: 0.4rem;
+        height: 0.4rem;
+      }
+      .mint-checkbox-core::after {
+        border: 2px solid transparent;
+        border-left: 0;
+        border-top: 0;
+        content: " ";
+        top: 0.06rem;
+        left: 0.13rem;
+        position: absolute;
+        width: 0.08rem;
+        height: 0.16rem;
+        border-color: #fff;
+      }
     }
   }
 }
 .quota-container {
-  
-
   .mint-checklist-label {
     padding: 0 0 0 0.26rem;
     .list-content {
@@ -144,7 +180,6 @@ a:hover {
       }
       .good-description {
         margin-left: 0.44rem;
-        
         .desc {
           font-size: 0.24rem;
           color: #323232;
@@ -152,12 +187,6 @@ a:hover {
           margin-bottom: 0;
         }
       }
-      
-
-
-
-
-
     }
   }
   .mint-checkbox-core {
@@ -197,4 +226,193 @@ a:hover {
   .mint-cell-wrapper {
     background-image: none;
   }
+}
+// 地址管理
+.addAddress-body {
+  .mint-cell{
+    padding: 0 0.28rem;
+    height: 0.88rem;
+    .mint-cell-wrapper {
+      // height: 0.88rem;
+      background-image: none;
+      .mint-cell-title {
+        font-size: 0.28rem;
+        color: #404040;
+        width: 1.54rem;
+      }
+      .mint-cell-value {
+        input {
+          font-size: 0.28rem;
+          color: #323232;
+          line-height: 1.2;
+        }
+      }
+    }
+  }
+  .height-88 {
+    .mint-cell-wrapper {
+      height: 0.88rem;
+      .is-link {
+        font-size: 0.28rem;
+        color: #969696;
+      }
+    }
+  .pretermit {
+    .mint-cell-wrapper {
+      height: 0.88rem;
+    }
+  }
+  .mint-cell-allow-right::after {
+      border: solid 2px #c8c8cd;
+      border-bottom-width: 0;
+      border-left-width: 0;
+      content: " ";
+      top: 50%;
+      right: 20px;
+      position: absolute;
+      width: 0.15rem;
+      height: 0.15rem;
+      -webkit-transform: translateY(-50%) rotate(45deg);
+      transform: translateY(-50%) rotate(45deg);
+    }
+  } 
+  .is-textarea {
+    height: 2rem;
+    textarea {
+      font-size: 0.26rem;
+      color: #969696;
+    }
+  }
+}
+// 我的
+.mine-body {
+  .mint-cell {
+    min-height: auto;
+    .mint-cell-wrapper {
+      height: 0.88rem;
+      font-size: 0.28rem;
+      color: #323232;
+      background-origin: border-box;
+      .mint-cell-title {
+        padding-left: 0.44rem;
+      }
+    }
+    .mint-cell-allow-right::after {
+      width: 0.16rem;
+      height: 0.16rem;
+    }
+  }
+  .mine-no-bg .mint-cell-wrapper {
+    background-image: none;
+  }
+}
+// 地址管理（）
+.addressManage {
+  .delete-container {
+    position: relative;
+    .mint-radiolist {
+      .mint-radiolist-title {
+        margin: 0
+      }
+      .mint-cell {
+        background-image: none;
+        .mint-cell-wrapper {
+          background-image: none;
+          font-size: 0.28rem;
+          color: #323232;
+          height: 0.88rem;
+          .mint-radio-core {
+            width: 0.4rem;
+            height: 0.4rem;
+          }
+          .mint-radio-core:after {
+            width: 0.18rem;
+            height: 0.18rem;
+            top: 0.09rem;
+            left: 0.09rem;
+          }
+          .mint-radio-input:checked + .mint-radio-core {
+            background: #FD404A;
+            border-color: #FD404A;
+          }
+        }
+      }
+    }
+    .editor-delete-container {
+      position: absolute;
+      right: 0;
+      top: 0;
+      font-size: 0.26rem;
+      color: #323232;
+      padding: 0.19rem 0 0.24rem 0;
+      span {
+        width: 1rem;
+        height: 0.5rem;
+        line-height: 0.5rem;
+        border: 1px solid #969696;
+        border-radius: 0.04rem;
+        text-align: center;
+        margin-right: 0.28rem;
+      }
+      span:first-child {
+        margin-right: 0.4rem;
+      }
+    }
+  }
+  
+}
+// 编辑收货地址
+// .addressEdit {
+//   .mint-cell {
+//     background-image: none;
+//   }
+// }
+// 商品裂变
+.goodsLists {
+  .mint-loadmore-top {
+    margin-top: -0.5rem;
+  }
+}
+// 账户管理 
+.account-management-body {
+  .mint-cell-wrapper {
+    font-size: 0.32rem;
+    color: #000000;
+    padding-left: 0.38rem;
+    height: 0.88rem;
+    line-height: 0.88rem;
+    background-origin: border-box
+  }
+  .mint-cell:first-child .mint-cell-wrapper {
+    background-image: none;
+  }
+  // .mint-cell:last-child .mint-cell-wrapper {
+  //   background-image: none;
+  // }
+}
+// 重置登录密码 
+.reset-login-pwd-body {
+  .common-form-filed {
+    .mint-cell-wrapper {
+      height: 0.88rem;
+      font-size: 0.28rem;
+      .mint-cell-title {
+        width: 2rem;
+      }
+    }
+  }
+  
+}
+// 重置支付密码
+.reset-pay-pwd-body {
+  .common-form-filed {
+    .mint-cell-wrapper {
+      height: 0.88rem;
+      font-size: 0.28rem;
+      .mint-cell-title {
+        width: 2rem;
+      }
+    }
+  }
+  
 }

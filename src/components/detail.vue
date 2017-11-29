@@ -2,15 +2,15 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 19:04:03 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-17 16:39:53
- * 详情
+ * @Last Modified time: 2017-11-23 15:32:58
+ * 商品详情
  */
 <template>
   <div class="deatil">
     <div class="head-fix">
       <div class="common-header">
         <mt-header title="详情">
-          <router-link :to="{ path: '/mall', query: {selected: 'mall', itemTypeName: this.itemTypeName, flag: 1}}" slot="left">
+          <router-link :to="{ path: '/mall', query: {selected: 'mall', typeId: this.typeId, flag: 1}}" slot="left">
             <mt-button icon="back"></mt-button>
           </router-link>
         </mt-header>
@@ -18,13 +18,13 @@
     </div>
     <div class="detail-body">
       <div class="big-pic">
-        <img src="../assets/aaa.jpg" alt="">
+        <img v-bind:src="goodsForm.imgUrl">
       </div>
       <p class="goods-name">
-        卓蓝雅 生姜防脱生发无硅油洗发脱生发无硅油洗发水，礼品包装
+        {{goodsForm.productName}}
       </p>
       <span class="good-money">
-        ￥58.9
+        ￥{{goodsForm.salePrice}}
       </span>
       <div class="height-20"></div>
       <div class="infor-good"></div>
@@ -32,12 +32,12 @@
     </div>
     <div class="detail-bottom">
       <mt-tabbar fixed>
-        <mt-button size="large" type="default">
+        <mt-button size="large" type="default" @click="cart">
             <span class="right shop-car">
-              <span>99</span>
+              <span>{{goodsForm.saleCount}}</span>
             </span>
         </mt-button>
-        <mt-button type="primary" class="button-width">加入购物车</mt-button>
+        <mt-button type="primary" class="button-width" @click="addCart">加入购物车</mt-button>
       </mt-tabbar>
     </div>
   </div>  
@@ -47,32 +47,43 @@ export default {
   name: 'detail',
   data () {
     return {
-      id: '',
-      height: 0,
       goodsForm: {
-        brandName: ''
+        productSku: this.$route.query.sku,   // 商品ID
+        imgUrl: '',                            // 商品图片
+        productName: '',                       // 商品描述
+        salePrice: '',                         // 价格
+        saleCount: ''                          // 购物车数量
       },
-      itemTypeName: this.$route.query.itemTypeName // 种类
+      typeId: this.$route.query.typeId // 种类
     }
   },
   methods: {
-    goodListByIdInfo (id) {
+    goodListByIdInfo (productSku) {
       this.$store
-        .dispatch('GoodListById', id)
-        .then(res => {
-          // this.goodList = res.data
-          // console.log('-> ' + JSON.stringify(res.data))
+        .dispatch('GoodListById', productSku)
+        .then(req => {
+          Object.assign(this.goodsForm, req.data)
         })
         .catch(res => {
           console.log(res)
         })
+    },
+    addCart () {
+      console.log('add ' + this.goodsForm.productSku + ' is successful')
+    },
+    cart () {
+      this.$router.push({
+        path: '/cart',
+        query: {
+          typeId: this.typeId
+        }
+      })
     }
   },
   created () {
-    // this.height = document.body.offsetHeight - 80
   },
   mounted () {
-    this.goodListByIdInfo(this.$route.query.id)
+    this.goodListByIdInfo(this.goodsForm.productSku)
   }
 }
 </script>

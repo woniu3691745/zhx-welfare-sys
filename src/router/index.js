@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-10-12 17:58:36
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-16 20:39:07
+ * @Last Modified time: 2017-11-22 20:23:52
  * 路由
  */
 
@@ -55,25 +55,47 @@ export const constantRouterMap = [
    * 登录
    */
   { path: '/login', name: '登录', component: resolve => require(['@/views/login/login.vue'], resolve) },
-  { path: '/resetLoginPassWord', name: '重置登录密码', component: resolve => require(['@/views/login/resetLoginPassWord.vue'], resolve) },
+  { path: '/resetLoginPassWord', name: '登录密码', component: resolve => require(['@/views/login/resetLoginPassWord.vue'], resolve) },
   /**
    * 订单
    */
   { path: '/confirmOrder', name: '确认订单', component: resolve => require(['@/views/order/confirmOrder.vue'], resolve) },
-  { path: '/addAddress', name: '添加地址', component: resolve => require(['@/views/order/addAddress.vue'], resolve) },
   { path: '/selectAddress', name: '选择地址', component: resolve => require(['@/views/order/selectAddress.vue'], resolve) },
   { path: '/inputPwd', name: '支付密码', component: resolve => require(['@/views/order/inputPwd.vue'], resolve) },
   { path: '/success', name: '支付成功', component: resolve => require(['@/views/order/success.vue'], resolve) },
   { path: '/fail', name: '支付失败', component: resolve => require(['@/views/order/fail.vue'], resolve) },
+  { path: '/orderDetail', name: '订单详情', component: resolve => require(['@/views/order/orderDetail.vue'], resolve) },
+  { path: '/logisticsDetail', name: '物流详情', component: resolve => require(['@/views/order/logisticsDetail.vue'], resolve) },
 
   /**
-   * 我的
+   * 我的-地址
    */
-  { path: '/mineOrder', name: '我的订单', component: resolve => require(['@/views/mine/mineOrder.vue'], resolve) }
+  { path: '/mineOrder', name: '我的订单', component: resolve => require(['@/views/mine/mineOrder.vue'], resolve) },
+  { path: '/addressMs', name: '管理收货地址', component: resolve => require(['@/views/address/addressManage.vue'], resolve) },
+  { path: '/addAddress', name: '添加地址', component: resolve => require(['@/views/address/addAddress.vue'], resolve) },
+  { path: '/addressEdit', name: '编辑收货人', component: resolve => require(['@/views/address/addressEdit.vue'], resolve) },
 
+  /**
+   *  我的-账户
+   */
+  { path: '/accountManagement', name: '账户管理', component: resolve => require(['@/views/account/accountManagement.vue'], resolve) },
+  { path: '/resetLoginPwd', name: '重置登录密码', component: resolve => require(['@/views/account/resetLoginPwd.vue'], resolve) },
+  { path: '/resetPayPwd', name: '重置支付密码', component: resolve => require(['@/views/account/payPwd/resetPayPwd.vue'], resolve) },
+  { path: '/resetBindPhone', name: '更换绑定手机号', component: resolve => require(['@/views/account/resetBindPhone.vue'], resolve) }
 ]
 
 export default new Router({
   mode: 'history',
-  routes: constantRouterMap
+  routes: constantRouterMap,
+  // 回到顶点
+  scrollBehavior (to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return {
+        x: 0,
+        y: 0
+      }
+    }
+  }
 })

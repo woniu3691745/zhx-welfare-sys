@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 19:03:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-17 16:42:20
+ * @Last Modified time: 2017-11-28 17:38:53
  * 导航
  */
 <template>
@@ -23,7 +23,7 @@
     </mt-tabbar>
     <div class="pozition-fixed" @click="hiddleMallTypeButton($event)" :style="{ display: display}">
       <div class="pozition-fixeds">
-        <img v-bind:src="'api'+ item.icon" @click="goFood(item.itemTypeId, item.quota)" v-for="item in quotas" :key="item.itemTypeName">
+        <img v-bind:src="'WelfareMall-interface'+ item.icon" @click="goFood(item.typeId, item.balance)" v-for="item in quotas" :key="item.typeId">
       </div>
     </div>
   </div>
@@ -36,7 +36,8 @@ export default {
   data () {
     return {
       selected: 'balance',
-      display: 'none'
+      display: 'none',
+      quotas: []
     }
   },
   mounted () {
@@ -55,33 +56,34 @@ export default {
     hiddleMallTypeButton ($event) {
       this.display = 'none'
     },
-    // itemTypeName 额度种类
-    goLife (itemTypeName, quota) {
-      this.commonGo(itemTypeName, quota)
+    // typeId 额度种类
+    goLife (typeId, balance) {
+      this.commonGo(typeId, balance)
     },
-    goFood (itemTypeName, quota) {
-      this.commonGo(itemTypeName, quota)
+    goFood (typeId, balance) {
+      this.commonGo(typeId, balance)
     },
-    goClothing (itemTypeName, quota) {
-      this.commonGo(itemTypeName, quota)
+    goClothing (typeId, balance) {
+      this.commonGo(typeId, balance)
     },
     /*
-    * itemTypeName 额度种类
+    * typeId 额度种类
     * selected 导航
     * type 进入商城方式
     */
-    commonGo (itemTypeName, quota) {
+    commonGo (typeId, balance) {
+      // console.log('typeId = ' + typeId, 'balance = ' + balance)
       this.display = 'none'
       this.$router.push({
         path: '/mall',
         query: {
-          itemTypeName: itemTypeName,
+          typeId: typeId,
           selected: 'mall',
           type: 'unDirect'
         }
       })
       // 通知商城信息事件
-      eventBus.$emit('refurbishMallData', {itemTypeName, quota})
+      eventBus.$emit('refurbishMallData', {typeId, balance})
     }
   },
   beforeDestory () {},
@@ -150,17 +152,15 @@ export default {
       img {
         width: 0.39rem;
         height: 0.39rem;
-        margin: 0.03rem auto 0 auto;
-      }
-      .big-img {
-        width: 0.43rem;
-        height: 0.43rem;
         margin: 0 auto 0 auto;
       }
+      // .big-img {
+      //   width: 0.43rem;
+      //   height: 0.43rem;
+      //   margin: 0 auto 0 auto;
+      // }
     }
-    .mint-tab-item-label {
-      font-size: 0.2rem;
-    }
+    
   }
 }
 

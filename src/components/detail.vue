@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 19:04:03 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-23 15:32:58
+ * @Last Modified time: 2017-11-30 19:33:04
  * 商品详情
  */
 <template>
@@ -34,7 +34,7 @@
       <mt-tabbar fixed>
         <mt-button size="large" type="default" @click="cart">
             <span class="right shop-car">
-              <span>{{goodsForm.saleCount}}</span>
+              <span>{{goodsForm.count}}</span>
             </span>
         </mt-button>
         <mt-button type="primary" class="button-width" @click="addCart">加入购物车</mt-button>
@@ -43,16 +43,17 @@
   </div>  
 </template>
 <script>
+import { MessageBox } from 'mint-ui'
 export default {
   name: 'detail',
   data () {
     return {
       goodsForm: {
-        productSku: this.$route.query.sku,   // 商品ID
-        imgUrl: '',                            // 商品图片
-        productName: '',                       // 商品描述
-        salePrice: '',                         // 价格
-        saleCount: ''                          // 购物车数量
+        productSku: this.$route.query.sku,      // 商品ID
+        imgUrl: '',                             // 商品图片
+        productName: '',                        // 商品描述
+        salePrice: '',                          // 价格
+        count: this.$store.getters.cartCount    // 购物车数量
       },
       typeId: this.$route.query.typeId // 种类
     }
@@ -68,9 +69,6 @@ export default {
           console.log(res)
         })
     },
-    addCart () {
-      console.log('add ' + this.goodsForm.productSku + ' is successful')
-    },
     cart () {
       this.$router.push({
         path: '/cart',
@@ -78,6 +76,37 @@ export default {
           typeId: this.typeId
         }
       })
+    },
+     // 加入购物车
+    addCart () {
+      let cartForm = {
+        cartType: this.typeId,
+        mallSku: this.goodsForm.productSku,
+        skuCount: '1'
+      }
+      this.$store
+        .dispatch('AddCart', cartForm)
+        .then(res => {
+          MessageBox({
+            message: res.message,
+            closeOnClickModal: true,
+            showConfirmButton: true
+          })
+          this.cartCount(this.typeId)
+        })
+        .catch(res => {
+          console.log(res)
+        })
+    },
+    cartCount (typeId) {
+      this.$store
+        .dispatch('Count', typeId)
+        .then(res => {
+          this.goodsForm.count = res.total
+        })
+        .catch(res => {
+          console.log(res)
+        })
     }
   },
   created () {

@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-30 16:07:19
+ * @Last Modified time: 2017-11-30 19:22:10
  * 首页组件
  */
 <template>
@@ -63,7 +63,7 @@
         </div>
         <div class="three-title">
           <ul class="clear">
-            <li v-for="i in categorys" :key="i.TYPEID">{{i.TYPENAME}}</li>
+            <li v-for="i in categorys" :key="i.TYPEID" @click="searchTop(i.TYPEID)">{{i.TYPENAME}}</li>
           </ul>
         </div>
       </li>
@@ -247,6 +247,12 @@ export default {
       setTimeout(function () {
         Indicator.close()
       }, 1000)
+    },
+    searchTop (typeId) {
+      console.log('--->' + typeId)
+      this.competitiveProducts = []
+      this.typeId = typeId
+      this.competitiveProductsInfo(typeId)
     }
   }
 }

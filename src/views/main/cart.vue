@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-30 17:15:51
+ * @Last Modified time: 2017-11-30 19:31:18
  * 购物车
  */
 <template>
@@ -312,7 +312,6 @@ export default {
       this.$store
         .dispatch('ListCart', cartForm)
         .then(res => {
-          debugger
           if (!operation) {
             this.washOptions = res.bizData.data
           } else {

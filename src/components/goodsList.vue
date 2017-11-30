@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-19 19:50:05 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-30 12:28:55
+ * @Last Modified time: 2017-11-30 18:45:15
  * 商品列表
  */
 <template>
@@ -75,7 +75,7 @@ export default {
       autoFill: false,
       bottomStatus: '',
       topStatus: '',
-      count: this.$store.getters.cartCount,    // 购物车数量
+      count: this.$store.getters.cartCount,     // 购物车数量
       typeId: this.$route.query.typeId          // 种类
     }
   },

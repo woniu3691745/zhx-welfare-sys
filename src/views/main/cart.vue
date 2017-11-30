@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-30 11:13:34
+ * @Last Modified time: 2017-11-30 17:15:51
  * 购物车
  */
 <template>
@@ -50,7 +50,7 @@
 import { InfiniteScroll, Indicator, MessageBox } from 'mint-ui'
 import ZMtChecklist from '../../components/cartChecklist'
 import Vue from 'vue'
-import eventBus from '../../assets/eventBus'
+import eventBus from '../../utils/eventBus'
 Vue.use(InfiniteScroll)
 
 export default {
@@ -169,14 +169,14 @@ export default {
         skuCount: '1'
       }
       if (option.skuCount === 1) {
-        eventBus.$emit('status', false)
+        // eventBus.$emit('status', false)
         MessageBox.confirm('确定执行此操作?').then(action => {
           this.$store
           .dispatch('AddCartMinus', cartForm)
           .then(res => {
             if (res.result) {
               eventBus.$emit('status', true)
-              this.cartInfoList(true)
+              this.cartInfoList(false)
             } else {
               eventBus.$emit('status', false)
               alert(res.message)
@@ -312,13 +312,10 @@ export default {
       this.$store
         .dispatch('ListCart', cartForm)
         .then(res => {
+          debugger
           if (!operation) {
             this.washOptions = res.bizData.data
           } else {
-            // console.log('washValue--->' + this.washValue.length)
-            // console.log('washOptions--->' + this.washOptions.length)
-            // console.log('--->' + this.washValue.length === this.washOptions.length)
-            // if (this.washValue.length && (this.washValue.length === this.washOptions.length)) {
             if (this.washValue.length) {
               let amountTemp = 0
               res.bizData.data.map(
@@ -342,7 +339,7 @@ export default {
     }
   },
   mounted () {
-    this.cartInfoList()
+    this.cartInfoList(false)
     this.quotaInfo()
   }
 }

@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 19:04:29 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-24 15:59:39
+ * @Last Modified time: 2017-11-30 16:06:43
  * 额度
  */
 <template>
@@ -77,7 +77,7 @@
   </div>
 </template>
 <script>
-import eventBus from '../../assets/eventBus'
+import eventBus from '../../utils/eventBus'
 export default {
   name: 'balance-page',
   data () {

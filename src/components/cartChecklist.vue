@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-30 15:56:09 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-27 20:56:44
+ * @Last Modified time: 2017-11-30 17:15:27
  * 覆写 mint-ui checklist
  */
 <template>
@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import eventBus from '../assets/eventBus'
+import eventBus from '../utils/eventBus'
 import XCell from 'mint-ui/packages/cell/index.js'
 if (process.env.NODE_ENV === 'component') {
   require('mint-ui/packages/cell/style.css')
@@ -94,7 +94,6 @@ export default {
   created () {
     eventBus.$on('status', param => {
       this.status = param
-      // console.log('this.status ' + this.status)
     })
   },
   watch: {
@@ -110,8 +109,10 @@ export default {
     minus (option, $event) {
       $event.preventDefault()
       this.$emit('refreMinus', option)
-      if (this.status) {
-        option.skuCount -= 1
+      if (option.skuCount !== 1) { // 数量是1的时候
+        if (this.status) {
+          option.skuCount -= 1
+        }
       }
     },
     increase (option, $event) {

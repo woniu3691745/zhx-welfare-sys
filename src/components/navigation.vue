@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 19:03:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-28 17:38:53
+ * @Last Modified time: 2017-11-30 16:07:09
  * 导航
  */
 <template>
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import eventBus from '../assets/eventBus'
+import eventBus from '../utils/eventBus'
 export default {
   name: 'navigation-page',
   data () {

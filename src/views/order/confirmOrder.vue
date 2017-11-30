@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 09:59:01 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-30 11:14:09
+ * @Last Modified time: 2017-11-30 16:07:30
  * 确认订单
  */
 <template>
@@ -85,7 +85,7 @@
   </div>
 </template>
 <script>
-// import eventBus from '../../assets/eventBus'
+// import eventBus from '../../utils/eventBus'
 import { mapGetters } from 'vuex'
 export default {
    // 组件名字

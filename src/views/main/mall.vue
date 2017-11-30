@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-30 12:04:24
+ * @Last Modified time: 2017-11-30 16:07:19
  * 首页组件
  */
 <template>
@@ -81,7 +81,7 @@
 </template>
 
 <script>
-import eventBus from '../../assets/eventBus'
+import eventBus from '../../utils/eventBus'
 import { InfiniteScroll, Indicator } from 'mint-ui'
 import Vue from 'vue'
 Vue.use(InfiniteScroll)

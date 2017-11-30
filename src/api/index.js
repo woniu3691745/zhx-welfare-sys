@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-10-23 10:40:22
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-28 14:44:23
+ * @Last Modified time: 2017-11-30 11:52:46
  * 首页API
  */
 import fetch from '@/utils/fetch'
@@ -53,6 +53,21 @@ export function quotaInfo (token, productTypeId) {
   }
   return fetch({
     url: '/wcc/balance/type.cp',
+    method: 'post',
+    data
+  })
+}
+
+// 获得购物车数量
+export function count (token, cartType) {
+  const data = {
+    bizData: {
+      cartType: cartType
+    },
+    token
+  }
+  return fetch({
+    url: '/cart/count.cp',
     method: 'post',
     data
   })

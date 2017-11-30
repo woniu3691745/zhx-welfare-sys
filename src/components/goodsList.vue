@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-19 19:50:05 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-24 16:02:22
+ * @Last Modified time: 2017-11-30 12:28:55
  * 商品列表
  */
 <template>
@@ -15,7 +15,7 @@
           </router-link>
         </mt-header>
         <span class="right shop-car">
-            <span @click="cart">99</span>
+            <span @click="cart">{{count}}</span>
           </span>
       </div>
     </div> 
@@ -75,7 +75,8 @@ export default {
       autoFill: false,
       bottomStatus: '',
       topStatus: '',
-      typeId: this.$route.query.typeId // 种类
+      count: this.$store.getters.cartCount,    // 购物车数量
+      typeId: this.$route.query.typeId          // 种类
     }
   },
   methods: {
@@ -103,6 +104,17 @@ export default {
             closeOnClickModal: true,
             showConfirmButton: true
           })
+          this.cartCount(this.typeId)
+        })
+        .catch(res => {
+          console.log(res)
+        })
+    },
+    cartCount (typeId) {
+      this.$store
+        .dispatch('Count', typeId)
+        .then(res => {
+          this.count = res.total
         })
         .catch(res => {
           console.log(res)

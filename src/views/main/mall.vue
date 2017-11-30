@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-29 20:08:19
+ * @Last Modified time: 2017-11-30 12:04:24
  * 首页组件
  */
 <template>
@@ -17,7 +17,7 @@
       </div>
       <span class="right shop-car">
         <router-link :to="{ path: '/cart', query: {typeId: this.typeId}}"> 
-          <span >99</span>
+          <span>{{this.count}}</span>
         </router-link>
       </span>
     </div>
@@ -96,6 +96,7 @@ export default {
       competitiveProducts: [],                      // 商品
       categorys: [],                                // 商品种类
       typeId: this.$route.query.typeId,             // 种类
+      count: '',                                    // 购物车数量
       index: 0,
       limit: 2
     }
@@ -136,6 +137,7 @@ export default {
       this.categoryInfo(typeId)                 // 类品过滤种类
       this.competitiveProductsInfo(typeId)      // 品类信息
       this.quotaInfo(typeId)                    // 通过额度种类获得额度信息
+      this.cartCount(typeId)                    // 购物车数量
     },
     quotaInfo (typeId) {
       let categoryInfo = {
@@ -146,6 +148,16 @@ export default {
         .then(res => {
           this.balance = res.balance
           this.typeName = res.typeName
+        })
+        .catch(res => {
+          console.log(res)
+        })
+    },
+    cartCount (typeId) {
+      this.$store
+        .dispatch('Count', typeId)
+        .then(res => {
+          this.count = res.total
         })
         .catch(res => {
           console.log(res)

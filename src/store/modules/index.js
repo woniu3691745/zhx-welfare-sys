@@ -2,29 +2,29 @@
  * @Author: lidongliang
  * @Date: 2017-10-18 15:33:14
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-21 20:31:15
+ * @Last Modified time: 2017-11-30 12:18:16
  * 主页信息 module
  */
-import { bonusPackagesInfo, competitiveProductsInfo, quotaInfo } from '@/api/index'
+import { bonusPackagesInfo, competitiveProductsInfo, quotaInfo, count } from '@/api/index'
 import { getToken } from '@/utils/auth'
 
 const index = {
 
-  // 定义数据状态
   state: {
-    token: getToken()
+    token: getToken(),
+    cartCount: ''
   },
 
-  // 改变数据状态
-  // mutations -> state
   mutations: {
     SET_TOKEN: (state, token) => {
       state.token = token
+    },
+    // 购物车数量
+    CART_COUNT: (state, cartCount) => {
+      state.cartCount = cartCount
     }
   },
 
-  // 触发
-  // commit -> mutation
   actions: {
     // 超级大礼包
     BonusPackagesInfo ({ commit, state }, viewNums) {
@@ -51,6 +51,17 @@ const index = {
       return new Promise((resolve, reject) => {
         quotaInfo(state.token, category.productTypeId).then(response => {
           resolve(response.data.data)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    // 购物车数量
+    Count ({ commit, state }, cartType) {
+      return new Promise((resolve, reject) => {
+        count(state.token, cartType).then(response => {
+          commit('CART_COUNT', response.data.bizData.total)
+          resolve(response.data.bizData)
         }).catch(error => {
           reject(error)
         })

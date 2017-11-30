@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 19:04:29 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-30 20:06:05
+ * @Last Modified time: 2017-11-30 20:34:09
  * 额度
  */
 <template>
@@ -117,7 +117,6 @@ export default {
       })
     },
     balanceDetail (typeId) {
-      console.log('--->' + 1)
       this.$router.push({
         path: '/balanceDetail',
         query: {

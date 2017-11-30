@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-10-12 17:58:36
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-30 20:11:34
+ * @Last Modified time: 2017-11-30 20:35:48
  * 路由
  */
 
@@ -86,7 +86,7 @@ export const constantRouterMap = [
 ]
 
 export default new Router({
-  mode: 'history',
+  // mode: 'history',
   routes: constantRouterMap,
   // 回到顶点
   scrollBehavior (to, from, savedPosition) {

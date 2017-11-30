@@ -2,20 +2,19 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 09:59:01 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-16 19:59:13
+ * @Last Modified time: 2017-11-30 11:14:09
  * 确认订单
  */
 <template>
   <div class="confirmOrder">
     <div class="common-header">
       <mt-header title="确认订单">
-        <router-link to="/cart" slot="left">
+        <router-link :to="{ path: '/cart', query: { typeId: this.typeId}}" slot="left">
           <mt-button icon="back"></mt-button>
         </router-link>
       </mt-header>
     </div>
     <div class="body-confirm">
-      
       <div class="address-container">
         <div class="address-con">
           <div class="name-tel clear">
@@ -29,16 +28,10 @@
             <img class="next-icon" slot="icon" src="../../assets/aaa.jpg">
           </div>
         </div>
-          
-        
         <div class="add-adderss">
           <router-link :to="{ path: '/addAddress' }"> <mt-button type="primary" class="button-width">添加地址</mt-button></router-link>
         </div>
-        
-          
-        
       </div>
-
       <div class="height-22"></div>
       <div class="clear nomeny-cue">
         <span class="left shop-kind">日用品</span>
@@ -60,66 +53,83 @@
       </div>
       <div class="clear nomeny-all border-1px">
         <span class="left shop-kind">商品金额小计</span>
-        <span class="right shop-delait">￥300.00</span>
+        <span class="right shop-delait">￥{{confirmOrderForm.productTotal}}</span>
       </div>
       <div class="clear nomeny-all">
-        <span class="left shop-kind">运费 ¥20.00 </span>
+        <span class="left shop-kind">运费 ¥{{confirmOrderForm.shipping}} </span>
         <span class="right shop-delait">已减免</span>
       </div>
       <div class="height-22"></div>
       <div class="clear nomeny-alls border-1px">
-        <span class="right shop-kind">¥20.00 </span>
+        <span class="right shop-kind">¥{{confirmOrderForm.productTotal}}</span>
         <span class="right shop-delait">共1件商品 使用额度支付小计：</span>
       </div>
       <div class="clear merge">
-        <span class="left shop-kind">满200 包邮，再买50元 包邮 </span>
+        <span class="left shop-kind">{{confirmOrderForm.shippingInfo}}</span>
         <span class="right shop-delait">去凑单</span>
       </div>
-
-
-
     </div>
     <div class="bottom">
       <mt-tabbar fixed>
         <mt-button size="large" type="default" class="prompt-money clear">
-              <p class="right">
-                <span class="">合计金额：</span>
-                <span class="">￥170.00</span> 
-              </p>
+          <p class="right">
+            <span class="">合计金额：</span>
+            <span class="">￥{{confirmOrderForm.cartTotal}}</span> 
+          </p>
         </mt-button>
-         <router-link :to="{ path: '/inputPwd' }" class="submit-container">
+        <router-link :to="{ path: '/inputPwd' }" class="submit-container">
           <mt-button type="primary" class="button-width">提交订单</mt-button>
         </router-link>
       </mt-tabbar>
     </div>
   </div>
 </template>
-
 <script>
- export default {
+// import eventBus from '../../assets/eventBus'
+import { mapGetters } from 'vuex'
+export default {
    // 组件名字
-   name: 'confirmOrder-page',
+  name: 'confirmOrder-page',
    // 组合其它组件
-   extends: {},
+  extends: {},
    // 组件属性、变量
-   props: {},
+  props: {},
    // 变量
-   data () {
-     return {
-       a1: 'asdasd',
-       asd: 'ffff'
-     }
-   },
-   computed: {},
+  data () {
+    return {
+      confirmOrderForm: {
+        cartTotal: '',       // 购物车金额汇总
+        orderNo: '',         // 订单号
+        productTotal: '',    // 商品金额汇总
+        shipping: '',        // 运费
+        shippingInfo: ''     // 包邮说明
+      },
+      typeId: this.$route.query.typeId
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'orderInfo'
+    ])
+  },
    // 使用其它组件
-   components: {},
-   watch: {},
+  components: {},
+  watch: {},
    // 方法
-   methods: {},
+  methods: {
+  },
    // 生命周期函数
-  //  beforeCreate: {},
-   mounted () {}
- }
+  mounted () {
+    // eventBus.$on('confirmOrderInfo', param =>
+    //   console.log('--->' + JSON.stringify(param))
+    // )
+  },
+  created () {
+    Object.assign(this.confirmOrderForm, this.orderInfo)
+  },
+  beforeCreate () {
+  }
+}
 </script>
 
 <style lang="less" scoped>
@@ -136,7 +146,6 @@
           font-size: 0.26rem;
           color: #323232;
           padding: 0 1.06rem 0 0.84rem;
-          
           .name {
             height: 0.3rem;
             line-height: 0.3rem;
@@ -151,7 +160,7 @@
             line-height: 0.3rem;
             text-align: center;
             box-sizing: border-box;
-          };
+          }
           .tel {
             margin-right: 0.2rem;
             line-height: 0.3rem;
@@ -243,9 +252,7 @@
         z-index: 2;
         line-height: 1.4rem;
       }
-
     } 
-  
     .nomeny-all {
       padding: 0 0.28rem 0 0.24rem;
       font-size: 0.3rem;
@@ -256,7 +263,6 @@
         font-size: 0.36rem;
       }
     }
-  
     .nomeny-alls {
       padding: 0 0.28rem 0 0.24rem;
       font-size: 0.36rem;
@@ -269,7 +275,6 @@
         color: #323232;
       }
     }
-  
     .merge {
       // display: none;
       background: #FFECD3;
@@ -287,16 +292,13 @@
       }
     }
   }
-
-
   // 底部
  .bottom {
-   .mint-tabbar  {
+   .mint-tabbar {
     .prompt-money {
       height: 0.94rem;
       box-shadow: inset 0 1px 0 0 rgba(220,220,220,0.50);
       p {
-        
         :nth-child(1) {
           font-size: 0.26rem;
           color: #323232;
@@ -308,12 +310,11 @@
           color: #FD404A;
           line-height: 0.37rem;
         }  
-        
       }
     }
     .submit-container {
       font-size: 0;
-      .mint-button  {
+      .mint-button {
         border-radius: 0;
         line-height: 0.94rem;
         height: 0.94rem;
@@ -323,9 +324,8 @@
         font-size: 0.28rem;
         color: #FFFFFF;
       }
-      
     }
-   }
+  }
  }
 }
 .border-1px {

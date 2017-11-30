@@ -2,12 +2,13 @@
  * @Author: lidongliang
  * @Date: 2017-10-12 17:58:36
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-22 20:23:52
+ * @Last Modified time: 2017-11-30 10:45:26
  * 路由
  */
 
 import Vue from 'vue'
 import Router from 'vue-router'
+import confirmOrder from '../views/order/confirmOrder.vue'
 
 Vue.use(Router)
 
@@ -59,7 +60,7 @@ export const constantRouterMap = [
   /**
    * 订单
    */
-  { path: '/confirmOrder', name: '确认订单', component: resolve => require(['@/views/order/confirmOrder.vue'], resolve) },
+  { path: '/confirmOrder', name: '确认订单', component: confirmOrder },
   { path: '/selectAddress', name: '选择地址', component: resolve => require(['@/views/order/selectAddress.vue'], resolve) },
   { path: '/inputPwd', name: '支付密码', component: resolve => require(['@/views/order/inputPwd.vue'], resolve) },
   { path: '/success', name: '支付成功', component: resolve => require(['@/views/order/success.vue'], resolve) },

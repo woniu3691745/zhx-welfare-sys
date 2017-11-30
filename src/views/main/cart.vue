@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-28 18:29:35
+ * @Last Modified time: 2017-11-30 11:13:34
  * 购物车
  */
 <template>
@@ -59,7 +59,7 @@ export default {
     return {
       index: '0',
       limit: '10',
-      typeId: this.$route.query.typeId,
+      typeId: this.$route.query.typeId,                   // 路由跳转额度标识
       cartType: this.$route.query.typeId,                 // 种类
       balance: '',                                        // 余额
       // nums: 0,
@@ -277,9 +277,10 @@ export default {
           }
           this.$store.dispatch('SettleCart', cartForm).then(res => {
             if (res.result) {
+              // eventBus.$emit('confirmOrderInfo', res.bizData)
               this.$router.push({
                 path: '/confirmOrder',
-                query: { selected: this.cartType }
+                query: { typeId: this.cartType }
               })
             } else {
               MessageBox({

@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-11-14 09:59:01
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-21 20:16:18
+ * @Last Modified time: 2017-11-30 10:36:50
  * 登录
  */
 <template>
@@ -39,8 +39,8 @@ export default {
   data () {
     return {
       loginForm: {
-        account: '',
-        loginPassWord: ''
+        account: '15808812156',
+        loginPassWord: '1'
       }
     }
   },

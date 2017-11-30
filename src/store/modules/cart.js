@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-10-18 15:33:14
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-28 18:22:18
+ * @Last Modified time: 2017-11-29 20:48:01
  * 购物车 module
  */
 import { addCart, addCartPlus, addCartMinus, delCart, cleanupCart, listCart, countCart, settleCart } from '@/api/cart'
@@ -11,12 +11,17 @@ import { getToken } from '@/utils/auth'
 const cart = {
 
   state: {
-    token: getToken()
+    token: getToken(),
+    orderInfo: ''
   },
 
   mutations: {
     SET_TOKEN: (state, token) => {
       state.token = token
+    },
+    // 订单信息
+    SET_CONFIRM_ORDER_INFO: (state, orderInfo) => {
+      state.orderInfo = orderInfo
     }
   },
 
@@ -95,6 +100,8 @@ const cart = {
     SettleCart ({ commit, state }, cartForm) {
       return new Promise((resolve, reject) => {
         settleCart(state.token, cartForm).then(response => {
+          // 订单信息保存到vuex
+          commit('SET_CONFIRM_ORDER_INFO', response.data.bizData)
           resolve(response.data)
         }).catch(error => {
           reject(error)

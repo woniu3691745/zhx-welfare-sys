@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 19:04:29 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-30 16:06:43
+ * @Last Modified time: 2017-11-30 20:06:05
  * 额度
  */
 <template>
@@ -39,10 +39,10 @@
           <router-link :to="{ path: '/', query: {itemTypeId: item.typeId}}">
             <div class="warn clear" v-if="item.limitFlag !== ''">
               <span class="prompt left">{{item.limitFlag}}</span>
-              <span class="right detail">查看</span>
+              <span class="right detail" @click="balanceDetail(item.typeId)">查看</span>
             </div> 
             <div v-else :style="{ height: height + 'rem' }">
-              <span class="right detail">查看</span>
+              <span class="right detail" @click="balanceDetail(item.typeId)">查看</span>
             </div>
           </router-link>
           <div class="balance clear">
@@ -113,6 +113,15 @@ export default {
           selected: 'mall',
           type: 'direct',
           flag: '1'
+        }
+      })
+    },
+    balanceDetail (typeId) {
+      console.log('--->' + 1)
+      this.$router.push({
+        path: '/balanceDetail',
+        query: {
+          typeId: typeId
         }
       })
     }

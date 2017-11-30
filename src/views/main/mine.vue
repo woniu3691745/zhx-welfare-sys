@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-22 16:15:05
+ * @Last Modified time: 2017-11-30 20:14:41
  * 我的
  */
 <template>
@@ -82,7 +82,7 @@ export default {
       this.$store
         .dispatch('LogOut')
         .then(req => {
-          this.$router.push({ path: '/login' })
+          this.$router.push({ path: '/index' })
         })
         .catch(req => {
           console.log(req)

@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 19:04:29 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-30 20:34:09
+ * @Last Modified time: 2017-12-01 15:21:11
  * 额度
  */
 <template>
@@ -31,7 +31,7 @@
            <span class="title left">{{item.typeName}}</span>
            <router-link :to="{ path: '/cart', query: {typeId: item.typeId}}">
             <span class="right shop-car">
-              <span>99</span>
+              <span>{{item.cartCount}}</span>
             </span>
            </router-link>
          </div>
@@ -39,10 +39,10 @@
           <router-link :to="{ path: '/', query: {itemTypeId: item.typeId}}">
             <div class="warn clear" v-if="item.limitFlag !== ''">
               <span class="prompt left">{{item.limitFlag}}</span>
-              <span class="right detail" @click="balanceDetail(item.typeId)">查看</span>
+              <span class="right detail" @click="balanceDetail(item.typeId, $event)">查看</span>
             </div> 
             <div v-else :style="{ height: height + 'rem' }">
-              <span class="right detail" @click="balanceDetail(item.typeId)">查看</span>
+              <span class="right detail" @click="balanceDetail(item.typeId, $event)">查看</span>
             </div>
           </router-link>
           <div class="balance clear">
@@ -57,7 +57,7 @@
             <mt-button type="danger" size="large" @click="use(item.typeId)">去使用</mt-button>
           </div>
           <div class="description">
-            <span>可用品类：{{item.desc}}</span>
+            <span>可用品类：{{item.categorys}}</span>
           </div>
         </div>
       </div>
@@ -78,6 +78,7 @@
 </template>
 <script>
 import eventBus from '../../utils/eventBus'
+import { Indicator } from 'mint-ui'
 export default {
   name: 'balance-page',
   data () {
@@ -91,8 +92,8 @@ export default {
     this.quotas = this.$store.getters.quota
   },
   mounted () {
-    // 页面完成获得焦点
-    this.focus()
+    this.loading()
+    this.focus()   // 页面完成获得焦点
   },
   methods: {
     focus () {
@@ -116,13 +117,25 @@ export default {
         }
       })
     },
-    balanceDetail (typeId) {
+    balanceDetail (typeId, $event) {
+      $event.preventDefault()
       this.$router.push({
         path: '/balanceDetail',
         query: {
           typeId: typeId
         }
       })
+    },
+    loading () {
+      setTimeout(function () {
+        Indicator.open({
+          spinnerType: 'triple-bounce'
+          // text: '加载中...'
+        })
+      }, 200)
+      setTimeout(function () {
+        Indicator.close()
+      }, 1000)
     }
   }
 }

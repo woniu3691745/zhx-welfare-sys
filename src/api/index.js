@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-10-23 10:40:22
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-30 11:52:46
+ * @Last Modified time: 2017-12-01 10:40:16
  * 首页API
  */
 import fetch from '@/utils/fetch'
@@ -53,6 +53,21 @@ export function quotaInfo (token, productTypeId) {
   }
   return fetch({
     url: '/wcc/balance/type.cp',
+    method: 'post',
+    data
+  })
+}
+
+// 获得品类额度列表明细
+export function balanceList (token, productTypeId) {
+  const data = {
+    data: {
+      productTypeId: productTypeId
+    },
+    token
+  }
+  return fetch({
+    url: '/wcc/balance/list.cp',
     method: 'post',
     data
   })

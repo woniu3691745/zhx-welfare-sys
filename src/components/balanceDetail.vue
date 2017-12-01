@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 09:59:01 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-30 20:06:43
+ * @Last Modified time: 2017-12-01 15:40:56
  * 额度明细
  */
 <template>
@@ -14,8 +14,14 @@
         </router-link>
       </mt-header>
     </div>
-    <div class="body">
-       <span style="font-size:15px"> 开发中..</span>
+    <div class="body" style="font-size: 10px;">
+       <div v-for="i in balanceInfo" :key="i.balance">
+         <span>金额</span>
+         <div>
+           <div><span>{{i.limitFlag}}￥{{i.balance}}</span></div>
+           <div>有效期直：{{i.limitDate}}</div>
+         </div>
+       </div>
     </div>
     <div class="bottom">
 
@@ -25,25 +31,32 @@
 
 <script>
  export default {
-   // 组件名字
    name: 'balanceDetail-page',
-   // 组合其它组件
-   extends: {},
-   // 组件属性、变量
-   props: {},
-   // 变量
    data () {
-     return {}
+     return {
+       balanceInfo: '',
+       typeId: this.$route.query.typeId                   // 路由跳转额度标识
+     }
    },
    computed: {},
-   // 使用其它组件
    components: {},
    watch: {},
-   // 方法
-   methods: {},
-   // 生命周期函数
-  //  beforeCreate: {},
-   mounted () {}
+   methods: {
+     balanceList (productTypeId) {
+       this.$store
+        .dispatch('BalanceList', productTypeId)
+        .then(data => {
+          console.log('--->' + JSON.stringify(data))
+          this.balanceInfo = data
+        })
+        .catch(res => {
+          console.log(res)
+        })
+     }
+   },
+   mounted () {
+     this.balanceList(this.typeId)
+   }
  }
 </script>
 

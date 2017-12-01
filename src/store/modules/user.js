@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-10-18 15:33:14
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-22 20:01:20
+ * @Last Modified time: 2017-12-01 19:21:33
  * 用户信息 module
  *
  * 1.通过commit -> 2.经过mutation -> 3.改变数据state
@@ -38,10 +38,8 @@ const user = {
     // 用户名登录
     LoginByUserName ({ commit }, userInfo) {
       const userId = userInfo.bizData.Login.PhoneNo.trim()
-      console.log(userId)
       return new Promise((resolve, reject) => {
         loginByUserName(userId, userInfo.bizData.Login.SigninPwd).then(response => {
-          console.log('response=', response)
           const data = response.data
           if (data.result) {
             setToken(response.data.bizData.Login.Token)

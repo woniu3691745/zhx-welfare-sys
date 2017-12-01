@@ -38,11 +38,15 @@ const user = {
     // 用户名登录
     LoginByUserName ({ commit }, userInfo) {
       const userId = userInfo.bizData.Login.PhoneNo.trim()
+      console.log(userId)
       return new Promise((resolve, reject) => {
         loginByUserName(userId, userInfo.bizData.Login.SigninPwd).then(response => {
+          console.log('response=', response)
           const data = response.data
-          setToken(response.data.bizData.Login.Token)
-          commit('SET_TOKEN', data.bizData.Login.Token)
+          if (data.result) {
+            setToken(response.data.bizData.Login.Token)
+            commit('SET_TOKEN', data.bizData.Login.Token)
+          }
           resolve(response)
         }).catch(error => {
           reject(error)

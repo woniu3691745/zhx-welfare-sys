@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-10-23 10:40:22
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-28 18:28:45
+ * @Last Modified time: 2017-12-01 17:03:59
  * 购物车API
  */
 import fetch from '@/utils/fetch'
@@ -117,6 +117,24 @@ export function countCart (token, cartForm) {
   }
   return fetch({
     url: '/cart/count.cp',
+    method: 'post',
+    data
+  })
+}
+
+// 获取购物车图片列表
+export function cartImgs (token, cartForm) {
+  const data = {
+    bizData: {
+      index: cartForm.index,
+      limit: cartForm.limit,
+      cartType: cartForm.cartType,
+      mallSkus: cartForm.mallSkus
+    },
+    token
+  }
+  return fetch({
+    url: '/cart/imgs.cp',
     method: 'post',
     data
   })

@@ -2,17 +2,18 @@
  * @Author: lidongliang
  * @Date: 2017-10-18 15:33:14
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-30 11:49:48
+ * @Last Modified time: 2017-12-01 17:31:55
  * 购物车 module
  */
-import { addCart, addCartPlus, addCartMinus, delCart, cleanupCart, listCart, countCart, settleCart } from '@/api/cart'
+import { addCart, addCartPlus, addCartMinus, delCart, cleanupCart, listCart, countCart, cartImgs, settleCart } from '@/api/cart'
 import { getToken } from '@/utils/auth'
 
 const cart = {
 
   state: {
     token: getToken(),
-    orderInfo: ''
+    orderInfo: '',
+    productImg: ''
   },
 
   mutations: {
@@ -22,6 +23,10 @@ const cart = {
     // 订单信息
     SET_CONFIRM_ORDER_INFO: (state, orderInfo) => {
       state.orderInfo = orderInfo
+    },
+    // 订单信息购物车图片列表
+    SET_CONFIRM_ORDER_PRODUCT_IMG: (state, productImg) => {
+      state.productImg = productImg
     }
   },
 
@@ -90,6 +95,17 @@ const cart = {
     CountCart ({ commit, state }, cartForm) {
       return new Promise((resolve, reject) => {
         countCart(state.token, cartForm).then(response => {
+          resolve(response.data)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    // 获取购物车图片列表
+    CartImgs ({ commit, state }, cartForm) {
+      return new Promise((resolve, reject) => {
+        cartImgs(state.token, cartForm).then(response => {
+          commit('SET_CONFIRM_ORDER_PRODUCT_IMG', response.data.bizData.data)
           resolve(response.data)
         }).catch(error => {
           reject(error)

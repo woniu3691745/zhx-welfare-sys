@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-30 19:31:18
+ * @Last Modified time: 2017-12-01 17:23:39
  * 购物车
  */
 <template>
@@ -262,7 +262,7 @@ export default {
     // 确认订单
     confirmOrder () {
       if (this.washValue.length) {
-        if (this.amount > this.balance) {
+        if (parseInt(this.amount) > parseInt(this.balance)) {
           MessageBox({
             title: '提示',
             message: '额度不足！',
@@ -278,6 +278,7 @@ export default {
           this.$store.dispatch('SettleCart', cartForm).then(res => {
             if (res.result) {
               // eventBus.$emit('confirmOrderInfo', res.bizData)
+              this.cartImg(mallSkus)
               this.$router.push({
                 path: '/confirmOrder',
                 query: { typeId: this.cartType }
@@ -334,6 +335,20 @@ export default {
         })
         .catch(res => {
           console.log(res)
+        })
+    },
+    // 购物车图片列表
+    cartImg (mallSkus) {
+      let cartForm = {
+        index: 0,
+        limit: 100,
+        cartType: this.typeId,
+        mallSkus: mallSkus
+      }
+      this.$store
+        .dispatch('CartImgs', cartForm)
+        .then(res => {
+          console.log('--->' + JSON.stringify(res))
         })
     }
   },

@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 09:59:01 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-30 16:07:30
+ * @Last Modified time: 2017-12-01 17:49:34
  * 确认订单
  */
 <template>
@@ -39,13 +39,8 @@
       </div>
       <div class="all-thing">
         <div class="all-thing-pic">
-          <img slot="icon" src="../../assets/aaa.jpg" width="24" height="24">
-          <img slot="icon" src="../../assets/aaa.jpg" width="24" height="24">
-          <img slot="icon" src="../../assets/aaa.jpg" width="24" height="24">
-          <img slot="icon" src="../../assets/aaa.jpg" width="24" height="24">
-          <img slot="icon" src="../../assets/aaa.jpg" width="24" height="24">
-          <img slot="icon" src="../../assets/aaa.jpg" width="24" height="24">
-          <img slot="icon" src="../../assets/aaa.jpg" width="24" height="24">
+          <!-- <router-link :to="{ path: '/detail', query: {sku: item.productSku}}"></router-link> -->
+          <img slot="icon" v-bind:src="item.imgUrl" v-for="item in productImgs" :key="item.mallSku">
         </div>
         <div class="number-shops">
           共11件商品
@@ -57,7 +52,7 @@
       </div>
       <div class="clear nomeny-all">
         <span class="left shop-kind">运费 ¥{{confirmOrderForm.shipping}} </span>
-        <span class="right shop-delait">已减免</span>
+        <span class="right shop-delait" v-if="confirmOrderForm.isShipping">已减免</span>
       </div>
       <div class="height-22"></div>
       <div class="clear nomeny-alls border-1px">
@@ -86,6 +81,7 @@
 </template>
 <script>
 // import eventBus from '../../utils/eventBus'
+import { Indicator } from 'mint-ui'
 import { mapGetters } from 'vuex'
 export default {
    // 组件名字
@@ -102,14 +98,17 @@ export default {
         orderNo: '',         // 订单号
         productTotal: '',    // 商品金额汇总
         shipping: '',        // 运费
-        shippingInfo: ''     // 包邮说明
+        shippingInfo: '',    // 包邮说明
+        isShipping: false    // 运费减免
       },
+      productImgs: '',
       typeId: this.$route.query.typeId
     }
   },
   computed: {
     ...mapGetters([
-      'orderInfo'
+      'orderInfo',
+      'productImg'
     ])
   },
    // 使用其它组件
@@ -117,18 +116,36 @@ export default {
   watch: {},
    // 方法
   methods: {
+    loading () {
+      setTimeout(function () {
+        Indicator.open({
+          spinnerType: 'triple-bounce'
+          // text: '加载中...'
+        })
+      }, 200)
+      setTimeout(function () {
+        Indicator.close()
+      }, 1000)
+    }
   },
    // 生命周期函数
   mounted () {
+    this.loading()
     // eventBus.$on('confirmOrderInfo', param =>
     //   console.log('--->' + JSON.stringify(param))
     // )
   },
   created () {
     Object.assign(this.confirmOrderForm, this.orderInfo)
+    // 订单满200，包邮
+    if (parseInt(this.confirmOrderForm.productTotal) > parseInt(199)) {
+      this.confirmOrderForm.isShipping = true
+    }
+    this.productImgs = this.productImg
   },
   beforeCreate () {
   }
+
 }
 </script>
 

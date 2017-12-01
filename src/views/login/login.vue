@@ -68,15 +68,29 @@ export default {
           }
         }
         this.$store.dispatch('LoginByUserName', reqData).then(res => {
-          // console.log('res -> ' + JSON.stringify(res))
-          this.$router.push({
-            path: '/home',
-            query: { selected: 'balance' }
-          })
+          console.log('res=', res)
+          if (res.data.result) {
+            this.$router.push({
+              path: '/home',
+              query: { selected: 'balance' }
+            })
+          } else {
+            MessageBox({
+              message: '账号或密码错误',
+              closeOnClickModal: true,
+              showConfirmButton: false
+            })
+            this.loginForm.loginPassWord = ''
+          }
+        }).catch(err => {
+          console.log('err=', err)
+            // MessageBox({
+            //   message: '账号或密码错误',
+            //   closeOnClickModal: true,
+            //   showConfirmButton: false
+            // })
+            // this.loginForm.loginPassWord = ''
         })
-          .catch(res => {
-            console.log(res)
-          })
       }
       // 登录
 //      if (

@@ -47,7 +47,13 @@
          identityCard: ''
        },
        time: 60,
-       sendMsgDisabled: false
+       sendMsgDisabled: false,
+       loginForm: {'bizData': {
+         'Captacha': {
+           'PhoneNo': '1000000001',
+           'Type': '04'
+         }
+       } }
      }
    },
    computed: {},
@@ -56,12 +62,22 @@
    watch: {},
    // 方法
    methods: {
-     onSubmit () {},
+     onSubmit () {
+       // 正则判断
+       this.$router.push({
+         path: '/home',
+         query: { selected: 'balance' }
+       })
+     },
      getIdCode () {
+       if (this.sendMsgDisabled) {
+         return
+       }
        this.setTime()
        this.$store
         .dispatch('GetIdCode', this.loginForm)
         .then(res => {
+
           // console.log('res -> ' + JSON.stringify(res))
         })
         .catch(res => {

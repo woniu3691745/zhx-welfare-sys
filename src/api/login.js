@@ -60,11 +60,7 @@ export function resetLoginPassword (token, resetLoginPasswordForm) {
 
 // 获取验证码
 export function getIdCode (token, bindIdCodeInfo) {
-  const data = {
-    data: {
-    },
-    token
-  }
+  const data = {...bindIdCodeInfo, token}
   return fetch({
     url: '/api/',
     method: 'post',

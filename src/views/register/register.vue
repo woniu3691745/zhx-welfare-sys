@@ -43,14 +43,20 @@
    },
    methods: {
      handleSubmit () {
-       let cardNo = this.registerForm.cardNum
-       let password = this.registerForm.cardPassWord
+       let cardNo = this.registerForm.cardNum.trim()
+       let password = this.registerForm.cardPassWord.trim()
        let cardNoPattern = /\d{5,7}/ // 数字 16 -19
        let pswdLengthPattern = /\d{6}/ // 数字 16 -19
 
        if (!cardNoPattern.test(cardNo)) {
          MessageBox({
            message: '卡号格式不正确',
+           closeOnClickModal: true,
+           showConfirmButton: false
+         })
+       } else if (!password) {
+         MessageBox({
+           message: '请填写卡背密码',
            closeOnClickModal: true,
            showConfirmButton: false
          })

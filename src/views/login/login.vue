@@ -17,7 +17,7 @@
     <div class="body">
       <div class="common-form-filed">
         <mt-field label="账号" placeholder="手机号" v-model="loginForm.account"></mt-field>
-        <mt-field label="登录密码" placeholder="请填写登录密码" type="password" v-model="loginForm.loginPassWord"></mt-field>
+        <mt-field label="登录密码" placeholder="请填写登录密码" type="password" v-model="loginForm.loginPassWord" @paste.native="forbidPaste"></mt-field>
       </div>
     </div>
     <div class="bottom">
@@ -32,8 +32,8 @@
 
 <script>
 import { MessageBox } from 'mint-ui'
-const phoneNoPattern = /^1\d{10}/
-const signinPwdPatten = /\w{1,20}/
+const phoneNoPattern = /^1[34578]\d{9}$/
+const signinPwdPatten = /^[a-z0-9]{6,20}$/
 export default {
   name: 'login-page',
   data () {
@@ -46,15 +46,33 @@ export default {
   },
   methods: {
     onSubmit: function () {
-      if (!phoneNoPattern.test(this.loginForm.account)) {
+      if (!this.loginForm.account) {
         MessageBox({
           message: '请填写账户',
           closeOnClickModal: true,
           showConfirmButton: false
         })
+      } else if (/([^\d])+/.test(this.loginForm.account)) {
+        MessageBox({
+          message: '请输入手机号登录',
+          closeOnClickModal: true,
+          showConfirmButton: false
+        })
+      } else if (!phoneNoPattern.test(this.loginForm.account)) {
+        MessageBox({
+          message: '请输入正确的账号',
+          closeOnClickModal: true,
+          showConfirmButton: false
+        })
+      } else if (!this.loginForm.loginPassWord) {
+        MessageBox({
+          message: '请输入密码',
+          closeOnClickModal: true,
+          showConfirmButton: false
+        })
       } else if (!signinPwdPatten.test(this.loginForm.loginPassWord)) {
         MessageBox({
-          message: '密码格式错',
+          message: '密码格式错误',
           closeOnClickModal: true,
           showConfirmButton: false
         })
@@ -112,6 +130,9 @@ export default {
 //        console.log('error submit!!')
 //        return false
 //      }
+    }, // 禁止粘贴
+    forbidPaste (e) {
+      e.returnValue = false
     }
   }
 }

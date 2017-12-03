@@ -30,6 +30,7 @@
 
 <script>
   import {MessageBox} from 'mint-ui'
+  import {mapGetters} from 'vuex'
   export default {
     name: 'setPassWord-page',
     data () {
@@ -40,9 +41,24 @@
         }
       }
     },
+    computed: {
+      ...mapGetters(['getSigninPwd'])
+    },
+    beforeRouteEnter (to, from, next) {
+      if (from.path === '/setPayPassWord') {
+        next(vm => {
+          vm.setPassWordForm = {
+            loginPassword: vm.getSigninPwd,
+            loginConfirmPassword: vm.getSigninPwd
+          }
+        })
+      } else {
+        next()
+      }
+    },
     methods: {
       handleSubmit () {
-        const signinPwdPatten = /\w{6,20}/
+        const signinPwdPatten = /^[a-z0-9]{6,20}$/
         if (!signinPwdPatten.test(this.setPassWordForm.loginPassword)) {
           MessageBox({
             message: '密码由6-20位英文字母、数字组成',

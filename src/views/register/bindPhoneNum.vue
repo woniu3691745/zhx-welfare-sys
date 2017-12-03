@@ -35,7 +35,7 @@
 import {MessageBox} from 'mint-ui'
 import {mapGetters} from 'vuex'
 import {verfiyCaptcha} from '@/api/register'
-const phoneNoPattern = /^1\d{10}/
+const phoneNoPattern = /^1[34578]\d{9}$/
 export default {
   name: 'bindPhoneNum-page',
   data () {
@@ -81,6 +81,7 @@ export default {
     },
     handleSubmit () {
       const phoneNo = this.bindForm.phoneNum
+      console.log(phoneNo)
       const captcha = this.bindForm.identifyingCode
       const captchaPattern = /\d{6}/ // 6位验证码
 
@@ -111,6 +112,7 @@ export default {
           const data = res.data
           const bizData = data.bizData
           if (data.result) {
+            console.log(data)
             this.$store.dispatch('VX_SET_PHONE_NO', phoneNo)
             this.$router.push({path: '/setPassWord'})
           } else {

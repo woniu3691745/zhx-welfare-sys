@@ -55,8 +55,8 @@
     methods: {
       handleSubmit () {
         const customerNamePatten = /\W{2,6}/
-        const payPwdPatten = /\d{6}/
-
+        const payPwdPatten = /^\d{6}$/
+        console.log(payPwdPatten.test('123456'))
         if (!customerNamePatten.test(this.setPayPassWordForm.username)) {
           MessageBox({
             message: '请输入正确的姓名',
@@ -69,7 +69,13 @@
             closeOnClickModal: true,
             showConfirmButton: false
           })
-        } else if (!payPwdPatten.test(this.setPayPassWordForm.payPassWord)) {
+        } else if (!this.setPayPassWordForm.confirmPayPassWord) {
+          MessageBox({
+            message: '确认密码不能为空',
+            closeOnClickModal: true,
+            showConfirmButton: false
+          })
+        } else if (!payPwdPatten.test(Number(this.setPayPassWordForm.payPassWord))) {
           MessageBox({
             message: '密码应为6位数字',
             closeOnClickModal: true,

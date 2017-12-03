@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-19 19:50:05 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-30 18:45:15
+ * @Last Modified time: 2017-12-03 15:18:27
  * 商品列表
  */
 <template>
@@ -75,8 +75,9 @@ export default {
       autoFill: false,
       bottomStatus: '',
       topStatus: '',
-      count: this.$store.getters.cartCount,     // 购物车数量
-      typeId: this.$route.query.typeId          // 种类
+      count: this.$store.getters.cartCount,       // 购物车数量
+      typeId: this.$route.query.typeId,           // 种类
+      togetherId: this.$route.query.togetherId    // 凑单
     }
   },
   methods: {
@@ -171,11 +172,14 @@ export default {
       }, 1500)
     },
     goodListInfo () {
+      let param
+      param = this.togetherId || this.typeId
+      console.log('--->' + param)
       let viewNums = {
         index: 0,
         limit: 18,
         sequenceType: 0,
-        productTypeId: this.typeId
+        productTypeId: param
       }
       this.$store
         .dispatch('GoodList', viewNums)

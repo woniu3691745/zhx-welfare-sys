@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-01 17:23:39
+ * @Last Modified time: 2017-12-03 15:22:32
  * 购物车
  */
 <template>
@@ -348,7 +348,7 @@ export default {
       this.$store
         .dispatch('CartImgs', cartForm)
         .then(res => {
-          console.log('--->' + JSON.stringify(res))
+          // console.log('--->' + JSON.stringify(res))
         })
     }
   },

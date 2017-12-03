@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 09:59:01 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-01 17:49:34
+ * @Last Modified time: 2017-12-03 15:47:31
  * 确认订单
  */
 <template>
@@ -61,7 +61,7 @@
       </div>
       <div class="clear merge">
         <span class="left shop-kind">{{confirmOrderForm.shippingInfo}}</span>
-        <span class="right shop-delait">去凑单</span>
+        <span class="right shop-delait" @click="together">去凑单</span>
       </div>
     </div>
     <div class="bottom">
@@ -80,7 +80,6 @@
   </div>
 </template>
 <script>
-// import eventBus from '../../utils/eventBus'
 import { Indicator } from 'mint-ui'
 import { mapGetters } from 'vuex'
 export default {
@@ -99,6 +98,7 @@ export default {
         productTotal: '',    // 商品金额汇总
         shipping: '',        // 运费
         shippingInfo: '',    // 包邮说明
+        productTypeId: '',   // 去凑单品类ID
         isShipping: false    // 运费减免
       },
       productImgs: '',
@@ -126,6 +126,12 @@ export default {
       setTimeout(function () {
         Indicator.close()
       }, 1000)
+    },
+    together () {
+      this.$router.push({
+        path: '/goodsList',
+        query: { typeId: this.typeId, togetherId: this.confirmOrderForm.productTypeId }
+      })
     }
   },
    // 生命周期函数

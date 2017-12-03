@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-10-12 17:58:36
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-01 14:23:42
+ * @Last Modified time: 2017-12-03 15:01:53
  * 路由
  */
 
@@ -41,7 +41,7 @@ export const constantRouterMap = [
   },
 
   { path: '/order', name: '订单', component: resolve => require(['@/views/main/order.vue'], resolve) },
-  { path: '/balanceDetail', name: '商品', component: resolve => require(['@/components/balanceDetail.vue'], resolve) },
+  { path: '/balanceDetail', name: '商品额度', component: resolve => require(['@/components/balanceDetail.vue'], resolve) },
   { path: '/goods', name: '商品', component: resolve => require(['@/components/goods.vue'], resolve) },
   { path: '/goodsList', name: '商品列表', component: resolve => require(['@/components/goodsList.vue'], resolve) },
   { path: '/detail', name: '商品详情', component: resolve => require(['@/components/detail.vue'], resolve) },

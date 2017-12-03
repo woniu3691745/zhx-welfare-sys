@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 09:59:01 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-03 15:47:31
+ * @Last Modified time: 2017-12-03 16:47:49
  * 确认订单
  */
 <template>
@@ -80,53 +80,28 @@
   </div>
 </template>
 <script>
-import { Indicator } from 'mint-ui'
+import { startLoading, endLoading } from '../../utils/utils'
 import { mapGetters } from 'vuex'
 export default {
-   // 组件名字
   name: 'confirmOrder-page',
-   // 组合其它组件
-  extends: {},
-   // 组件属性、变量
-  props: {},
-   // 变量
   data () {
     return {
       confirmOrderForm: {
-        cartTotal: '',       // 购物车金额汇总
-        orderNo: '',         // 订单号
-        productTotal: '',    // 商品金额汇总
-        shipping: '',        // 运费
-        shippingInfo: '',    // 包邮说明
-        productTypeId: '',   // 去凑单品类ID
-        isShipping: false    // 运费减免
+        cartTotal: '',          // 购物车金额汇总
+        orderNo: '',            // 订单号
+        productTotal: '',       // 商品金额汇总
+        shipping: '',           // 运费
+        shippingInfo: '',       // 包邮说明
+        productTypeId: '',      // 去凑单品类ID
+        isShipping: false       // 运费减免
       },
-      productImgs: '',
-      typeId: this.$route.query.typeId
+      productImgs: '',          // 商品图片
+      typeId: this.$route.query.typeId  // 额度ID
     }
   },
-  computed: {
-    ...mapGetters([
-      'orderInfo',
-      'productImg'
-    ])
-  },
-   // 使用其它组件
   components: {},
   watch: {},
-   // 方法
   methods: {
-    loading () {
-      setTimeout(function () {
-        Indicator.open({
-          spinnerType: 'triple-bounce'
-          // text: '加载中...'
-        })
-      }, 200)
-      setTimeout(function () {
-        Indicator.close()
-      }, 1000)
-    },
     together () {
       this.$router.push({
         path: '/goodsList',
@@ -134,24 +109,25 @@ export default {
       })
     }
   },
-   // 生命周期函数
-  mounted () {
-    this.loading()
-    // eventBus.$on('confirmOrderInfo', param =>
-    //   console.log('--->' + JSON.stringify(param))
-    // )
-  },
   created () {
+    startLoading()
     Object.assign(this.confirmOrderForm, this.orderInfo)
+    this.productImgs = this.productImg
+    setTimeout(() => {
+      endLoading()
+    }, 500)
     // 订单满200，包邮
     if (parseInt(this.confirmOrderForm.productTotal) > parseInt(199)) {
       this.confirmOrderForm.isShipping = true
     }
-    this.productImgs = this.productImg
   },
-  beforeCreate () {
+  computed: {
+    // vuex
+    ...mapGetters([
+      'orderInfo',
+      'productImg'
+    ])
   }
-
 }
 </script>
 

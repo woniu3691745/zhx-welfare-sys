@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-03 15:22:32
+ * @Last Modified time: 2017-12-03 16:36:59
  * 购物车
  */
 <template>
@@ -47,22 +47,20 @@
 </template>
 
 <script>
-import { InfiniteScroll, Indicator, MessageBox } from 'mint-ui'
+import { MessageBox } from 'mint-ui'
+import { startLoading, endLoading } from '../../utils/utils'
 import ZMtChecklist from '../../components/cartChecklist'
-import Vue from 'vue'
 import eventBus from '../../utils/eventBus'
-Vue.use(InfiniteScroll)
 
 export default {
   name: 'cart-page',
   data () {
     return {
-      index: '0',
-      limit: '10',
+      index: '0',                                         // 开始页
+      limit: '10',                                        // 每页数量
       typeId: this.$route.query.typeId,                   // 路由跳转额度标识
       cartType: this.$route.query.typeId,                 // 种类
       balance: '',                                        // 余额
-      // nums: 0,
       amount: 0,                                          // 总价
       mallUnitPrice: 0,                                   // 商品价钱
       quantity: 0,                                        // 商品数量
@@ -73,22 +71,9 @@ export default {
       washOptions: []                                     // 购物车列表选择项
     }
   },
-  created () {
-    this.get()
-  },
   components: { 'z-mt-checklist': ZMtChecklist },
   methods: {
-    get () {
-      setTimeout(function () {
-        Indicator.open({
-          text: '加载中...',
-          spinnerType: 'fading-circle'
-        })
-      }, 300)
-      setTimeout(function () {
-        Indicator.close()
-      }, 1000)
-    },
+    // 回退
     back () {
       this.$router.back()
     },
@@ -147,6 +132,7 @@ export default {
     },
     // 额度
     quotaInfo () {
+      startLoading()
       let categoryInfo = {
         productTypeId: this.cartType
       }
@@ -155,6 +141,7 @@ export default {
         .then(res => {
           this.balance = res.balance
           this.typeName = res.typeName
+          endLoading()
         })
         .catch(res => {
           console.log(res)
@@ -171,6 +158,7 @@ export default {
       if (option.skuCount === 1) {
         // eventBus.$emit('status', false)
         MessageBox.confirm('确定执行此操作?').then(action => {
+          startLoading()
           this.$store
           .dispatch('AddCartMinus', cartForm)
           .then(res => {
@@ -181,6 +169,7 @@ export default {
               eventBus.$emit('status', false)
               alert(res.message)
             }
+            endLoading()
           })
           .catch(res => {
             console.log(res)
@@ -189,6 +178,7 @@ export default {
           console.log(error)
         })
       } else {
+        startLoading()
         this.$store
           .dispatch('AddCartMinus', cartForm)
           .then(res => {
@@ -198,6 +188,7 @@ export default {
               eventBus.$emit('status', false)
               alert(res.message)
             }
+            endLoading()
           })
           .catch(res => {
             eventBus.$emit('status', false)
@@ -208,6 +199,7 @@ export default {
     // 增加
     increase (option) {
       if (option.skuCount < 99) {
+        startLoading()
         let cartForm = {
           cartDetailId: option.cartDetailId,
           cartType: this.cartType,
@@ -220,6 +212,7 @@ export default {
           if (res.result) {
             eventBus.$emit('status', true)
             this.cartInfoList(true)
+            endLoading()
           } else {
             eventBus.$emit('status', false)
             alert(res.message)
@@ -240,6 +233,7 @@ export default {
     // 购物车移除
     delAll (option) {
       MessageBox.confirm('确定执行此操作?').then(action => {
+        startLoading()
         let cartForm = {
           cartDetailId: option.cartDetailId
         }
@@ -248,6 +242,7 @@ export default {
           .then(res => {
             if (res.result) {
               this.cartInfoList()
+              endLoading()
             } else {
               alert(res.message)
             }
@@ -305,6 +300,7 @@ export default {
     },
     // 购物车列表
     cartInfoList (operation) {
+      startLoading()
       let cartForm = {
         index: this.index,
         limit: this.limit,
@@ -332,6 +328,7 @@ export default {
               this.amount = amountTemp
             }
           }
+          endLoading()
         })
         .catch(res => {
           console.log(res)
@@ -341,14 +338,13 @@ export default {
     cartImg (mallSkus) {
       let cartForm = {
         index: 0,
-        limit: 100,
+        limit: 999,  // 最大数量999
         cartType: this.typeId,
         mallSkus: mallSkus
       }
       this.$store
         .dispatch('CartImgs', cartForm)
         .then(res => {
-          // console.log('--->' + JSON.stringify(res))
         })
     }
   },

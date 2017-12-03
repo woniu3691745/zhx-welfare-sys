@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-30 15:56:09 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-30 17:15:27
+ * @Last Modified time: 2017-12-03 16:38:12
  * 覆写 mint-ui checklist
  */
 <template>
@@ -10,20 +10,11 @@
     <label class="mint-checklist-title" v-text="title"></label>
     <x-cell v-for="option in options" :key="option.index">
       <label class="mint-checklist-label" slot="title">
-        <span
-          :class="{'is-right': align === 'right'}"
-          class="mint-checkbox">
-          <input
-            class="mint-checkbox-input"
-            type="checkbox"
-            v-model="currentValue"
-            :disabled="option.disabled"
-            :value="option.value || option">
-            <span class="mint-checkbox-core"></span>
+        <span :class="{'is-right': align === 'right'}" class="mint-checkbox">
+          <input class="mint-checkbox-input" type="checkbox" v-model="currentValue" :disabled="option.disabled" :value="option.value || option">
+          <span class="mint-checkbox-core"></span>
         </span>
-        <!-- <span class="mint-checkbox-label" v-text="option.label || option"></span> -->
         <div class="list-content">
-          <!-- <img class="big-picture" src="../assets/aaa.jpg"></img> -->
           <img class="big-picture" v-bind:src="option.imgUrl">
           <div class="good-description">
             <div class="desc">{{option.productName}}</div>
@@ -52,21 +43,6 @@ if (process.env.NODE_ENV === 'component') {
   require('mint-ui/packages/cell/style.css')
 }
 
-/**
- * mt-checklist
- * @module components/checklist
- * @desc 复选框列表，依赖 cell 组件
- *
- * @param {(string[]|object[])} options - 选项数组，可以传入 [{label: 'label', value: 'value', disabled: true}] 或者 ['ab', 'cd', 'ef']
- * @param {string[]} value - 选中值的数组
- * @param {string} title - 标题
- * @param {number} [max] - 最多可选的个数
- * @param {string} [align=left] - checkbox 对齐位置，`left`, `right`
- *
- *
- * @example
- * <mt-checklist :v-model="value" :options="['a', 'b', 'c']"></mt-checklist>
- */
 export default {
   name: 'z-mt-checklist',
   props: {

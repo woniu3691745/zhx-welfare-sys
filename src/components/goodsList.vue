@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-19 19:50:05 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-03 15:18:27
+ * @Last Modified time: 2017-12-03 16:19:09
  * 商品列表
  */
 <template>
@@ -71,6 +71,7 @@ export default {
   data () {
     return {
       goodList: [],
+      limit: 20,
       allLoaded: false,
       autoFill: false,
       bottomStatus: '',
@@ -155,8 +156,23 @@ export default {
         //   this.allLoaded = true
         // }
         // this.goodListInfo()
+        let viewNums = {
+          index: 0,
+          limit: this.limit,
+          sequenceType: 0,
+          productTypeId: this.togetherId || this.typeId
+        }
+        this.$store
+        .dispatch('GoodList', viewNums)
+        .then(res => {
+          this.goodList = res.data
+          this.limit += 10
+        })
+        .catch(res => {
+          console.log(res)
+        })
         this.$refs.loadmore.onBottomLoaded()
-      }, 150000)
+      }, 1500)
     },
     loadTop () {
       // setTimeout(() => {
@@ -174,10 +190,9 @@ export default {
     goodListInfo () {
       let param
       param = this.togetherId || this.typeId
-      console.log('--->' + param)
       let viewNums = {
         index: 0,
-        limit: 18,
+        limit: 10,
         sequenceType: 0,
         productTypeId: param
       }

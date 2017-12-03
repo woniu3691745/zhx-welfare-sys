@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 19:04:03 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-30 19:33:04
+ * @Last Modified time: 2017-12-03 18:04:53
  * 商品详情
  */
 <template>
@@ -43,6 +43,7 @@
   </div>  
 </template>
 <script>
+import { startLoading, endLoading } from '../utils/utils'
 import { MessageBox } from 'mint-ui'
 export default {
   name: 'detail',
@@ -59,16 +60,20 @@ export default {
     }
   },
   methods: {
+    // 详情信息
     goodListByIdInfo (productSku) {
+      startLoading()
       this.$store
         .dispatch('GoodListById', productSku)
         .then(req => {
           Object.assign(this.goodsForm, req.data)
+          endLoading()
         })
         .catch(res => {
           console.log(res)
         })
     },
+    // 购物车路由
     cart () {
       this.$router.push({
         path: '/cart',
@@ -79,6 +84,7 @@ export default {
     },
      // 加入购物车
     addCart () {
+      startLoading()
       let cartForm = {
         cartType: this.typeId,
         mallSku: this.goodsForm.productSku,
@@ -93,11 +99,13 @@ export default {
             showConfirmButton: true
           })
           this.cartCount(this.typeId)
+          endLoading()
         })
         .catch(res => {
           console.log(res)
         })
     },
+    // 购物车数量
     cartCount (typeId) {
       this.$store
         .dispatch('Count', typeId)
@@ -108,8 +116,6 @@ export default {
           console.log(res)
         })
     }
-  },
-  created () {
   },
   mounted () {
     this.goodListByIdInfo(this.goodsForm.productSku)

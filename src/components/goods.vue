@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-19 19:49:42 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-22 20:14:43
+ * @Last Modified time: 2017-12-03 18:06:20
  * 商品列表父组件
  */
 <template>
@@ -63,6 +63,7 @@ export default {
     this.selected = '1'
   },
   watch: {
+    // 监控导航焦点
     selected: function (val, oldVal) {
       this.$refs.goodList.goodListInfo(val)
       this.$refs.goodList.get()

@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-19 19:50:05 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-30 18:45:15
+ * @Last Modified time: 2017-12-03 18:13:23
  * 商品列表
  */
 <template>
@@ -62,21 +62,22 @@
 </template>
 
 <script>
-import { InfiniteScroll, Indicator, MessageBox } from 'mint-ui'
-import Vue from 'vue'
-Vue.use(InfiniteScroll)
+import { MessageBox } from 'mint-ui'
+import { startLoading, endLoading } from '../utils/utils'
 
 export default {
   name: 'goods-list-page',
   data () {
     return {
-      goodList: [],
+      goodList: [],                               // 商品列表
+      limit: 20,                                  // 每页数量
       allLoaded: false,
       autoFill: false,
       bottomStatus: '',
       topStatus: '',
-      count: this.$store.getters.cartCount,     // 购物车数量
-      typeId: this.$route.query.typeId          // 种类
+      count: this.$store.getters.cartCount,       // 购物车数量
+      typeId: this.$route.query.typeId,           // 种类
+      togetherId: this.$route.query.togetherId    // 凑单
     }
   },
   methods: {
@@ -91,6 +92,7 @@ export default {
     },
     // 加入购物车
     addCart (productSku) {
+      startLoading()
       let cartForm = {
         cartType: this.typeId,
         mallSku: productSku,
@@ -105,11 +107,13 @@ export default {
             showConfirmButton: true
           })
           this.cartCount(this.typeId)
+          endLoading()
         })
         .catch(res => {
           console.log(res)
         })
     },
+    // 购物车数量
     cartCount (typeId) {
       this.$store
         .dispatch('Count', typeId)
@@ -120,15 +124,60 @@ export default {
           console.log(res)
         })
     },
-    get () {
-      setTimeout(function () {
-        Indicator.open({
-          spinnerType: 'fading-circle'
+    // 下拉更多
+    loadBottom () {
+      setTimeout(() => {
+        let viewNums = {
+          index: 0,
+          limit: this.limit,
+          sequenceType: 0,
+          productTypeId: this.togetherId || this.typeId
+        }
+        this.$store
+        .dispatch('GoodList', viewNums)
+        .then(res => {
+          this.goodList = res.data
+          this.limit += 10
         })
-      }, 300)
-      setTimeout(function () {
-        Indicator.close()
-      }, 1000)
+        .catch(res => {
+          console.log(res)
+        })
+        this.$refs.loadmore.onBottomLoaded()
+      }, 1500)
+    },
+    // 上拉刷新
+    loadTop () {
+      setTimeout(() => {
+        this.goodListInfo()
+        this.$refs.loadmore.onTopLoaded()
+      }, 1500)
+    },
+    goodListInfo () {
+      startLoading()
+      let param
+      param = this.togetherId || this.typeId
+      let viewNums = {
+        index: 0,
+        limit: 10,
+        sequenceType: 0,
+        productTypeId: param
+      }
+      this.$store
+        .dispatch('GoodList', viewNums)
+        .then(res => {
+          this.goodList = res.data
+          endLoading()
+        })
+        .catch(res => {
+          console.log(res)
+        })
+    },
+    // 商品详情
+    detail (productSku) {
+      this.$router.push({
+        path: '/detail',
+        query: { typeId: this.typeId, sku: productSku }
+      })
     },
     handleBottomChange (status) {
       this.bottomStatus = status
@@ -136,65 +185,9 @@ export default {
     handleTopChange (status) {
       this.moveTranslate = 1
       this.topStatus = status
-    },
-    // translateChange (translate) {
-    //   const translateNum = +translate
-    //   this.translate = translateNum.toFixed(2)
-    //   this.moveTranslate = (1 + translateNum / 70).toFixed(2)
-    // },
-    loadBottom () {
-      setTimeout(() => {
-        // let lastValue = this.goodList.length
-        // if (lastValue < 10) {
-        //   // for (let i = 1; i <= 8; i++) {
-        //   //   this.list.push(lastValue + i)
-        //   // }
-        //   console.log('asd')
-        // } else {
-        //   this.allLoaded = true
-        // }
-        // this.goodListInfo()
-        this.$refs.loadmore.onBottomLoaded()
-      }, 150000)
-    },
-    loadTop () {
-      // setTimeout(() => {
-      //   let firstValue = this.list[0]
-      //   for (let i = 1; i <= 2; i++) {
-      //     this.list.unshift(firstValue - i)
-      //   }
-      //   this.$refs.loadmore.onTopLoaded()
-      // }, 1500)
-      setTimeout(() => {
-        this.goodListInfo()
-        this.$refs.loadmore.onTopLoaded()
-      }, 1500)
-    },
-    goodListInfo () {
-      let viewNums = {
-        index: 0,
-        limit: 18,
-        sequenceType: 0,
-        productTypeId: this.typeId
-      }
-      this.$store
-        .dispatch('GoodList', viewNums)
-        .then(res => {
-          this.goodList = res.data
-        })
-        .catch(res => {
-          console.log(res)
-        })
     }
   },
-  detail (productSku) {
-    this.$router.push({
-      path: '/detail',
-      query: { typeId: this.typeId, sku: productSku }
-    })
-  },
   created () {
-    this.get()
     this.goodListInfo()
   },
   mounted () {
@@ -202,6 +195,7 @@ export default {
   }
 }
 </script>
+
 <style lang="less" scoped>
 .goodsLists {
   .header-fixeds {

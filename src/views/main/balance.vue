@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 19:04:29 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-01 15:21:11
+ * @Last Modified time: 2017-12-03 17:31:13
  * 额度
  */
 <template>
@@ -76,26 +76,31 @@
     </div>
   </div>
 </template>
+
 <script>
+import { startLoading, endLoading } from '../../utils/utils'
 import eventBus from '../../utils/eventBus'
-import { Indicator } from 'mint-ui'
 export default {
   name: 'balance-page',
   data () {
     return {
       items: 4,
       height: 0.3,
-      quotas: []
+      quotas: []      // 额度信息
     }
   },
   created () {
+    startLoading()
     this.quotas = this.$store.getters.quota
+    setTimeout(() => {
+      endLoading()
+    }, 500)
   },
   mounted () {
-    this.loading()
-    this.focus()   // 页面完成获得焦点
+    this.focus()
   },
   methods: {
+    // 导航焦点
     focus () {
       let select = this.$route.query.selected || 'balance'
       eventBus.$emit('focus', select)
@@ -106,7 +111,6 @@ export default {
     * type 进入商城方式
     */
     use (typeId) {
-      // this.$router.push({path: '/mall', params: {categoryId: categoryId}})
       this.$router.push({
         path: '/mall',
         query: {
@@ -117,6 +121,7 @@ export default {
         }
       })
     },
+    // 额度详细
     balanceDetail (typeId, $event) {
       $event.preventDefault()
       this.$router.push({
@@ -125,21 +130,11 @@ export default {
           typeId: typeId
         }
       })
-    },
-    loading () {
-      setTimeout(function () {
-        Indicator.open({
-          spinnerType: 'triple-bounce'
-          // text: '加载中...'
-        })
-      }, 200)
-      setTimeout(function () {
-        Indicator.close()
-      }, 1000)
     }
   }
 }
 </script>
+
 <style lang="less" scoped>
 @import "../../../static/css/util.css";
 .balance {

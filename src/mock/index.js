@@ -8,6 +8,7 @@
 
 import Mock from 'mockjs'
 import loginAPI from './login'
+import userAPI from './user'
 
 Mock.setup({
   timeout: '350-600'
@@ -19,5 +20,8 @@ Mock.mock(/\/api\/logout.cp/, 'post', loginAPI.logout)
 
 // 用户信息
 Mock.mock(/\/api\/user\/info.cp\.*/, 'post', loginAPI.getUserInfo)
-
+// 获得验证码
+Mock.mock(/\/api\/user\/getidcode.cp\.*/, 'post', userAPI.GetIdCode)
+// 重置支付密码
+Mock.mock(/\/api\/user\/resPasswords.cp\.*/, 'post', userAPI.resPassword)
 export default Mock

@@ -33,7 +33,7 @@
 <script>
 import { MessageBox } from 'mint-ui'
 const phoneNoPattern = /^1[34578]\d{9}$/
-const signinPwdPatten = /^[a-z0-9]{6,20}$/
+const signinPwdPatten = /^[a-z0-9]{1,20}$/
 export default {
   name: 'login-page',
   data () {

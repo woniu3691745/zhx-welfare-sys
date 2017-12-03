@@ -59,10 +59,19 @@ export function resetLoginPassword (token, resetLoginPasswordForm) {
 }
 
 // 获取验证码
-export function getIdCode (token, bindIdCodeInfo) {
+export function ResetgetIdCode (token, bindIdCodeInfo) {
   const data = {...bindIdCodeInfo, token}
   return fetch({
-    url: '/api/',
+    url: '/api/user/getidcode.cp',
+    method: 'post',
+    data
+  })
+}
+// 重置支付密码
+export function ZHX_PASSWORD_CHANGE (token, bindIdCodeInfo) {
+  const data = {...bindIdCodeInfo, token}
+  return fetch({
+    url: '/api/user/resPasswords.cp',
     method: 'post',
     data
   })

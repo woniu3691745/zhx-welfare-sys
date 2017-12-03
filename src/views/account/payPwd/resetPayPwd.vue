@@ -32,74 +32,91 @@
 </template>
 
 <script>
- export default {
+const IDCardReg = /^(\d{6})(\d{4})(\d{2})(\d{2})(?:\d{2})(\d)(?:\d|X)$/
+export default {
    // 组件名字
-   name: 'resetPayPwd-page',
+  name: 'resetPayPwd-page',
    // 组合其它组件
-   extends: {},
+  extends: {},
    // 组件属性、变量
-   props: {},
+  props: {},
    // 变量
-   data () {
-     return {
-       bindForm: {
-         identifyingCode: '',
-         identityCard: ''
-       },
-       time: 60,
-       sendMsgDisabled: false,
-       loginForm: {'bizData': {
-         'Captacha': {
-           'PhoneNo': '1000000001',
-           'Type': '04'
-         }
-       } }
-     }
-   },
-   computed: {},
+  data () {
+    return {
+      bindForm: {
+        identifyingCode: '',
+        identityCard: ''
+      },
+      time: 60,
+      sendMsgDisabled: false,
+      loginForm: {'bizData': {
+        'Captacha': {
+          'PhoneNo': '1000000001',
+          'Type': '04'
+        }
+      } },
+      // 返回的验证码
+      returnCardValue: {}
+    }
+  },
+  computed: {},
    // 使用其它组件使用其它组件
-   components: {},
-   watch: {},
+  components: {},
+  watch: {},
    // 方法
-   methods: {
-     onSubmit () {
-       // 正则判断
-       this.$router.push({
-         path: '/home',
-         query: { selected: 'balance' }
-       })
-     },
-     getIdCode () {
-       if (this.sendMsgDisabled) {
-         return
-       }
-       this.setTime()
-       this.$store
-        .dispatch('GetIdCode', this.loginForm)
+  methods: {
+    onSubmit () {
+      const {Captacha, User} = this.returnCardValue.bizData
+      if (!this.bindForm.identifyingCode || Captacha.Code !== this.bindForm.identifyingCode) {
+        alert('验证码错误')
+      } else if (!IDCardReg.test(this.bindForm.identityCard)) {
+        alert('请输入正确的身份证格式')
+      } else if (this.bindForm.identityCardValue === User.IDCard) {
+        alert('请输入正确的身份证格式')
+      } else {
+        this.$router.push({
+          name: 'resetPayPwds'
+        })
+      }
+    },
+    getIdCode () {
+      const that = this
+      if (this.sendMsgDisabled) {
+        return
+      }
+      this.setTime()
+      this.$store
+        .dispatch('ResetGetIdCode', this.loginForm)
         .then(res => {
-
+          console.log(res)
+          try {
+            that.returnCardValue = res.data
+          } catch (error) {
+            console.error(error)
+          }
+          // console.log(res)
           // console.log('res -> ' + JSON.stringify(res))
         })
         .catch(res => {
           console.log(res)
         })
-     },
-     setTime () {
-       let me = this
-       me.sendMsgDisabled = true
-       let interval = window.setInterval(function () {
-         if (me.time-- <= 1) {
-           me.time = 60
-           me.sendMsgDisabled = false
-           window.clearInterval(interval)
-         }
-       }, 1000)
-     }
-   },
+    },
+    setTime () {
+      let me = this
+      me.sendMsgDisabled = true
+      let interval = window.setInterval(function () {
+        if (me.time-- <= 1) {
+          me.time = 60
+          me.sendMsgDisabled = false
+          window.clearInterval(interval)
+        }
+      }, 1000)
+    }
+  },
    // 生命周期函数
   //  beforeCreate: {},
-   mounted () {}
- }
+  mounted () {}
+}
 </script>
 
 <style lang="less" scoped>

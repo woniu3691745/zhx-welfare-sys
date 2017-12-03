@@ -7,7 +7,7 @@
  *
  * 1.通过commit -> 2.经过mutation -> 3.改变数据state
  */
-import { loginByUserName, logout, getUserInfo, resetLoginPassword, getIdCode } from '@/api/login'
+import { loginByUserName, logout, getUserInfo, resetLoginPassword, ResetgetIdCode, ZHX_PASSWORD_CHANGE } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 
 const user = {
@@ -87,9 +87,20 @@ const user = {
       })
     },
     // 短信验证码
-    GetIdCode ({ commit, state }, idCodeForm) {
+    ResetGetIdCode ({ commit, state }, idCodeForm) {
       return new Promise((resolve, reject) => {
-        getIdCode(state.token, idCodeForm).then(response => {
+        ResetgetIdCode(state.token, idCodeForm).then(response => {
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    // 重置支付密码
+    ZHX_PASSWORD_CHANGE ({ commit, state }, idCodeForm) {
+      return new Promise((resolve, reject) => {
+        ZHX_PASSWORD_CHANGE(state.token, idCodeForm).then(response => {
+          console.log(response)
           resolve(response)
         }).catch(error => {
           reject(error)

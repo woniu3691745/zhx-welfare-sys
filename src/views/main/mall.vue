@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-30 19:22:10
+ * @Last Modified time: 2017-12-03 17:41:02
  * 首页组件
  */
 <template>
@@ -50,7 +50,6 @@
             <div class="index-gifts-product-list">
               <ul>
                 <li v-for="item in bonusPackages" :key="item.productId">
-                  <!-- <router-link :to="{ path: '/detail', query: {id: item.id}}"></router-link> -->
                   <img v-bind:src="item.imgUrl" @click="detail(item.productSku)">
                   <div class="des">
                     <p>{{item.productName}}</p>
@@ -69,8 +68,6 @@
       </li>
       <li v-for="item in competitiveProducts" :key="item.productId" class="left lis">
         <img v-bind:src="item.imgUrl" @click="detail(item.productSku)">
-        <!-- <router-link :to="{ path: '/detail', query: {id: n.productId}}"> -->
-        <!-- <img v-bind:src="n.imgUrl"></router-link> -->
         <div class="des">
           <p>{{item.productName}}</p>
           <span>￥{{item.salePrice}}</span>
@@ -81,15 +78,13 @@
 </template>
 
 <script>
+import { startLoading, endLoading } from '../../utils/utils'
 import eventBus from '../../utils/eventBus'
-import { InfiniteScroll, Indicator } from 'mint-ui'
-import Vue from 'vue'
-Vue.use(InfiniteScroll)
 export default {
   name: 'mall-page',
   data () {
     return {
-      typeName: '',                             // 种类名称
+      typeName: '',                                 // 种类名称
       // quota: this.$route.query.quota,               // 余额（通过路由获得）
       balance: '',
       bonusPackages: [],                            // 大礼包
@@ -106,31 +101,27 @@ export default {
     // quota 余额（通过事件参数获得）
     // typeId 额度类型
     eventBus.$on('refurbishMallData', param => {
-      // this.quota = param.quota
       this.clear()
       this.init(param.typeId)
-      this.typeId = param.typeId  // 导航按钮
+      this.typeId = param.typeId    // 导航按钮
     })
   },
   destroyed () {
     eventBus.$off('refurbishMallData')
   },
   mounted () {
-    this.loading1()                 // 加载
     this.init(this.typeId)
     this.focus()                    // 导航栏焦点
   },
   methods: {
-    // 下拉更多
+    // 下拉加载更多
     loadMore () {
-      // this.loading = true
-      // console.log('loadMore start ')
       setTimeout(() => {
+        startLoading()
         this.competitiveProductsInfo(this.typeId)
       }, 1000)
-      // console.log('loadMore end ')
-      // this.loading = false
     },
+    // 初始化
     init (typeId) {
       this.index = 0
       this.bonusPackagesInfo(typeId)            // 大礼包
@@ -148,16 +139,6 @@ export default {
         .then(res => {
           this.balance = res.balance
           this.typeName = res.typeName
-        })
-        .catch(res => {
-          console.log(res)
-        })
-    },
-    cartCount (typeId) {
-      this.$store
-        .dispatch('Count', typeId)
-        .then(res => {
-          this.count = res.total
         })
         .catch(res => {
           console.log(res)
@@ -211,17 +192,31 @@ export default {
           }
           // 分页
           this.index = this.index + 1
+          endLoading()
         })
         .catch(res => {
           console.log(res)
         })
     },
+    // 购物车数量
+    cartCount (typeId) {
+      this.$store
+        .dispatch('Count', typeId)
+        .then(res => {
+          this.count = res.total
+        })
+        .catch(res => {
+          console.log(res)
+        })
+    },
+    // 商品详情
     detail (productSku) {
       this.$router.push({
         path: '/detail',
         query: { typeId: this.typeId, sku: productSku }
       })
     },
+    // 导航焦点
     focus () {
       let select = this.$route.query.selected || 'balance'
       // 进入商城方式
@@ -238,18 +233,8 @@ export default {
       this.competitiveProducts = []
       this.categorys = []
     },
-    loading1 () {
-      setTimeout(function () {
-        Indicator.open({
-          spinnerType: 'fading-circle'
-        })
-      }, 300)
-      setTimeout(function () {
-        Indicator.close()
-      }, 1000)
-    },
+    // 过了精品
     searchTop (typeId) {
-      console.log('--->' + typeId)
       this.competitiveProducts = []
       this.typeId = typeId
       this.competitiveProductsInfo(typeId)

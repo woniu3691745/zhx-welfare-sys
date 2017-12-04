@@ -48,7 +48,7 @@ export default {
     onSubmit: function () {
       if (!this.loginForm.account) {
         MessageBox({
-          message: '请填写账户',
+          message: '请填写账号',
           closeOnClickModal: true,
           showConfirmButton: false
         })

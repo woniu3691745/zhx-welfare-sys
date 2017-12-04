@@ -55,8 +55,7 @@ export default {
       loginForm: {
         bizData: {
           Captacha: {
-            Type: '04',
-            'PhoneNo': '18610866405'
+            Type: '04'
           }
         }
       },

@@ -9,7 +9,7 @@
   <div class="resetPayPwd">
     <div class="common-header">
       <mt-header title="重置支付密码">
-        <router-link to="" slot="left" fixed>
+        <router-link to="/resetPayPwd" slot="left" fixed>
           <mt-button icon="back"></mt-button>
         </router-link>
       </mt-header>
@@ -29,58 +29,66 @@
 </template>
 
 <script>
- const payPasswordReg = /^[a-z0-9]{6}$/i
+import {MessageBox} from 'mint-ui'
+const payPasswordReg = /^[a-z0-9]{6}$/i
 export default {
    // 组件名字
-   name: 'resetPayPwd-page',
+  name: 'resetPayPwd-page',
    // 组合其它组件
-   extends: {},
+  extends: {},
    // 组件属性、变量
-   props: {},
+  props: {},
    // 变量
-   data () {
-     return {
-       bindForm: {
-         ResetPassWord: '',
-         ResetPassWordOK: ''
-       }
-     }
-   },
-   computed: {},
-   methods: {
-     onSubmit () {
-       if (!this.bindForm.ResetPassWord) {
-         alert('请输入支付密码')
-       } else if (!payPasswordReg.test(this.bindForm.ResetPassWord)) {
-         alert('支付密码格式不正确')
-       } else if (!this.bindForm.ResetPassWordOK) {
-         alert('请输入确认密码')
-       } else if (this.bindForm.ResetPassWord !== this.bindForm.ResetPassWordOK) {
-         alert('确认密码不正确')
-       } else {
-         const data = {
-           'bizData': {
-             'User': {
-               'PayPWD': this.bindForm.ResetPassWordOK
-             }
-           }
-         }
-         this.$store.dispatch('ZHX_PASSWORD_CHANGE', data).then((res) => {
-           if (res.data.result) {
-             alert('成功')
-           } else {
-             alert(res.data.message)
-           }
-           console.log(res)
-         }).catch((err) => {
-           console.log(err)
-         })
-       }
-     }
-   },
+  data () {
+    return {
+      bindForm: {
+        ResetPassWord: '',
+        ResetPassWordOK: ''
+      }
+    }
+  },
+  methods: {
+    alerts (data) {
+      MessageBox({
+        message: data,
+        closeOnClickModal: true,
+        showConfirmButton: false
+      })
+    },
+    onSubmit () {
+      let me = this
+      if (!this.bindForm.ResetPassWord) {
+        this.alerts('请输入支付密码')
+      } else if (!payPasswordReg.test(this.bindForm.ResetPassWord)) {
+        this.alerts('支付密码格式不正确')
+      } else if (!this.bindForm.ResetPassWordOK) {
+        this.alerts('请输入确认密码')
+      } else if (this.bindForm.ResetPassWord !== this.bindForm.ResetPassWordOK) {
+        this.alerts('确认密码不正确')
+      } else {
+        const data = {
+          'bizData': {
+            'User': {
+              'PayPWD': this.bindForm.ResetPassWordOK
+            }
+          }
+        }
+        this.$store.dispatch('ZHX_PASSWORD_CHANGE', data).then((res) => {
+          if (res.data.result) {
+            this.$router.push({path: '/accountManagement'})
+          } else {
+            me.alerts(res.data.message)
+          }
+          console.log(res)
+        }).catch((err) => {
+          console.log(err)
+        })
+      }
+    }
+  },
    // 生命周期函数
   //  beforeCreate: {},
-   mounted () {}
+  mounted () {}
 }
 </script>
 

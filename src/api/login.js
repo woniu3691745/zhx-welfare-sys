@@ -62,7 +62,17 @@ export function resetLoginPassword (token, resetLoginPasswordForm) {
 export function ResetgetIdCode (token, bindIdCodeInfo) {
   const data = {...bindIdCodeInfo, token}
   return fetch({
-    url: '/api/user/getidcode.cp',
+    url: '/captacha/sendCaptacha.cp',
+    method: 'post',
+    data
+  })
+}
+// 重置支付密码下一步
+export function ResetgetIdCodeNext (token, bindIdCodeInfo) {
+  const data = {...bindIdCodeInfo, token}
+  console.log(data)
+  return fetch({
+    url: '/reset/PayPWDValid.cp',
     method: 'post',
     data
   })
@@ -70,8 +80,18 @@ export function ResetgetIdCode (token, bindIdCodeInfo) {
 // 重置支付密码
 export function ZHX_PASSWORD_CHANGE (token, bindIdCodeInfo) {
   const data = {...bindIdCodeInfo, token}
+
   return fetch({
-    url: '/api/user/resPasswords.cp',
+    url: '/reset/PayPWD.cp',
+    method: 'post',
+    data
+  })
+}
+// 重置登录密码
+export function ZHX_LOGINPASSWORD_CHANGE (token, bindIdCodeInfo) {
+  const data = {...bindIdCodeInfo, token}
+  return fetch({
+    url: '/reset/loginPassword.cp',
     method: 'post',
     data
   })

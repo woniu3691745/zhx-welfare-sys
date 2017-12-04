@@ -32,15 +32,18 @@
 </template>
 
 <script>
+import {MessageBox} from 'mint-ui'
+import { mapGetters } from 'vuex'
 const IDCardReg = /^(\d{6})(\d{4})(\d{2})(\d{2})(?:\d{2})(\d)(?:\d|X)$/
+const Captacha = /^\d{6}$/
 export default {
-   // 组件名字
+  // 组件名字
   name: 'resetPayPwd-page',
-   // 组合其它组件
+  // 组合其它组件
   extends: {},
-   // 组件属性、变量
+  // 组件属性、变量
   props: {},
-   // 变量
+  // 变量
   data () {
     return {
       bindForm: {
@@ -49,38 +52,81 @@ export default {
       },
       time: 60,
       sendMsgDisabled: false,
-      loginForm: {'bizData': {
-        'Captacha': {
-          'PhoneNo': '1000000001',
-          'Type': '04'
+      loginForm: {
+        bizData: {
+          Captacha: {
+            Type: '04',
+            'PhoneNo': '18610866405'
+          }
         }
-      } },
+      },
+      loginFormnext: {
+        bizData: {
+          Captacha: {
+            ID: '57EC4C57E538FF16BC1F3BDDDD36FC4C',
+            Type: '04',
+            Code: '232621'
+          },
+          User: { IDCard: '511100199608102011' }
+        }
+      },
+
       // 返回的验证码
       returnCardValue: {}
     }
   },
-  computed: {},
-   // 使用其它组件使用其它组件
-  components: {},
-  watch: {},
-   // 方法
+  computed: {
+    ...mapGetters(['updatedpaypassword'])
+  },
+  // 方法
   methods: {
+    alerts (data) {
+      MessageBox({
+        message: data,
+        closeOnClickModal: true,
+        showConfirmButton: false
+      })
+    },
     onSubmit () {
-      const {Captacha, User} = this.returnCardValue.bizData
-      if (!this.bindForm.identifyingCode || Captacha.Code !== this.bindForm.identifyingCode) {
-        alert('验证码错误')
+      let me = this
+      if (!this.bindForm.identifyingCode) {
+        me.alerts('请输入验证码')
+      } else if (!Captacha.test(this.bindForm.identifyingCode)) {
+        me.alerts('验证码格式错误')
+      } else if (!this.bindForm.identityCard) {
+        me.alerts('请输入身份证')
       } else if (!IDCardReg.test(this.bindForm.identityCard)) {
-        alert('请输入正确的身份证格式')
-      } else if (this.bindForm.identityCardValue === User.IDCard) {
-        alert('请输入正确的身份证格式')
+        me.alerts('请输入正确的身份证格式')
+      } else if (this.updatedpaypassword.ID == null) {
+        me.alerts('请获取验证码')
       } else {
-        this.$router.push({
-          name: 'resetPayPwds'
+        const data = {
+          bizData: {
+            Captacha: {
+              ID: this.updatedpaypassword.ID,
+              Type: '04',
+              Code: this.bindForm.identifyingCode
+            },
+            User: { IDCard: this.bindForm.identityCard }
+          }
+        }
+        this.$store.dispatch('ResetGetIdCodeNext', data).then(res => {
+          const data = res.data
+          if (data.result) {
+            this.$router.push({
+              name: 'resetPayPwds'
+            })
+          } else {
+            me.alerts(data.message)
+          }
+        })
+        .catch(res => {
+          console.log(res)
         })
       }
     },
     getIdCode () {
-      const that = this
+      let me = this
       if (this.sendMsgDisabled) {
         return
       }
@@ -88,14 +134,11 @@ export default {
       this.$store
         .dispatch('ResetGetIdCode', this.loginForm)
         .then(res => {
-          console.log(res)
-          try {
-            that.returnCardValue = res.data
-          } catch (error) {
-            console.error(error)
+          const data = res.data
+          if (!data.result) {
+            me.sendMsgDisabled = false
+            me.alerts(data.message)
           }
-          // console.log(res)
-          // console.log('res -> ' + JSON.stringify(res))
         })
         .catch(res => {
           console.log(res)
@@ -113,7 +156,7 @@ export default {
       }, 1000)
     }
   },
-   // 生命周期函数
+  // 生命周期函数
   //  beforeCreate: {},
   mounted () {}
 }
@@ -122,30 +165,30 @@ export default {
 <style lang="less" scoped>
 @import "../../../../static/css/util.css";
 .identifyingCode1 {
-    border: 0.02rem solid #f9404a;
-    height: 0.2rem;
-    line-height: 0.2rem;
-    padding: 0.05rem 0.2rem;
-    border-radius: 0.1rem;
-    margin-left: 0.1rem;
-    font-size: 0.2rem;
-    color: #f9404a;
-  }
-  .identifyingCode2 {
-    border: 0.02rem solid #26a2ff;
-    height: 0.18rem;
-    line-height: 0.18rem;
-    padding: 0.05rem 0.2rem;
-    border-radius: 0.1rem;
-    margin-left: 0.1rem;
-    font-size: 0.01rem;
-    color: #26a2ff;
-  }
-  .pwd-totip {
-    font-size: 0.28rem;
-    color: #4a90e2;
-    margin-top: 0.38rem;
-  }
+  border: 0.02rem solid #f9404a;
+  height: 0.2rem;
+  line-height: 0.2rem;
+  padding: 0.05rem 0.2rem;
+  border-radius: 0.1rem;
+  margin-left: 0.1rem;
+  font-size: 0.2rem;
+  color: #f9404a;
+}
+.identifyingCode2 {
+  border: 0.02rem solid #26a2ff;
+  height: 0.18rem;
+  line-height: 0.18rem;
+  padding: 0.05rem 0.2rem;
+  border-radius: 0.1rem;
+  margin-left: 0.1rem;
+  font-size: 0.01rem;
+  color: #26a2ff;
+}
+.pwd-totip {
+  font-size: 0.28rem;
+  color: #4a90e2;
+  margin-top: 0.38rem;
+}
 .bottom {
   margin-top: 2.45rem;
   .forget {

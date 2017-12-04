@@ -9,6 +9,7 @@ const getters = {
   name: state => state.user.name,
   roles: state => state.user.roles,
   token: state => state.user.token,
+  updatedpaypassword: state => state.user.updatedpaypassword,
   quota: state => state.user.quota,
   orderInfo: state => state.cart.orderInfo,
   productImg: state => state.cart.productImg,

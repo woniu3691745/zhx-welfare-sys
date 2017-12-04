@@ -7,7 +7,7 @@
  *
  * 1.通过commit -> 2.经过mutation -> 3.改变数据state
  */
-import { loginByUserName, logout, getUserInfo, resetLoginPassword, ResetgetIdCode, ZHX_PASSWORD_CHANGE } from '@/api/login'
+import { loginByUserName, logout, getUserInfo, resetLoginPassword, ResetgetIdCode, ZHX_PASSWORD_CHANGE, ResetgetIdCodeNext, ZHX_LOGINPASSWORD_CHANGE } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 
 const user = {
@@ -16,7 +16,8 @@ const user = {
     token: getToken(),
     name: '',
     roles: [],
-    quota: []
+    quota: [],
+    updatedpaypassword: {}
   },
 
   mutations: {
@@ -31,7 +32,14 @@ const user = {
     },
     SET_QUOTA: (state, quota) => {
       state.quota = quota
+    },
+    UPDATE_PAY_PASSWORD (state, data) {
+      state.updatedpaypassword.ID = data
+    },
+    UPDATE_LOGIN_PASSWORD (state, data) {
+      state.updatedpaypassword.LOGINID = data
     }
+
   },
 
   actions: {
@@ -88,8 +96,27 @@ const user = {
     },
     // 短信验证码
     ResetGetIdCode ({ commit, state }, idCodeForm) {
+      let type = idCodeForm.bizData.Captacha.Type
       return new Promise((resolve, reject) => {
         ResetgetIdCode(state.token, idCodeForm).then(response => {
+          const data = response.data
+          if (data.result) {
+            if (type === '04') {
+              commit('UPDATE_PAY_PASSWORD', data.bizData.Captacha.ID)
+            } else if (type === '03') {
+              commit('UPDATE_LOGIN_PASSWORD', data.bizData.Captacha.ID)
+            }
+          }
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    // 重置支付密码下一步
+    ResetGetIdCodeNext ({ commit, state }, idCodeForm) {
+      return new Promise((resolve, reject) => {
+        ResetgetIdCodeNext(state.token, idCodeForm).then(response => {
           resolve(response)
         }).catch(error => {
           reject(error)
@@ -100,7 +127,16 @@ const user = {
     ZHX_PASSWORD_CHANGE ({ commit, state }, idCodeForm) {
       return new Promise((resolve, reject) => {
         ZHX_PASSWORD_CHANGE(state.token, idCodeForm).then(response => {
-          console.log(response)
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    // 重置登录密码
+    ZHX_LOGINPASSWORD_CHANGE ({ commit, state }, idCodeForm) {
+      return new Promise((resolve, reject) => {
+        ZHX_LOGINPASSWORD_CHANGE(state.token, idCodeForm).then(response => {
           resolve(response)
         }).catch(error => {
           reject(error)

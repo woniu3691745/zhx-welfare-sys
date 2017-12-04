@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-03 16:36:59
+ * @Last Modified time: 2017-12-04 16:53:28
  * 购物车
  */
 <template>
@@ -274,10 +274,6 @@ export default {
             if (res.result) {
               // eventBus.$emit('confirmOrderInfo', res.bizData)
               this.cartImg(mallSkus)
-              this.$router.push({
-                path: '/confirmOrder',
-                query: { typeId: this.cartType }
-              })
             } else {
               MessageBox({
                 title: '提示',
@@ -345,6 +341,10 @@ export default {
       this.$store
         .dispatch('CartImgs', cartForm)
         .then(res => {
+          this.$router.push({
+            path: '/confirmOrder',
+            query: { typeId: this.cartType }
+          })
         })
     }
   },

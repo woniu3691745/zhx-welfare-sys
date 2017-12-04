@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-12-04 14:27:42 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-04 14:44:16
+ * @Last Modified time: 2017-12-04 17:38:05
  * 支付密码
  */
 
@@ -37,12 +37,15 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { MessageBox } from 'mint-ui'
+import { startLoading, endLoading } from '../../utils/utils'
 export default {
   name: 'packetMessage',
   data () {
     return {
       messagepacket: false,
-      typeId: this.$route.query.typeId, // 额度ID
+      typeId: this.$route.query.typeId,     // 额度ID
+      orderNo: this.$route.query.orderNo,   // 订单编号
       disInputs: [
         { value: '' },
         { value: '' },
@@ -66,7 +69,9 @@ export default {
     },
     getNum () {
       for (var i = 0; i < this.realInput.length; i++) {
-        this.disInputs[i].value = this.realInput.charAt(i)
+        if (this.realInput.length < 7) {
+          this.disInputs[i].value = this.realInput.charAt(i)
+        }
       }
     },
     delNum () {
@@ -78,13 +83,54 @@ export default {
       }
     },
     submit () {
+      if (this.disInputs[0].value === '') {
+        MessageBox({
+          title: '提示',
+          message: '密码不能为空！',
+          showCancelButton: false
+        })
+      // } else if (this.disInputs.length < 6) {
+      //   MessageBox({
+      //     title: '提示',
+      //     message: '请输入六位密码！',
+      //     showCancelButton: false
+      //   })
+      } else {
+        this.preSubmit()
+      }
+    },
+    preSubmit () {
+      startLoading()
       let pwd = ''
       this.disInputs.map(x => (pwd += x.value))
-      console.log('--->' + pwd)
-      this.$router.push({
-        path: '/success',
-        query: { typeId: this.cartType }
-      })
+      let submitInfo = {
+        orderNo: this.orderNo,                      // 订单号
+        cartType: this.typeId,                      // 商品品类ID
+        payPwd: pwd                                 // 支付密码
+      }
+      this.$store
+        .dispatch('Pay', submitInfo)
+        .then(res => {
+          if (res.result) {
+            this.$router.push({
+              path: '/success',
+              query: {
+                typeId: this.typeId
+              }
+            })
+          } else {
+            this.$router.push({
+              path: '/fail',
+              query: {
+                typeId: this.typeId
+              }
+            })
+          }
+          endLoading()
+        })
+        .catch(res => {
+          console.log(res)
+        })
     }
   },
   mounted () {

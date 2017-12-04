@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-19 19:49:42 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-22 15:27:07
+ * @Last Modified time: 2017-12-04 14:45:26
  * 我的订单
  */
 <template>
@@ -10,7 +10,7 @@
     <div class="common-header">
       <mt-header title="我的订单" fixed class="border-1px">
         <router-link :to="{path: '/home', query: {selected: 'balance'}}" slot="left" >
-          <mt-button icon="back">返回</mt-button>
+          <mt-button icon="back"></mt-button>
         </router-link>
       </mt-header>
     </div>

@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 09:59:01 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-03 16:47:49
+ * @Last Modified time: 2017-12-04 14:29:40
  * 确认订单
  */
 <template>
@@ -72,13 +72,14 @@
             <span class="">￥{{confirmOrderForm.cartTotal}}</span> 
           </p>
         </mt-button>
-        <router-link :to="{ path: '/inputPwd' }" class="submit-container">
+        <router-link :to="{ path: '/inputPwd', query: {typeId: this.typeId}}" class="submit-container">
           <mt-button type="primary" class="button-width">提交订单</mt-button>
         </router-link>
       </mt-tabbar>
     </div>
   </div>
 </template>
+
 <script>
 import { startLoading, endLoading } from '../../utils/utils'
 import { mapGetters } from 'vuex'

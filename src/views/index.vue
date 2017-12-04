@@ -51,20 +51,20 @@ export default {
   .body {
     .index-images {
       width: 100%;
-      height: 5.86rem;
+      height: 3.6rem;
       img {
         width: 100%;
         display: block;
       }
     }
     .index-btn-con {
-      margin-top: 1.34rem;
+      margin-top: 2.79rem;
       .index-login {
         width: 6.2rem;
         display: block;
         margin: 0 auto;
-        height: 0.78rem;
-        line-height: 0.78rem;
+        height: 0.88rem;
+        line-height: 0.88rem;
         text-align: center;
         background: #f9404a;
         color: #ffffff;
@@ -75,15 +75,15 @@ export default {
         width: 6.2rem;
         display: block;
         margin: 0 auto;
-        height: 0.78rem;
-        line-height: 0.78rem;
+        height: 0.88rem;
+        line-height: 0.88rem;
         text-align: center;
         background: #ffffff;
         color: #f9404a;
         font-size: 0.36rem;
         border: 1px solid #f9404a;
         box-sizing: border-box;
-        margin-top: 0.32rem;
+        margin-top: 0.74rem;
         border-radius: 0.1rem;
       }
     }

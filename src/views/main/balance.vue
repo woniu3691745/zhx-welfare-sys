@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 19:04:29 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-03 17:31:13
+ * @Last Modified time: 2017-12-04 14:05:01
  * 额度
  */
 <template>
@@ -62,7 +62,7 @@
         </div>
       </div>
       <div class="advice">
-        <!-- <p class="kindly-reminder" v-if="quotas.length > 1">温馨提示：您每次只能选择一种品类进行支付和购物</p> -->
+        <p class="kindly-reminder" v-if="quotas">温馨提示：您每次只能选择一种品类进行支付和购物</p>
         <div class="importants">
           <span>重要提示：</span>
           <p class="margin-top">1、请在有效期内使用您的额度，过期后额度将清零作废，额度有效期由您所在的企业规定。</p>

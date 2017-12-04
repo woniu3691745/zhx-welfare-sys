@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 19:04:03 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-03 18:04:53
+ * @Last Modified time: 2017-12-04 14:51:40
  * 商品详情
  */
 <template>
@@ -27,7 +27,9 @@
         ￥{{goodsForm.salePrice}}
       </span>
       <div class="height-20"></div>
-      <div class="infor-good"></div>
+      <div class="infor-good">
+        <span>{{goodsForm.productDetail}}</span>
+      </div>
       <div class="height-20"></div>
     </div>
     <div class="detail-bottom">
@@ -54,6 +56,7 @@ export default {
         imgUrl: '',                             // 商品图片
         productName: '',                        // 商品描述
         salePrice: '',                          // 价格
+        productDetail: '',                      // 商品描述
         count: this.$store.getters.cartCount    // 购物车数量
       },
       typeId: this.$route.query.typeId // 种类

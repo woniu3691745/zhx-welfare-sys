@@ -24,7 +24,7 @@
           </div>
         </div>
         <div class="all-limit">
-          我的额度：日用品：¥1000.00/食品：¥1000.00/服装：¥1000.00
+          <span v-for="(val,key) in marqueeNUM" :key="key">我的额度：日用品：¥1000.00/食品：¥1000.00/服装：¥1000.00</span>
         </div>
         <mt-cell title="我的订单" is-link></mt-cell>
       </div>
@@ -73,6 +73,7 @@ export default {
   name: 'mine-page',
   data () {
     return {
+      marqueeNUM: ['', ''], // 展示跑马灯数量
       selected: 'index',
       items: 4
     }
@@ -175,6 +176,24 @@ export default {
     width: 6.8rem;
     margin: 0 auto;
     height: 0.88rem;
+  }
+}
+.all-limit{
+  overflow: hidden;
+white-space: nowrap;
+}
+//跑马灯
+.all-limit span{
+  display: inline-block;
+  min-width:9rem;
+  animation: userID 5s linear infinite;
+}
+@keyframes userID {
+  0%{
+    transform:translate3d(0rem,0,0);
+  }
+  100%{
+    transform:translate3d(-9rem,0,0);
   }
 }
 </style>

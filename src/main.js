@@ -10,7 +10,21 @@ import '@/permission' // 权限
 
 Vue.use(Mint)
 Vue.config.productionTip = false
-
+Vue.filter('ADDRESS_SHOW_CALSS', function (data, key, defaultkey) {
+  if (key === defaultkey) {
+    return {
+      'mint-checked': true,
+      'mint-checkbox-cores': true,
+      'mint-checkbox-corsafter': true
+    }
+  } else {
+    return {
+      'mint-checked': false,
+      'mint-checkbox-cores': true,
+      'mint-checkbox-corsafter': false
+    }
+  }
+})
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

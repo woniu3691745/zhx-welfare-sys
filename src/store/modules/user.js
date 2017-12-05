@@ -8,6 +8,7 @@
  * 1.通过commit -> 2.经过mutation -> 3.改变数据state
  */
 import { loginByUserName, logout, getUserInfo, resetLoginPassword, ResetgetIdCode, ZHX_PASSWORD_CHANGE, ResetgetIdCodeNext, ZHX_LOGINPASSWORD_CHANGE } from '@/api/login'
+import { ZHXUSERAddressLIST, ZHX_ADD_ADDRESS, ZHX_DELETE_ADDRESS, ZHX_UPDATE_ADDRESS, ZHXONEUSERAddress, ZHX_GET_ADDRESS_LIST } from '@/api/addressMan'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 
 const user = {
@@ -38,8 +39,10 @@ const user = {
     },
     UPDATE_LOGIN_PASSWORD (state, data) {
       state.updatedpaypassword.LOGINID = data
+    },
+    ZHXONEUSERAddressSave (state, data) {
+      state.updatedpaypassword.AddressSave = data
     }
-
   },
 
   actions: {
@@ -137,6 +140,70 @@ const user = {
     ZHX_LOGINPASSWORD_CHANGE ({ commit, state }, idCodeForm) {
       return new Promise((resolve, reject) => {
         ZHX_LOGINPASSWORD_CHANGE(state.token, idCodeForm).then(response => {
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    // 查询用户绑定的地址集合
+    ZHXUSERAddressLIST ({ commit, state }, idCodeForm = {}) {
+      return new Promise((resolve, reject) => {
+        ZHXUSERAddressLIST(state.token, idCodeForm).then(response => {
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    // 增加用户地址
+    ZHX_ADD_ADDRESS ({ commit, state }, idCodeForm = {}) {
+      return new Promise((resolve, reject) => {
+        ZHX_ADD_ADDRESS(state.token, idCodeForm).then(response => {
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    // 删除用户地址
+    ZHX_DELETE_ADDRESS ({ commit, state }, idCodeForm = {}) {
+      return new Promise((resolve, reject) => {
+        ZHX_DELETE_ADDRESS(state.token, idCodeForm).then(response => {
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    // 更新用户地址
+    ZHX_UPDATE_ADDRESS ({ commit, state }, idCodeForm = {}) {
+      return new Promise((resolve, reject) => {
+        ZHX_UPDATE_ADDRESS(state.token, idCodeForm).then(response => {
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    // 更新用户地址保存状态
+    ZHXONEUSERAddressSave ({ commit, state }, idCodeForm) {
+      commit('ZHXONEUSERAddressSave', idCodeForm)
+    },
+    // 单个用户地址
+    ZHXONEUSERAddress ({ commit, state }, idCodeForm = {}) {
+      return new Promise((resolve, reject) => {
+        ZHXONEUSERAddress(state.token, idCodeForm).then(response => {
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    // 获取省、市、县、镇地址列表
+    ZHXGET_ADDRESS_LIST ({ commit, state }, idCodeForm = {}) {
+      return new Promise((resolve, reject) => {
+        ZHX_GET_ADDRESS_LIST(state.token, idCodeForm).then(response => {
           resolve(response)
         }).catch(error => {
           reject(error)

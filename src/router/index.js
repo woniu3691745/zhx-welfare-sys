@@ -74,8 +74,7 @@ export const constantRouterMap = [
   { path: '/mineOrder', name: '我的订单', component: resolve => require(['@/views/mine/mineOrder.vue'], resolve) },
   { path: '/addressMs', name: '管理收货地址', component: resolve => require(['@/views/address/addressManage.vue'], resolve) },
   { path: '/addAddress', name: '添加地址', component: resolve => require(['@/views/address/addAddress.vue'], resolve) },
-  { path: '/addressEdit', name: '编辑收货人', component: resolve => require(['@/views/address/addressEdit.vue'], resolve) },
-
+  { path: '/addressEdit', name: 'addressEdit', component: resolve => require(['@/views/address/addressEdit.vue'], resolve) },
   /**
    *  我的-账户
    */

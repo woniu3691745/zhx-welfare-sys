@@ -9,9 +9,7 @@
   <div class="addressEdit">
     <div class="common-header">
       <mt-header title="编辑收货人">
-        <router-link to="/mine" slot="left" fixed>
-          <mt-button icon="back"></mt-button>
-        </router-link>
+        <mt-button icon="back" slot="left" @click="runRouter"></mt-button>
       </mt-header>
     </div>
     <div class="addAddress-body">
@@ -21,7 +19,7 @@
       </mt-cell>
       <mt-field placeholder="请填写详细地址，不少于5个字" type="textarea" rows="4" v-model="detailedAddress"></mt-field>
     </div>
-    <div class="bottom">
+    <div class="bottom" @click='saveAddress'>
         保存
     </div>
     
@@ -29,6 +27,12 @@
 </template>
 
 <script>
+// vuex引入
+ import {mapGetters} from 'vuex'
+// 姓名正则
+ const userNameReg = /^[a-zA-Z\u4e00-\u9fa5]+$/u
+ const phoneNoPattern = /^1[34578]\d{9}$/
+ let time
  export default {
    // 组件名字
    name: 'addressEdit-page',
@@ -42,17 +46,132 @@
        consignee: '',
        phoneNum: '',
        detailedAddress: '',
-       value: ''
+       addressId: ''
      }
    },
-   computed: {},
+   computed: {
+     ...mapGetters(['updatedpaypassword'])
+   },
    // 使用其它组件
    components: {},
    watch: {},
    // 方法
-   methods: {},
+   methods: {
+     runRouter () {
+       this.$router.go(-1)
+     },
+     saveAddress () {
+       this.debounce(this.unifiedAddress)
+     },
+     // 保存地址统一
+     unifiedAddress () {
+       if (!this.usernameReg()) {
+         return false
+       }
+       if (!this.PhoneReg()) {
+         return false
+       }
+       if (!this.Detailedaddress()) {
+         return false
+       }
+       this.submitData()
+     },
+     submitData () {
+       let {phoneNum, consignee, detailedAddress, addressId} = this
+       const data = {
+         'bizData': {
+           'addressId': addressId,
+           'phoneNo': phoneNum,
+           'userName': consignee,
+           'address': detailedAddress,
+           'provinceCode': '',
+           'cityCode': '',
+           'countryCode': '',
+           'townCode': ''
+         }
+       }
+       this.$store.dispatch('ZHX_UPDATE_ADDRESS', data).then((res) => {
+         if (res.data.result) {
+           this.$router.go(-1)
+         } else {
+           alert(res.data.message)
+         }
+         console.log(res)
+       }).catch((err) => {
+         console.log(err)
+       })
+     },
+     // 姓名正则
+     usernameReg () {
+       if (!this.consignee) {
+         alert('用户名不能为空')
+         return false
+       } else if (!userNameReg.test(this.consignee)) {
+         alert('请输入正确的用户名')
+         return false
+       }
+       return true
+     },
+      // 手机号正则
+     PhoneReg () {
+       if (!this.phoneNum) {
+         alert('手机号不能为空')
+         return false
+       } else if (!phoneNoPattern.test(this.phoneNum)) {
+         alert('请输入正确的手机号')
+         return false
+       }
+       return true
+     },
+     // 详细地址
+     Detailedaddress () {
+       if (this.detailedAddress.length < 5) {
+         alert('详细地址不能少于5个字')
+         return false
+       } else {
+         return true
+       }
+     },
+     debounce (fn) {
+       time && clearTimeout(time)
+       time = setTimeout(function () {
+         fn()
+       }, 500)
+     }
+   },
    // 生命周期函数
   //  beforeCreate: {},
+   created () {
+     let data = this.updatedpaypassword.AddressSave
+     let query = this.$route.query.userdata
+     if (data) {
+       let {userName, phoneNo, address, addressId} = data
+       this.consignee = userName
+       this.phoneNum = phoneNo
+       this.detailedAddress = address
+       this.addressId = addressId
+     } else if (query) {
+       let mesData = {
+         'bizData': {
+           'addressId': query
+         }
+       }
+       this.$store.dispatch('ZHXONEUSERAddress', mesData).then((res) => {
+         const data = res.data
+         if (data.result) {
+           let {userName, phoneNo, address} = data.bizData.Address
+           this.consignee = userName
+           this.phoneNum = phoneNo
+           this.detailedAddress = address
+           this.addressId = query
+         } else {
+           alert(data.message)
+         }
+       }).catch((err) => { console.log(err) })
+     } else {
+       this.$router.go(-1)
+     }
+   },
    mounted () {}
  }
 </script>

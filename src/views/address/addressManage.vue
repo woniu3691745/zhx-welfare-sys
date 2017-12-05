@@ -14,21 +14,36 @@
           </router-link>
         </mt-header>
       </div>
-    <div class="address-manage-body">
-      <div>
+      <div class="noAddress" v-if="addListarr.length===0">
+         <router-link to="/addAddress">
+        <mt-button type="default" class="noAddressBtn">添加地址</mt-button>
+        </router-link>
+      </div>
+      <div v-else>
+          <div class="address-manage-body">  
+      <div v-for="(val,key) in addListarr" :key="key"> 
         <div class="name-tel clear">
-          <span class="left">李娜</span>
-          <span class="right">12345678900</span>
+          <span class="left">{{val.userName}}</span>
+          <span class="right">{{val.phoneNo}}</span>
         </div>
-        <p class="address-words">北京市西城区金融街20号交通大厦B座10层资和信电子支付有限公司</p>
+        <p class="address-words">{{val.addressDetails}}</p>
         <div class="delete-container border-top-1px">
-          <mt-radio
-            v-model="value"
-            :options="['设为默认地址']">
-          </mt-radio>
+          <!-- *********** -->
+         <div class="mint-checklist" @click='updateDefault(val.addressId,$event)'>
+           <label class="mint-checklist-title"></label> 
+         <a class="mint-cell"><div class="mint-cell-left"></div> 
+         <div class="mint-cell-wrapper"><div class="mint-cell-title">
+           <label class="mint-checklist-label"><span class="mint-checkbox">
+             <input type="checkbox" class="mint-checkbox-input" :value="key"> 
+             <span :class="showClass | ADDRESS_SHOW_CALSS(key,defaultKey)"></span>
+             </span> 
+             <span class="mint-checkbox-label">设为默认选项</span>
+             </label></div> <div class="mint-cell-value"><span></span></div> <!----></div> 
+               <div class="mint-cell-right"></div></a></div>
+          <!-- ********** -->
           <div class="clear editor-delete-container">
-            <span class="editor left" @click="edit">编辑</span>
-            <span class="address-delete-editor right" @click="del">删除</span>
+            <span class="editor left" @click="edit(val)">编辑</span>
+            <span class="address-delete-editor right" @click="del(val.addressId,key, $event)">删除</span>
           </div>
         </div>
         <div class="height-20">
@@ -36,48 +51,184 @@
         </div>
       </div>
     </div>
-    <div class="bottom">
-      <div>
-        添加收货地址
+      <router-link to="/addAddress">
+            <div class="bottom">
+              <div>
+                添加收货地址
+              </div>
+            </div>
+      </router-link>
+    
       </div>
-    </div>
+    
   </div>
 </template>
 
 <script>
- export default {
-   // 组件名字
-   name: 'addressManage-page',
-   // 组合其它组件
-   extends: {},
-   // 组件属性、变量
-   props: {},
-   // 变量
-   data () {
-     return {
-       value: ''
-     }
-   },
-   computed: {},
-   // 使用其它组件
-   components: {},
-   watch: {},
-   // 方法
-   methods: {
-     edit () {
-       this.$router.push('/addressEdit')
-     },
-     del () {
-       console.log('删除联系人')
-     }
-   },
-   // 生命周期函数
+export default {
+  // 组件名字
+  name: 'addressManage-page',
+  // 组合其它组件
+  extends: {},
+  // 组件属性、变量
+  props: {},
+  // 变量
+  data () {
+    return {
+      value: '',
+      addListarr: [],
+      showClass: {
+        'mint-checked': false,
+        'mint-checkbox-cores': true,
+        'mint-checkbox-corsafter': false
+      },
+      defaultKey: 0
+    }
+  },
+  computed: {},
+  // 使用其它组件
+  components: {},
+  watch: {},
+  // 方法
+  methods: {
+    edit (data) {
+      this.$store.dispatch('ZHXONEUSERAddressSave', data)
+      this.$router.push({name: 'addressEdit', query: { userdata: data.addressId }})
+    },
+    del (data, delkey) {
+      const mes = {'bizData': {
+        'addressId': data
+      }
+      }
+      this.$store
+      .dispatch('ZHX_DELETE_ADDRESS', mes).then((res) => {
+        if (res.data.result) {
+          this.addListarr = this.addListarr.filter((val, key) => key !== delkey)
+          if (delkey === this.defaultKey) {
+            this.defaultKey = 0
+          }
+        } else {
+          alert(res.data.message)
+        }
+      }).catch((err) => {
+        console.log(err)
+      })
+    },
+    computedKey (key) {
+      if (this.defaultkey === key) {
+        return {
+          'mint-checked': false,
+          'mint-checkbox-cores': true,
+          'mint-checkbox-corsafter': false
+        }
+      } else {
+        return {
+          'mint-checked': true,
+          'mint-checkbox-cores': true,
+          'mint-checkbox-corsafter': true
+        }
+      }
+    },
+    updateDefault (date, e) {
+      let target = e.target
+      if (target.tagName === 'INPUT') {
+        const mes = {
+          'bizData': {
+            'addressId': date,
+            'defaultFlag': '01'
+          }
+        }
+        this.$store.dispatch('ZHX_UPDATE_ADDRESS', mes).then((res) => {
+          if (res.data.result) {
+            this.defaultKey = Number(target.value)
+          } else {
+            alert(res.data.message)
+          }
+        }).catch((err) => { console.log(err) })
+      }
+    }
+  },
+  // 生命周期函数
   //  beforeCreate: {},
-   mounted () {}
- }
+  created () {
+    this.$store
+      .dispatch('ZHXUSERAddressLIST')
+      .then(res => {
+        const data = res.data
+        if (data.result) {
+          const arr = res.data.bizData.Address || []
+          arr.forEach((element, key) => {
+            if (element.defaultFlag === '01') {
+              this.defaultKey = key
+            }
+          })
+          this.addListarr = arr
+        } else {
+          // alert(data.message)
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+}
 </script>
 
 <style lang="less" scoped>
+.mint-checklists {
+  width: 100%;
+  height: 0.96rem;
+}
+.mint-checkbox-cores {
+  display: inline-block;
+  background-color: #fff;
+  border-radius: 100%;
+  border: 1px solid #ccc;
+  position: relative;
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+}
+.mint-checkbox-cores:after {
+  border: 2px solid transparent;
+  border-left: 0;
+  border-top: 0;
+  content: "";
+  top: 3px;
+  left: 6px;
+  position: absolute;
+  width: 4px;
+  height: 8px;
+  -webkit-transform: rotate(45deg) scale(0);
+  transform: rotate(45deg) scale(0);
+  -webkit-transition: -webkit-transform 0.2s;
+  transition: -webkit-transform 0.2s;
+  transition: transform 0.2s;
+  transition: transform 0.2s, -webkit-transform 0.2s;
+}
+.mint-checkbox-corsafter::after {
+  border-color: #fff;
+  -webkit-transform: rotate(45deg) scale(1);
+  transform: rotate(45deg) scale(1);
+}
+.mint-checked {
+  background-color: #26a2ff;
+  border-color: #26a2ff;
+}
+.noAddressBtn {
+  width: 1.96rem;
+  height: 0.88rem;
+  display: inline-block;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  margin-top: 0.44rem;
+  border: 1px solid #c8c8c8;
+  border-radius: 4px;
+  font-family: PingFangSC-Regular;
+  color: #323200;
+}
 .addressManage {
   .common-header {
     width: 100%;
@@ -102,8 +253,7 @@
       color: #323232;
       line-height: 0.4rem;
       padding: 0 0.2rem 0.2rem;
-      box-shadow: inset 0 -1px 0 0 rgba(220,220,220,0.50);
-      
+      box-shadow: inset 0 -1px 0 0 rgba(220, 220, 220, 0.5);
     }
     .height-20 {
       height: 0.2rem;
@@ -116,14 +266,13 @@
     left: 0;
     bottom: 0;
     div {
-      height: 0.88rem;    
-      background: #FD404A;
+      height: 0.88rem;
+      background: #fd404a;
       font-size: 0.32rem;
-      color: #FFFFFF;
+      color: #ffffff;
       text-align: center;
       line-height: 0.88rem;
     }
-    
   }
 }
 </style>

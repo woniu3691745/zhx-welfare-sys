@@ -2,27 +2,22 @@ import router from './router'
 import store from './store'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-import { getToken } from '@/utils/auth' // 验权
+import { getToken } from '@/utils/auth'
 
-const whiteList = ['/index', '/register', '/bindPhoneNum', '/setPassWord', '/setPayPassWord', '/login', '/resetLoginPassWord', '/authredirect']// 不重定向白名单
+const whiteList = ['/index', '/register', '/bindPhoneNum', '/setPassWord', '/setPayPassWord', '/login', '/resetLoginPassWord', '/authredirect']
 router.beforeEach((to, from, next) => {
   // NProgress.configure({ ease: 'ease', speed: 500 })
-  NProgress.start() // 开启Progress
+  NProgress.start()
   if (getToken()) {
-    if (to.path === '/login') {
-      next({ path: '/' })
+    if (to.path === '/index') {
+      next({ path: '/home' })
       NProgress.done()
     } else {
-      if (store.getters.roles.length === 0) { // 判断当前用户是否已拉取完user_info信息
-        store.dispatch('GetUserInfo').then(req => { // 拉取user_info
-          // store.dispatch('GenerateRoutes', { roles }).then(() => { // 生成可访问的路由表
-          //   router.addRoutes(store.getters.addRouters) // 动态添加可访问路由表
-          //   next({ ...to }) // hack方法 确保addRoutes已完成
-          // })
+      if (store.getters.roles.length === 0) {
+        store.dispatch('GetUserInfo').then(req => {
           // next({ ...to })
           next()
         }).catch(() => {
-          // 账号、密码错误
           store.dispatch('LogOut').then(() => {
             next({ path: '/login' })
           })
@@ -33,15 +28,15 @@ router.beforeEach((to, from, next) => {
       NProgress.done()
     }
   } else {
-    if (whiteList.indexOf(to.path) !== -1) { // 在免登录白名单，直接进入
+    if (whiteList.indexOf(to.path) !== -1) {
       next()
     } else {
-      next('/login') // 否则全部重定向到登录页
+      next('/')
       NProgress.done()
     }
   }
 })
 
 router.afterEach(() => {
-  NProgress.done() // 结束Progress
+  NProgress.done()
 })

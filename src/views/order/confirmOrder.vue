@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 09:59:01 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-04 17:12:02
+ * @Last Modified time: 2017-12-05 14:04:24
  * 确认订单
  */
 <template>

@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-10-12 17:58:36
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-03 15:01:53
+ * @Last Modified time: 2017-12-05 15:27:45
  * 路由
  */
 
@@ -13,7 +13,7 @@ import confirmOrder from '../views/order/confirmOrder.vue'
 Vue.use(Router)
 
 export const constantRouterMap = [
-  { path: '/', redirect: '/home' },
+  { path: '/', redirect: '/index' },
   { path: '/index', name: '首页', component: resolve => require(['@/views/index.vue'], resolve) },
   // { path: '/login', name: '登录', component: resolve => require(['@/views/login.vue'], resolve) },
   {

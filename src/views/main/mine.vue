@@ -2,16 +2,13 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-30 20:14:41
+ * @Last Modified time: 2017-12-05 16:18:17
  * 我的
  */
 <template>
   <div class="mine">
     <div class="common-header">
       <mt-header title="我的">
-        <!-- <router-link to="/balance" slot="left"> -->
-          <!-- <mt-button icon="back"></mt-button> -->
-        <!-- </router-link> -->
       </mt-header>
     </div>
     <div class="mine-body">
@@ -59,13 +56,6 @@
     <div class="mine-header">
       <mt-button type="danger" size="large" @click="LogOut">退出</mt-button>
     </div>
-      <!-- <div class="advice">
-        <span>重要提示：</span>
-        <br>
-        <p>1、请在有效期内使用您的额度，过期后额度将清零作废，额度有效期由您所在的企业规定。</p>
-        <p>1、请在有效期内使用您的额度，过期后额度将清零作废，额度有效期由您所在的企业规定。</p>   
-        <p>1、请在有效期内使用您的额度，过期后额度将清零作废，额度有效期由您所在的企业规定。</p>      
-      </div> -->
   </div>
 </template>
 <script>
@@ -75,10 +65,12 @@ export default {
     return {
       marqueeNUM: ['', ''], // 展示跑马灯数量
       selected: 'index',
-      items: 4
+      items: 4,
+      quotas: ''
     }
   },
   methods: {
+    // 退出
     LogOut () {
       this.$store
         .dispatch('LogOut')
@@ -91,6 +83,11 @@ export default {
     }
   },
   created () {
+    let quotasTmp = ''
+    this.$store.getters.quota.map(
+      x => (quotasTmp += x.typeName + ': ￥' + x.balance + '/')
+    )
+    this.quotas = quotasTmp.substring(0, quotasTmp.length - 1)
   }
 }
 </script>
@@ -99,7 +96,7 @@ export default {
 .mine-body {
   .header-pic-container {
     height: 1.8rem;
-    background: #FB4E51;
+    background: #fb4e51;
     img {
       width: 1.16rem;
       height: 1.16rem;
@@ -109,7 +106,7 @@ export default {
     }
     .user-name-container {
       font-size: 0.28rem;
-      color: #FFFFFF;
+      color: #ffffff;
       margin-top: 0.5rem;
       margin-left: 0.4rem;
       line-height: 0.45rem;
@@ -135,9 +132,9 @@ export default {
           position: absolute;
           right: -0.13rem;
           top: 0;
-          background: #FFFFFF;
-          border: 1px solid #FB4E51;
-          color: #FB4E51;
+          background: #ffffff;
+          border: 1px solid #fb4e51;
+          color: #fb4e51;
           border-radius: 50%;
           width: 0.34rem;
           height: 0.34rem;
@@ -158,11 +155,11 @@ export default {
   }
   .hheight-22 {
     height: 0.22rem;
-    background: #F5F5F5;
-  } 
+    background: #f5f5f5;
+  }
   .all-limit {
     font-size: 0.24rem;
-    color: #4A4A4A;
+    color: #4a4a4a;
     height: 0.7rem;
     line-height: 0.7rem;
     background: #f5f5f5;

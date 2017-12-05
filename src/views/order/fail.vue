@@ -2,14 +2,14 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 09:59:01 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-16 20:04:58
+ * @Last Modified time: 2017-12-04 17:22:33
  * 支付失败
  */
 <template>
   <div class="fail">
     <div class="common-header">
       <mt-header title="支付失败">
-        <router-link to="/confirmOrder" slot="left">
+        <router-link :to="{ path: '/confirmOrder', query: { typeId: this.typeId}}" slot="left">
           <mt-button icon="back"></mt-button>
         </router-link>
       </mt-header>
@@ -33,7 +33,9 @@
    props: {},
    // 变量
    data () {
-     return {}
+     return {
+       typeId: this.$route.query.typeId     // 额度ID
+     }
    },
    computed: {},
    // 使用其它组件

@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 09:59:01 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-04 14:29:40
+ * @Last Modified time: 2017-12-05 14:04:24
  * 确认订单
  */
 <template>
@@ -72,9 +72,9 @@
             <span class="">￥{{confirmOrderForm.cartTotal}}</span> 
           </p>
         </mt-button>
-        <router-link :to="{ path: '/inputPwd', query: {typeId: this.typeId}}" class="submit-container">
-          <mt-button type="primary" class="button-width">提交订单</mt-button>
-        </router-link>
+        <!-- <router-link :to="{ path: '/inputPwd', query: {typeId: this.typeId}}" class="submit-container"> -->
+          <mt-button type="primary" class="button-width" @click="submit">提交订单</mt-button>
+        <!-- </router-link> -->
       </mt-tabbar>
     </div>
   </div>
@@ -82,38 +82,85 @@
 
 <script>
 import { startLoading, endLoading } from '../../utils/utils'
+import { MessageBox } from 'mint-ui'
 import { mapGetters } from 'vuex'
 export default {
   name: 'confirmOrder-page',
   data () {
     return {
       confirmOrderForm: {
-        cartTotal: '',          // 购物车金额汇总
-        orderNo: '',            // 订单号
-        productTotal: '',       // 商品金额汇总
-        shipping: '',           // 运费
-        shippingInfo: '',       // 包邮说明
-        productTypeId: '',      // 去凑单品类ID
-        isShipping: false       // 运费减免
+        cartTotal: '',                    // 购物车金额汇总
+        orderNo: '',                      // 订单号
+        productTotal: '',                 // 商品金额汇总
+        shipping: '',                     // 运费
+        shippingInfo: '',                 // 包邮说明
+        productTypeId: '',                // 去凑单品类ID
+        isShipping: false                 // 运费减免
       },
-      productImgs: '',          // 商品图片
-      typeId: this.$route.query.typeId  // 额度ID
+      productImgs: '',                    // 商品图片
+      mallSkus: '',                       // 商品SKU
+      typeId: this.$route.query.typeId    // 额度ID
     }
   },
   components: {},
   watch: {},
   methods: {
+    // 去凑单
     together () {
       this.$router.push({
         path: '/goodsList',
-        query: { typeId: this.typeId, togetherId: this.confirmOrderForm.productTypeId }
+        query: {
+          typeId: this.typeId,
+          togetherId: this.confirmOrderForm.productTypeId
+        }
       })
+    },
+    preSubmit () {
+      startLoading()
+      let submitInfo = {
+        orderNo: this.confirmOrderForm.orderNo,     // 订单号
+        cartType: this.typeId,                      // 商品品类ID
+        mallSkus: this.mallSkus,                    // 商品SKU
+        addressId: '100000011'                      // 地址ID
+      }
+      this.$store
+        .dispatch('Submit', submitInfo)
+        .then(res => {
+          if (res.result) {
+            this.$router.push({
+              path: '/inputPwd',
+              query: {
+                typeId: this.typeId,
+                orderNo: res.bizData.orderId
+              }
+            })
+          } else {
+            MessageBox({
+              title: '提示',
+              message: res.res,
+              showCancelButton: false
+            })
+          }
+          endLoading()
+        })
+        .catch(res => {
+          console.log(res)
+        })
+    },
+    // 提交订单
+    submit () {
+      this.preSubmit()
     }
   },
   created () {
     startLoading()
     Object.assign(this.confirmOrderForm, this.orderInfo)
     this.productImgs = this.productImg
+    let tmp = []
+    this.productImg.map(
+      x => tmp.push(x.mallSku)
+    )
+    this.mallSkus = tmp
     setTimeout(() => {
       endLoading()
     }, 500)
@@ -124,10 +171,7 @@ export default {
   },
   computed: {
     // vuex
-    ...mapGetters([
-      'orderInfo',
-      'productImg'
-    ])
+    ...mapGetters(['orderInfo', 'productImg'])
   }
 }
 </script>
@@ -137,7 +181,7 @@ export default {
 .confirmOrder {
   .body-confirm {
     .address-container {
-      box-shadow: inset 0 -6px 0 0 #FD404A;
+      box-shadow: inset 0 -6px 0 0 #fd404a;
       .address-con {
         padding-bottom: 0.49rem;
         padding-top: 0.26rem;
@@ -151,10 +195,10 @@ export default {
             line-height: 0.3rem;
           }
           .defaul {
-            border: 1px solid #FD404A;
+            border: 1px solid #fd404a;
             border-radius: 0.04rem;
             font-size: 0.2rem;
-            color: #FD404A;
+            color: #fd404a;
             width: 0.52rem;
             height: 0.3rem;
             line-height: 0.3rem;
@@ -192,7 +236,7 @@ export default {
       .add-adderss {
         padding: 0.58rem 0 0.7rem 0;
         .button-width {
-          border: 1px solid #C8C8C8;
+          border: 1px solid #c8c8c8;
           box-sizing: border-box;
           border-radius: 8px;
           width: 1.96rem;
@@ -201,13 +245,13 @@ export default {
           color: #323200;
           background: none;
           display: block;
-          margin: 0 auto
+          margin: 0 auto;
         }
-      }      
+      }
     }
     .height-22 {
       height: 0.22rem;
-      background: #F5F5F5;
+      background: #f5f5f5;
     }
     .nomeny-cue {
       padding: 0 0.28rem 0 0.24rem;
@@ -223,7 +267,7 @@ export default {
     }
     .all-thing {
       width: 100%;
-      background: #F5F5F5;
+      background: #f5f5f5;
       position: relative;
       .all-thing-pic {
         overflow-x: scroll;
@@ -245,14 +289,14 @@ export default {
         top: 0;
         width: 1.64rem;
         height: 1.4rem;
-        background: #F5F5F5;
+        background: #f5f5f5;
         text-align: center;
         font-size: 0.26rem;
         color: #323232;
         z-index: 2;
         line-height: 1.4rem;
       }
-    } 
+    }
     .nomeny-all {
       padding: 0 0.28rem 0 0.24rem;
       font-size: 0.3rem;
@@ -268,7 +312,7 @@ export default {
       font-size: 0.36rem;
       height: 0.88rem;
       line-height: 0.88rem;
-      color: #FD404A;
+      color: #fd404a;
       .shop-delait {
         font-size: 0.26rem;
         margin-right: 0.18rem;
@@ -277,7 +321,7 @@ export default {
     }
     .merge {
       // display: none;
-      background: #FFECD3;
+      background: #ffecd3;
       padding: 0 0.28rem 0 0.24rem;
       font-size: 0.24rem;
       height: 0.88rem;
@@ -293,44 +337,54 @@ export default {
     }
   }
   // 底部
- .bottom {
-   .mint-tabbar {
-    .prompt-money {
-      height: 0.94rem;
-      box-shadow: inset 0 1px 0 0 rgba(220,220,220,0.50);
-      p {
-        :nth-child(1) {
-          font-size: 0.26rem;
-          color: #323232;
-        }
-        :nth-child(2) {
-          font-size: 0.26rem;
-          color: #323232;
-          font-size: 0.36rem;
-          color: #FD404A;
-          line-height: 0.37rem;
-        }  
-      }
-    }
-    .submit-container {
-      font-size: 0;
-      .mint-button {
-        border-radius: 0;
-        line-height: 0.94rem;
+  .bottom {
+    .mint-tabbar {
+      .prompt-money {
         height: 0.94rem;
-        background: #FD404A;
-        width: 2rem;
-        padding: 0;
-        font-size: 0.28rem;
-        color: #FFFFFF;
+        box-shadow: inset 0 1px 0 0 rgba(220, 220, 220, 0.5);
+        p {
+          :nth-child(1) {
+            font-size: 0.26rem;
+            color: #323232;
+          }
+          :nth-child(2) {
+            font-size: 0.26rem;
+            color: #323232;
+            font-size: 0.36rem;
+            color: #fd404a;
+            line-height: 0.37rem;
+          }
+        }
+      }
+      .submit-container {
+        font-size: 0;
+        .mint-button {
+          border-radius: 0;
+          line-height: 0.94rem;
+          height: 0.94rem;
+          background: #fd404a;
+          width: 2rem;
+          padding: 0;
+          font-size: 0.28rem;
+          color: #ffffff;
+        }
       }
     }
   }
- }
 }
 .border-1px {
-  background-image: -webkit-linear-gradient(bottom, #d9d9d9, #d9d9d9 50%, transparent 50%);
-  background-image: linear-gradient(0deg, #d9d9d9, #d9d9d9 50%, transparent 50%);
+  background-image: -webkit-linear-gradient(
+    bottom,
+    #d9d9d9,
+    #d9d9d9 50%,
+    transparent 50%
+  );
+  background-image: linear-gradient(
+    0deg,
+    #d9d9d9,
+    #d9d9d9 50%,
+    transparent 50%
+  );
   background-size: 100% 1px;
   background-repeat: no-repeat;
   background-position: bottom;

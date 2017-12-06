@@ -120,6 +120,8 @@
                    picker.setSlotValues(i + 1, arr)
                    OldDataArr[i + 1] = ''
                    return
+                 } else if (val.f === 'N') {
+                   return
                  } else {
                    picker.setSlotValues(i + 1, arr)
                  }
@@ -129,6 +131,8 @@
                if (arr.length === 0) {
                  picker.setSlotValues(i + 1, arr)
                  OldDataArr[i + 1] = ''
+                 return
+               } else if (val.f === 'N') {
                  return
                } else {
                  picker.setSlotValues(i + 1, arr)
@@ -204,6 +208,9 @@
      Detailedaddress () {
        if (this.detailedAddress.length < 5) {
          alert('详细地址不能少于5个字')
+         return false
+       } else if (this.detailedAddress.length > 30) {
+         alert('详细地址不能多余于30个字')
          return false
        } else {
          return true

@@ -56,7 +56,7 @@
        flags: true,
        addList: {},
        values: '请选择',
-       defaultArr: ['underfined', 'underfined', 'underfined'],
+       defaultArr: [undefined, undefined, undefined],
        'provinceCode': '',
        'cityCode': '',
        'countryCode': '',
@@ -114,25 +114,28 @@
            let val = values[i]
            if (val != null && val.k !== OldDataArr[i]) {
              OldDataArr[i] = val.k
-             this.addList[i] = this.addList[i] ? this.addList[i] : {}
-             if (!((`${val.k}`) in this.addList[i])) {
+             if (!((`${val.k}`) in this.addList)) {
                try {
                  const res = await this.getAddressDate(val.k, i)
                  let arr = res.data.bizData.Address
-                 this.addList[i][val.k] = arr
+                 this.addList[val.k] = arr
                  if (arr.length === 0) {
                    picker.setSlotValues(i + 1, arr)
                    OldDataArr[i + 1] = ''
+                   return
+                 } else if (val.f === 'N') {
                    return
                  } else {
                    picker.setSlotValues(i + 1, arr)
                  }
                } catch (err) {}
              } else {
-               let arr = this.addList[i][`${val.k}`]
+               let arr = this.addList[`${val.k}`]
                if (arr.length === 0) {
                  picker.setSlotValues(i + 1, arr)
                  OldDataArr[i + 1] = ''
+                 return
+               } else if (val.f === 'N') {
                  return
                } else {
                  picker.setSlotValues(i + 1, arr)
@@ -183,7 +186,7 @@
        this.submitData()
      },
      submitData () {
-       let {phoneNum, consignee, detailedAddress, addressId} = this
+       let {phoneNum, consignee, detailedAddress, addressId, provinceCode, cityCode, countryCode} = this
        let defaultArr = this.defaultArr
        const data = {
          'bizData': {
@@ -191,9 +194,9 @@
            'phoneNo': phoneNum,
            'userName': consignee,
            'address': detailedAddress,
-           'provinceCode': defaultArr[0],
-           'cityCode': defaultArr[1],
-           'countryCode': defaultArr[2],
+           'provinceCode': defaultArr[0] || provinceCode,
+           'cityCode': defaultArr[1] || cityCode,
+           'countryCode': defaultArr[2] || countryCode,
            'townCode': ''
          }
        }
@@ -234,6 +237,9 @@
      Detailedaddress () {
        if (this.detailedAddress.length < 5) {
          alert('详细地址不能少于5个字')
+         return false
+       } else if (this.detailedAddress.length > 30) {
+         alert('详细地址不能多余于30个字')
          return false
        } else {
          return true

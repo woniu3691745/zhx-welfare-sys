@@ -16,8 +16,8 @@
         <div class="header-pic-container clear">
           <img class="left" src="../../assets/group.png" alt="">
           <div class="left user-name-container">
-            <p>ID：用户名</p>
-            <p>用户的企业名称</p>
+            <p>ID：{{userName}}</p>
+            <p>{{enterpriseName}}</p>
           </div>
         </div>
         <div class="all-limit">
@@ -29,7 +29,7 @@
         <div>
           <div>
             <img class="left" src="../../assets/needPay.png" alt="">
-            <p>99</p>
+            <!-- <p>0</p> -->
           </div>
           <p>待付款</p>
         </div>
@@ -66,7 +66,10 @@ export default {
       marqueeNUM: ['', ''], // 展示跑马灯数量
       selected: 'index',
       items: 4,
-      quotas: ''
+      quotas: '',
+      enterpriseName: '',
+      phoneNo: '',
+      userName: ''
     }
   },
   methods: {
@@ -87,16 +90,18 @@ export default {
     this.$store.getters.quota.map(
       x => (quotasTmp += x.typeName + ': ￥' + x.balance + '/')
     )
+    this.quotas = quotasTmp.substring(0, quotasTmp.length - 1)
     this.$store.dispatch('ZHX_GET_USERINFO').then((res) => {
       const data = res.data
       if (data.result) {
-        // let {enterpriseName, phoneNo, userName} = data.bizData.UserInfo
-
+        let {enterpriseName, userName} = data.bizData.UserInfo
+        console.log(enterpriseName)
+        this.enterpriseName = enterpriseName
+        this.userName = userName
       } else {
         alert(data.message)
       }
     }).catch(err => { console.log(err) })
-    this.quotas = quotasTmp.substring(0, quotasTmp.length - 1)
   }
 }
 </script>

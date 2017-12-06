@@ -65,6 +65,7 @@
 </template>
 
 <script>
+import {MessageBox} from 'mint-ui'
 export default {
   // 组件名字
   name: 'addressManage-page',
@@ -96,11 +97,12 @@ export default {
       this.$router.push({name: 'addressEdit', query: { userdata: data.addressId }})
     },
     del (data, delkey) {
-      const mes = {'bizData': {
-        'addressId': data
-      }
-      }
-      this.$store
+      MessageBox.confirm('确认要删除此收获地址?').then(action => {
+        const mes = {'bizData': {
+          'addressId': data
+        }
+        }
+        this.$store
       .dispatch('ZHX_DELETE_ADDRESS', mes).then((res) => {
         if (res.data.result) {
           this.addListarr = this.addListarr.filter((val, key) => key !== delkey)
@@ -113,6 +115,7 @@ export default {
       }).catch((err) => {
         console.log(err)
       })
+      }).catch(err => console.log(err))
     },
     computedKey (key) {
       if (this.defaultkey === key) {

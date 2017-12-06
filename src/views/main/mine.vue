@@ -87,6 +87,15 @@ export default {
     this.$store.getters.quota.map(
       x => (quotasTmp += x.typeName + ': ￥' + x.balance + '/')
     )
+    this.$store.dispatch('ZHX_GET_USERINFO').then((res) => {
+      const data = res.data
+      if (data.result) {
+        // let {enterpriseName, phoneNo, userName} = data.bizData.UserInfo
+
+      } else {
+        alert(data.message)
+      }
+    }).catch(err => { console.log(err) })
     this.quotas = quotasTmp.substring(0, quotasTmp.length - 1)
   }
 }

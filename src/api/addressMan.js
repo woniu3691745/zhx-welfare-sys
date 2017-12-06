@@ -53,3 +53,12 @@ export function ZHX_GET_ADDRESS_LIST (token, bindIdCodeInfo) {
     data
   })
 }
+// 获取用户基本信息
+export function ZHX_GET_USERINFO (token, bindIdCodeInfo) {
+  const data = {...bindIdCodeInfo, token}
+  return fetch({
+    url: '/user/findInfo.cp',
+    method: 'post',
+    data
+  })
+}

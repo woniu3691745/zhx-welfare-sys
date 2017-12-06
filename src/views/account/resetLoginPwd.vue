@@ -140,7 +140,7 @@ export default {
         this.alerts('请输入手机号')
         return false
       } else if (!phoneNoPattern.test(phoneNum)) {
-        this.alerts('手机号格式不争取')
+        this.alerts('手机号格式不正确')
         return false
       }
       return true
@@ -166,10 +166,13 @@ export default {
         this.alerts('请输入密码')
         return false
       } else if (!flag) {
-        this.alerts('密码格式不争取')
+        this.alerts('密码格式不正确')
+        return false
+      } else if (!confirmNewLoginPassWord) {
+        this.alerts('请输入确认密码')
         return false
       } else if (newLoginPassWord !== confirmNewLoginPassWord) {
-        this.alerts('确认密码不争取')
+        this.alerts('确认密码')
         return false
       }
       return true

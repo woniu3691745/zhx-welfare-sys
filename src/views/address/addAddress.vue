@@ -35,7 +35,6 @@
 
 <script>
  let time
- let flags = true
  // 姓名正则
  const userNameReg = /^[a-zA-Z\u4e00-\u9fa5]{1,16}$/u
  const phoneNoPattern = /^1[34578]\d{9}$/
@@ -57,6 +56,7 @@
        isShow: false,
        addList: {},
        values: '请选择',
+       flags: true,
        defaultArr: ['underfined', 'underfined', 'underfined'],
        slots: [
          {
@@ -94,10 +94,10 @@
    methods: {
      handclickshow () {
        this.isShow = true
-       if (flags) {
+       if (this.flags) {
          this.getAddressDate(0).then((res) => {
            this.slots[0].values = res.data.bizData.Address
-           flags = false
+           this.flags = false
          })
        }
      },
@@ -107,9 +107,6 @@
      getAsyncData () {
        return async(picker, values) => {
          const OldDataArr = this.defaultArr
-         if (!values.includes(undefined)) {
-           this.values = values.map((val) => val.v).join('-')
-         }
          for (let i = 0; i < values.length; i++) {
            let val = values[i]
            if (val != null && val.k !== OldDataArr[i]) {
@@ -117,11 +114,25 @@
              if (!((`${val.k}`) in this.addList)) {
                try {
                  const res = await this.getAddressDate(val.k, i)
-                 this.addList[val.k] = res.data.bizData.Address
-                 picker.setSlotValues(i + 1, res.data.bizData.Address)
+                 let arr = res.data.bizData.Address
+                 this.addList[val.k] = arr
+                 if (arr.length === 0) {
+                   picker.setSlotValues(i + 1, arr)
+                   OldDataArr[i + 1] = ''
+                   return
+                 } else {
+                   picker.setSlotValues(i + 1, arr)
+                 }
                } catch (err) {}
              } else {
-               picker.setSlotValues(i + 1, this.addList[`${val.k}`])
+               let arr = this.addList[`${val.k}`]
+               if (arr.length === 0) {
+                 picker.setSlotValues(i + 1, arr)
+                 OldDataArr[i + 1] = ''
+                 return
+               } else {
+                 picker.setSlotValues(i + 1, arr)
+               }
              }
            }
          }
@@ -129,6 +140,15 @@
      },
      onValuesChange (picker, values) {
        this.getAsyncData()(picker, values)
+       if (!this.flags) {
+         this.values = values.map((val) => {
+           if (val != null) {
+             return val.v
+           } else {
+             return val
+           }
+         }).join('-')
+       }
      },
      // 获得联动数据
      getAddressDate (k, ind) {

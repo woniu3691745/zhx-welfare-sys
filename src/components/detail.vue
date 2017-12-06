@@ -164,8 +164,14 @@ export default {
     background: #F5F5F5;
   }
   .infor-good {
+    padding: 0.2rem;
+    font-size: 0;
     width: 100%;
-    height: 1.78rem;
+    box-sizing: border-box;
+    span {
+      font-size: 0.28rem;
+      line-height: 0.5rem;
+    }
   }
 }
 .detail-bottom {

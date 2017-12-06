@@ -23,9 +23,9 @@
             <span class="tel right">{{addressInfo.phoneNo}}</span> 
           </div>
           <div class="position-fix">
-            <img class="address-icon" slot="icon" src="../../assets/aaa.jpg">
+            <img class="address-icon" slot="icon" src="../../assets/address.png">
             <p>收货地址：{{addressInfo.addressDetails}}</p>
-            <img class="next-icon" slot="icon" src="../../assets/aaa.jpg" @click="adderss">
+            <img class="next-icon" slot="icon" src="../../assets/rihgt-row.png" @click="adderss">
           </div>
         </div>
         <div class="add-adderss" v-else>
@@ -72,7 +72,7 @@
             <span class="">￥{{confirmOrderForm.cartTotal}}</span> 
           </p>
         </mt-button>
-          <mt-button type="primary" class="button-width" @click="submit">提交订单</mt-button>
+          <mt-button type="primary" class="button-width submit-container" @click="submit">提交订单</mt-button>
       </mt-tabbar>
     </div>
   </div>
@@ -405,19 +405,7 @@ export default {
           }
         }
       }
-      .submit-container {
-        font-size: 0;
-        .mint-button {
-          border-radius: 0;
-          line-height: 0.94rem;
-          height: 0.94rem;
-          background: #fd404a;
-          width: 2rem;
-          padding: 0;
-          font-size: 0.28rem;
-          color: #ffffff;
-        }
-      }
+      
     }
   }
 }

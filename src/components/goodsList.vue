@@ -18,9 +18,10 @@
             <span @click="cart">{{count}}</span>
           </span>
       </div>
-    </div> 
+    </div>
+    <!-- <div style="width: 100%; height: 0.88rem"></div>  -->
     <div class="page-loadmore">
-      <div class="page-loadmore-wrapper" ref="wrapper">
+      <div class="page-loadmore-wrapper" ref="wrapper" :style="'height:' + wrapperHeight + 'px'">
         <mt-loadmore :top-method="loadTop" 
                     @top-status-change="handleTopChange"
                     :bottom-method="loadBottom" 
@@ -77,7 +78,8 @@ export default {
       topStatus: '',
       count: this.$store.getters.cartCount,       // 购物车数量
       typeId: this.$route.query.typeId,           // 种类
-      togetherId: this.$route.query.togetherId    // 凑单
+      togetherId: this.$route.query.togetherId,    // 凑单
+      wrapperHeight: ''
     }
   },
   methods: {
@@ -191,20 +193,20 @@ export default {
     this.goodListInfo()
   },
   mounted () {
-    // this.wrapperHeight = document.documentElement.clientHeight - this.$refs.wrapper.getBoundingClientRect().top
+    this.wrapperHeight = document.documentElement.clientHeight - document.documentElement.clientWidth / 7.5 * 0.88
   }
 }
 </script>
 
 <style lang="less" scoped>
 .goodsLists {
-  .header-fixeds {
-    width: 100%;
-    position: fixed;
-    left: 0;
-    top: 0;
-    z-index: 3;
-  }
+  // .header-fixeds {
+  //   width: 100%;
+  //   position: fixed;
+  //   left: 0;
+  //   top: 0;
+  //   z-index: 3;
+  // }
   .header-car {
     position: relative;
     .shop-car {
@@ -242,7 +244,7 @@ export default {
     overflow: scroll;
     .page-loadmore-list {
       background-color: #fff;
-      padding-top: 0.88rem;
+       
       .page-loadmore-listitem {
         display: flex;
         height: 2.4rem;

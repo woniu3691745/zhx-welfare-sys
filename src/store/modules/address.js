@@ -2,10 +2,10 @@
  * @Author: lidongliang
  * @Date: 2017-10-18 15:33:14
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-05 15:25:38
+ * @Last Modified time: 2017-12-06 14:35:12
  * 地址 module
  */
-import { findOne } from '@/api/address'
+import { findDefaultOne } from '@/api/addressMan'
 import { getToken } from '@/utils/auth'
 
 const address = {
@@ -22,10 +22,10 @@ const address = {
 
   actions: {
     // 默认地址
-    FindOne ({ commit, state }, addressId) {
+    FindDefaultOne ({ commit, state }) {
       return new Promise((resolve, reject) => {
-        findOne(state.token, addressId).then(response => {
-          resolve(response.data)
+        findDefaultOne(state.token).then(response => {
+          resolve(response.data.bizData.Address)
         }).catch(error => {
           reject(error)
         })

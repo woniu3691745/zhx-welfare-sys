@@ -2,10 +2,8 @@
  * @Author: lidongliang 
  * @Date: 2017-10-19 19:50:05 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-06 15:52:57
+ * @Last Modified time: 2017-12-06 20:39:44
  * 订单列表
- *
- * @translate-change="translateChange"
  */
 <template>
   <div style="">
@@ -19,46 +17,31 @@
                     :auto-fill="autoFill"
                     ref="loadmore">
           <ul class="page-loadmore-list">
-            <li class="order-num" v-for="item in orderList" v-bind="orderList" :key="item.id">
+            <li class="order-num" v-for="item in options" :key="item.id">
               <p class="clear order-num-contain">
                 <span class="left num">订单号：{{item.orderId}}</span>
-                <span class="right delete"></span>
+                <span class="right delete" v-if="item.status === '05'"></span>
                 <span class="right order-status">{{item.status}}</span>
               </p>
               <div class="all-thing">
-                <router-link to="/orderDetail">
-                  <div class="all-thing-pic">
-                    <!-- <img slot="icon" src="../assets/aaa.jpg" width="24" height="24"> -->
-                    <router-link :to="{ path: '/detail', query: {sku: item.imgDetails.mallSku}}"><img v-bind:src="item.imgDetails"></router-link>
+                <router-link :to="{path: '/orderDetail', query: {orderId: item.orderId}}" slot="left" >
+                  <div class="all-thing-pic" v-for="img in item.imgDetails" :key="img.mallSku">
+                    <router-link :to="{ path: '/detail', query: {sku: img.mallSku}}"><img v-bind:src="img.imgUrl"></router-link>
                   </div>
                 </router-link>
               </div>
               <div class="pay-money">
                 <p class="reality-money">共{{item.productCount}}件商品   实付款 <span>￥{{item.orderAmt}}</span></p>
-                <p class="freight">（含运费 {{item.expressAmt}}元）</p>
+                <p class="freight" v-if="!item.orderAmt < 200">（含运费 {{item.expressAmt}}元）</p>
               </div>
               <div class="border-top-1px">
-                <div class="statue-pay-cancel clear">
-                  <span class="pay right">
-                    去支付
-                  </span>
-                  <span class="cancel right">
-                    取消订单
-                  </span>
+                <div class="statue-pay-cancel clear"  v-if="item.status === '01'">
+                  <span class="pay right" @click="goBuy(item)">去支付</span>
+                  <span class="cancel right" @click="cancelOrder(item)">取消订单</span>
                 </div>
               </div>
               <div data-v-d5ab74ae="" class="hheight-22"></div>
             </li>
-            <!-- <li v-for="item in orderList" v-bind="orderList" :key="item.id" class="page-loadmore-listitem">
-              <router-link :to="{ path: '/detail', query: {id: item.id}}"><img v-bind:src="item.image"></router-link>
-              <div class="order-description">
-                <div class="desc">{{item.name}}</div>
-                <span class="span-block clear">
-                  <span class="sale-price left">￥{{ item.salePrice }}</span>
-                  <span class="car-shopping right"><img class="cart" src="../assets/cart.png" @click="cart()" /></span>
-                </span>
-              </div>
-            </li> -->
           </ul>
           <div slot="top" class="mint-loadmore-top">
             <span v-show="topStatus !== 'loading'" :class="{ 'is-rotate': topStatus === 'drop' }">↓</span>
@@ -79,26 +62,11 @@
 </template>
 
 <script>
-import { InfiniteScroll, Indicator } from 'mint-ui'
-import Vue from 'vue'
-Vue.use(InfiniteScroll)
-
+import { mapMutations } from 'vuex'
 export default {
   name: 'orders-list-page',
   data () {
     return {
-      // orderList: {
-      //   orderId: '',                     // 订单号
-      //   status: '',                      // 订单状态
-      //   orderAmt: '',                    // 订单价格
-      //   imgDetails: {                    // 产品图片地址
-      //     mallSku: '',                   // 产品sku
-      //     imgUrl: '',                    // 产品图片地址
-      //     productName: ''                // 产品名称
-      //   },
-      //   expressAmt: '',                  // 快递价格
-      //   productCount: ''                 // 产品数量
-      // },
       orderList: [],
       allLoaded: false,
       autoFill: false,
@@ -106,20 +74,12 @@ export default {
       topStatus: ''
     }
   },
+  props: {
+    options: {
+      type: Array
+    }
+  },
   methods: {
-    cart () {
-      this.$router.push({ path: '/cart' })
-    },
-    get () {
-      setTimeout(function () {
-        Indicator.open({
-          spinnerType: 'fading-circle'
-        })
-      }, 300)
-      setTimeout(function () {
-        Indicator.close()
-      }, 1000)
-    },
     handleBottomChange (status) {
       this.bottomStatus = status
     },
@@ -151,29 +111,26 @@ export default {
       //   this.$refs.loadmore.onTopLoaded()
       // }, 1500)
       setTimeout(() => {
-        this.orderListInfo()
+        // this.orderListInfo()
         this.$refs.loadmore.onTopLoaded()
       }, 1500)
     },
-    orderListInfo () {
-      let viewNums = {
-        // index: 0,
-        // limit: 8,
-        status: ''
-      }
-      this.$store
-        .dispatch('FindOrders', viewNums)
-        .then(res => {
-          this.orderList = res.OrderInfo
-        })
-        .catch(res => {
-          console.log(res)
-        })
-    }
-  },
-  created () {
-    this.get()
-    this.orderListInfo()
+    goBuy (val) {
+      this.SET_CONFIRM_ORDER_INFO(val.orderAmt)
+      this.$router.push({
+        path: '/inputPwd',
+        query: {
+          typeId: val.orderId,      // 额度ID
+          orderNo: val.orderId      // 订单编号
+        }
+      })
+    },
+    cancelOrder (val) {
+      console.log('---> 取消订单 ' + val.orderId)
+    },
+    ...mapMutations([
+      'SET_CONFIRM_ORDER_INFO'
+    ])
   }
 }
 </script>

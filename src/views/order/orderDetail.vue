@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 09:59:01 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-22 15:25:34
+ * @Last Modified time: 2017-12-06 21:06:31
  * 订单详情
  */
 <template>
@@ -116,31 +116,58 @@
 </template>
 
 <script>
- export default {
+import { startLoading, endLoading } from '../../utils/utils'
+import { MessageBox } from 'mint-ui'
+export default {
    // 组件名字
-   name: 'order-detail-page',
+  name: 'order-detail-page',
    // 组合其它组件
-   extends: {},
+  extends: {},
    // 组件属性、变量
-   props: {},
+  props: {},
    // 变量
-   data () {
-     return {}
-   },
-   computed: {},
+  data () {
+    return {
+      orderId: this.$route.query.orderId // 额度ID
+    }
+  },
+  computed: {},
    // 使用其它组件
-   components: {},
-   watch: {},
+  components: {},
+  watch: {},
    // 方法
-   methods: {
-     go () {
-       this.$router.push('/logisticsDetail')
-     }
-   },
+  methods: {
+    go () {
+      this.$router.push('/logisticsDetail')
+    }
+  },
    // 生命周期函数
   //  beforeCreate: {},
-   mounted () {}
- }
+  mounted () {
+    startLoading()
+    let orderInfo = {
+      orderId: this.orderId
+    }
+    this.$store
+        .dispatch('FindOne', orderInfo)
+        .then(res => {
+          debugger
+          if (res.OrderInfo) {
+            console.log('--->' + JSON.stringify(res.OrderInfo))
+          } else {
+            MessageBox({
+              title: '提示',
+              message: res.message,
+              showCancelButton: false
+            })
+          }
+          endLoading()
+        })
+        .catch(res => {
+          console.log(res)
+        })
+  }
+}
 </script>
 
 <style lang="less" scoped>

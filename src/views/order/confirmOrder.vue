@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 09:59:01 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-06 14:57:16
+ * @Last Modified time: 2017-12-06 19:58:04
  * 确认订单
  */
 <template>
@@ -43,7 +43,7 @@
           <img slot="icon" v-bind:src="item.imgUrl" v-for="item in productImgs" :key="item.mallSku">
         </div>
         <div class="number-shops">
-          共11件商品
+          共{{productImgNum}}件商品
         </div>
       </div>
       <div class="clear nomeny-all border-1px">
@@ -57,7 +57,7 @@
       <div class="height-22"></div>
       <div class="clear nomeny-alls border-1px">
         <span class="right shop-kind">¥{{confirmOrderForm.productTotal}}</span>
-        <span class="right shop-delait">共1件商品 使用额度支付小计：</span>
+        <span class="right shop-delait">共{{productImgNum}}件商品 使用额度支付小计：</span>
       </div>
       <div class="clear merge">
         <span class="left shop-kind">{{confirmOrderForm.shippingInfo}}</span>
@@ -87,25 +87,26 @@ export default {
   data () {
     return {
       confirmOrderForm: {
-        cartTotal: '',                    // 购物车金额汇总
-        orderNo: '',                      // 订单号
-        productTotal: '',                 // 商品金额汇总
-        shipping: '',                     // 运费
-        shippingInfo: '',                 // 包邮说明
-        productTypeId: '',                // 去凑单品类ID
-        isShipping: false                 // 运费减免
+        cartTotal: '', // 购物车金额汇总
+        orderNo: '', // 订单号
+        productTotal: '', // 商品金额汇总
+        shipping: '', // 运费
+        shippingInfo: '', // 包邮说明
+        productTypeId: '', // 去凑单品类ID
+        isShipping: false // 运费减免
       },
-      typeName: '',                       // 种类名称
-      balance: '',                        // 额度
+      typeName: '', // 种类名称
+      balance: '', // 额度
       addressInfo: {
-        userName: '',                     // 收货人
-        phoneNo: '',                      // 收货人手机号
-        addressId: '',                    // 地址编号
-        addressDetails: ''                // 收货人详细收货地址
+        userName: '', // 收货人
+        phoneNo: '', // 收货人手机号
+        addressId: '', // 地址编号
+        addressDetails: '' // 收货人详细收货地址
       },
-      productImgs: '',                    // 商品图片
-      mallSkus: '',                       // 商品SKU
-      typeId: this.$route.query.typeId    // 额度ID
+      productImgs: '', // 商品图片
+      productImgNum: '', // 商品数量
+      mallSkus: '', // 商品SKU
+      typeId: this.$route.query.typeId // 额度ID
     }
   },
   components: {},
@@ -146,10 +147,10 @@ export default {
     preSubmit () {
       startLoading()
       let submitInfo = {
-        orderNo: this.confirmOrderForm.orderNo,     // 订单号
-        cartType: this.typeId,                      // 商品品类ID
-        mallSkus: this.mallSkus,                    // 商品SKU
-        addressId: this.addressInfo.addressId       // 地址ID
+        orderNo: this.confirmOrderForm.orderNo, // 订单号
+        cartType: this.typeId, // 商品品类ID
+        mallSkus: this.mallSkus, // 商品SKU
+        addressId: this.addressInfo.addressId // 地址ID
       }
       this.$store
         .dispatch('Submit', submitInfo)
@@ -174,6 +175,12 @@ export default {
         .catch(res => {
           console.log(res)
         })
+    },
+    // 商品SKU
+    getSku () {
+      let tmp = []
+      this.productImg.map(x => tmp.push(x.mallSku))
+      this.mallSkus = tmp
     },
     // 默认地址
     address () {
@@ -205,18 +212,14 @@ export default {
     this.quotaInfo()
     Object.assign(this.confirmOrderForm, this.orderInfo)
     this.productImgs = this.productImg
-    let tmp = []
-    this.productImg.map(
-      x => tmp.push(x.mallSku)
-    )
-    this.mallSkus = tmp
-    setTimeout(() => {
-      endLoading()
-    }, 500)
-    // 订单满200，包邮
+    this.productImgNum = this.productImg.length
+    this.getSku()
     if (parseInt(this.confirmOrderForm.productTotal) > parseInt(199)) {
       this.confirmOrderForm.isShipping = true
     }
+    setTimeout(() => {
+      endLoading()
+    }, 500)
   },
   computed: {
     // vuex
@@ -405,7 +408,6 @@ export default {
           }
         }
       }
-      
     }
   }
 }

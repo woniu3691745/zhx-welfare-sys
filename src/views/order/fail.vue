@@ -2,14 +2,14 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 09:59:01 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-04 17:22:33
+ * @Last Modified time: 2017-12-06 20:01:56
  * 支付失败
  */
 <template>
   <div class="fail">
     <div class="common-header">
       <mt-header title="支付失败">
-        <router-link :to="{ path: '/confirmOrder', query: { typeId: this.typeId}}" slot="left">
+        <router-link :to="{ path: '/mineOrder', query: { typeId: this.typeId}}" slot="left">
           <mt-button icon="back"></mt-button>
         </router-link>
       </mt-header>

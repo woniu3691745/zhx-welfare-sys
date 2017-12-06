@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-30 15:56:09 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-03 16:38:12
+ * @Last Modified time: 2017-12-06 19:19:07
  * 覆写 mint-ui checklist
  */
 <template>

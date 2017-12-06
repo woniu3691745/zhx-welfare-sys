@@ -17,7 +17,7 @@
     <div class="addAddress-body">
       <mt-field class="border-1px" label="收货人" placeholder="收货人姓名" v-model="consignee"></mt-field>
       <mt-field class="border-1px" label="联系电话" placeholder="请输入手机号" v-model="phoneNum"></mt-field>
-      <mt-cell class="border-1px height-88" @click.native="handclickshow" title="所在地区" is-link value="请选择">
+      <mt-cell class="border-1px height-88" @click.native="handclickshow" title="所在地区" is-link v-model="values">
       </mt-cell>
       <mt-field placeholder="请填写详细地址，不少于5个字" type="textarea" rows="4" v-model="detailedAddress"></mt-field>
       <div data-v-d5ab74ae="" class="hheight-22"></div>
@@ -55,7 +55,9 @@
        visibleItemCount: 5,
        isShow: false,
        addList: {},
-       defaultArr: [0, 0, 0],
+       values: '请选择',
+       flags: true,
+       defaultArr: ['underfined', 'underfined', 'underfined'],
        slots: [
          {
            flex: 1,
@@ -88,58 +90,74 @@
    components: {},
    watch: {
    },
-   created () {
-     this.getAddressDate(0, 0)
-   },
    // 方法
    methods: {
      handclickshow () {
        this.isShow = true
-       this.slots[0].values = ['']
+       if (this.flags) {
+         this.getAddressDate(0).then((res) => {
+           this.slots[0].values = res.data.bizData.Address
+           this.flags = false
+         })
+       }
      },
      handclickhide () {
        this.isShow = false
      },
-     onValuesChange (picker, values) {
-       const data = this.addList
-       if (values.includes(undefined)) {
-         this.defaultArr.forEach((val, ind) => {
-           if (Object.keys(data).includes(`${val}`)) {
-             picker.setSlotValues(ind, data[0].arr)
-           }
-         })
-       } else {
-         values.forEach((val, ind) => {
-           if (val.f === 'Y') {
-             if (Object.keys(data).includes(`${val.k}`)) {
-               console.log(data[`${val.k}`])
-               picker.setSlotValues(ind, data[`${val.k}`].arr)
+     getAsyncData () {
+       return async(picker, values) => {
+         const OldDataArr = this.defaultArr
+         for (let i = 0; i < values.length; i++) {
+           let val = values[i]
+           if (val != null && val.k !== OldDataArr[i]) {
+             OldDataArr[i] = val.k
+             if (!((`${val.k}`) in this.addList)) {
+               try {
+                 const res = await this.getAddressDate(val.k, i)
+                 let arr = res.data.bizData.Address
+                 this.addList[val.k] = arr
+                 if (arr.length === 0) {
+                   picker.setSlotValues(i + 1, arr)
+                   OldDataArr[i + 1] = ''
+                   return
+                 } else {
+                   picker.setSlotValues(i + 1, arr)
+                 }
+               } catch (err) {}
              } else {
-               this.getAddressDate(val.k, 0)
+               let arr = this.addList[`${val.k}`]
+               if (arr.length === 0) {
+                 picker.setSlotValues(i + 1, arr)
+                 OldDataArr[i + 1] = ''
+                 return
+               } else {
+                 picker.setSlotValues(i + 1, arr)
+               }
              }
            }
-         })
+         }
+       }
+     },
+     onValuesChange (picker, values) {
+       this.getAsyncData()(picker, values)
+       if (!this.flags) {
+         this.values = values.map((val) => {
+           if (val != null) {
+             return val.v
+           } else {
+             return val
+           }
+         }).join('-')
        }
      },
      // 获得联动数据
-     getAddressDate (k, ind, picker) {
+     getAddressDate (k, ind) {
        let data = {
          'bizData': {
            'addrCode': k
          }
        }
-       this.$store.dispatch('ZHXGET_ADDRESS_LIST', data).then((res) => {
-         let data = res.data
-         if (data.result) {
-           let mes = data.bizData.Address
-           this.addList[k] = {arr: mes}
-           if (mes[0].f === 'Y') {
-             ind++
-             this.addList[k].defaultIndex = mes[0].k
-             this.getAddressDate(mes[0].k, ind)
-           }
-         }
-       }).catch((err) => { console.log(err) })
+       return this.$store.dispatch('ZHXGET_ADDRESS_LIST', data)
      },
      runRouter () {
        this.$router.go(-1)
@@ -200,14 +218,15 @@
      submitData () {
        let {phoneNum, consignee, detailedAddress, value} = this
        let defaultFlag = (value ? '01' : '00')
+       let defaultArr = this.defaultArr
        const data = {
          'bizData': {
            'phoneNo': phoneNum,
            'userName': consignee,
            'address': detailedAddress,
-           'provinceCode': '',
-           'cityCode': '',
-           'countryCode': '',
+           'provinceCode': defaultArr[0],
+           'cityCode': defaultArr[1],
+           'countryCode': defaultArr[2],
            'townCode': '',
            'defaultFlag': defaultFlag
          }

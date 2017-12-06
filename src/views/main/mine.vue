@@ -21,7 +21,7 @@
           </div>
         </div>
         <div class="all-limit">
-          <span v-for="(val,key) in marqueeNUM" :key="key">我的额度：日用品：¥1000.00/食品：¥1000.00/服装：¥1000.00</span>
+          <span v-for="(val,key) in marqueeNUM" :key="key">我的额度：{{quotas}}</span>
         </div>
         <mt-cell title="我的订单" is-link></mt-cell>
       </div>

@@ -15,14 +15,18 @@
     <div class="addAddress-body">
       <mt-field class="border-1px" label="收货人" placeholder="收货人姓名" v-model="consignee"></mt-field>
       <mt-field class="border-1px" label="联系电话" placeholder="请输入手机号" v-model="phoneNum"></mt-field>
-      <mt-cell class="border-1px height-88" title="所在地区" is-link to="" value="">
+      <mt-cell class="border-1px height-88" @click.native="handclickshow" title="所在地区" is-link v-model="values">
       </mt-cell>
       <mt-field placeholder="请填写详细地址，不少于5个字" type="textarea" rows="4" v-model="detailedAddress"></mt-field>
     </div>
-    <div class="bottom" @click='saveAddress'>
+    <div class="bottoms" @click="handclickhide" v-show='isShow'>
+      <div class="bottom">
+        <mt-picker :slots="slots" @change="onValuesChange" :visibleItemCount='visibleItemCount' value-key='v'></mt-picker>
+      </div>
+    </div>
+    <div class="savebottom" @click='saveAddress'>
         保存
     </div>
-    
   </div>
 </template>
 
@@ -46,7 +50,42 @@
        consignee: '',
        phoneNum: '',
        detailedAddress: '',
-       addressId: ''
+       value: false,
+       visibleItemCount: 5,
+       isShow: false,
+       flags: true,
+       addList: {},
+       values: '请选择',
+       defaultArr: ['underfined', 'underfined', 'underfined'],
+       'provinceCode': '',
+       'cityCode': '',
+       'countryCode': '',
+       slots: [
+         {
+           flex: 1,
+           values: [],
+           className: 'slot1',
+           textAlign: 'center'
+         }, {
+           divider: true,
+           content: '-',
+           className: 'slot2'
+         }, {
+           flex: 1,
+           values: [],
+           className: 'slot3',
+           textAlign: 'center'
+         }, {
+           divider: true,
+           content: '-',
+           className: 'slot2'
+         }, {
+           flex: 1,
+           values: [],
+           className: 'slot3',
+           textAlign: 'center'
+         }
+       ]
      }
    },
    computed: {
@@ -56,7 +95,74 @@
    components: {},
    watch: {},
    // 方法
-   methods: {
+   methods: {handclickshow () {
+     this.isShow = true
+     if (this.flags) {
+       this.getAddressDate(0).then((res) => {
+         this.slots[0].values = res.data.bizData.Address
+         this.flags = false
+       })
+     }
+   },
+     handclickhide () {
+       this.isShow = false
+     },
+     getAsyncData () {
+       return async(picker, values) => {
+         const OldDataArr = this.defaultArr
+         for (let i = 0; i < values.length; i++) {
+           let val = values[i]
+           if (val != null && val.k !== OldDataArr[i]) {
+             OldDataArr[i] = val.k
+             this.addList[i] = this.addList[i] ? this.addList[i] : {}
+             if (!((`${val.k}`) in this.addList[i])) {
+               try {
+                 const res = await this.getAddressDate(val.k, i)
+                 let arr = res.data.bizData.Address
+                 this.addList[i][val.k] = arr
+                 if (arr.length === 0) {
+                   picker.setSlotValues(i + 1, arr)
+                   OldDataArr[i + 1] = ''
+                   return
+                 } else {
+                   picker.setSlotValues(i + 1, arr)
+                 }
+               } catch (err) {}
+             } else {
+               let arr = this.addList[i][`${val.k}`]
+               if (arr.length === 0) {
+                 picker.setSlotValues(i + 1, arr)
+                 OldDataArr[i + 1] = ''
+                 return
+               } else {
+                 picker.setSlotValues(i + 1, arr)
+               }
+             }
+           }
+         }
+       }
+     },
+     onValuesChange (picker, values) {
+       this.getAsyncData()(picker, values)
+       if (!this.flags) {
+         this.values = values.map((val) => {
+           if (val != null) {
+             return val.v
+           } else {
+             return val
+           }
+         }).join('-')
+       }
+     },
+     // 获得联动数据
+     getAddressDate (k, ind) {
+       let data = {
+         'bizData': {
+           'addrCode': k
+         }
+       }
+       return this.$store.dispatch('ZHXGET_ADDRESS_LIST', data)
+     },
      runRouter () {
        this.$router.go(-1)
      },
@@ -78,15 +184,16 @@
      },
      submitData () {
        let {phoneNum, consignee, detailedAddress, addressId} = this
+       let defaultArr = this.defaultArr
        const data = {
          'bizData': {
            'addressId': addressId,
            'phoneNo': phoneNum,
            'userName': consignee,
            'address': detailedAddress,
-           'provinceCode': '',
-           'cityCode': '',
-           'countryCode': '',
+           'provinceCode': defaultArr[0],
+           'cityCode': defaultArr[1],
+           'countryCode': defaultArr[2],
            'townCode': ''
          }
        }
@@ -145,11 +252,15 @@
      let data = this.updatedpaypassword.AddressSave
      let query = this.$route.query.userdata
      if (data) {
-       let {userName, phoneNo, address, addressId} = data
+       let {userName, phoneNo, address, addressId, provinceName, cityName, countryName, provinceCode, cityCode, countryCode} = data
        this.consignee = userName
        this.phoneNum = phoneNo
        this.detailedAddress = address
        this.addressId = addressId
+       this.values = `${provinceName}-${cityName}-${countryName}`
+       this.provinceCode = provinceCode
+       this.cityCode = cityCode
+       this.countryCode = countryCode
      } else if (query) {
        let mesData = {
          'bizData': {
@@ -159,11 +270,15 @@
        this.$store.dispatch('ZHXONEUSERAddress', mesData).then((res) => {
          const data = res.data
          if (data.result) {
-           let {userName, phoneNo, address} = data.bizData.Address
+           let {userName, phoneNo, address, provinceName, cityName, countryName, provinceCode, cityCode, countryCode} = data.bizData.Address
            this.consignee = userName
            this.phoneNum = phoneNo
            this.detailedAddress = address
+           this.values = `${provinceName}-${cityName}-${countryName}`
            this.addressId = query
+           this.provinceCode = provinceCode
+           this.cityCode = cityCode
+           this.countryCode = countryCode
          } else {
            alert(data.message)
          }
@@ -194,7 +309,23 @@
   }
   
 }
-.bottom {
+.bottoms{
+  z-index: 1;
+  position: absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  right:0;
+  background:rgba(60,60,60,0.6);
+}
+.bottom{
+  background: #fff;
+  position: absolute;
+  bottom:0;
+  right:0;
+  left:0;
+}
+.savebottom {
   background: #FD404A;
   width: 100%;
   height: 0.88rem;

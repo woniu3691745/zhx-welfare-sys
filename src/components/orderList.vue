@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-19 19:50:05 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-22 14:19:02
+ * @Last Modified time: 2017-12-06 15:52:57
  * 订单列表
  *
  * @translate-change="translateChange"
@@ -19,28 +19,23 @@
                     :auto-fill="autoFill"
                     ref="loadmore">
           <ul class="page-loadmore-list">
-            <li class="order-num">
+            <li class="order-num" v-for="item in orderList" v-bind="orderList" :key="item.id">
               <p class="clear order-num-contain">
-                <span class="left num">订单号：1475874589658745</span>
+                <span class="left num">订单号：{{item.orderId}}</span>
                 <span class="right delete"></span>
-                <span class="right order-status">待收货</span>
+                <span class="right order-status">{{item.status}}</span>
               </p>
               <div class="all-thing">
                 <router-link to="/orderDetail">
                   <div class="all-thing-pic">
-                    <img slot="icon" src="../assets/aaa.jpg" width="24" height="24">
-                    <img slot="icon" src="../assets/aaa.jpg" width="24" height="24">
-                    <img slot="icon" src="../assets/aaa.jpg" width="24" height="24">
-                    <img slot="icon" src="../assets/aaa.jpg" width="24" height="24">
-                    <img slot="icon" src="../assets/aaa.jpg" width="24" height="24">
-                    <img slot="icon" src="../assets/aaa.jpg" width="24" height="24">
-                    <img slot="icon" src="../assets/aaa.jpg" width="24" height="24">
+                    <!-- <img slot="icon" src="../assets/aaa.jpg" width="24" height="24"> -->
+                    <router-link :to="{ path: '/detail', query: {sku: item.imgDetails.mallSku}}"><img v-bind:src="item.imgDetails"></router-link>
                   </div>
                 </router-link>
               </div>
               <div class="pay-money">
-                <p class="reality-money">共1件商品   实付款 <span>￥14.90</span></p>
-                <p class="freight">（含运费 20元）</p>
+                <p class="reality-money">共{{item.productCount}}件商品   实付款 <span>￥{{item.orderAmt}}</span></p>
+                <p class="freight">（含运费 {{item.expressAmt}}元）</p>
               </div>
               <div class="border-top-1px">
                 <div class="statue-pay-cancel clear">
@@ -54,7 +49,7 @@
               </div>
               <div data-v-d5ab74ae="" class="hheight-22"></div>
             </li>
-            <li v-for="item in orderList" v-bind="orderList" :key="item.id" class="page-loadmore-listitem">
+            <!-- <li v-for="item in orderList" v-bind="orderList" :key="item.id" class="page-loadmore-listitem">
               <router-link :to="{ path: '/detail', query: {id: item.id}}"><img v-bind:src="item.image"></router-link>
               <div class="order-description">
                 <div class="desc">{{item.name}}</div>
@@ -63,7 +58,7 @@
                   <span class="car-shopping right"><img class="cart" src="../assets/cart.png" @click="cart()" /></span>
                 </span>
               </div>
-            </li>
+            </li> -->
           </ul>
           <div slot="top" class="mint-loadmore-top">
             <span v-show="topStatus !== 'loading'" :class="{ 'is-rotate': topStatus === 'drop' }">↓</span>
@@ -92,14 +87,23 @@ export default {
   name: 'orders-list-page',
   data () {
     return {
+      // orderList: {
+      //   orderId: '',                     // 订单号
+      //   status: '',                      // 订单状态
+      //   orderAmt: '',                    // 订单价格
+      //   imgDetails: {                    // 产品图片地址
+      //     mallSku: '',                   // 产品sku
+      //     imgUrl: '',                    // 产品图片地址
+      //     productName: ''                // 产品名称
+      //   },
+      //   expressAmt: '',                  // 快递价格
+      //   productCount: ''                 // 产品数量
+      // },
       orderList: [],
       allLoaded: false,
       autoFill: false,
       bottomStatus: '',
-      topStatus: '',
-      wrapperHeight: 0,
-      // translate: 0,
-      sequenceType: 1
+      topStatus: ''
     }
   },
   methods: {
@@ -123,11 +127,6 @@ export default {
       this.moveTranslate = 1
       this.topStatus = status
     },
-    // translateChange (translate) {
-    //   const translateNum = +translate
-    //   this.translate = translateNum.toFixed(2)
-    //   this.moveTranslate = (1 + translateNum / 70).toFixed(2)
-    // },
     loadBottom () {
       setTimeout(() => {
         // let lastValue = this.orderList.length
@@ -156,36 +155,30 @@ export default {
         this.$refs.loadmore.onTopLoaded()
       }, 1500)
     },
-    orderListInfo (val) {
-      // console.log('selected is ' + val)
+    orderListInfo () {
       let viewNums = {
-        index: 0,
-        limit: 8,
-        sequenceType: val || this.sequenceType
+        // index: 0,
+        // limit: 8,
+        status: ''
       }
       this.$store
-        .dispatch('GoodList', viewNums)
+        .dispatch('FindOrders', viewNums)
         .then(res => {
-          this.orderList = res.data
+          this.orderList = res.OrderInfo
         })
         .catch(res => {
           console.log(res)
         })
-    },
-    childrenFun () {
-      console.log('123123123123')
     }
   },
   created () {
     this.get()
     this.orderListInfo()
-  },
-  mounted () {
-    this.wrapperHeight = document.documentElement.clientHeight - this.$refs.wrapper.getBoundingClientRect().top
   }
 }
 </script>
 <style lang="less" scoped>
+@import "../../static/css/util.css";
 .page-loadmore .mint-spinner {
   display: inline-block;
   vertical-align: middle;
@@ -295,57 +288,53 @@ export default {
       } 
     }
 
-    .page-loadmore-listitem {
-      display: flex;
-      height: 2.4rem;
-      border: none;
-      a {
-        width: 2.4rem;
-        height: 2.4rem;
-        img {
-          width: 100%;
-          height: 100%;
-        }
-      }
-      .order-description {
-        flex: 2;
-        font-size: 12px;
-        padding: 0.18rem 0.38rem 0.16rem 0.2rem;
-        box-sizing: border-box;
-        height: 2.4rem;
-        border-bottom: 1px solid #eeddee;
-        .desc {
-          font-size: 0.32rem;
-          color: #323232;
-          line-height: 0.36rem;
-          margin-bottom: 0.75rem
-        }
-        .span-block {
-          display: block;
-          .sale-price {
-            font-size: 0.4rem;
-            color: #FE414B;
-            height: 0.6rem;
-            line-height: 0.6rem
-          }
-        }
-        .car-shopping {
-          width: 0.6rem;
-          height: 0.6rem;
-          .cart {
-            float: right;
-            height: 100%;
-            width: 100%;
-          }
-        }
-      }
-    }
+    // .page-loadmore-listitem {
+    //   display: flex;
+    //   height: 2.4rem;
+    //   border: none;
+    //   a {
+    //     width: 2.4rem;
+    //     height: 2.4rem;
+    //     img {
+    //       width: 100%;
+    //       height: 100%;
+    //     }
+    //   }
+    //   .order-description {
+    //     flex: 2;
+    //     font-size: 12px;
+    //     padding: 0.18rem 0.38rem 0.16rem 0.2rem;
+    //     box-sizing: border-box;
+    //     height: 2.4rem;
+    //     border-bottom: 1px solid #eeddee;
+    //     .desc {
+    //       font-size: 0.32rem;
+    //       color: #323232;
+    //       line-height: 0.36rem;
+    //       margin-bottom: 0.75rem
+    //     }
+    //     .span-block {
+    //       display: block;
+    //       .sale-price {
+    //         font-size: 0.4rem;
+    //         color: #FE414B;
+    //         height: 0.6rem;
+    //         line-height: 0.6rem
+    //       }
+    //     }
+    //     .car-shopping {
+    //       width: 0.6rem;
+    //       height: 0.6rem;
+    //       .cart {
+    //         float: right;
+    //         height: 100%;
+    //         width: 100%;
+    //       }
+    //     }
+    //   }
+    // }
   }
 }
-
-
-
-
 
 .mint-loadmore-top {
   font-size: 0.3rem;
@@ -373,12 +362,12 @@ export default {
 }
 
 .page-loadmore-desc:last-of-type,
-.page-loadmore-listitem {
-  border-bottom: 1px solid #eee;
-  list-style: none outside none;
-  line-height: initial;
-  text-align: initial;
-}
+// .page-loadmore-listitem {
+//   border-bottom: 1px solid #eee;
+//   list-style: none outside none;
+//   line-height: initial;
+//   text-align: initial;
+// }
 
 .mint-loadmore-bottom span.is-rotate {
   -webkit-transform: rotate(180deg);

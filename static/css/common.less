@@ -120,9 +120,9 @@ a:visited {
 }
 
 a:hover {
-  background: none;
-  -webkit-tap-highlight-color: transparent;
-  -webkit-font-smoothing: antialiased;
+  // background: none;
+  // -webkit-tap-highlight-color: transparent;
+  // -webkit-font-smoothing: antialiased;
 }
 
 /*清浮动*/
@@ -222,11 +222,49 @@ a:hover {
   }
 }
 // 确认订单
-.address-container {  
-  .mint-cell-wrapper {
-    background-image: none;
+.confirmOrder {
+  .bottom {
+    .mint-tabbar {
+      .prompt-money {
+        height: 0.94rem;
+        box-shadow: inset 0 1px 0 0 rgba(220, 220, 220, 0.5);
+        p {
+          :nth-child(1) {
+            font-size: 0.26rem;
+            color: #323232;
+          }
+          :nth-child(2) {
+            font-size: 0.26rem;
+            color: #323232;
+            font-size: 0.36rem;
+            color: #fd404a;
+            line-height: 0.37rem;
+          }
+        }
+      }
+      .submit-container {
+        
+          border-radius: 0;
+          line-height: 0.94rem;
+          height: 0.94rem;
+          background: #fd404a;
+          width: 2rem;
+          padding: 0;
+          font-size: 0.28rem;
+          color: #ffffff;
+        
+      }
+    }
   }
 }
+
+  .address-container {  
+    .mint-cell-wrapper {
+      background-image: none;
+    }
+  }
+
+
 // 地址管理
 .addAddress-body {
   .mint-cell{
@@ -368,11 +406,12 @@ a:hover {
 //   }
 // }
 // 商品裂变
-.goodsLists {
-  .mint-loadmore-top {
-    margin-top: -0.5rem;
-  }
-}
+// .goodsLists {
+//   .mint-loadmore-top {
+//     margin-top: -0.5rem;
+//   }
+// }
+ 
 // 账户管理 
 .account-management-body {
   .mint-cell-wrapper {

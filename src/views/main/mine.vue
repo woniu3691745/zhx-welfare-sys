@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-05 16:18:17
+ * @Last Modified time: 2017-12-06 15:15:50
  * 我的
  */
 <template>
@@ -23,7 +23,7 @@
         <div class="all-limit">
           <span v-for="(val,key) in marqueeNUM" :key="key">我的额度：{{quotas}}</span>
         </div>
-        <mt-cell title="我的订单" is-link></mt-cell>
+        <mt-cell title="我的订单" is-link to="/mineOrder"></mt-cell>
       </div>
       <div class="mine-order-contain">
         <div>

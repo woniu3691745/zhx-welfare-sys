@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-19 19:49:42 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-04 14:45:26
+ * @Last Modified time: 2017-12-06 15:18:32
  * 我的订单
  */
 <template>
@@ -63,8 +63,7 @@ export default {
   methods: {
     cart () {
       this.$router.push({ path: '/home', query: { selected: 'cart' } })
-    },
-    childrenFun () { console.log('123') }
+    }
   },
   created () {
     this.selected = '1'

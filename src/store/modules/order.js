@@ -2,10 +2,10 @@
  * @Author: lidongliang
  * @Date: 2017-10-18 15:33:14
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-04 17:17:03
+ * @Last Modified time: 2017-12-06 15:49:58
  * 订单 module
  */
-import { submit, pay } from '@/api/order'
+import { findOrders, submit, pay } from '@/api/order'
 import { getToken } from '@/utils/auth'
 
 const cart = {
@@ -21,6 +21,16 @@ const cart = {
   },
 
   actions: {
+    // 订单列表
+    FindOrders ({ commit, state }, orderInfo) {
+      return new Promise((resolve, reject) => {
+        findOrders(state.token, orderInfo).then(response => {
+          resolve(response.data.bizData)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
     // 订单提交
     Submit ({ commit, state }, orderInfo) {
       return new Promise((resolve, reject) => {

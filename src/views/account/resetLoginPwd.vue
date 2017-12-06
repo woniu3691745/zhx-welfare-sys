@@ -81,7 +81,8 @@ export default {
             'Captacha': {
               'ID': LOGINID,
               'Type': '03',
-              'Code': identifyingCode
+              'Code': identifyingCode,
+              'PhoneNo': phoneNum
             },
             'Login': {
               'PhoneNo': phoneNum,

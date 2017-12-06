@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 09:59:01 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-05 14:04:24
+ * @Last Modified time: 2017-12-06 14:57:16
  * 确认订单
  */
 <template>
@@ -16,26 +16,26 @@
     </div>
     <div class="body-confirm">
       <div class="address-container">
-        <div class="address-con">
+        <div class="address-con" v-if="addressInfo.userName">
           <div class="name-tel clear">
-            <span class="name left">收货人：李娜</span>
+            <span class="name left">收货人：{{addressInfo.userName}}</span>
             <span class="right defaul">默认</span> 
-            <span class="tel right">11111111111</span> 
+            <span class="tel right">{{addressInfo.phoneNo}}</span> 
           </div>
           <div class="position-fix">
             <img class="address-icon" slot="icon" src="../../assets/aaa.jpg">
-            <p>收货地址收货地址收货地址收货地址</p>
-            <img class="next-icon" slot="icon" src="../../assets/aaa.jpg">
+            <p>收货地址：{{addressInfo.addressDetails}}</p>
+            <img class="next-icon" slot="icon" src="../../assets/aaa.jpg" @click="adderss">
           </div>
         </div>
-        <div class="add-adderss">
-          <router-link :to="{ path: '/addAddress' }"> <mt-button type="primary" class="button-width">添加地址</mt-button></router-link>
+        <div class="add-adderss" v-else>
+          <router-link :to="{ path: '/addAddress' }"><mt-button type="primary" class="button-width">添加地址</mt-button></router-link>
         </div>
       </div>
       <div class="height-22"></div>
       <div class="clear nomeny-cue">
-        <span class="left shop-kind">日用品</span>
-        <span class="right shop-delait">可使用额度：￥300.00</span>
+        <span class="left shop-kind">{{typeName}}</span>
+        <span class="right shop-delait">可使用额度：￥{{balance}}</span>
       </div>
       <div class="all-thing">
         <div class="all-thing-pic">
@@ -72,9 +72,7 @@
             <span class="">￥{{confirmOrderForm.cartTotal}}</span> 
           </p>
         </mt-button>
-        <!-- <router-link :to="{ path: '/inputPwd', query: {typeId: this.typeId}}" class="submit-container"> -->
           <mt-button type="primary" class="button-width" @click="submit">提交订单</mt-button>
-        <!-- </router-link> -->
       </mt-tabbar>
     </div>
   </div>
@@ -97,6 +95,14 @@ export default {
         productTypeId: '',                // 去凑单品类ID
         isShipping: false                 // 运费减免
       },
+      typeName: '',                       // 种类名称
+      balance: '',                        // 额度
+      addressInfo: {
+        userName: '',                     // 收货人
+        phoneNo: '',                      // 收货人手机号
+        addressId: '',                    // 地址编号
+        addressDetails: ''                // 收货人详细收货地址
+      },
       productImgs: '',                    // 商品图片
       mallSkus: '',                       // 商品SKU
       typeId: this.$route.query.typeId    // 额度ID
@@ -115,13 +121,35 @@ export default {
         }
       })
     },
+    // 额度信息
+    quotaInfo () {
+      let categoryInfo = {
+        productTypeId: this.typeId
+      }
+      this.$store
+        .dispatch('QuotaInfo', categoryInfo)
+        .then(res => {
+          this.balance = res.balance
+          this.typeName = res.typeName
+        })
+        .catch(res => {
+          console.log(res)
+        })
+    },
+    // 添加地址
+    adderss () {
+      this.$router.push({
+        path: '/addAddress'
+      })
+    },
+    // 提交
     preSubmit () {
       startLoading()
       let submitInfo = {
         orderNo: this.confirmOrderForm.orderNo,     // 订单号
         cartType: this.typeId,                      // 商品品类ID
         mallSkus: this.mallSkus,                    // 商品SKU
-        addressId: '100000011'                      // 地址ID
+        addressId: this.addressInfo.addressId       // 地址ID
       }
       this.$store
         .dispatch('Submit', submitInfo)
@@ -137,7 +165,7 @@ export default {
           } else {
             MessageBox({
               title: '提示',
-              message: res.res,
+              message: res.message,
               showCancelButton: false
             })
           }
@@ -147,13 +175,34 @@ export default {
           console.log(res)
         })
     },
+    // 默认地址
+    address () {
+      this.$store
+        .dispatch('FindDefaultOne')
+        .then(res => {
+          Object.assign(this.addressInfo, res)
+        })
+        .catch(res => {
+          console.log(res)
+        })
+    },
     // 提交订单
     submit () {
-      this.preSubmit()
+      if (this.addressInfo.addressId === '') {
+        MessageBox({
+          title: '提示',
+          message: '地址不能为空！',
+          showCancelButton: false
+        })
+      } else {
+        this.preSubmit()
+      }
     }
   },
   created () {
     startLoading()
+    this.address()
+    this.quotaInfo()
     Object.assign(this.confirmOrderForm, this.orderInfo)
     this.productImgs = this.productImg
     let tmp = []
@@ -185,7 +234,7 @@ export default {
       .address-con {
         padding-bottom: 0.49rem;
         padding-top: 0.26rem;
-        display: none;
+        // display: none;
         .name-tel {
           font-size: 0.26rem;
           color: #323232;

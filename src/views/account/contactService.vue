@@ -17,7 +17,7 @@
     <div class="custom-service-body">
       <img src="../../assets/service.png" alt="">
       <p>联系客服请发邮件到: <span>95159@zihexin.com</span></p>
-    </div>
+    </div> 
     <div class="bottom">
 
     </div>

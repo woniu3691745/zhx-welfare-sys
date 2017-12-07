@@ -63,13 +63,13 @@
           MessageBox({
             message: '密码由6-20位英文字母、数字组成',
             closeOnClickModal: true,
-            showConfirmButton: false
+            showConfirmButton: true
           })
         } else if (this.setPassWordForm.loginPassword !== this.setPassWordForm.loginConfirmPassword) {
           MessageBox({
             message: '两次输入的密码不一致',
             closeOnClickModal: true,
-            showConfirmButton: false
+            showConfirmButton: true
           })
         } else {
           this.$store.dispatch('VX_SET_SIGNIN_PWD', this.setPassWordForm.loginPassword)

@@ -52,19 +52,19 @@
          MessageBox({
            message: '卡号格式不正确',
            closeOnClickModal: true,
-           showConfirmButton: false
+           showConfirmButton: true
          })
        } else if (!password) {
          MessageBox({
            message: '请填写卡背密码',
            closeOnClickModal: true,
-           showConfirmButton: false
+           showConfirmButton: true
          })
        } else if (!pswdLengthPattern.test(password)) {
          MessageBox({
            message: '密码格式不正确',
            closeOnClickModal: true,
-           showConfirmButton: false
+           showConfirmButton: true
          })
        } else {
          let reqData = {
@@ -86,14 +86,14 @@
              MessageBox({
                message: bizData.message || '验证失败',
                closeOnClickModal: true,
-               showConfirmButton: false
+               showConfirmButton: true
              })
            }
          }).catch(() => {
            MessageBox({
              message: '验证失败',
              closeOnClickModal: true,
-             showConfirmButton: false
+             showConfirmButton: true
            })
          })
        }

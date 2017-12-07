@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-19 19:50:05 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-03 18:13:23
+ * @Last Modified time: 2017-12-06 20:53:34
  * 商品列表
  */
 <template>
@@ -31,7 +31,7 @@
                     ref="loadmore">
           <ul class="page-loadmore-list">
             <li v-for="item in goodList" v-bind="goodList" :key="item.productId" class="page-loadmore-listitem">
-              <router-link :to="{ path: '/detail', query: {sku: item.productSku}}"><img v-bind:src="item.imgUrl"></router-link>
+              <router-link :to="{ path: '/detail', query: {sku: item.productSku, typeId: item.typeId}}"><img v-bind:src="item.imgUrl"></router-link>
               <!-- <img v-bind:src="item.imgUrl" @click="detail(item.productSku)"> -->
               <div class="good-description border-1px">
                 <div class="desc">{{item.productName}}</div>

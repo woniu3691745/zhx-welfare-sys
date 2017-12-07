@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-10-18 15:33:14
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-04 16:38:10
+ * @Last Modified time: 2017-12-06 20:16:32
  * 购物车 module
  */
 import { addCart, addCartPlus, addCartMinus, delCart, cleanupCart, listCart, countCart, cartImgs, settleCart } from '@/api/cart'

@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-12-04 14:27:42 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-04 17:38:05
+ * @Last Modified time: 2017-12-06 20:16:26
  * 支付密码
  */
 
@@ -10,7 +10,7 @@
 <div class="phonenum-show">
   <div class="common-header">
     <mt-header title="确认付款">
-      <router-link :to="{ path: '/confirmOrder', query: { typeId: this.typeId}}" slot="left">
+      <router-link :to="{ path: '/mineOrder', query: { typeId: this.typeId}}" slot="left">
         <mt-button icon="back"></mt-button>
       </router-link>
     </mt-header>
@@ -44,8 +44,8 @@ export default {
   data () {
     return {
       messagepacket: false,
-      typeId: this.$route.query.typeId,     // 额度ID
-      orderNo: this.$route.query.orderNo,   // 订单编号
+      typeId: this.$route.query.typeId, // 额度ID
+      orderNo: this.$route.query.orderNo, // 订单编号
       disInputs: [
         { value: '' },
         { value: '' },
@@ -89,12 +89,12 @@ export default {
           message: '密码不能为空！',
           showCancelButton: false
         })
-      // } else if (this.disInputs.length < 6) {
-      //   MessageBox({
-      //     title: '提示',
-      //     message: '请输入六位密码！',
-      //     showCancelButton: false
-      //   })
+        // } else if (this.disInputs.length < 6) {
+        //   MessageBox({
+        //     title: '提示',
+        //     message: '请输入六位密码！',
+        //     showCancelButton: false
+        //   })
       } else {
         this.preSubmit()
       }
@@ -104,9 +104,9 @@ export default {
       let pwd = ''
       this.disInputs.map(x => (pwd += x.value))
       let submitInfo = {
-        orderNo: this.orderNo,                      // 订单号
-        cartType: this.typeId,                      // 商品品类ID
-        payPwd: pwd                                 // 支付密码
+        orderNo: this.orderNo, // 订单号
+        cartType: this.typeId, // 商品品类ID
+        payPwd: pwd // 支付密码
       }
       this.$store
         .dispatch('Pay', submitInfo)
@@ -134,15 +134,12 @@ export default {
     }
   },
   mounted () {
-    this.balnce = this.orderInfo.cartTotal
+    this.balnce = this.orderInfo.cartTotal || this.orderInfo
   },
   computed: {
     // vuex
-    ...mapGetters([
-      'orderInfo'
-    ])
-  },
-  components: {}
+    ...mapGetters(['orderInfo'])
+  }
 }
 </script>
 

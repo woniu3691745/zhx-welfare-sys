@@ -2,13 +2,13 @@
  * @Author: lidongliang 
  * @Date: 2017-10-19 19:49:42 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-06 15:18:32
+ * @Last Modified time: 2017-12-06 17:47:34
  * 我的订单
  */
 <template>
   <div class="myOrder">
     <div class="common-header">
-      <mt-header title="我的订单" fixed class="border-1px">
+      <mt-header title="我的订单" class="border-1px position-fixed">
         <router-link :to="{path: '/home', query: {selected: 'balance'}}" slot="left" >
           <mt-button icon="back"></mt-button>
         </router-link>
@@ -17,31 +17,31 @@
     <div class="myOrder-body">
       <mt-navbar v-model="selected" class="border-1px">
         <div class="router-padding">
-          <mt-tab-item id="1">全部</mt-tab-item>
+          <mt-tab-item id="">全部</mt-tab-item>
         </div>
         <div class="router-padding">
-          <mt-tab-item id="2">代付款</mt-tab-item>
+          <mt-tab-item id="01">代付款</mt-tab-item>
         </div>
         <div class="router-padding">
-          <mt-tab-item id="3">待收货</mt-tab-item>
+          <mt-tab-item id="04">待收货</mt-tab-item>
         </div>
         <div class="router-padding">
-          <mt-tab-item id="4">已完成</mt-tab-item>
+          <mt-tab-item id="05">已完成</mt-tab-item>
         </div>
       </mt-navbar>
 
       <mt-tab-container v-model="selected">
-        <mt-tab-container-item id="1">
-          <zhx-order-list ref="orderList"></zhx-order-list>
+        <mt-tab-container-item id="">
+          <zhx-order-list ref="orderList" :options="list" ></zhx-order-list>
         </mt-tab-container-item>
-        <mt-tab-container-item id="2">
-          <zhx-order-list ref="orderList"></zhx-order-list>
+        <mt-tab-container-item id="01" >
+          <zhx-order-list ref="orderList" :options="list" ></zhx-order-list>
         </mt-tab-container-item>
-        <mt-tab-container-item id="3">
-          <zhx-order-list ref="orderList"></zhx-order-list>
+        <mt-tab-container-item id="04">
+          <zhx-order-list ref="orderList" :options="list" ></zhx-order-list>
         </mt-tab-container-item>
-        <mt-tab-container-item id="4">
-          <zhx-order-list ref="orderList"></zhx-order-list>
+        <mt-tab-container-item id="05">
+          <zhx-order-list ref="orderList" :options="list" ></zhx-order-list>
         </mt-tab-container-item>
       </mt-tab-container>
     </div>
@@ -50,28 +50,45 @@
 
 <script>
 import orderList from '../../components/orderList'
+import { startLoading, endLoading } from '../../utils/utils'
 export default {
   name: 'myOrder-page',
   data () {
     return {
-      selected: '1'
+      selected: '',
+      orderList: '',
+      list: []
+    }
+  },
+  methods: {
+    // 订单信息
+    orderListInfo (val) {
+      startLoading()
+      let viewNums = {
+        // index: 0,
+        // limit: 8,
+        status: val
+      }
+      this.$store
+        .dispatch('FindOrders', viewNums)
+        .then(res => {
+          this.list = res.OrderInfo
+          endLoading()
+        })
+        .catch(res => {
+          console.log(res)
+        })
     }
   },
   components: {
     'zhx-order-list': orderList
   },
-  methods: {
-    cart () {
-      this.$router.push({ path: '/home', query: { selected: 'cart' } })
-    }
-  },
   created () {
-    this.selected = '1'
+    this.orderListInfo('')
   },
   watch: {
     selected: function (val, oldVal) {
-      this.$refs.orderList.orderListInfo(val)
-      this.$refs.orderList.get()
+      this.orderListInfo(val)
     }
   }
 }
@@ -80,11 +97,12 @@ export default {
 <style lang="less" scoped>
 @import "../../../static/css/util.css";
 .myOrder {
-  .cart {
-    height: 18px;
-    width: 18px;
-    background-color: white;
-    margin-top: 10px;
+  .position-fixed {
+    top: 0;
+    right: 0;
+    left: 0;
+    position: fixed;
+    z-index: 10;
   }
   .myOrder-body {
     padding-top: 1.8rem;

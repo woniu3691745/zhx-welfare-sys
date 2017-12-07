@@ -34,223 +34,231 @@
 </template>
 
 <script>
- let time
+import {MessageBox} from 'mint-ui'
+let time
  // 姓名正则
- const userNameReg = /^[a-zA-Z\u4e00-\u9fa5]{1,16}$/u
- const phoneNoPattern = /^1[34578]\d{9}$/
- export default {
+const userNameReg = /^[a-zA-Z\u4e00-\u9fa5]{2,5}$/u
+const phoneNoPattern = /^1[34578]\d{9}$/
+export default {
    // 组件名字
-   name: 'addAddress-page',
+  name: 'addAddress-page',
    // 组合其它组件
-   extends: {},
+  extends: {},
    // 组件属性、变量
-   props: {},
+  props: {},
    // 变量
-   data () {
-     return {
-       consignee: '',
-       phoneNum: '',
-       detailedAddress: '',
-       value: false,
-       visibleItemCount: 5,
-       isShow: false,
-       addList: {},
-       values: '请选择',
-       flags: true,
-       defaultArr: ['underfined', 'underfined', 'underfined'],
-       slots: [
-         {
-           flex: 1,
-           values: [],
-           className: 'slot1',
-           textAlign: 'center'
-         }, {
-           divider: true,
-           content: '-',
-           className: 'slot2'
-         }, {
-           flex: 1,
-           values: [],
-           className: 'slot3',
-           textAlign: 'center'
-         }, {
-           divider: true,
-           content: '-',
-           className: 'slot2'
-         }, {
-           flex: 1,
-           values: [],
-           className: 'slot3',
-           textAlign: 'center'
-         }
-       ]
-     }
-   },
+  data () {
+    return {
+      consignee: '',
+      phoneNum: '',
+      detailedAddress: '',
+      value: false,
+      visibleItemCount: 5,
+      isShow: false,
+      addList: {},
+      values: '请选择',
+      flags: true,
+      defaultArr: ['underfined', 'underfined', 'underfined'],
+      slots: [
+        {
+          flex: 1,
+          values: [],
+          className: 'slot1',
+          textAlign: 'center'
+        }, {
+          divider: true,
+          content: '-',
+          className: 'slot2'
+        }, {
+          flex: 1,
+          values: [],
+          className: 'slot3',
+          textAlign: 'center'
+        }, {
+          divider: true,
+          content: '-',
+          className: 'slot2'
+        }, {
+          flex: 1,
+          values: [],
+          className: 'slot3',
+          textAlign: 'center'
+        }
+      ]
+    }
+  },
    // 使用其它组件
-   components: {},
-   watch: {
-   },
+  components: {},
+  watch: {
+  },
    // 方法
-   methods: {
-     handclickshow () {
-       this.isShow = true
-       if (this.flags) {
-         this.getAddressDate(0).then((res) => {
-           this.slots[0].values = res.data.bizData.Address
-           this.flags = false
-         })
-       }
-     },
-     handclickhide () {
-       this.isShow = false
-     },
-     getAsyncData () {
-       return async(picker, values) => {
-         const OldDataArr = this.defaultArr
-         for (let i = 0; i < values.length; i++) {
-           let val = values[i]
-           if (val != null && val.k !== OldDataArr[i]) {
-             OldDataArr[i] = val.k
-             if (!((`${val.k}`) in this.addList)) {
-               try {
-                 const res = await this.getAddressDate(val.k, i)
-                 let arr = res.data.bizData.Address
-                 this.addList[val.k] = arr
-                 if (arr.length === 0) {
-                   picker.setSlotValues(i + 1, arr)
-                   OldDataArr[i + 1] = ''
-                   return
-                 } else if (val.f === 'N') {
-                   return
-                 } else {
-                   picker.setSlotValues(i + 1, arr)
-                 }
-               } catch (err) {}
-             } else {
-               let arr = this.addList[`${val.k}`]
-               if (arr.length === 0) {
-                 picker.setSlotValues(i + 1, arr)
-                 OldDataArr[i + 1] = ''
-                 return
-               } else if (val.f === 'N') {
-                 return
-               } else {
-                 picker.setSlotValues(i + 1, arr)
-               }
-             }
-           }
-         }
-       }
-     },
-     onValuesChange (picker, values) {
-       this.getAsyncData()(picker, values)
-       if (!this.flags) {
-         this.values = values.map((val) => {
-           if (val != null) {
-             return val.v
-           } else {
-             return val
-           }
-         }).join('-')
-       }
-     },
+  methods: {
+    alerts (data) {
+      MessageBox({
+        message: data,
+        closeOnClickModal: true,
+        showConfirmButton: false
+      })
+    },
+    handclickshow () {
+      this.isShow = true
+      if (this.flags) {
+        this.getAddressDate(0).then((res) => {
+          this.slots[0].values = res.data.bizData.Address
+          this.flags = false
+        })
+      }
+    },
+    handclickhide () {
+      this.isShow = false
+    },
+    getAsyncData () {
+      return async(picker, values) => {
+        const OldDataArr = this.defaultArr
+        for (let i = 0; i < values.length; i++) {
+          let val = values[i]
+          if (val != null && val.k !== OldDataArr[i]) {
+            OldDataArr[i] = val.k
+            if (!((`${val.k}`) in this.addList)) {
+              try {
+                const res = await this.getAddressDate(val.k, i)
+                let arr = res.data.bizData.Address
+                this.addList[val.k] = arr
+                if (arr.length === 0) {
+                  picker.setSlotValues(i + 1, arr)
+                  OldDataArr[i + 1] = ''
+                  return
+                } else if (val.f === 'N') {
+                  return
+                } else {
+                  picker.setSlotValues(i + 1, arr)
+                }
+              } catch (err) {}
+            } else {
+              let arr = this.addList[`${val.k}`]
+              if (arr.length === 0) {
+                picker.setSlotValues(i + 1, arr)
+                OldDataArr[i + 1] = ''
+                return
+              } else if (val.f === 'N') {
+                return
+              } else {
+                picker.setSlotValues(i + 1, arr)
+              }
+            }
+          }
+        }
+      }
+    },
+    onValuesChange (picker, values) {
+      this.getAsyncData()(picker, values)
+      if (!this.flags) {
+        this.values = values.map((val) => {
+          if (val != null) {
+            return val.v
+          } else {
+            return val
+          }
+        }).join('-')
+      }
+    },
      // 获得联动数据
-     getAddressDate (k, ind) {
-       let data = {
-         'bizData': {
-           'addrCode': k
-         }
-       }
-       return this.$store.dispatch('ZHXGET_ADDRESS_LIST', data)
-     },
-     runRouter () {
-       this.$router.go(-1)
-     },
-     saveAddress () {
-       this.debounce(this.unifiedAddress)
-     },
+    getAddressDate (k, ind) {
+      let data = {
+        'bizData': {
+          'addrCode': k
+        }
+      }
+      return this.$store.dispatch('ZHXGET_ADDRESS_LIST', data)
+    },
+    runRouter () {
+      this.$router.go(-1)
+    },
+    saveAddress () {
+      this.debounce(this.unifiedAddress)
+    },
      // 保存地址统一
-     unifiedAddress () {
-       if (!this.usernameReg()) {
-         return false
-       }
-       if (!this.PhoneReg()) {
-         return false
-       }
-       if (!this.Detailedaddress()) {
-         return false
-       }
-       this.submitData()
-     },
+    unifiedAddress () {
+      if (!this.usernameReg()) {
+        return false
+      }
+      if (!this.PhoneReg()) {
+        return false
+      }
+      if (!this.Detailedaddress()) {
+        return false
+      }
+      this.submitData()
+    },
      // 姓名正则
-     usernameReg () {
-       if (!this.consignee) {
-         alert('用户名不能为空')
-         return false
-       } else if (!userNameReg.test(this.consignee)) {
-         alert('请输入正确的用户名')
-         return false
-       }
-       return true
-     },
+    usernameReg () {
+      if (!this.consignee) {
+        this.alerts('用户名不能为空')
+        return false
+      } else if (!userNameReg.test(this.consignee)) {
+        this.alerts('请输入正确的用户名')
+        return false
+      }
+      return true
+    },
       // 手机号正则
-     PhoneReg () {
-       if (!this.phoneNum) {
-         alert('手机号不能为空')
-         return false
-       } else if (!phoneNoPattern.test(this.phoneNum)) {
-         alert('请输入正确的手机号')
-         return false
-       }
-       return true
-     },
+    PhoneReg () {
+      if (!this.phoneNum) {
+        this.alerts('手机号不能为空')
+        return false
+      } else if (!phoneNoPattern.test(this.phoneNum)) {
+        this.alerts('请输入正确的手机号')
+        return false
+      }
+      return true
+    },
      // 详细地址
-     Detailedaddress () {
-       if (this.detailedAddress.length < 5) {
-         alert('详细地址不能少于5个字')
-         return false
-       } else if (this.detailedAddress.length > 30) {
-         alert('详细地址不能多余于30个字')
-         return false
-       } else {
-         return true
-       }
-     },
-     debounce (fn) {
-       time && clearTimeout(time)
-       time = setTimeout(function () {
-         fn()
-       }, 500)
-     },
-     submitData () {
-       let {phoneNum, consignee, detailedAddress, value} = this
-       let defaultFlag = (value ? '01' : '00')
-       let defaultArr = this.defaultArr
-       const data = {
-         'bizData': {
-           'phoneNo': phoneNum,
-           'userName': consignee,
-           'address': detailedAddress,
-           'provinceCode': defaultArr[0],
-           'cityCode': defaultArr[1],
-           'countryCode': defaultArr[2],
-           'townCode': '',
-           'defaultFlag': defaultFlag
-         }
-       }
-       this.$store.dispatch('ZHX_ADD_ADDRESS', data).then((res) => {
-         if (res.data.result) {
-           this.$router.go(-1)
-         } else {
-           alert(res.data.message)
-         }
-         console.log(res)
-       }).catch((err) => {
-         console.log(err)
-       })
-     }
-   }
- }
+    Detailedaddress () {
+      if (this.detailedAddress.length < 5) {
+        this.alerts('详细地址不能少于5个字')
+        return false
+      } else if (this.detailedAddress.length > 30) {
+        this.alerts('详细地址不能多于30个字')
+        return false
+      } else {
+        return true
+      }
+    },
+    debounce (fn) {
+      time && clearTimeout(time)
+      time = setTimeout(function () {
+        fn()
+      }, 500)
+    },
+    submitData () {
+      let {phoneNum, consignee, detailedAddress, value} = this
+      let defaultFlag = (value ? '01' : '00')
+      let defaultArr = this.defaultArr
+      const data = {
+        'bizData': {
+          'phoneNo': phoneNum,
+          'userName': consignee,
+          'address': detailedAddress,
+          'provinceCode': defaultArr[0],
+          'cityCode': defaultArr[1],
+          'countryCode': defaultArr[2],
+          'townCode': '',
+          'defaultFlag': defaultFlag
+        }
+      }
+      this.$store.dispatch('ZHX_ADD_ADDRESS', data).then((res) => {
+        if (res.data.result) {
+          this.$router.go(-1)
+        } else {
+          this.alerts(res.data.message)
+        }
+        console.log(res)
+      }).catch((err) => {
+        console.log(err)
+      })
+    }
+  }
+}
 </script>
 
 <style lang="less" scoped>

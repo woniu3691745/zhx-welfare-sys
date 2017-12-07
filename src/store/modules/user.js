@@ -7,7 +7,7 @@
  *
  * 1.通过commit -> 2.经过mutation -> 3.改变数据state
  */
-import { loginByUserName, logout, getUserInfo, resetLoginPassword, ResetgetIdCode, ZHX_PASSWORD_CHANGE, ResetgetIdCodeNext, ZHX_LOGINPASSWORD_CHANGE } from '@/api/login'
+import { loginByUserName, logout, getUserInfo, resetLoginPassword, ResetgetIdCode, ZHX_PASSWORD_CHANGE, ResetgetIdCodeNext, ZHX_LOGINPASSWORD_CHANGE, ZHX_BINDPHONE_CHANGE } from '@/api/login'
 import { ZHXUSERAddressLIST, ZHX_ADD_ADDRESS, ZHX_DELETE_ADDRESS, ZHX_UPDATE_ADDRESS, ZHXONEUSERAddress, ZHX_GET_ADDRESS_LIST, ZHX_GET_USERINFO } from '@/api/addressMan'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 
@@ -42,6 +42,9 @@ const user = {
     },
     ZHXONEUSERAddressSave (state, data) {
       state.updatedpaypassword.AddressSave = data
+    },
+    UPDATE_BIND_PHONE (state, data) {
+      state.updatedpaypassword.BINDPHONECORE = data
     }
   },
 
@@ -108,6 +111,8 @@ const user = {
               commit('UPDATE_PAY_PASSWORD', data.bizData.Captacha.ID)
             } else if (type === '03') {
               commit('UPDATE_LOGIN_PASSWORD', data.bizData.Captacha.ID)
+            } else if (type === '05') {
+              commit('UPDATE_BIND_PHONE', data.bizData.Captacha.ID)
             }
           }
           resolve(response)
@@ -210,10 +215,20 @@ const user = {
         })
       })
     },
-    //
+    // 获取用户信息
     ZHX_GET_USERINFO ({ commit, state }, idCodeForm = {}) {
       return new Promise((resolve, reject) => {
         ZHX_GET_USERINFO(state.token, idCodeForm).then(response => {
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    // 重置手机号
+    ZHX_BINDPHONE_CHANGE ({ commit, state }, idCodeForm = {}) {
+      return new Promise((resolve, reject) => {
+        ZHX_BINDPHONE_CHANGE(state.token, idCodeForm).then(response => {
           resolve(response)
         }).catch(error => {
           reject(error)

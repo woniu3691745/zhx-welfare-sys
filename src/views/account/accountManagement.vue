@@ -20,7 +20,7 @@
       <mt-cell title="更换手机号" to="/resetBindPhone"></mt-cell>
     </div>
     <div class="bottom">
-      <mt-button class="index-login" type="primary" @click.native="onSubmit">登录</mt-button>
+      <mt-button class="index-login" type="primary" @click.native="onSubmit">退出</mt-button>
     </div>
   </div>
 </template>
@@ -43,7 +43,16 @@
    watch: {},
    // 方法
    methods: {
-     onSubmit () {}
+     onSubmit () {
+       this.$store
+        .dispatch('LogOut')
+        .then(req => {
+          this.$router.push({ path: '/index' })
+        })
+        .catch(req => {
+          console.log(req)
+        })
+     }
    },
    // 生命周期函数
   //  beforeCreate: {},

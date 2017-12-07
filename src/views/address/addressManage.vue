@@ -92,6 +92,13 @@ export default {
   watch: {},
   // 方法
   methods: {
+    alerts (data) {
+      MessageBox({
+        message: data,
+        closeOnClickModal: true,
+        showConfirmButton: false
+      })
+    },
     edit (data) {
       this.$store.dispatch('ZHXONEUSERAddressSave', data)
       this.$router.push({name: 'addressEdit', query: { userdata: data.addressId }})
@@ -110,7 +117,7 @@ export default {
             this.defaultKey = 0
           }
         } else {
-          alert(res.data.message)
+          this.alerts(res.data.message)
         }
       }).catch((err) => {
         console.log(err)
@@ -145,7 +152,7 @@ export default {
           if (res.data.result) {
             this.defaultKey = Number(target.value)
           } else {
-            alert(res.data.message)
+            this.alerts(res.data.message)
           }
         }).catch((err) => { console.log(err) })
       }
@@ -167,7 +174,7 @@ export default {
           })
           this.addListarr = arr
         } else {
-          // alert(data.message)
+          this.alerts(data.message)
         }
       })
       .catch(err => {

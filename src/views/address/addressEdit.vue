@@ -31,270 +31,279 @@
 </template>
 
 <script>
+import {MessageBox} from 'mint-ui'
 // vuex引入
- import {mapGetters} from 'vuex'
+import {mapGetters} from 'vuex'
 // 姓名正则
- const userNameReg = /^[a-zA-Z\u4e00-\u9fa5]+$/u
- const phoneNoPattern = /^1[34578]\d{9}$/
- let time
- export default {
+const userNameReg = /^[a-zA-Z\u4e00-\u9fa5]{2,5}$/u
+const phoneNoPattern = /^1[34578]\d{9}$/
+let time
+export default {
    // 组件名字
-   name: 'addressEdit-page',
+  name: 'addressEdit-page',
    // 组合其它组件
-   extends: {},
+  extends: {},
    // 组件属性、变量
-   props: {},
+  props: {},
    // 变量
-   data () {
-     return {
-       consignee: '',
-       phoneNum: '',
-       detailedAddress: '',
-       value: false,
-       visibleItemCount: 5,
-       isShow: false,
-       flags: true,
-       addList: {},
-       values: '请选择',
-       defaultArr: [undefined, undefined, undefined],
-       'provinceCode': '',
-       'cityCode': '',
-       'countryCode': '',
-       slots: [
-         {
-           flex: 1,
-           values: [],
-           className: 'slot1',
-           textAlign: 'center'
-         }, {
-           divider: true,
-           content: '-',
-           className: 'slot2'
-         }, {
-           flex: 1,
-           values: [],
-           className: 'slot3',
-           textAlign: 'center'
-         }, {
-           divider: true,
-           content: '-',
-           className: 'slot2'
-         }, {
-           flex: 1,
-           values: [],
-           className: 'slot3',
-           textAlign: 'center'
-         }
-       ]
-     }
-   },
-   computed: {
-     ...mapGetters(['updatedpaypassword'])
-   },
+  data () {
+    return {
+      consignee: '',
+      phoneNum: '',
+      detailedAddress: '',
+      value: false,
+      visibleItemCount: 5,
+      isShow: false,
+      flags: true,
+      addList: {},
+      values: '请选择',
+      defaultArr: [undefined, undefined, undefined],
+      'provinceCode': '',
+      'cityCode': '',
+      'countryCode': '',
+      slots: [
+        {
+          flex: 1,
+          values: [],
+          className: 'slot1',
+          textAlign: 'center'
+        }, {
+          divider: true,
+          content: '-',
+          className: 'slot2'
+        }, {
+          flex: 1,
+          values: [],
+          className: 'slot3',
+          textAlign: 'center'
+        }, {
+          divider: true,
+          content: '-',
+          className: 'slot2'
+        }, {
+          flex: 1,
+          values: [],
+          className: 'slot3',
+          textAlign: 'center'
+        }
+      ]
+    }
+  },
+  computed: {
+    ...mapGetters(['updatedpaypassword'])
+  },
    // 使用其它组件
-   components: {},
-   watch: {},
+  components: {},
+  watch: {},
    // 方法
-   methods: {handclickshow () {
-     this.isShow = true
-     if (this.flags) {
-       this.getAddressDate(0).then((res) => {
-         this.slots[0].values = res.data.bizData.Address
-         this.flags = false
-       })
-     }
-   },
-     handclickhide () {
-       this.isShow = false
-     },
-     getAsyncData () {
-       return async(picker, values) => {
-         const OldDataArr = this.defaultArr
-         for (let i = 0; i < values.length; i++) {
-           let val = values[i]
-           if (val != null && val.k !== OldDataArr[i]) {
-             OldDataArr[i] = val.k
-             if (!((`${val.k}`) in this.addList)) {
-               try {
-                 const res = await this.getAddressDate(val.k, i)
-                 let arr = res.data.bizData.Address
-                 this.addList[val.k] = arr
-                 if (arr.length === 0) {
-                   picker.setSlotValues(i + 1, arr)
-                   OldDataArr[i + 1] = ''
-                   return
-                 } else if (val.f === 'N') {
-                   return
-                 } else {
-                   picker.setSlotValues(i + 1, arr)
-                 }
-               } catch (err) {}
-             } else {
-               let arr = this.addList[`${val.k}`]
-               if (arr.length === 0) {
-                 picker.setSlotValues(i + 1, arr)
-                 OldDataArr[i + 1] = ''
-                 return
-               } else if (val.f === 'N') {
-                 return
-               } else {
-                 picker.setSlotValues(i + 1, arr)
-               }
-             }
-           }
-         }
-       }
-     },
-     onValuesChange (picker, values) {
-       this.getAsyncData()(picker, values)
-       if (!this.flags) {
-         this.values = values.map((val) => {
-           if (val != null) {
-             return val.v
-           } else {
-             return val
-           }
-         }).join('-')
-       }
-     },
+  methods: {
+    alerts (data) {
+      MessageBox({
+        message: data,
+        closeOnClickModal: true,
+        showConfirmButton: false
+      })
+    },
+    handclickshow () {
+      this.isShow = true
+      if (this.flags) {
+        this.getAddressDate(0).then((res) => {
+          this.slots[0].values = res.data.bizData.Address
+          this.flags = false
+        })
+      }
+    },
+    handclickhide () {
+      this.isShow = false
+    },
+    getAsyncData () {
+      return async(picker, values) => {
+        const OldDataArr = this.defaultArr
+        for (let i = 0; i < values.length; i++) {
+          let val = values[i]
+          if (val != null && val.k !== OldDataArr[i]) {
+            OldDataArr[i] = val.k
+            if (!((`${val.k}`) in this.addList)) {
+              try {
+                const res = await this.getAddressDate(val.k, i)
+                let arr = res.data.bizData.Address
+                this.addList[val.k] = arr
+                if (arr.length === 0) {
+                  picker.setSlotValues(i + 1, arr)
+                  OldDataArr[i + 1] = ''
+                  return
+                } else if (val.f === 'N') {
+                  return
+                } else {
+                  picker.setSlotValues(i + 1, arr)
+                }
+              } catch (err) {}
+            } else {
+              let arr = this.addList[`${val.k}`]
+              if (arr.length === 0) {
+                picker.setSlotValues(i + 1, arr)
+                OldDataArr[i + 1] = ''
+                return
+              } else if (val.f === 'N') {
+                return
+              } else {
+                picker.setSlotValues(i + 1, arr)
+              }
+            }
+          }
+        }
+      }
+    },
+    onValuesChange (picker, values) {
+      this.getAsyncData()(picker, values)
+      if (!this.flags) {
+        this.values = values.map((val) => {
+          if (val != null) {
+            return val.v
+          } else {
+            return val
+          }
+        }).join('-')
+      }
+    },
      // 获得联动数据
-     getAddressDate (k, ind) {
-       let data = {
-         'bizData': {
-           'addrCode': k
-         }
-       }
-       return this.$store.dispatch('ZHXGET_ADDRESS_LIST', data)
-     },
-     runRouter () {
-       this.$router.go(-1)
-     },
-     saveAddress () {
-       this.debounce(this.unifiedAddress)
-     },
+    getAddressDate (k, ind) {
+      let data = {
+        'bizData': {
+          'addrCode': k
+        }
+      }
+      return this.$store.dispatch('ZHXGET_ADDRESS_LIST', data)
+    },
+    runRouter () {
+      this.$router.go(-1)
+    },
+    saveAddress () {
+      this.debounce(this.unifiedAddress)
+    },
      // 保存地址统一
-     unifiedAddress () {
-       if (!this.usernameReg()) {
-         return false
-       }
-       if (!this.PhoneReg()) {
-         return false
-       }
-       if (!this.Detailedaddress()) {
-         return false
-       }
-       this.submitData()
-     },
-     submitData () {
-       let {phoneNum, consignee, detailedAddress, addressId, provinceCode, cityCode, countryCode} = this
-       let defaultArr = this.defaultArr
-       const data = {
-         'bizData': {
-           'addressId': addressId,
-           'phoneNo': phoneNum,
-           'userName': consignee,
-           'address': detailedAddress,
-           'provinceCode': defaultArr[0] || provinceCode,
-           'cityCode': defaultArr[1] || cityCode,
-           'countryCode': defaultArr[2] || countryCode,
-           'townCode': ''
-         }
-       }
-       this.$store.dispatch('ZHX_UPDATE_ADDRESS', data).then((res) => {
-         if (res.data.result) {
-           this.$router.go(-1)
-         } else {
-           alert(res.data.message)
-         }
-         console.log(res)
-       }).catch((err) => {
-         console.log(err)
-       })
-     },
+    unifiedAddress () {
+      if (!this.usernameReg()) {
+        return false
+      }
+      if (!this.PhoneReg()) {
+        return false
+      }
+      if (!this.Detailedaddress()) {
+        return false
+      }
+      this.submitData()
+    },
+    submitData () {
+      let {phoneNum, consignee, detailedAddress, addressId, provinceCode, cityCode, countryCode} = this
+      let defaultArr = this.defaultArr
+      const data = {
+        'bizData': {
+          'addressId': addressId,
+          'phoneNo': phoneNum,
+          'userName': consignee,
+          'address': detailedAddress,
+          'provinceCode': defaultArr[0] || provinceCode,
+          'cityCode': defaultArr[1] || cityCode,
+          'countryCode': defaultArr[2] || countryCode,
+          'townCode': ''
+        }
+      }
+      this.$store.dispatch('ZHX_UPDATE_ADDRESS', data).then((res) => {
+        if (res.data.result) {
+          this.$router.go(-1)
+        } else {
+          this.alerts(res.data.message)
+        }
+        console.log(res)
+      }).catch((err) => {
+        console.log(err)
+      })
+    },
      // 姓名正则
-     usernameReg () {
-       if (!this.consignee) {
-         alert('用户名不能为空')
-         return false
-       } else if (!userNameReg.test(this.consignee)) {
-         alert('请输入正确的用户名')
-         return false
-       }
-       return true
-     },
+    usernameReg () {
+      if (!this.consignee) {
+        this.alerts('用户名不能为空')
+        return false
+      } else if (!userNameReg.test(this.consignee)) {
+        this.alerts('请输入正确的用户名')
+        return false
+      }
+      return true
+    },
       // 手机号正则
-     PhoneReg () {
-       if (!this.phoneNum) {
-         alert('手机号不能为空')
-         return false
-       } else if (!phoneNoPattern.test(this.phoneNum)) {
-         alert('请输入正确的手机号')
-         return false
-       }
-       return true
-     },
+    PhoneReg () {
+      if (!this.phoneNum) {
+        this.alerts('手机号不能为空')
+        return false
+      } else if (!phoneNoPattern.test(this.phoneNum)) {
+        this.alerts('请输入正确的手机号')
+        return false
+      }
+      return true
+    },
      // 详细地址
-     Detailedaddress () {
-       if (this.detailedAddress.length < 5) {
-         alert('详细地址不能少于5个字')
-         return false
-       } else if (this.detailedAddress.length > 30) {
-         alert('详细地址不能多余于30个字')
-         return false
-       } else {
-         return true
-       }
-     },
-     debounce (fn) {
-       time && clearTimeout(time)
-       time = setTimeout(function () {
-         fn()
-       }, 500)
-     }
-   },
+    Detailedaddress () {
+      if (this.detailedAddress.length < 5) {
+        this.alerts('详细地址不能少于5个字')
+        return false
+      } else if (this.detailedAddress.length > 30) {
+        this.alerts('详细地址不能多于30个字')
+        return false
+      } else {
+        return true
+      }
+    },
+    debounce (fn) {
+      time && clearTimeout(time)
+      time = setTimeout(function () {
+        fn()
+      }, 500)
+    }
+  },
    // 生命周期函数
   //  beforeCreate: {},
-   created () {
-     let data = this.updatedpaypassword.AddressSave
-     let query = this.$route.query.userdata
-     if (data) {
-       let {userName, phoneNo, address, addressId, provinceName, cityName, countryName, provinceCode, cityCode, countryCode} = data
-       this.consignee = userName
-       this.phoneNum = phoneNo
-       this.detailedAddress = address
-       this.addressId = addressId
-       this.values = `${provinceName}-${cityName}-${countryName}`
-       this.provinceCode = provinceCode
-       this.cityCode = cityCode
-       this.countryCode = countryCode
-     } else if (query) {
-       let mesData = {
-         'bizData': {
-           'addressId': query
-         }
-       }
-       this.$store.dispatch('ZHXONEUSERAddress', mesData).then((res) => {
-         const data = res.data
-         if (data.result) {
-           let {userName, phoneNo, address, provinceName, cityName, countryName, provinceCode, cityCode, countryCode} = data.bizData.Address
-           this.consignee = userName
-           this.phoneNum = phoneNo
-           this.detailedAddress = address
-           this.values = `${provinceName}-${cityName}-${countryName}`
-           this.addressId = query
-           this.provinceCode = provinceCode
-           this.cityCode = cityCode
-           this.countryCode = countryCode
-         } else {
-           alert(data.message)
-         }
-       }).catch((err) => { console.log(err) })
-     } else {
-       this.$router.go(-1)
-     }
-   },
-   mounted () {}
- }
+  created () {
+    let data = this.updatedpaypassword.AddressSave
+    let query = this.$route.query.userdata
+    if (data) {
+      let {userName, phoneNo, address, addressId, provinceName, cityName, countryName, provinceCode, cityCode, countryCode} = data
+      this.consignee = userName
+      this.phoneNum = phoneNo
+      this.detailedAddress = address
+      this.addressId = addressId
+      this.values = `${provinceName}-${cityName}-${countryName}`
+      this.provinceCode = provinceCode
+      this.cityCode = cityCode
+      this.countryCode = countryCode
+    } else if (query) {
+      let mesData = {
+        'bizData': {
+          'addressId': query
+        }
+      }
+      this.$store.dispatch('ZHXONEUSERAddress', mesData).then((res) => {
+        const data = res.data
+        if (data.result) {
+          let {userName, phoneNo, address, provinceName, cityName, countryName, provinceCode, cityCode, countryCode} = data.bizData.Address
+          this.consignee = userName
+          this.phoneNum = phoneNo
+          this.detailedAddress = address
+          this.values = `${provinceName}-${cityName}-${countryName}`
+          this.addressId = query
+          this.provinceCode = provinceCode
+          this.cityCode = cityCode
+          this.countryCode = countryCode
+        } else {
+          this.alerts(data.message)
+        }
+      }).catch((err) => { console.log(err) })
+    } else {
+      this.$router.go(-1)
+    }
+  },
+  mounted () {}
+}
 </script>
 
 <style lang="less" scoped>

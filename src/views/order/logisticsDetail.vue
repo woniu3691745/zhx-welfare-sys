@@ -2,14 +2,14 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 09:59:01 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-21 09:46:23
+ * @Last Modified time: 2017-12-07 14:58:40
  * 查看物流
  */
 <template>
   <div class="orderDetail">
     <div class="common-header">
       <mt-header title="物流详情">
-        <router-link to="/orderDetail" slot="left">
+         <router-link :to="{ path: '/orderDetail', query: { orderId: this.orderId}}" slot="left">
           <mt-button icon="back"></mt-button>
         </router-link>
       </mt-header>
@@ -24,7 +24,6 @@
         <div class="left logistics-number">
           <p>订单号：1475874589658745</p>
           <p>快递单号：1475698634548888</p>
-          
         </div>
       </div>
       <div class="height-20"></div>
@@ -61,7 +60,9 @@
    props: {},
    // 变量
    data () {
-     return {}
+     return {
+       orderId: this.$route.query.orderId // 额度ID
+     }
    },
    computed: {},
    // 使用其它组件

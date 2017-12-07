@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-07 12:32:58
+ * @Last Modified time: 2017-12-07 14:24:06
  * 购物车
  */
 <template>
@@ -269,7 +269,8 @@ export default {
     // 确认订单
     confirmOrder () {
       if (this.washValue.length) {
-        if (parseInt(this.amount) > parseInt(this.balance)) {
+        let b = this.balance.split(',') // 暂时hardcode
+        if (parseInt(this.amount) > parseInt(b[0] + b[1])) {
           MessageBox({
             title: '提示',
             message: '额度不足！',

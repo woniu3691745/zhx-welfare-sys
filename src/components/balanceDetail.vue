@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 09:59:01 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-01 15:40:56
+ * @Last Modified time: 2017-12-07 15:46:48
  * 额度明细
  */
 <template>
@@ -20,8 +20,7 @@
          <div class="right">
            <div class="overdue-money clear">
              <span class="right money">￥{{i.balance}}</span>
-             <span class="overdue right">3天后过期{{i.limitFlag}}</span>
-             
+             <span class="overdue right" v-if="i.limitFlag">3天后过期</span>
           </div>
            <div class="overdue-date">有效期直：{{i.limitDate}}</div>
          </div>

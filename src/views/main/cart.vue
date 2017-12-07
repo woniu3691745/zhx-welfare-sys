@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-04 16:53:28
+ * @Last Modified time: 2017-12-07 12:32:58
  * 购物车
  */
 <template>
@@ -147,6 +147,17 @@ export default {
           console.log(res)
         })
     },
+    // 购物车数量
+    cartCount (typeId) {
+      this.$store
+        .dispatch('Count', typeId)
+        .then(res => {
+          this.count = res.total
+        })
+        .catch(res => {
+          console.log(res)
+        })
+    },
     // 减少
     minus (option) {
       let cartForm = {
@@ -169,6 +180,7 @@ export default {
               eventBus.$emit('status', false)
               alert(res.message)
             }
+            this.cartCount(this.cartType)
             endLoading()
           })
           .catch(res => {

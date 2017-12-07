@@ -25,28 +25,32 @@
         </div>
         <mt-cell title="我的订单" is-link to="/mineOrder"></mt-cell>
       </div>
-      <div class="mine-order-contain">
-        <div>
+      <div class="mine-order-contain"> 
+        <div @click="handRouterClick(1)">
           <div>
             <img class="left" src="../../assets/needPay.png" alt="">
-            <!-- <p>0</p> -->
+             <p v-show="waitPayCount">{{waitPayCount}}</p>
           </div>
           <p>待付款</p>
         </div>
-        <div>
+
+        <div @click="handRouterClick(2)">
           <div>
             <img class="left" src="../../assets/pendingShipment.png" alt="">
-            <p>99</p>
+            <p v-show="waitTakeCount">{{waitPayCount}}</p>
           </div>
-          <p>待付款</p>
+          <p>待收货</p>
         </div>
-        <div>
+
+
+        <div @click="handRouterClick(3)">
           <div>
             <img class="left" src="../../assets/allOrder.png" alt="">
-            <p>99</p>
+            <p v-show="totalCount">{{totalCount}}</p>
           </div>
-          <p>待付款</p>
+          <p>全部订单</p>
         </div>
+
       </div>
       <div class="hheight-22"></div>
       <mt-cell class="mine-no-bg" title="地址管理" is-link to="/addressMs"></mt-cell>
@@ -59,6 +63,7 @@
   </div>
 </template>
 <script>
+import {MessageBox} from 'mint-ui'
 export default {
   name: 'mine-page',
   data () {
@@ -69,7 +74,10 @@ export default {
       quotas: '',
       enterpriseName: '',
       phoneNo: '',
-      userName: ''
+      userName: '',
+      totalCount: 0,
+      waitPayCount: 0,
+      waitTakeCount: 0
     }
   },
   methods: {
@@ -83,6 +91,27 @@ export default {
         .catch(req => {
           console.log(req)
         })
+    },
+    handRouterClick (e) {
+      const me = this
+      switch (e) {
+        case 1:
+          me.$router.push('/mineOrder')
+          break
+        case 2:
+          me.$router.push('/mineOrder')
+          break
+        case 3:
+          me.$router.push('/mineOrder')
+          break
+      }
+    },
+    alerts (data) {
+      MessageBox({
+        message: data,
+        closeOnClickModal: true,
+        showConfirmButton: false
+      })
     }
   },
   created () {
@@ -91,17 +120,21 @@ export default {
       x => (quotasTmp += x.typeName + ': ￥' + x.balance + '/')
     )
     this.quotas = quotasTmp.substring(0, quotasTmp.length - 1)
-    this.$store.dispatch('ZHX_GET_USERINFO').then((res) => {
-      const data = res.data
-      if (data.result) {
-        let {enterpriseName, userName} = data.bizData.UserInfo
-        console.log(enterpriseName)
-        this.enterpriseName = enterpriseName
-        this.userName = userName
-      } else {
-        alert(data.message)
-      }
-    }).catch(err => { console.log(err) })
+    this.$store
+      .dispatch('ZHX_GET_USERINFO')
+      .then(res => {
+        const data = res.data
+        if (data.result) {
+          let { enterpriseName, userName } = data.bizData.UserInfo
+          this.enterpriseName = enterpriseName
+          this.userName = userName
+        } else {
+          this.alerts(data.message)
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }
 }
 </script>
@@ -189,22 +222,22 @@ export default {
     height: 0.88rem;
   }
 }
-.all-limit{
+.all-limit {
   overflow: hidden;
-white-space: nowrap;
+  white-space: nowrap;
 }
 //跑马灯
-.all-limit span{
+.all-limit span {
   display: inline-block;
-  min-width:9rem;
+  min-width: 9rem;
   animation: userID 5s linear infinite;
 }
 @keyframes userID {
-  0%{
-    transform:translate3d(0rem,0,0);
+  0% {
+    transform: translate3d(0rem, 0, 0);
   }
-  100%{
-    transform:translate3d(-9rem,0,0);
+  100% {
+    transform: translate3d(-9rem, 0, 0);
   }
 }
 </style>

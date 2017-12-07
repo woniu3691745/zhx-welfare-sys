@@ -96,3 +96,12 @@ export function ZHX_LOGINPASSWORD_CHANGE (token, bindIdCodeInfo) {
     data
   })
 }
+// 重置手机号
+export function ZHX_BINDPHONE_CHANGE (token, bindIdCodeInfo) {
+  const data = {...bindIdCodeInfo, token}
+  return fetch({
+    url: '/reset/PhoneNo.cp',
+    method: 'post',
+    data
+  })
+}

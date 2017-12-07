@@ -34,7 +34,7 @@
 <script>
 import {MessageBox} from 'mint-ui'
 import { mapGetters } from 'vuex'
-const IDCardReg = /^(\d{6})(\d{4})(\d{2})(\d{2})(?:\d{2})(\d)(?:\d|X)$/
+const IDCardReg = /^(\d{6})(\d{4})(\d{2})(\d{2})(?:\d{2})(\d)(?:\d|X|x)$/
 const Captacha = /^\d{6}$/
 export default {
   // 组件名字

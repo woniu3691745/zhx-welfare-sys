@@ -55,7 +55,7 @@
       handleSubmit () {
         const customerNamePatten = /\W{2,6}/
         const payPwdPatten = /^\d{6}$/
-        const checkIdcard = /^(\d{6})(\d{4})(\d{2})(\d{2})(?:\d{2})(\d)(?:\d|X)$/
+        const checkIdcard = /^(\d{6})(\d{4})(\d{2})(\d{2})(?:\d{2})(\d)(?:\d|X|x)$/
         if (!customerNamePatten.test(this.setPayPassWordForm.username)) {
           MessageBox({
             message: '请输入正确的姓名',

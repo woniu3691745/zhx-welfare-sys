@@ -223,10 +223,10 @@ export default {
      // 姓名正则
     usernameReg () {
       if (!this.consignee) {
-        this.alerts('用户名不能为空')
+        this.alerts('收货人姓名不能为空')
         return false
       } else if (!userNameReg.test(this.consignee)) {
-        this.alerts('请输入正确的用户名')
+        this.alerts('请输入正确的收货人姓名')
         return false
       }
       return true

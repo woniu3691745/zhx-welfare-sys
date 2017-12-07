@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-19 19:50:05 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-07 11:13:43
+ * @Last Modified time: 2017-12-07 11:25:25
  * 订单列表
  */
 <template>
@@ -177,6 +177,7 @@ export default {
           background: #F5F5F5;
           position: relative;
           display: block;
+          font-size: 0;
           .all-thing-pic {
             display: inline-block;
             font-size: 0;

@@ -94,11 +94,7 @@ export default {
    // 方法
   methods: {
     alerts (data) {
-      MessageBox({
-        message: data,
-        closeOnClickModal: true,
-        showConfirmButton: false
-      })
+      MessageBox.alert(data)
     },
     handclickshow () {
       this.isShow = true
@@ -193,10 +189,10 @@ export default {
      // 姓名正则
     usernameReg () {
       if (!this.consignee) {
-        this.alerts('用户名不能为空')
+        this.alerts('收货人姓名不能为空')
         return false
       } else if (!userNameReg.test(this.consignee)) {
-        this.alerts('请输入正确的用户名')
+        this.alerts('请输入正确的收货人姓名')
         return false
       }
       return true
@@ -214,10 +210,13 @@ export default {
     },
      // 详细地址
     Detailedaddress () {
-      if (this.detailedAddress.length < 5) {
+      if (this.detailedAddress.trim().length === 0) {
+        this.alerts('请输入详细地址')
+        return false
+      } else if (this.detailedAddress.trim().length < 5) {
         this.alerts('详细地址不能少于5个字')
         return false
-      } else if (this.detailedAddress.length > 30) {
+      } else if (this.detailedAddress.trim().length > 30) {
         this.alerts('详细地址不能多于30个字')
         return false
       } else {

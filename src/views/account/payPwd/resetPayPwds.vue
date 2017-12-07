@@ -49,11 +49,7 @@ export default {
   },
   methods: {
     alerts (data) {
-      MessageBox({
-        message: data,
-        closeOnClickModal: true,
-        showConfirmButton: false
-      })
+      MessageBox.alert(data)
     },
     onSubmit () {
       let me = this

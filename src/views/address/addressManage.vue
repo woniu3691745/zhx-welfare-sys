@@ -93,11 +93,7 @@ export default {
   // 方法
   methods: {
     alerts (data) {
-      MessageBox({
-        message: data,
-        closeOnClickModal: true,
-        showConfirmButton: false
-      })
+      MessageBox.alert(data)
     },
     edit (data) {
       this.$store.dispatch('ZHXONEUSERAddressSave', data)

@@ -149,6 +149,9 @@ export default {
   .mint-tab-item {
     padding: 0.14rem 0 0.08rem 0;
     .mint-tab-item-icon {
+      width: 0.43rem;
+      height: 0.43rem;
+      margin: auto;
       img {
         width: 0.39rem;
         height: 0.39rem;

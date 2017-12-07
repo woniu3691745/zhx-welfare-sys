@@ -59,11 +59,7 @@ export default {
   },
   methods: {
     alerts (data) {
-      MessageBox({
-        message: data,
-        closeOnClickModal: true,
-        showConfirmButton: false
-      })
+      MessageBox.alert(data)
     },
     handclick () {
       let me = this
@@ -113,7 +109,6 @@ export default {
       if (!this.phoneReg()) {
         return false
       }
-      this.setTime()
       const loginData = {
         bizData: {
           Captacha: {
@@ -127,7 +122,10 @@ export default {
         .then(res => {
           const data = res.data
           if (!data.result) {
+            me.sendMsgDisabled = false
             me.alerts(data.message)
+          } else {
+            this.setTime()
           }
         })
         .catch(res => {

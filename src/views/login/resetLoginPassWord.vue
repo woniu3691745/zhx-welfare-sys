@@ -62,7 +62,7 @@ export default {
       MessageBox({
         message: data,
         closeOnClickModal: true,
-        showConfirmButton: false
+        showConfirmButton: true
       })
     },
     handclick () {

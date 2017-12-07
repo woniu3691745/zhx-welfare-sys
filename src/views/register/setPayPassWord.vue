@@ -37,7 +37,6 @@
 
 <script>
   import {MessageBox} from 'mint-ui'
-  import checkIdcard from '@/utils/validIdCard'
   import {setPayPwd} from '@/api/register'
   import {mapGetters} from 'vuex'
   export default {
@@ -56,42 +55,42 @@
       handleSubmit () {
         const customerNamePatten = /\W{2,6}/
         const payPwdPatten = /^\d{6}$/
-        console.log(payPwdPatten.test('123456'))
+        const checkIdcard = /^(\d{6})(\d{4})(\d{2})(\d{2})(?:\d{2})(\d)(?:\d|X|x)$/
         if (!customerNamePatten.test(this.setPayPassWordForm.username)) {
           MessageBox({
             message: '请输入正确的姓名',
             closeOnClickModal: true,
-            showConfirmButton: false
+            showConfirmButton: true
           })
-        } else if (checkIdcard(this.setPayPassWordForm.identityCard) !== '验证通过!') {
+        } else if (!checkIdcard.test(this.setPayPassWordForm.identityCard)) {
           MessageBox({
             message: '请输入正确的身份证号码',
             closeOnClickModal: true,
-            showConfirmButton: false
+            showConfirmButton: true
           })
         } else if (!this.setPayPassWordForm.confirmPayPassWord) {
           MessageBox({
             message: '确认密码不能为空',
             closeOnClickModal: true,
-            showConfirmButton: false
+            showConfirmButton: true
           })
         } else if (!payPwdPatten.test(Number(this.setPayPassWordForm.payPassWord))) {
           MessageBox({
             message: '密码应为6位数字',
             closeOnClickModal: true,
-            showConfirmButton: false
+            showConfirmButton: true
           })
         } else if (this.setPayPassWordForm.payPassWord !== this.setPayPassWordForm.confirmPayPassWord) {
           MessageBox({
             message: '两次输入的密码不一致',
             closeOnClickModal: true,
-            showConfirmButton: false
+            showConfirmButton: true
           })
         } else if (this.setPayPassWordForm.payPassWord === this.getSigninPwd) {
           MessageBox({
             message: '支付密码不能与登录密码相同',
             closeOnClickModal: true,
-            showConfirmButton: false
+            showConfirmButton: true
           })
         } else {
           const reqData = {
@@ -114,14 +113,14 @@
               MessageBox({
                 message: data.message || '提交注册信息失败',
                 closeOnClickModal: true,
-                showConfirmButton: false
+                showConfirmButton: true
               })
             }
           }).catch(() => {
             MessageBox({
               message: '提交注册信息失败',
               closeOnClickModal: true,
-              showConfirmButton: false
+              showConfirmButton: true
             })
           })
         }

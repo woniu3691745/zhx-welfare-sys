@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-19 19:50:05 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-07 11:25:25
+ * @Last Modified time: 2017-12-07 14:13:54
  * 订单列表
  */
 <template>
@@ -20,13 +20,13 @@
             <li class="order-num" v-for="item in options" :key="item.id">
               <p class="clear order-num-contain">
                 <span class="left num">订单号：{{item.orderId}}</span>
-                <span class="right delete" v-if="item.status === '05'"></span>
-                <span class="right order-status">{{item.status}}</span>
+                <span class="right delete" @click="deleteOrder(item)" v-if="item.status === '05'"></span>
+                <span class="right order-status">{{item.orderStatus}}</span>
               </p>
               <div class="all-thing">
                 <router-link :to="{path: '/orderDetail', query: {orderId: item.orderId}}" slot="left" class="btn-skip">
                   <div class="all-thing-pic" v-for="img in item.imgDetails" :key="img.mallSku">
-                    <router-link :to="{ path: '/detail', query: {sku: img.mallSku}}"><img v-bind:src="img.imgUrl"></router-link>
+                    <router-link :to="{ path: '/detail', query: {sku: img.mallSku, typeId: item.productType}}"><img v-bind:src="img.imgUrl"></router-link>
                   </div>
                 </router-link>
               </div>
@@ -62,6 +62,8 @@
 </template>
 
 <script>
+import { MessageBox } from 'mint-ui'
+import { startLoading, endLoading } from '../utils/utils'
 import { mapMutations } from 'vuex'
 export default {
   name: 'orders-list-page',
@@ -120,9 +122,38 @@ export default {
       this.$router.push({
         path: '/inputPwd',
         query: {
-          typeId: val.orderId,      // 额度ID
-          orderNo: val.orderId      // 订单编号
+          typeId: val.productType,      // 额度ID
+          orderNo: val.orderId          // 订单编号
         }
+      })
+    },
+    deleteOrder (val) {
+      MessageBox.confirm('确定执行此操作?').then(action => {
+        startLoading()
+        let cartForm = {
+          orderId: val.orderId
+        }
+        this.$store
+          .dispatch('DeleteOrder', cartForm)
+          .then(res => {
+            if (res.result) {
+              this.$router.push({
+                path: '/mineOrder'
+              })
+            } else {
+              MessageBox({
+                message: res.message,
+                closeOnClickModal: true,
+                showConfirmButton: true
+              })
+            }
+            endLoading()
+          })
+          .catch(res => {
+            console.log(res)
+          })
+      }).catch(error => {
+        console.log(error)
       })
     },
     cancelOrder (val) {

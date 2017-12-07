@@ -21,7 +21,7 @@ Mock.mock(/\/api\/logout.cp/, 'post', loginAPI.logout)
 // 用户信息
 Mock.mock(/\/api\/user\/info.cp\.*/, 'post', loginAPI.getUserInfo)
 // 获得验证码
-Mock.mock(/\/api\/user\/getidcode.cp\.*/, 'post', userAPI.GetIdCode)
+Mock.mock(/\/captacha\/sendCaptacha.cp\.*/, 'post', userAPI.GetIdCode)
 // 重置支付密码下一步
 Mock.mock(/\/api\/user\/getidcodenext.cp\.*/, 'post', userAPI.resPassword)
 // 重置支付密码

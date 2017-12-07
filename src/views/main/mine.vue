@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-06 15:15:50
+ * @Last Modified time: 2017-12-07 15:34:58
  * 我的
  */
 <template>
@@ -64,6 +64,7 @@
 </template>
 <script>
 import {MessageBox} from 'mint-ui'
+import eventBus from '../../utils/eventBus'
 export default {
   name: 'mine-page',
   data () {
@@ -96,13 +97,13 @@ export default {
       const me = this
       switch (e) {
         case 1:
-          me.$router.push('/mineOrder')
+          me.$router.push({path: '/mineOrder', query: {selected: '01'}})
           break
         case 2:
-          me.$router.push('/mineOrder')
+          me.$router.push({path: '/mineOrder', query: {selected: '04'}})
           break
         case 3:
-          me.$router.push('/mineOrder')
+          me.$router.push({path: '/mineOrder', query: {selected: '05'}})
           break
       }
     },
@@ -112,7 +113,21 @@ export default {
         closeOnClickModal: true,
         showConfirmButton: false
       })
+    },
+     // 导航焦点
+    focus () {
+      let select = this.$route.query.selected || 'mine'
+      // 进入商城方式
+      // type
+      //  1、direct-> 去使用
+      //  2、undirect -> 导航按钮
+      // let type = this.$route.query.type
+      // 通知导航按钮事件
+      eventBus.$emit('focus', select)
     }
+  },
+  mounted () {
+    this.focus()
   },
   created () {
     let quotasTmp = ''

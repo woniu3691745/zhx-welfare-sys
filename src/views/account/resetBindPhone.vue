@@ -22,7 +22,7 @@
         </mt-field>
         <mt-field label="验证码" placeholder="请输入短信验证码"  v-model="resetForm.identifyingCode">
         </mt-field>
-        <mt-field label="安全密码" placeholder="请输入新密码"  type="password" v-model="resetForm.newLoginPassWord"></mt-field>
+        <mt-field label="安全密码" placeholder="请输入支付密码"  type="password" v-model="resetForm.newLoginPassWord"></mt-field>
         <router-link to="/resetPayPwd">
           <span class="foretPay">忘记支付密码？</span>
         </router-link>
@@ -59,11 +59,7 @@ export default {
   },
   methods: {
     alerts (data) {
-      MessageBox({
-        message: data,
-        closeOnClickModal: true,
-        showConfirmButton: false
-      })
+      MessageBox.alert(data)
     },
     // 手机号
     phoneReg () {
@@ -123,7 +119,6 @@ export default {
       if (!this.phoneReg()) {
         return false
       }
-      this.setTime()
       const loginData = {
         bizData: {
           Captacha: {
@@ -137,7 +132,10 @@ export default {
         .then(res => {
           const data = res.data
           if (!data.result) {
+            me.sendMsgDisabled = false
             me.alerts(data.message)
+          } else {
+            this.setTime()
           }
         })
         .catch(res => {

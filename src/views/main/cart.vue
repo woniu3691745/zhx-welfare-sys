@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-04 16:53:28
+ * @Last Modified time: 2017-12-07 14:24:06
  * 购物车
  */
 <template>
@@ -147,6 +147,17 @@ export default {
           console.log(res)
         })
     },
+    // 购物车数量
+    cartCount (typeId) {
+      this.$store
+        .dispatch('Count', typeId)
+        .then(res => {
+          this.count = res.total
+        })
+        .catch(res => {
+          console.log(res)
+        })
+    },
     // 减少
     minus (option) {
       let cartForm = {
@@ -169,6 +180,7 @@ export default {
               eventBus.$emit('status', false)
               alert(res.message)
             }
+            this.cartCount(this.cartType)
             endLoading()
           })
           .catch(res => {
@@ -257,7 +269,8 @@ export default {
     // 确认订单
     confirmOrder () {
       if (this.washValue.length) {
-        if (parseInt(this.amount) > parseInt(this.balance)) {
+        let b = this.balance.split(',') // 暂时hardcode
+        if (parseInt(this.amount) > parseInt(b[0] + b[1])) {
           MessageBox({
             title: '提示',
             message: '额度不足！',

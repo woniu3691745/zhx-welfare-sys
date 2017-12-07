@@ -55,7 +55,7 @@ export default {
         MessageBox({
           message: '请填写正确的手机号',
           closeOnClickModal: true,
-          showConfirmButton: false
+          showConfirmButton: true
         })
         return
       }
@@ -64,7 +64,7 @@ export default {
         MessageBox({
           message: err || '短信验证码获取失败，请重试',
           closeOnClickModal: true,
-          showConfirmButton: false
+          showConfirmButton: true
         })
       })
     },
@@ -89,13 +89,13 @@ export default {
         MessageBox({
           message: '手机号格式不正确',
           closeOnClickModal: true,
-          showConfirmButton: false
+          showConfirmButton: true
         })
       } else if (!captchaPattern.test(captcha)) {
         MessageBox({
           message: '请输入6位数字验证码',
           closeOnClickModal: true,
-          showConfirmButton: false
+          showConfirmButton: true
         })
       } else {
         const reqData = {
@@ -119,14 +119,14 @@ export default {
             MessageBox({
               message: bizData.message || '验证失败',
               closeOnClickModal: true,
-              showConfirmButton: false
+              showConfirmButton: true
             })
           }
         }).catch(() => {
           MessageBox({
             message: '验证失败',
             closeOnClickModal: true,
-            showConfirmButton: false
+            showConfirmButton: true
           })
         })
       }

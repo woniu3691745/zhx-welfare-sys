@@ -2,13 +2,18 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 09:59:01 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-22 16:11:18
+ * @Last Modified time: 2017-12-07 14:58:03
  * 管理收货地址
  */
 <template>
   <div class="addressManage">
     <div class="common-header">
-        <mt-header title="管理收货地址">
+        <mt-header title="管理收货地址" v-if="this.flag">
+          <router-link :to="{ path: '/confirmOrder', query: { typeId: this.typeId}}" slot="left" fixed>
+            <mt-button icon="back"></mt-button>
+          </router-link>
+        </mt-header>
+        <mt-header title="管理收货地址" v-else>
           <router-link to="/mine" slot="left" fixed>
             <mt-button icon="back"></mt-button>
           </router-link>
@@ -47,20 +52,17 @@
           </div>
         </div>
         <div class="height-20">
-
         </div>
       </div>
     </div>
-      <router-link to="/addAddress">
-            <div class="bottom">
-              <div>
-                添加收货地址
-              </div>
-            </div>
-      </router-link>
-    
+    <router-link to="/addAddress">
+      <div class="bottom">
+        <div>
+          添加收货地址
+        </div>
       </div>
-    
+    </router-link>
+    </div>
   </div>
 </template>
 
@@ -83,7 +85,9 @@ export default {
         'mint-checkbox-cores': true,
         'mint-checkbox-corsafter': false
       },
-      defaultKey: 0
+      defaultKey: 0,
+      flag: this.$route.query.flag,         // 是否从确认订单跳转标识
+      typeId: this.$route.query.typeId      // 额度标识
     }
   },
   computed: {},
@@ -93,11 +97,7 @@ export default {
   // 方法
   methods: {
     alerts (data) {
-      MessageBox({
-        message: data,
-        closeOnClickModal: true,
-        showConfirmButton: false
-      })
+      MessageBox.alert(data)
     },
     edit (data) {
       this.$store.dispatch('ZHXONEUSERAddressSave', data)

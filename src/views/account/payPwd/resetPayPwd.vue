@@ -34,7 +34,7 @@
 <script>
 import {MessageBox} from 'mint-ui'
 import { mapGetters } from 'vuex'
-const IDCardReg = /^(\d{6})(\d{4})(\d{2})(\d{2})(?:\d{2})(\d)(?:\d|X)$/
+const IDCardReg = /^(\d{6})(\d{4})(\d{2})(\d{2})(?:\d{2})(\d)(?:\d|X|x)$/
 const Captacha = /^\d{6}$/
 export default {
   // 组件名字
@@ -80,11 +80,7 @@ export default {
   // 方法
   methods: {
     alerts (data) {
-      MessageBox({
-        message: data,
-        closeOnClickModal: true,
-        showConfirmButton: false
-      })
+      MessageBox.alert(data)
     },
     onSubmit () {
       let me = this
@@ -129,7 +125,6 @@ export default {
       if (this.sendMsgDisabled) {
         return
       }
-      this.setTime()
       this.$store
         .dispatch('ResetGetIdCode', this.loginForm)
         .then(res => {
@@ -137,6 +132,8 @@ export default {
           if (!data.result) {
             me.sendMsgDisabled = false
             me.alerts(data.message)
+          } else {
+            this.setTime()
           }
         })
         .catch(res => {

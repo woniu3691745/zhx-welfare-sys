@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 09:59:01 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-07 10:37:21
+ * @Last Modified time: 2017-12-07 15:12:21
  * 订单详情
  */
 <template>
@@ -16,7 +16,7 @@
     </div>
     <div class="order-detail-body">
       <div class="order-status-head clear">
-        <span class="left">{{orderInfo.status}}</span>
+        <span class="left">{{orderInfo.orderStatus}}</span>
         <span class="right">需支付：￥{{orderInfo.orderAmt}}</span>
       </div>
       <div class="unpack-container" v-if="orderInfo.childOrderCount > 0">
@@ -66,17 +66,17 @@
           <div class="all-thing">
             <router-link to="/orderDetail">
               <div class="all-thing-pic" v-for="imgc in child.imgDetails" :key="imgc.mallSku">>
-                <router-link :to="{ path: '/detail', query: {sku: imgc.mallSku}}"><img v-bind:src="imgc.imgUrl"></router-link>
+                <router-link :to="{ path: '/detail', query: {sku: imgc.mallSku, typeId: orderInfo.productType}}"><img v-bind:src="imgc.imgUrl"></router-link>
               </div>
             </router-link>
           </div>
           <div class="statue-pay-cancel clear" v-if="child.orderSubStatus === '00'">
-            <span class="pay right" @click="goBuy(child)">去支付</span>
-            <span class="cancel right" @click="cancelOrder(child)">取消订单</span>
+            <span class="pay right" @click="goBuy(orderInfo)">去支付</span>
+            <span class="cancel right" @click="cancelOrder(child, orderInfo)">取消订单</span>
           </div>
           <div class="statue-pay-cancel clear" v-else>
-            <span class="pay right" @click="expressOrder(child)">查看物流</span>
-            <span class="cancel right" @click="confirmOrder(child)">确认收货</span>
+            <span class="pay right" @click="expressOrder(child, orderInfo)">查看物流</span>
+            <span class="cancel right" @click="confirmOrder(child, orderInfo)">确认收货</span>
           </div>
         </div>
         
@@ -113,37 +113,71 @@ export default {
   },
   computed: {},
   methods: {
+    // 支付订单
     goBuy (val) {
-      console.log('--->' + JSON.stringify(val))
       this.$router.push({
         path: '/inputPwd',
         query: {
-          orderId: val.orderId
+          orderId: val.orderId,
+          typeId: val.productType
         }
       })
     },
-    cancelOrder (val) {
-      console.log('--->' + JSON.stringify(val))
+    // 取消订单
+    cancelOrder (subVal, fatherval) {
+      console.log('--->' + JSON.stringify(subVal))
     },
-    expressOrder (val) {
+    // 查看物流
+    expressOrder (subVal, fatherval) {
       this.$router.push({
         path: '/logisticsDetail',
         query: {
-          orderId: val.orderId
+          orderId: subVal.orderId
         }
       })
-      console.log('--->' + JSON.stringify(val))
     },
-    confirmOrder (val) {
-      console.log('--->' + JSON.stringify(val))
-    }
-  },
-  mounted () {
-    startLoading()
-    let orderInfo = {
-      orderId: this.orderId
-    }
-    this.$store
+    // 确认订单
+    confirmOrder (subVal, fatherval) {
+      startLoading()
+      let orderInfo = {
+        orderId: fatherval.orderId,
+        orderSubId: subVal.orderSubId
+      }
+      this.$store
+        .dispatch('FinishOrder', orderInfo)
+        .then(res => {
+          if (res.result) {
+            MessageBox({
+              title: '提示',
+              message: res.message,
+              showCancelButton: false
+            })
+            this.$router.push({
+              path: '/mineOrder',
+              query: {
+                // typeId: this.typeId
+              }
+            })
+          } else {
+            MessageBox({
+              title: '提示',
+              message: res.message,
+              showCancelButton: false
+            })
+          }
+          endLoading()
+        })
+        .catch(res => {
+          console.log(res)
+        })
+    },
+    // 订单列表
+    orderList () {
+      startLoading()
+      let orderInfo = {
+        orderId: this.orderId
+      }
+      this.$store
         .dispatch('FindOne', orderInfo)
         .then(res => {
           if (res.OrderInfo) {
@@ -160,6 +194,22 @@ export default {
         .catch(res => {
           console.log(res)
         })
+    },
+    // 购物车数量
+    cartCount (typeId) {
+      this.$store
+        .dispatch('Count', typeId)
+        .then(res => {
+          this.count = res.total
+        })
+        .catch(res => {
+          console.log(res)
+        })
+    }
+  },
+  mounted () {
+    this.orderList()
+    this.cartCount(this.typeId)
   }
 }
 </script>

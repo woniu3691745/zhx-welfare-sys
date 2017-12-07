@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-07 17:23:10
+ * @Last Modified time: 2017-12-07 18:17:38
  * 购物车
  */
 <template>
@@ -79,7 +79,6 @@ export default {
     },
     // 单选
     washCheck (val) {
-      debugger
       if (this.washOptions.length === val.length) {
         this.washAllValue = [val[0].mallSku] // 选中->全选
       } else {
@@ -277,8 +276,7 @@ export default {
     // 确认订单
     confirmOrder () {
       if (this.washValue.length) {
-        let b = this.balance.split(',') // 暂时hardcode
-        if (parseInt(this.amount) > parseInt(b[0] + b[1])) {
+        if (parseInt(this.amount) > parseInt(this.balance)) {
           MessageBox({
             title: '提示',
             message: '额度不足！',

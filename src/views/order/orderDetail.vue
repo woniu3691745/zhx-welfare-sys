@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 09:59:01 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-06 21:06:31
+ * @Last Modified time: 2017-12-07 10:37:21
  * 订单详情
  */
 <template>
@@ -15,90 +15,76 @@
       </mt-header>
     </div>
     <div class="order-detail-body">
-
       <div class="order-status-head clear">
-        <span class="left">等待付款</span>
-        <span class="right">需支付：￥14.9</span>
+        <span class="left">{{orderInfo.status}}</span>
+        <span class="right">需支付：￥{{orderInfo.orderAmt}}</span>
       </div>
-      <div class="unpack-container">
-        <p>该订单已拆成2个订单，并用2个包裹发出，点击“查看物流”可查看详情。</p>
+      <div class="unpack-container" v-if="orderInfo.childOrderCount > 0">
+        <p>该订单已拆成{{orderInfo.childOrderCount}}个订单，并用{{orderInfo.childOrderCount}}个包裹发出，点击“查看物流”可查看详情。</p>
       </div>
       <div class="orders-adderss">
         <div class="address-con">
           <div class="name-tel clear">
-            <span class="name left">收货人：李娜</span>
-            
-            <span class="tel right">11111111111</span> 
+            <span class="name left">收货人：{{orderInfo.userName}}</span>
+            <span class="tel right">{{orderInfo.phoneNo}}</span> 
           </div>
           <div class="position-fix">
             <img class="address-icon" slot="icon" src="../../assets/aaa.jpg">
-            <p>收货地址收货地址收货地址收货地址</p>
-            
+            <p>{{orderInfo.addressDetails}}</p>
           </div>
         </div>
       </div>
       <div class="height-22"></div>
       <div class="order-detail-content">
+        <!-- 订单 -->
         <p class="clear order-num-contain border-1px">
-          <span class="left num">订单号：1475874589658745</span>
+          <span class="left num">订单号：{{orderInfo.orderId}}</span>
         </p>
-        <p class="clear order-num-contain">
-          <span class="left num">子订单号：1475874589658745</span>
-        </p>
-        <div class="all-thing">
-          <router-link to="/orderDetail">
-            <div class="all-thing-pic">
-              <img slot="icon" src="../../assets/aaa.jpg" width="24" height="24">
-              <img slot="icon" src="../../assets/aaa.jpg" width="24" height="24">
-              <img slot="icon" src="../../assets/aaa.jpg" width="24" height="24">
-              <img slot="icon" src="../../assets/aaa.jpg" width="24" height="24">
-              <img slot="icon" src="../../assets/aaa.jpg" width="24" height="24">
-              <img slot="icon" src="../../assets/aaa.jpg" width="24" height="24">
-              <img slot="icon" src="../../assets/aaa.jpg" width="24" height="24">
+        <div v-if="orderInfo.childOrderCount === '0'">
+          <div class="all-thing">
+            <div class="all-thing-pic" v-for="img in orderInfo.imgDetails" :key="img.mallSku">>
+              <router-link :to="{ path: '/detail', query: {sku: img.mallSku}}"><img v-bind:src="img.imgUrl"></router-link>
             </div>
-          </router-link>
-        </div>
-        <div class="border-1px">
-          <div class="statue-pay-cancel clear">
-            <span class="pay right" @click="go">
-              去支付
-            </span>
-            <span class="cancel right">
-              取消订单
-            </span>
+          </div>
+          <div class="border-1px">
+            <div class="statue-pay-cancel clear" v-if="orderInfo.status === '01'">
+              <span class="pay right" @click="goBuy(orderInfo)">去支付</span>
+              <span class="cancel right" @click="cancelOrder(orderInfo)">取消订单</span>
+            </div>
+            <div class="statue-pay-cancel clear" v-else>
+              <span class="pay right" @click="expressOrder(orderInfo)">查看物流</span>
+              <span class="cancel right" @click="confirmOrder(orderInfo)">确认收货</span>
+            </div>
           </div>
         </div>
-        <p class="clear order-num-contain">
-          <span class="left num">子订单号：1475874589658745</span>
-        </p>
-        <div class="all-thing">
-          <router-link to="/orderDetail">
-            <div class="all-thing-pic">
-              <img slot="icon" src="../../assets/aaa.jpg" width="24" height="24">
-              <img slot="icon" src="../../assets/aaa.jpg" width="24" height="24">
-              <img slot="icon" src="../../assets/aaa.jpg" width="24" height="24">
-              <img slot="icon" src="../../assets/aaa.jpg" width="24" height="24">
-              <img slot="icon" src="../../assets/aaa.jpg" width="24" height="24">
-              <img slot="icon" src="../../assets/aaa.jpg" width="24" height="24">
-              <img slot="icon" src="../../assets/aaa.jpg" width="24" height="24">
-            </div>
-          </router-link>
-        </div>
-        <div class="border-1px">
-          <div class="statue-pay-cancel clear">
-            <span class="pay right">
-              去支付
-            </span>
-            <span class="cancel right">
-              取消订单
-            </span>
+
+        <!-- 子订单 -->
+        <div v-else v-for="child in orderInfo.childOrders" :key="child.orderId"> 
+          <p class="clear order-num-contain">
+            <span class="left num">子订单号：{{child.orderSubId}}</span>
+          </p>
+          <div class="all-thing">
+            <router-link to="/orderDetail">
+              <div class="all-thing-pic" v-for="imgc in child.imgDetails" :key="imgc.mallSku">>
+                <router-link :to="{ path: '/detail', query: {sku: imgc.mallSku}}"><img v-bind:src="imgc.imgUrl"></router-link>
+              </div>
+            </router-link>
+          </div>
+          <div class="statue-pay-cancel clear" v-if="child.orderSubStatus === '00'">
+            <span class="pay right" @click="goBuy(child)">去支付</span>
+            <span class="cancel right" @click="cancelOrder(child)">取消订单</span>
+          </div>
+          <div class="statue-pay-cancel clear" v-else>
+            <span class="pay right" @click="expressOrder(child)">查看物流</span>
+            <span class="cancel right" @click="confirmOrder(child)">确认收货</span>
           </div>
         </div>
+        
         <div class="pay-money">
-          <p class="reality-money">共1件商品   实付款 <span>￥14.90</span></p>
-          <p class="freight">（含运费 20元）</p>
+          <p class="reality-money">共{{orderInfo.productCount}}件商品   实付款 <span>￥{{orderInfo.orderAmt}}</span></p>
+          <p class="freight" v-if="!orderInfo.orderAmt < 200">（含运费 {{orderInfo.expressAmt}}元）</p>
         </div>
-        <p class="clear order-time-logistics">
+        <!-- <p class="clear order-time-logistics">
           <span class="left num">下单时间：2017-11-8，10：12：12</span>
         </p>
         <p class="clear order-time-logistics">
@@ -106,11 +92,10 @@
         </p>
         <p class="clear order-time-logistics">
           <span class="left num">配送日期：2017-11-8，10：12：12</span>
-        </p>
+        </p> -->
       </div>
     </div>
     <div class="bottom">
-
     </div>
   </div>
 </template>
@@ -119,30 +104,40 @@
 import { startLoading, endLoading } from '../../utils/utils'
 import { MessageBox } from 'mint-ui'
 export default {
-   // 组件名字
   name: 'order-detail-page',
-   // 组合其它组件
-  extends: {},
-   // 组件属性、变量
-  props: {},
-   // 变量
   data () {
     return {
+      orderInfo: '',
       orderId: this.$route.query.orderId // 额度ID
     }
   },
   computed: {},
-   // 使用其它组件
-  components: {},
-  watch: {},
-   // 方法
   methods: {
-    go () {
-      this.$router.push('/logisticsDetail')
+    goBuy (val) {
+      console.log('--->' + JSON.stringify(val))
+      this.$router.push({
+        path: '/inputPwd',
+        query: {
+          orderId: val.orderId
+        }
+      })
+    },
+    cancelOrder (val) {
+      console.log('--->' + JSON.stringify(val))
+    },
+    expressOrder (val) {
+      this.$router.push({
+        path: '/logisticsDetail',
+        query: {
+          orderId: val.orderId
+        }
+      })
+      console.log('--->' + JSON.stringify(val))
+    },
+    confirmOrder (val) {
+      console.log('--->' + JSON.stringify(val))
     }
   },
-   // 生命周期函数
-  //  beforeCreate: {},
   mounted () {
     startLoading()
     let orderInfo = {
@@ -151,9 +146,8 @@ export default {
     this.$store
         .dispatch('FindOne', orderInfo)
         .then(res => {
-          debugger
           if (res.OrderInfo) {
-            console.log('--->' + JSON.stringify(res.OrderInfo))
+            this.orderInfo = res.OrderInfo
           } else {
             MessageBox({
               title: '提示',
@@ -201,7 +195,6 @@ export default {
         font-size: 0.26rem;
         color: #323232;
         padding: 0 0.37rem 0 0.84rem;
-        
         .name {
           height: 0.3rem;
           line-height: 0.3rem;
@@ -229,7 +222,6 @@ export default {
           height: 0.44rem;
           padding: 0 0.3rem 0 0.2rem;
         }
-        
       }
     }
   }
@@ -246,7 +238,6 @@ export default {
         line-height: 0.88rem;
         height: 0.88rem;
       }
-      
     }
     .all-thing {
       width: 100%;
@@ -275,7 +266,6 @@ export default {
       .reality-money {
         font-size: 0.26rem;
         color: #323232;
-        
         height: 0.56rem;
         text-align:  right;
         padding-right: 0.3rem;
@@ -295,7 +285,6 @@ export default {
         line-height: 0.37rem;
         margin-top: 0.06rem;
       }
-      
     }
     .statue-pay-cancel {
       padding: 0.18rem 0.36rem 0.14rem 0;
@@ -330,8 +319,6 @@ export default {
       padding-left: 0.2rem;
       box-sizing: border-box;
     }
-  
-  
   }
 }
 </style>

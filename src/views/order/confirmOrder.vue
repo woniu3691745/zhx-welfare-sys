@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 09:59:01 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-06 19:58:04
+ * @Last Modified time: 2017-12-07 14:39:35
  * 确认订单
  */
 <template>
@@ -137,10 +137,14 @@ export default {
           console.log(res)
         })
     },
-    // 添加地址
+    // 选择地址
     adderss () {
       this.$router.push({
-        path: '/addAddress'
+        path: '/addressMs',
+        query: {
+          typeId: this.typeId,
+          flag: 'confirmOrder'
+        }
       })
     },
     // 提交

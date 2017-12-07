@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 09:59:01 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-16 20:15:17
+ * @Last Modified time: 2017-12-07 15:36:44
  * 支付成功
  */
 <template>
@@ -48,8 +48,8 @@
    methods: {
      onSubmit () {
        this.$router.push({
-         path: '/mineOrder',
-         query: { selected: 'balance' }
+         path: '/mineOrder'
+        //  query: { selected: 'balance' }
        })
      }
    },

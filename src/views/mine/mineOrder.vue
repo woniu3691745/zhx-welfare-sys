@@ -2,14 +2,14 @@
  * @Author: lidongliang 
  * @Date: 2017-10-19 19:49:42 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-06 17:47:34
+ * @Last Modified time: 2017-12-07 15:27:11
  * 我的订单
  */
 <template>
   <div class="myOrder">
     <div class="common-header">
       <mt-header title="我的订单" class="border-1px position-fixed">
-        <router-link :to="{path: '/home', query: {selected: 'balance'}}" slot="left" >
+        <router-link :to="{ path: '/mine', query: {selected: 'mine', flag: 1}}" slot="left">
           <mt-button icon="back"></mt-button>
         </router-link>
       </mt-header>
@@ -55,7 +55,7 @@ export default {
   name: 'myOrder-page',
   data () {
     return {
-      selected: '',
+      selected: this.$route.query.selected || '',
       orderList: '',
       list: []
     }
@@ -84,7 +84,7 @@ export default {
     'zhx-order-list': orderList
   },
   created () {
-    this.orderListInfo('')
+    this.orderListInfo(this.selected)
   },
   watch: {
     selected: function (val, oldVal) {

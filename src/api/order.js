@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-12-04 16:20:40
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-06 20:56:44
+ * @Last Modified time: 2017-12-07 14:59:11
  * 订单
  */
 import fetch from '@/utils/fetch'
@@ -62,6 +62,36 @@ export function findOne (token, orderInfo) {
   }
   return fetch({
     url: '/userorder/findOne.cp',
+    method: 'post',
+    data
+  })
+}
+
+// 删除已完成的订单
+export function deleteOrder (token, orderInfo) {
+  const data = {
+    bizData: {
+      ...orderInfo
+    },
+    token
+  }
+  return fetch({
+    url: '/userorder/finishOrder.cp',
+    method: 'post',
+    data
+  })
+}
+
+// 订单确认收货
+export function finishOrder (token, orderInfo) {
+  const data = {
+    bizData: {
+      ...orderInfo
+    },
+    token
+  }
+  return fetch({
+    url: '/userorder/finishOrder.cp',
     method: 'post',
     data
   })

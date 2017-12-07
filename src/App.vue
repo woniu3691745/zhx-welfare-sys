@@ -13,5 +13,5 @@ export default {
 <style lang="less">
 // 修改Mint的css默认样式
 @import "../static/css/common.less";
-@import "../static/css/_mint.css";
+@import "../static/css/mint.css";
 </style>

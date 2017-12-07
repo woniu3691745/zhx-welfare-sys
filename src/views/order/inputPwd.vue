@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-12-04 14:27:42 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-06 20:16:26
+ * @Last Modified time: 2017-12-07 19:22:17
  * 支付密码
  */
 
@@ -83,20 +83,24 @@ export default {
       }
     },
     submit () {
-      if (this.disInputs[0].value === '') {
+      let tmp = 0
+      this.disInputs.map(x => {
+        if (x.value === '') {
+          MessageBox({
+            title: '提示',
+            message: '密码不能为空！',
+            showCancelButton: false
+          })
+        } else {
+          tmp++
+        }
+      })
+      if (tmp === 6) { this.preSubmit() } else {
         MessageBox({
           title: '提示',
-          message: '密码不能为空！',
+          message: '请输入六位密码',
           showCancelButton: false
         })
-        // } else if (this.disInputs.length < 6) {
-        //   MessageBox({
-        //     title: '提示',
-        //     message: '请输入六位密码！',
-        //     showCancelButton: false
-        //   })
-      } else {
-        this.preSubmit()
       }
     },
     preSubmit () {
@@ -117,6 +121,12 @@ export default {
               query: {
                 typeId: this.typeId
               }
+            })
+          } else if (res.message === '支付密码错误') {
+            MessageBox({
+              title: '提示',
+              message: res.message,
+              showCancelButton: false
             })
           } else {
             this.$router.push({

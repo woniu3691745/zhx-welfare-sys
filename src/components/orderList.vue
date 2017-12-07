@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-19 19:50:05 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-06 20:39:44
+ * @Last Modified time: 2017-12-07 11:25:25
  * 订单列表
  */
 <template>
@@ -140,7 +140,6 @@ export default {
   display: inline-block;
   vertical-align: middle;
 }
-
 .page-loadmore-wrapper {
   .page-loadmore-list {
      background-color: #fff;
@@ -178,6 +177,7 @@ export default {
           background: #F5F5F5;
           position: relative;
           display: block;
+          font-size: 0;
           .all-thing-pic {
             display: inline-block;
             font-size: 0;
@@ -251,72 +251,25 @@ export default {
         background: #F5F5F5;
       } 
     }
-
-    // .page-loadmore-listitem {
-    //   display: flex;
-    //   height: 2.4rem;
-    //   border: none;
-    //   a {
-    //     width: 2.4rem;
-    //     height: 2.4rem;
-    //     img {
-    //       width: 100%;
-    //       height: 100%;
-    //     }
-    //   }
-    //   .order-description {
-    //     flex: 2;
-    //     font-size: 12px;
-    //     padding: 0.18rem 0.38rem 0.16rem 0.2rem;
-    //     box-sizing: border-box;
-    //     height: 2.4rem;
-    //     border-bottom: 1px solid #eeddee;
-    //     .desc {
-    //       font-size: 0.32rem;
-    //       color: #323232;
-    //       line-height: 0.36rem;
-    //       margin-bottom: 0.75rem
-    //     }
-    //     .span-block {
-    //       display: block;
-    //       .sale-price {
-    //         font-size: 0.4rem;
-    //         color: #FE414B;
-    //         height: 0.6rem;
-    //         line-height: 0.6rem
-    //       }
-    //     }
-    //     .car-shopping {
-    //       width: 0.6rem;
-    //       height: 0.6rem;
-    //       .cart {
-    //         float: right;
-    //         height: 100%;
-    //         width: 100%;
-    //       }
-    //     }
-    //   }
-    // }
   }
 }
-
 .mint-loadmore-top {
   font-size: 0.3rem;
 }
-
 .mint-loadmore-top span {
   -webkit-transition: 0.2s linear;
   transition: 0.2s linear;
 }
-
 .mint-loadmore-top span {
   display: inline-block;
   vertical-align: middle;
 }
-
 .mint-loadmore-top span.is-rotate {
   -webkit-transform: rotate(180deg);
   transform: rotate(180deg);
+}
+.mint-loadmore-bottom {
+  font-size: 0.3rem;
 }
 .mint-loadmore-bottom span {
   display: inline-block;
@@ -324,24 +277,13 @@ export default {
   transition: 0.2s linear;
   vertical-align: middle;
 }
-
-.page-loadmore-desc:last-of-type,
-// .page-loadmore-listitem {
-//   border-bottom: 1px solid #eee;
-//   list-style: none outside none;
-//   line-height: initial;
-//   text-align: initial;
-// }
-
 .mint-loadmore-bottom span.is-rotate {
   -webkit-transform: rotate(180deg);
   transform: rotate(180deg);
 }
-
 .mint-loadmore-top {
   text-align: -webkit-center !important;
 }
-
 .mint-loadmore-bottom {
   text-align: -webkit-center !important;
 }

@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-03 17:41:02
+ * @Last Modified time: 2017-12-07 12:27:04
  * 首页组件
  */
 <template>
@@ -41,7 +41,7 @@
           <div class="index-gifts-title clear">
             <span class="title-content">超级大礼包</span> 
             <div class="index-gifts-title-link right">
-              <router-link id="goodsList" :to="{ path: '/goodsList', query: {typeId: this.typeId}}">
+              <router-link id="goodsList" :to="{ path: '/goodsList', query: {typeId: this.typeIdAll}}">
                 <span>查看全部></span>
               </router-link>
             </div>
@@ -90,10 +90,11 @@ export default {
       bonusPackages: [],                            // 大礼包
       competitiveProducts: [],                      // 商品
       categorys: [],                                // 商品种类
+      typeIdAll: this.$route.query.typeId,          // 种类
       typeId: this.$route.query.typeId,             // 种类
       count: '',                                    // 购物车数量
       index: 0,
-      limit: 2
+      limit: 4
     }
   },
   created () {
@@ -213,7 +214,7 @@ export default {
     detail (productSku) {
       this.$router.push({
         path: '/detail',
-        query: { typeId: this.typeId, sku: productSku }
+        query: { typeId: this.typeIdAll, sku: productSku }
       })
     },
     // 导航焦点
@@ -233,10 +234,12 @@ export default {
       this.competitiveProducts = []
       this.categorys = []
     },
-    // 过了精品
+    // 过滤精品
     searchTop (typeId) {
       this.competitiveProducts = []
       this.typeId = typeId
+      this.index = 0
+      this.limit = 4
       this.competitiveProductsInfo(typeId)
     }
   }

@@ -50,31 +50,31 @@ export default {
         MessageBox({
           message: '请填写账号',
           closeOnClickModal: true,
-          showConfirmButton: false
+          showConfirmButton: true
         })
       } else if (/([^\d])+/.test(this.loginForm.account)) {
         MessageBox({
           message: '请输入手机号登录',
           closeOnClickModal: true,
-          showConfirmButton: false
+          showConfirmButton: true
         })
       } else if (!phoneNoPattern.test(this.loginForm.account)) {
         MessageBox({
           message: '请输入正确的账号',
           closeOnClickModal: true,
-          showConfirmButton: false
+          showConfirmButton: true
         })
       } else if (!this.loginForm.loginPassWord) {
         MessageBox({
           message: '请输入密码',
           closeOnClickModal: true,
-          showConfirmButton: false
+          showConfirmButton: true
         })
       } else if (!signinPwdPatten.test(this.loginForm.loginPassWord)) {
         MessageBox({
           message: '密码格式错误',
           closeOnClickModal: true,
-          showConfirmButton: false
+          showConfirmButton: true
         })
       } else {
         const reqData = {
@@ -95,7 +95,7 @@ export default {
             MessageBox({
               message: '账号或密码错误',
               closeOnClickModal: true,
-              showConfirmButton: false
+              showConfirmButton: true
             })
             this.loginForm.loginPassWord = ''
           }
@@ -104,7 +104,7 @@ export default {
             // MessageBox({
             //   message: '账号或密码错误',
             //   closeOnClickModal: true,
-            //   showConfirmButton: false
+            //   showConfirmButton: true
             // })
             // this.loginForm.loginPassWord = ''
         })

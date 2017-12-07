@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-07 14:24:06
+ * @Last Modified time: 2017-12-07 17:23:10
  * 购物车
  */
 <template>
@@ -56,19 +56,19 @@ export default {
   name: 'cart-page',
   data () {
     return {
-      index: '0',                                         // 开始页
-      limit: '10',                                        // 每页数量
-      typeId: this.$route.query.typeId,                   // 路由跳转额度标识
-      cartType: this.$route.query.typeId,                 // 种类
-      balance: '',                                        // 余额
-      amount: 0,                                          // 总价
-      mallUnitPrice: 0,                                   // 商品价钱
-      quantity: 0,                                        // 商品数量
-      allValue: [],                                       // 结算，全选
-      allOption: [{ label: '全选', value: '0' }],         // 全选默认值
-      washAllValue: [],                                   // 全部选中的值
-      washValue: [],                                      // 选中的绑定值
-      washOptions: []                                     // 购物车列表选择项
+      index: '0', // 开始页
+      limit: '10', // 每页数量
+      typeId: this.$route.query.typeId, // 路由跳转额度标识
+      cartType: this.$route.query.typeId, // 种类
+      balance: '', // 余额
+      amount: 0, // 总价
+      mallUnitPrice: 0, // 商品价钱
+      quantity: 0, // 商品数量
+      allValue: [], // 结算，全选
+      allOption: [{ label: '全选', value: '0' }], // 全选默认值
+      washAllValue: [], // 全部选中的值
+      washValue: [], // 选中的绑定值
+      washOptions: [] // 购物车列表选择项
     }
   },
   components: { 'z-mt-checklist': ZMtChecklist },
@@ -79,8 +79,9 @@ export default {
     },
     // 单选
     washCheck (val) {
+      debugger
       if (this.washOptions.length === val.length) {
-        this.washAllValue = [val[0].mallSku]  // 选中->全选
+        this.washAllValue = [val[0].mallSku] // 选中->全选
       } else {
         this.washAllValue = []
         this.allValue = []
@@ -124,7 +125,7 @@ export default {
           if (x.mallSku === y.mallSku) {
             // amountTemp += x.mallUnitPrice           // 商品单价
             // amountTemp *= x.skuCount                // 商品数量
-            amountTemp += (x.mallUnitPrice * x.skuCount)
+            amountTemp += x.mallUnitPrice * x.skuCount
           }
         })
       })
@@ -168,27 +169,30 @@ export default {
       }
       if (option.skuCount === 1) {
         // eventBus.$emit('status', false)
-        MessageBox.confirm('确定执行此操作?').then(action => {
-          startLoading()
-          this.$store
-          .dispatch('AddCartMinus', cartForm)
-          .then(res => {
-            if (res.result) {
-              eventBus.$emit('status', true)
-              this.cartInfoList(false)
-            } else {
-              eventBus.$emit('status', false)
-              alert(res.message)
-            }
-            this.cartCount(this.cartType)
-            endLoading()
+        MessageBox.confirm('确定执行此操作?')
+          .then(action => {
+            startLoading()
+            this.$store
+              .dispatch('AddCartMinus', cartForm)
+              .then(res => {
+                if (res.result) {
+                  eventBus.$emit('status', true)
+                  this.cartInfoList(false)
+                  this.clearData()
+                } else {
+                  eventBus.$emit('status', false)
+                  alert(res.message)
+                }
+                this.cartCount(this.cartType)
+                endLoading()
+              })
+              .catch(res => {
+                console.log(res)
+              })
           })
-          .catch(res => {
-            console.log(res)
+          .catch(error => {
+            console.log(error)
           })
-        }).catch(error => {
-          console.log(error)
-        })
       } else {
         startLoading()
         this.$store
@@ -219,20 +223,20 @@ export default {
           skuCount: '1'
         }
         this.$store
-        .dispatch('AddCartPlus', cartForm)
-        .then(res => {
-          if (res.result) {
-            eventBus.$emit('status', true)
-            this.cartInfoList(true)
-            endLoading()
-          } else {
-            eventBus.$emit('status', false)
-            alert(res.message)
-          }
-        })
-        .catch(res => {
-          console.log(res)
-        })
+          .dispatch('AddCartPlus', cartForm)
+          .then(res => {
+            if (res.result) {
+              eventBus.$emit('status', true)
+              this.cartInfoList(true)
+              endLoading()
+            } else {
+              eventBus.$emit('status', false)
+              alert(res.message)
+            }
+          })
+          .catch(res => {
+            console.log(res)
+          })
       } else {
         MessageBox({
           title: '提示',
@@ -244,27 +248,31 @@ export default {
     },
     // 购物车移除
     delAll (option) {
-      MessageBox.confirm('确定执行此操作?').then(action => {
-        startLoading()
-        let cartForm = {
-          cartDetailId: option.cartDetailId
-        }
-        this.$store
-          .dispatch('DelCart', cartForm)
-          .then(res => {
-            if (res.result) {
-              this.cartInfoList()
-              endLoading()
-            } else {
-              alert(res.message)
-            }
-          })
-          .catch(res => {
-            console.log(res)
-          })
-      }).catch(error => {
-        console.log(error)
-      })
+      MessageBox.confirm('确定执行此操作?')
+        .then(action => {
+          startLoading()
+          let cartForm = {
+            cartDetailId: option.cartDetailId
+          }
+          this.$store
+            .dispatch('DelCart', cartForm)
+            .then(res => {
+              if (res.result) {
+                this.cartInfoList(false)
+                this.clearData()
+                this.cartCount(this.cartType)
+                endLoading()
+              } else {
+                alert(res.message)
+              }
+            })
+            .catch(res => {
+              console.log(res)
+            })
+        })
+        .catch(error => {
+          console.log(error)
+        })
     },
     // 确认订单
     confirmOrder () {
@@ -283,21 +291,23 @@ export default {
             cartType: this.cartType,
             mallSkus: mallSkus
           }
-          this.$store.dispatch('SettleCart', cartForm).then(res => {
-            if (res.result) {
-              // eventBus.$emit('confirmOrderInfo', res.bizData)
-              this.cartImg(mallSkus)
-            } else {
-              MessageBox({
-                title: '提示',
-                message: '结算失败！',
-                showCancelButton: false
-              })
-            }
-          })
-          .catch(res => {
-            console.log(res)
-          })
+          this.$store
+            .dispatch('SettleCart', cartForm)
+            .then(res => {
+              if (res.result) {
+                // eventBus.$emit('confirmOrderInfo', res.bizData)
+                this.cartImg(mallSkus)
+              } else {
+                MessageBox({
+                  title: '提示',
+                  message: '结算失败！',
+                  showCancelButton: false
+                })
+              }
+            })
+            .catch(res => {
+              console.log(res)
+            })
         }
       } else {
         MessageBox({
@@ -308,6 +318,7 @@ export default {
       }
     },
     // 购物车列表
+    // operation -> false : 初始化进入; true: 加、减、删功能
     cartInfoList (operation) {
       startLoading()
       let cartForm = {
@@ -320,21 +331,11 @@ export default {
         .then(res => {
           if (!operation) {
             this.washOptions = res.bizData.data
+            // this.quantity = res.bizData.total
+            this.compute(res)
           } else {
             if (this.washValue.length) {
-              let amountTemp = 0
-              res.bizData.data.map(
-                x => {
-                  this.washValue.map(
-                    y => {
-                      if (y.mallSku === x.mallSku) {
-                        amountTemp += x.totalPrice
-                      }
-                    }
-                  )
-                }
-              )
-              this.amount = amountTemp
+              this.compute(res)
             }
           }
           endLoading()
@@ -347,18 +348,35 @@ export default {
     cartImg (mallSkus) {
       let cartForm = {
         index: 0,
-        limit: 999,  // 最大数量999
+        limit: 999, // 最大数量999
         cartType: this.typeId,
         mallSkus: mallSkus
       }
-      this.$store
-        .dispatch('CartImgs', cartForm)
-        .then(res => {
-          this.$router.push({
-            path: '/confirmOrder',
-            query: { typeId: this.cartType }
-          })
+      this.$store.dispatch('CartImgs', cartForm).then(res => {
+        this.$router.push({
+          path: '/confirmOrder',
+          query: { typeId: this.cartType }
         })
+      })
+    },
+    // 删除功能清空
+    clearData () {
+      this.washValue = []
+      this.washAllValue = []
+      this.allValue = []
+      this.quantity = 0
+    },
+    // 计算amount
+    compute (data) {
+      let amountTemp = 0
+      data.bizData.data.map(x => {
+        this.washValue.map(y => {
+          if (y.mallSku === x.mallSku) {
+            amountTemp += x.totalPrice
+          }
+        })
+      })
+      this.amount = amountTemp.toFixed(2)
     }
   },
   mounted () {

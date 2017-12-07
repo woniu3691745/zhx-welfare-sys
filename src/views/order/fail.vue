@@ -14,8 +14,12 @@
         </router-link>
       </mt-header>
     </div>
-    <div class="body">
-
+    <div class="fail-body">
+      <div class="fail-body-container">
+        <img src="../../assets/fail.png" alt="">
+        <p>很遗憾，订单支付失败！</p>
+        <span>由于您的网络不给力，支付失败！</span>
+      </div>
     </div>
     <div class="bottom">
 
@@ -50,5 +54,31 @@
 </script>
 
 <style lang="less" scoped>
-
+.fail-body {
+  .fail-body-container {
+    img {
+      width: 1.86rem;
+      height: 1.86rem;
+      display: block;
+      font-size: 0;
+      margin: 0 auto;
+      margin-top: 1.18rem;
+    }
+    p {
+      text-align: center;
+      margin-top: 0.54rem;
+      color: #C92727;
+      font-size: 0.36rem;
+    }
+    span {
+      font-size: 0.32rem;
+      color: #323232;
+      display: block;
+      margin-top: 0.36rem;
+      text-align: center;
+      width: 6rem;
+      margin: 0.36rem auto;
+    }
+  }
+}
 </style>

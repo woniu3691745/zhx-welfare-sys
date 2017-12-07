@@ -2,7 +2,7 @@ export default {
     // 获取验证码
   GetIdCode: config => {
     return {
-      'result': true,
+      'result': false,
       'message': '业务成功',
       'bizData': {
         'Captacha': {

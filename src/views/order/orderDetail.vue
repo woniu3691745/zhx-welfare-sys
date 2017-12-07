@@ -29,7 +29,7 @@
             <span class="tel right">{{orderInfo.phoneNo}}</span> 
           </div>
           <div class="position-fix">
-            <img class="address-icon" slot="icon" src="../../assets/aaa.jpg">
+            <img class="address-icon" slot="icon" src="../../assets/address.png">
             <p>{{orderInfo.addressDetails}}</p>
           </div>
         </div>
@@ -243,13 +243,14 @@ export default {
       width: 100%;
       background: #F5F5F5;
       position: relative;
+      overflow-x: scroll;
+      white-space: nowrap;
       .all-thing-pic {
-        overflow-x: scroll;
-        width: 100%;
         box-sizing: border-box;
-        height: 1.4rem;
-        white-space: nowrap;
+        height: 1.4rem;    
         padding: 0.14rem 0 0.14rem 0.14rem;
+        font-size: 0;
+        display: inline-block;
         font-size: 0;
         img {
           width: 1.14rem;

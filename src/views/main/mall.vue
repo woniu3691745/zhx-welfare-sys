@@ -411,10 +411,10 @@ export default {
       }
       .three-title {
         width: 100%;
-        height: 1.64rem;
+        // height: 1.64rem;
         background: #ededed;
         ul {
-          padding: 0.06rem 0 0 0.1rem;
+          padding: 0.06rem 0 0.16rem 0.1rem;
           li {
             background: #ffffff;
             border-radius: 0.16rem;

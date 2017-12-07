@@ -8,7 +8,7 @@
 <template>
   <div class="myOrder">
     <div class="common-header">
-      <mt-header title="我的订单" fixed class="border-1px">
+      <mt-header title="我的订单" class="border-1px position-fixed">
         <router-link :to="{path: '/home', query: {selected: 'balance'}}" slot="left" >
           <mt-button icon="back"></mt-button>
         </router-link>
@@ -97,6 +97,13 @@ export default {
 <style lang="less" scoped>
 @import "../../../static/css/util.css";
 .myOrder {
+  .position-fixed {
+    top: 0;
+    right: 0;
+    left: 0;
+    position: fixed;
+    z-index: 10;
+  }
   .myOrder-body {
     padding-top: 1.8rem;
   }

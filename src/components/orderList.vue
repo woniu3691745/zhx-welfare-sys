@@ -24,7 +24,7 @@
                 <span class="right order-status">{{item.status}}</span>
               </p>
               <div class="all-thing">
-                <router-link :to="{path: '/orderDetail', query: {orderId: item.orderId}}" slot="left" >
+                <router-link :to="{path: '/orderDetail', query: {orderId: item.orderId}}" slot="left" class="btn-skip">
                   <div class="all-thing-pic" v-for="img in item.imgDetails" :key="img.mallSku">
                     <router-link :to="{ path: '/detail', query: {sku: img.mallSku}}"><img v-bind:src="img.imgUrl"></router-link>
                   </div>
@@ -173,20 +173,27 @@ export default {
         width: 100%;
         background: #F5F5F5;
         position: relative;
-        .all-thing-pic {
-          overflow-x: scroll;
+        .btn-skip {
           width: 100%;
-          box-sizing: border-box;
-          height: 1.4rem;
-          white-space: nowrap;
-          padding: 0.14rem 0 0.14rem 0.14rem;
-          font-size: 0;
-          img {
-            width: 1.14rem;
-            height: 1.12rem;
-            margin-right: 0.2rem;
+          background: #F5F5F5;
+          position: relative;
+          display: block;
+          .all-thing-pic {
+            display: inline-block;
+            font-size: 0;
+            overflow-x: scroll;
+            box-sizing: border-box;
+            height: 1.4rem;
+            white-space: nowrap;
+            padding: 0.14rem 0 0.14rem 0.14rem;
+            font-size: 0;
+            img {
+              width: 1.14rem;
+              height: 1.12rem;
+              margin-right: 0.2rem;
+            }
           }
-        }
+        }      
       }
       .pay-money {
         width: 100%;

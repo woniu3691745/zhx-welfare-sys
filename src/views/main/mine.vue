@@ -55,7 +55,7 @@
       <div class="hheight-22"></div>
       <mt-cell class="mine-no-bg" title="地址管理" is-link to="/addressMs"></mt-cell>
       <mt-cell title="账户安全" is-link to="/accountManagement"></mt-cell>
-      <mt-cell title="联系客服" is-link></mt-cell>
+      <mt-cell title="联系客服" is-link to="/contactService"></mt-cell>
     </div>
     <div class="mine-header">
       <mt-button type="danger" size="large" @click="LogOut">退出</mt-button>

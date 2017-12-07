@@ -6,20 +6,17 @@
  * 支付失败
  */
 <template>
-  <div class="fail">
+  <div class="customService">
     <div class="common-header">
-      <mt-header title="支付失败">
+      <mt-header title="联系客服">
         <router-link :to="{ path: '/mineOrder', query: { typeId: this.typeId}}" slot="left">
           <mt-button icon="back"></mt-button>
         </router-link>
       </mt-header>
     </div>
-    <div class="fail-body">
-      <div class="fail-body-container">
-        <img src="../../assets/fail.png" alt="">
-        <p>很遗憾，订单支付失败！</p>
-        <span>由于您的网络不给力，支付失败！</span>
-      </div>
+    <div class="custom-service-body">
+      <img src="../../assets/service.png" alt="">
+      <p>联系客服请发邮件到: <span>95159@zihexin.com</span></p>
     </div>
     <div class="bottom">
 
@@ -54,30 +51,23 @@
 </script>
 
 <style lang="less" scoped>
-.fail-body {
-  .fail-body-container {
-    img {
-      width: 1.86rem;
-      height: 1.86rem;
-      display: block;
-      font-size: 0;
-      margin: 0 auto;
-      margin-top: 1.18rem;
-    }
-    p {
-      text-align: center;
-      margin-top: 0.54rem;
-      color: #C92727;
-      font-size: 0.36rem;
-    }
+.custom-service-body {
+  img {
+    width: 1.66rem;
+    height: 1.6rem;
+    display: block;
+    font-size: 0;
+    margin: 0 auto;
+    margin-top: 2.3rem;
+  }
+  p {
+    font-size: 0.26rem;
+    color: #323232;
+    margin-top: 1rem;
+    text-align:  center;
     span {
-      font-size: 0.32rem;
-      color: #323232;
-      display: block;
-      margin-top: 0.36rem;
-      text-align: center;
-      width: 6rem;
-      margin: 0.36rem auto;
+      font-size: 0.26rem;
+      color: #32c5fc;
     }
   }
 }

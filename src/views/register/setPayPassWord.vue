@@ -37,7 +37,6 @@
 
 <script>
   import {MessageBox} from 'mint-ui'
-  import checkIdcard from '@/utils/validIdCard'
   import {setPayPwd} from '@/api/register'
   import {mapGetters} from 'vuex'
   export default {
@@ -56,14 +55,14 @@
       handleSubmit () {
         const customerNamePatten = /\W{2,6}/
         const payPwdPatten = /^\d{6}$/
-        console.log(payPwdPatten.test('123456'))
+        const checkIdcard = /^(\d{6})(\d{4})(\d{2})(\d{2})(?:\d{2})(\d)(?:\d|X)$/
         if (!customerNamePatten.test(this.setPayPassWordForm.username)) {
           MessageBox({
             message: '请输入正确的姓名',
             closeOnClickModal: true,
             showConfirmButton: false
           })
-        } else if (checkIdcard(this.setPayPassWordForm.identityCard) !== '验证通过!') {
+        } else if (!checkIdcard.test(this.setPayPassWordForm.identityCard)) {
           MessageBox({
             message: '请输入正确的身份证号码',
             closeOnClickModal: true,

@@ -178,6 +178,7 @@ export default {
           background: #F5F5F5;
           position: relative;
           display: block;
+          font-size: 0;
           .all-thing-pic {
             display: inline-block;
             font-size: 0;
@@ -303,6 +304,9 @@ export default {
 .mint-loadmore-top {
   font-size: 0.3rem;
 }
+// .mint-loadmore-bottom {
+//   font-size: 0.3rem;
+// }
 
 .mint-loadmore-top span {
   -webkit-transition: 0.2s linear;

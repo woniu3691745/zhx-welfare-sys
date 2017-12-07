@@ -82,8 +82,7 @@ export const constantRouterMap = [
   { path: '/resetLoginPwd', name: '重置登录密码', component: resolve => require(['@/views/account/resetLoginPwd.vue'], resolve) },
   { path: '/resetPayPwd', name: '重置支付密码', component: resolve => require(['@/views/account/payPwd/resetPayPwd.vue'], resolve) },
   {path: '/resetPayPwds', name: 'resetPayPwds', component: resolve => require(['@/views/account/payPwd/resetPayPwds.vue'], resolve)},
-  { path: '/resetBindPhone', name: '更换绑定手机号', component: resolve => require(['@/views/account/resetBindPhone.vue'], resolve) },
-  { path: '/contactService', name: '联系客服', component: resolve => require(['@/views/account/contactService.vue'], resolve) }
+  { path: '/resetBindPhone', name: '更换绑定手机号', component: resolve => require(['@/views/account/resetBindPhone.vue'], resolve) }
 ]
 
 export default new Router({

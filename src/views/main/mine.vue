@@ -103,7 +103,7 @@ export default {
           me.$router.push({ path: '/mineOrder', query: { selected: '04' } })
           break
         case 3:
-          me.$router.push({ path: '/mineOrder', query: { selected: '05' } })
+          me.$router.push({ path: '/mineOrder', query: { selected: '' } })
           break
       }
     },
@@ -141,9 +141,12 @@ export default {
       .then(res => {
         const data = res.data
         if (data.result) {
-          let { enterpriseName, userName } = data.bizData.UserInfo
+          let { enterpriseName, userName, totalCount, waitPayCount, waitTakeCount } = data.bizData.UserInfo
           this.enterpriseName = enterpriseName
           this.userName = userName
+          this.totalCount = totalCount
+          this.waitPayCount = waitPayCount
+          this.waitTakeCount = waitTakeCount
         } else {
           this.alerts(data.message)
         }

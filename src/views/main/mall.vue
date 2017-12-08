@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-08 14:50:22
+ * @Last Modified time: 2017-12-08 16:29:00
  * 首页组件
  */
 <template>
@@ -74,12 +74,12 @@
         </div>
       </li>
     </ul>  
+    <span style="font-size:12px;" v-if="showBottom">没有数据啦！</span>
   </div>
 </template>
 
 <script>
 import { startLoading, endLoading } from '../../utils/utils'
-import { MessageBox } from 'mint-ui'
 import eventBus from '../../utils/eventBus'
 export default {
   name: 'mall-page',
@@ -96,6 +96,7 @@ export default {
       count: '', // 购物车数量
       index: 0,
       limit: 10,
+      showBottom: false,
       rusuletStatus: false // 商品返回状态
     }
   },
@@ -198,24 +199,19 @@ export default {
         .dispatch('CompetitiveProductsInfo', viewNums)
         .then(res => {
           if (!res.data.length) {
-            MessageBox({
-              message: '数据已经到底了！',
-              closeOnClickModal: true,
-              showConfirmButton: true
-            })
-            this.rusuletStatus = true
-            endLoading()
-            return
-          }
-          if (this.competitiveProducts.length === 0) {
-            this.competitiveProducts = res.data
+            this.showBottom = true
           } else {
-            res.data.forEach(element => {
-              this.competitiveProducts.push(element)
-            })
+            if (this.competitiveProducts.length === 0) {
+              this.competitiveProducts = res.data
+            } else {
+              res.data.forEach(element => {
+                this.competitiveProducts.push(element)
+              })
+            }
+            // 分页
+            this.index = this.index + 1
+            this.showBottom = false
           }
-          // 分页
-          this.index = this.index + 1
           this.rusuletStatus = true
           endLoading()
         })

@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-12-04 14:27:42 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-07 19:22:17
+ * @Last Modified time: 2017-12-08 16:25:32
  * 支付密码
  */
 
@@ -24,7 +24,7 @@
   </span>
   </div>
   <div class="write-phonenum">
-    <input type="password" maxlength="" class="realInput" v-model="realInput"  @keyup="getNum()" @keydown="delNum()" id="focusid">
+    <input type="number" maxlength="" class="realInput" v-model="realInput"  @keyup="getNum()" @keydown="delNum()" id="focusid">
     <ul class="write-input clearfix">
         <li v-for="disInput1 in disInputs" :key="disInput1.value">
           <input type="password" maxlength="1" v-model="disInput1.value">

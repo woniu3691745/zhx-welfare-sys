@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 09:59:01 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-07 14:39:35
+ * @Last Modified time: 2017-12-08 16:34:40
  * 确认订单
  */
 <template>
@@ -59,7 +59,7 @@
         <span class="right shop-kind">¥{{confirmOrderForm.productTotal}}</span>
         <span class="right shop-delait">共{{productImgNum}}件商品 使用额度支付小计：</span>
       </div>
-      <div class="clear merge">
+      <div class="clear merge" v-if="!confirmOrderForm.isShipping">
         <span class="left shop-kind">{{confirmOrderForm.shippingInfo}}</span>
         <span class="right shop-delait" @click="together">去凑单</span>
       </div>

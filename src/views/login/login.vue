@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-11-14 09:59:01
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-05 16:19:07
+ * @Last Modified time: 2017-12-08 19:36:12
  * 登录
  */
 <template>
@@ -33,7 +33,7 @@
 <script>
 import { MessageBox } from 'mint-ui'
 const phoneNoPattern = /^1[34578]\d{9}$/
-const signinPwdPatten = /^[a-z0-9]{1,20}$/
+const signinPwdPatten = /^[a-zA-Z0-9]{1,20}$/
 export default {
   name: 'login-page',
   data () {

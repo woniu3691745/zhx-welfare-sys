@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-08 17:19:26
+ * @Last Modified time: 2017-12-08 17:27:10
  * 首页组件
  */
 <template>
@@ -213,7 +213,7 @@ export default {
             this.showBottom = false
             this.rusuletStatus = true
           }
-          // endLoading()
+          endLoading()
         })
         .catch(res => {
           console.log(res)
@@ -261,6 +261,7 @@ export default {
       this.index = 0
       this.limit = 10
       if (this.rusuletStatus) {
+        startLoading()
         this.competitiveProductsInfo(this.typeId)
         this.rusuletStatus = false
       }

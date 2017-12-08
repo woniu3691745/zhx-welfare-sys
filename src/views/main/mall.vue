@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-08 10:11:08
+ * @Last Modified time: 2017-12-08 11:15:22
  * 首页组件
  */
 <template>
@@ -79,22 +79,24 @@
 
 <script>
 import { startLoading, endLoading } from '../../utils/utils'
+import { MessageBox } from 'mint-ui'
 import eventBus from '../../utils/eventBus'
 export default {
   name: 'mall-page',
   data () {
     return {
-      typeName: '',                                 // 种类名称
+      typeName: '', // 种类名称
       // quota: this.$route.query.quota,               // 余额（通过路由获得）
       balance: '',
-      bonusPackages: [],                            // 大礼包
-      competitiveProducts: [],                      // 商品
-      categorys: [],                                // 商品种类
-      typeIdAll: this.$route.query.typeId,          // 种类
-      typeId: this.$route.query.typeId,             // 种类
-      count: '',                                    // 购物车数量
+      bonusPackages: [], // 大礼包
+      competitiveProducts: [], // 商品
+      categorys: [], // 商品种类
+      typeIdAll: this.$route.query.typeId, // 种类
+      typeId: this.$route.query.typeId, // 种类
+      count: '', // 购物车数量
       index: 0,
-      limit: 4
+      limit: 10,
+      rusuletStatus: false // 商品返回状态
     }
   },
   created () {
@@ -104,33 +106,42 @@ export default {
     eventBus.$on('refurbishMallData', param => {
       this.clear()
       this.init(param.typeId)
-      this.typeId = param.typeId    // 导航按钮
-      this.typeIdAll = param.typeId    // 导航按钮
+      this.typeId = param.typeId // 导航按钮
+      this.typeIdAll = param.typeId // 导航按钮
+      this.index = 0
+      this.limit = 10
+      if (this.rusuletStatus) {
+        startLoading()
+        this.competitiveProductsInfo(this.typeId)
+        this.rusuletStatus = false
+      }
     })
   },
   destroyed () {
     eventBus.$off('refurbishMallData')
   },
   mounted () {
+    this.rusuletStatus = true
     this.init(this.typeId)
-    this.focus()                    // 导航栏焦点
+    this.focus() // 导航栏焦点
   },
   methods: {
     // 下拉加载更多
     loadMore () {
-      setTimeout(() => {
+      if (this.rusuletStatus) {
         startLoading()
         this.competitiveProductsInfo(this.typeId)
-      }, 1000)
+        this.rusuletStatus = false
+      }
     },
     // 初始化
     init (typeId) {
       this.index = 0
-      this.bonusPackagesInfo(typeId)            // 大礼包
-      this.categoryInfo(typeId)                 // 类品过滤种类
-      this.competitiveProductsInfo(typeId)      // 品类信息
-      this.quotaInfo(typeId)                    // 通过额度种类获得额度信息
-      this.cartCount(typeId)                    // 购物车数量
+      this.bonusPackagesInfo(typeId) // 大礼包
+      this.categoryInfo(typeId) // 类品过滤种类
+      // this.competitiveProductsInfo(typeId)      // 品类信息
+      this.quotaInfo(typeId) // 通过额度种类获得额度信息
+      this.cartCount(typeId) // 购物车数量
     },
     quotaInfo (typeId) {
       let categoryInfo = {
@@ -182,9 +193,20 @@ export default {
         sequenceType: 0,
         productTypeId: typeId
       }
+      // console.log('--->' + this.index)
       this.$store
         .dispatch('CompetitiveProductsInfo', viewNums)
         .then(res => {
+          if (!res.data.length) {
+            MessageBox({
+              message: '数据已经到底了！',
+              closeOnClickModal: true,
+              showConfirmButton: true
+            })
+            this.rusuletStatus = true
+            endLoading()
+            return
+          }
           if (this.competitiveProducts.length === 0) {
             this.competitiveProducts = res.data
           } else {
@@ -194,6 +216,7 @@ export default {
           }
           // 分页
           this.index = this.index + 1
+          this.rusuletStatus = true
           endLoading()
         })
         .catch(res => {
@@ -240,7 +263,7 @@ export default {
       this.competitiveProducts = []
       this.typeId = typeId
       this.index = 0
-      this.limit = 4
+      this.limit = 10
       this.competitiveProductsInfo(typeId)
     }
   }

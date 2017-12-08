@@ -139,13 +139,24 @@ a:hover {
 .right {
   float: right;
 }
-
+// 导航栏 
+.mint-tabbar {
+  .mint-tab-item-icon {
+    width: 0.43rem;
+    height: 0.43rem;
+    margin: auto;
+  }
+}
 // 购物车
 .compute {
   border-top: 1px solid #ebebeb;
   box-sizing: border-box;
+  .mint-checklist-title {
+    margin: 0;
+  }
   .mint-cell {
     background-image: none;
+    min-height: 0;
     .mint-cell-wrapper {
       background-image: none;
       height: 0.88rem;
@@ -189,6 +200,9 @@ a:hover {
       }
     }
   }
+  .mint-checklist-title {
+    margin: 0;
+  }
   .mint-checkbox-core {
     width: 0.4rem;
     height: 0.4rem;
@@ -196,9 +210,9 @@ a:hover {
   .mint-cell-wrapper {
     background-image: none;
   }
-  .mint-cell {
+  .mint-cell:last-child {
     background-image: none;
-    margin-top: 0.12rem;
+    
   }
   .mint-checkbox-core::after {
     border: 2px solid transparent;

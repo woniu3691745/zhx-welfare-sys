@@ -17,15 +17,19 @@ router.beforeEach((to, from, next) => {
       if (store.getters.roles.length === 0) {
         store.dispatch('GetUserInfo').then(req => {
           // next({ ...to })
-          if (req.data.success) {
-            next()
-          } else {
+          if (!req.data.success) {
             MessageBox({
               message: req.data.message,
               closeOnClickModal: true,
               showConfirmButton: true
             })
+            store.dispatch('LogOut').then(() => {
+              next({ path: '/login' })
+            })
+          } else {
+            next()
           }
+          // next()
         }).catch(() => {
           store.dispatch('LogOut').then(() => {
             next({ path: '/login' })

@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-07 18:05:12
+ * @Last Modified time: 2017-12-08 14:33:15
  * 我的
  */
 <template>
@@ -63,7 +63,7 @@
   </div>
 </template>
 <script>
-import {MessageBox} from 'mint-ui'
+import { MessageBox } from 'mint-ui'
 import eventBus from '../../utils/eventBus'
 export default {
   name: 'mine-page',
@@ -97,13 +97,13 @@ export default {
       const me = this
       switch (e) {
         case 1:
-          me.$router.push({path: '/mineOrder', query: {selected: '01'}})
+          me.$router.push({ path: '/mineOrder', query: { selected: '01' } })
           break
         case 2:
-          me.$router.push({path: '/mineOrder', query: {selected: '04'}})
+          me.$router.push({ path: '/mineOrder', query: { selected: '04' } })
           break
         case 3:
-          me.$router.push({path: '/mineOrder', query: {selected: '05'}})
+          me.$router.push({ path: '/mineOrder', query: { selected: '05' } })
           break
       }
     },
@@ -114,7 +114,7 @@ export default {
         showConfirmButton: true
       })
     },
-     // 导航焦点
+    // 导航焦点
     focus () {
       let select = this.$route.query.selected || 'mine'
       // 进入商城方式
@@ -131,9 +131,10 @@ export default {
   },
   created () {
     let quotasTmp = ''
-    this.$store.getters.quota.map(
-      x => (quotasTmp += x.typeName + ': ￥' + x.balance + '/')
-    )
+    let qo = this.$store.getters.quota
+    if (qo) {
+      qo.map(x => (quotasTmp += x.typeName + ': ￥' + x.balance + '/'))
+    }
     this.quotas = quotasTmp.substring(0, quotasTmp.length - 1)
     this.$store
       .dispatch('ZHX_GET_USERINFO')

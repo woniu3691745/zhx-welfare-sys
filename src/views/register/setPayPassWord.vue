@@ -21,7 +21,7 @@
         <mt-field label="身份证号" placeholder="请填写您本人的身份证号" v-model="setPayPassWordForm.identityCard"></mt-field>
         <mt-field label="支付密码" type="password" placeholder="请输入6位密码" v-model="setPayPassWordForm.payPassWord"></mt-field>
         <mt-field label="确认密码" type="password" placeholder="请再次输入您的支付密码" v-model="setPayPassWordForm.confirmPayPassWord"></mt-field>
-        <div class="pwd-totip">温馨提示：支付密码必须与登录密码不同，支付时需要使用支付密码；为确保您的账号，身份证号码是您找回密码的唯一凭证。</div>
+        <div class="pwd-totip">温馨提示：支付密码必须与登录密码不同，支付时需要使用支付密码；为确保您的账号安全，身份证号码是您找回密码的唯一凭证。</div>
       </div>
     </div>
     <div class="bottom">

@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 19:04:29 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-04 14:05:01
+ * @Last Modified time: 2017-12-08 10:09:53
  * 额度
  */
 <template>
@@ -47,7 +47,7 @@
           </router-link>
           <div class="balance clear">
             <div class="balance-left left">
-              <span>可以用余额：</span>
+              <span>可用余额：</span>
             </div>
             <div class="balance-middle left">
               <span>￥{{item.balance}}</span>
@@ -57,7 +57,7 @@
             <mt-button type="danger" size="large" @click="use(item.typeId)">去使用</mt-button>
           </div>
           <div class="description">
-            <span>可用品类：{{item.categorys}}</span>
+            <span>可购品类：{{item.categorys}}</span>
           </div>
         </div>
       </div>
@@ -66,9 +66,9 @@
         <div class="importants">
           <span>重要提示：</span>
           <p class="margin-top">1、请在有效期内使用您的额度，过期后额度将清零作废，额度有效期由您所在的企业规定。</p>
-          <p>2、余额不可延期、不同赎回、不可体现，消费时请全额使用您的额度。</p>   
+          <p>2、余额不可延期、不可赎回、不可提现，消费时请全额使用您的额度。</p>   
           <p>3、购买不同供应商的商品不满足包邮条件时，收取20元运费。</p>
-          <p>4、商品一经售出，因质量问题可以更换，不可用退货。</p>      
+          <p>4、商品一经售出，因质量问题可以更换，不可以退货。</p>      
       </div>
         </div>
     </div>

@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-07 12:27:04
+ * @Last Modified time: 2017-12-08 10:11:08
  * 首页组件
  */
 <template>
@@ -105,6 +105,7 @@ export default {
       this.clear()
       this.init(param.typeId)
       this.typeId = param.typeId    // 导航按钮
+      this.typeIdAll = param.typeId    // 导航按钮
     })
   },
   destroyed () {

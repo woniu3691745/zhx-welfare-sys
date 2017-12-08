@@ -37,7 +37,7 @@
         <div @click="handRouterClick(2)">
           <div>
             <img class="left" src="../../assets/pendingShipment.png" alt="">
-            <p v-show="waitTakeCount">{{waitPayCount}}</p>
+            <p v-show="waitTakeCount">{{waitTakeCount}}</p>
           </div>
           <p>待收货</p>
         </div>

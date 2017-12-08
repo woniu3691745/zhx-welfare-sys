@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 09:59:01 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-07 14:58:40
+ * @Last Modified time: 2017-12-08 18:29:20
  * 查看物流
  */
 <template>
@@ -22,25 +22,25 @@
           <!-- <p>两件商品</p> -->
         </div>
         <div class="left logistics-number">
-          <p>订单号：1475874589658745</p>
-          <p>快递单号：1475698634548888</p>
+          <p>订单号：{{logistics.orderId}}</p>
+          <p>快递单号：{{logistics.orderId}}</p>
         </div>
       </div>
       <div class="height-20"></div>
       <div class="logistics-now-container">
         <ul class="logistics-now">
-          <li>
+          <li v-for="item in logistics.orderTrack" :key="item.msgTime">
+            <div>
+              <p>{{item.content}}</p>
+              <p>{{itme.msgTime}}</p>
+            </div>
+          </li>
+          <!-- <li>
             <div>
               <p>到北京市【北京转运中心】</p>
               <p>2017-11-3 22:14:50</p>
             </div>
-          </li>
-          <li>
-            <div>
-              <p>到北京市【北京转运中心】</p>
-              <p>2017-11-3 22:14:50</p>
-            </div>
-          </li>
+          </li> -->
         </ul>
       </div>
     </div>
@@ -51,29 +51,58 @@
 </template>
 
 <script>
- export default {
+import { startLoading, endLoading } from '../../utils/utils'
+import { MessageBox } from 'mint-ui'
+export default {
    // 组件名字
-   name: 'order-detail-page',
+  name: 'order-detail-page',
    // 组合其它组件
-   extends: {},
+  extends: {},
    // 组件属性、变量
-   props: {},
+  props: {},
    // 变量
-   data () {
-     return {
-       orderId: this.$route.query.orderId // 额度ID
-     }
-   },
-   computed: {},
+  data () {
+    return {
+      logistics: '',
+      orderId: this.$route.query.orderId // 额度ID
+    }
+  },
+  computed: {},
    // 使用其它组件
-   components: {},
-   watch: {},
+  components: {},
+  watch: {},
    // 方法
-   methods: {},
+  methods: {
+    logisticsInfo () {
+      startLoading()
+      let orderInfo = {
+        orderId: this.orderId
+      }
+      this.$store
+        .dispatch('FindLogistics', orderInfo)
+        .then(res => {
+          if (res.result) {
+            this.logistics = res.LogisticsInfo
+          } else {
+            MessageBox({
+              title: '提示',
+              message: res.message,
+              showCancelButton: false
+            })
+          }
+          endLoading()
+        })
+        .catch(res => {
+          console.log(res)
+        })
+    }
+  },
    // 生命周期函数
   //  beforeCreate: {},
-   mounted () {}
- }
+  created () {
+    this.logisticsInfo()
+  }
+}
 </script>
 
 <style lang="less" scoped>

@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-08 17:27:10
+ * @Last Modified time: 2017-12-08 17:40:57
  * 首页组件
  */
 <template>
@@ -16,7 +16,7 @@
           <span>￥{{balance}}</span>
       </div>
       <span class="right shop-car">
-        <router-link :to="{ path: '/cart', query: {typeId: this.typeId}}"> 
+        <router-link :to="{ path: '/cart', query: {typeId: this.typeIdAll}}"> 
           <span>{{this.count}}</span>
         </router-link>
       </span>
@@ -79,7 +79,7 @@
 </template>
 
 <script>
-// import { startLoading, endLoading } from '../../utils/utils'
+import { startLoading, endLoading } from '../../utils/utils'
 import eventBus from '../../utils/eventBus'
 export default {
   name: 'mall-page',
@@ -260,11 +260,8 @@ export default {
       this.typeId = typeId
       this.index = 0
       this.limit = 10
-      if (this.rusuletStatus) {
-        startLoading()
-        this.competitiveProductsInfo(this.typeId)
-        this.rusuletStatus = false
-      }
+      startLoading()
+      this.competitiveProductsInfo(this.typeId)
     }
   }
 }

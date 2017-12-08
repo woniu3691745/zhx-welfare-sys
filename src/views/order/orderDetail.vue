@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 09:59:01 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-07 15:12:21
+ * @Last Modified time: 2017-12-08 18:19:41
  * 订单详情
  */
 <template>
@@ -43,7 +43,7 @@
         <div v-if="orderInfo.childOrderCount === '0'">
           <div class="all-thing">
             <div class="all-thing-pic" v-for="img in orderInfo.imgDetails" :key="img.mallSku">>
-              <router-link :to="{ path: '/detail', query: {sku: img.mallSku}}"><img v-bind:src="img.imgUrl"></router-link>
+              <router-link :to="{ path: '/detail', query: {sku: img.mallSku, typeId: orderInfo.productType}}"><img v-bind:src="img.imgUrl"></router-link>
             </div>
           </div>
           <div class="border-1px">
@@ -76,7 +76,7 @@
           </div>
           <div class="statue-pay-cancel clear" v-else>
             <span class="pay right" @click="expressOrder(child, orderInfo)">查看物流</span>
-            <span class="cancel right" @click="confirmOrder(child, orderInfo)">确认收货</span>
+            <span class="cancel right" @click="confirmOrder(orderInfo, child)">确认收货</span>
           </div>
         </div>
         
@@ -125,7 +125,23 @@ export default {
     },
     // 取消订单
     cancelOrder (subVal, fatherval) {
-      console.log('--->' + JSON.stringify(subVal))
+      startLoading()
+      let orderInfo = {
+        orderId: subVal.orderId
+      }
+      this.$store
+        .dispatch('CancelOrder', orderInfo)
+        .then(res => {
+          MessageBox({
+            title: '提示',
+            message: res.message,
+            showCancelButton: false
+          })
+          endLoading()
+        })
+        .catch(res => {
+          console.log(res)
+        })
     },
     // 查看物流
     expressOrder (subVal, fatherval) {
@@ -137,11 +153,11 @@ export default {
       })
     },
     // 确认订单
-    confirmOrder (subVal, fatherval) {
+    confirmOrder (fatherval, subVal) {
       startLoading()
       let orderInfo = {
         orderId: fatherval.orderId,
-        orderSubId: subVal.orderSubId
+        orderSubId: subVal ? subVal.orderSubId : ''
       }
       this.$store
         .dispatch('FinishOrder', orderInfo)
@@ -182,6 +198,7 @@ export default {
         .then(res => {
           if (res.OrderInfo) {
             this.orderInfo = res.OrderInfo
+            this.cartCount(this.orderInfo.productType)
           } else {
             MessageBox({
               title: '提示',
@@ -200,7 +217,7 @@ export default {
       this.$store
         .dispatch('Count', typeId)
         .then(res => {
-          this.count = res.total
+          // this.count = res.total
         })
         .catch(res => {
           console.log(res)
@@ -209,7 +226,6 @@ export default {
   },
   mounted () {
     this.orderList()
-    this.cartCount(this.typeId)
   }
 }
 </script>

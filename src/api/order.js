@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-12-04 16:20:40
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-08 14:26:42
+ * @Last Modified time: 2017-12-08 17:48:20
  * 订单
  */
 import fetch from '@/utils/fetch'
@@ -92,6 +92,36 @@ export function finishOrder (token, orderInfo) {
   }
   return fetch({
     url: '/userorder/finishOrder.cp',
+    method: 'post',
+    data
+  })
+}
+
+// 取消订单
+export function cancelOrder (token, orderInfo) {
+  const data = {
+    bizData: {
+      ...orderInfo
+    },
+    token
+  }
+  return fetch({
+    url: '/userorder/cancel.cp',
+    method: 'post',
+    data
+  })
+}
+
+// 获取物流信息
+export function findLogistics (token, orderInfo) {
+  const data = {
+    bizData: {
+      ...orderInfo
+    },
+    token
+  }
+  return fetch({
+    url: '/userorder/findLogistics.cp',
     method: 'post',
     data
   })

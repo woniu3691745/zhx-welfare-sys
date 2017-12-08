@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-19 19:50:05 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-07 14:13:54
+ * @Last Modified time: 2017-12-08 17:55:21
  * 订单列表
  */
 <template>
@@ -156,8 +156,23 @@ export default {
         console.log(error)
       })
     },
+    // 取消订单
     cancelOrder (val) {
-      console.log('---> 取消订单 ' + val.orderId)
+      let orderInfo = {
+        orderId: val.orderId
+      }
+      this.$store
+        .dispatch('CancelOrder', orderInfo)
+        .then(res => {
+          MessageBox({
+            title: '提示',
+            message: res.message,
+            showCancelButton: false
+          })
+        })
+        .catch(res => {
+          console.log(res)
+        })
     },
     ...mapMutations([
       'SET_CONFIRM_ORDER_INFO'

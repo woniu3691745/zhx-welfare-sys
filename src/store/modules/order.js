@@ -2,10 +2,10 @@
  * @Author: lidongliang
  * @Date: 2017-10-18 15:33:14
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-08 14:28:25
+ * @Last Modified time: 2017-12-08 17:48:45
  * 订单 module
  */
-import { findOrders, findOne, submit, pay, deleteOrder, finishOrder } from '@/api/order'
+import { findOrders, findOne, submit, pay, deleteOrder, finishOrder, cancelOrder, findLogistics } from '@/api/order'
 import { getToken } from '@/utils/auth'
 
 const cart = {
@@ -75,6 +75,26 @@ const cart = {
     FinishOrder ({ commit, state }, orderInfo) {
       return new Promise((resolve, reject) => {
         finishOrder(state.token, orderInfo).then(response => {
+          resolve(response.data)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    // 取消订单
+    CancelOrder ({ commit, state }, orderInfo) {
+      return new Promise((resolve, reject) => {
+        cancelOrder(state.token, orderInfo).then(response => {
+          resolve(response.data)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    // 获取物流信息
+    FindLogistics ({ commit, state }, orderInfo) {
+      return new Promise((resolve, reject) => {
+        findLogistics(state.token, orderInfo).then(response => {
           resolve(response.data)
         }).catch(error => {
           reject(error)

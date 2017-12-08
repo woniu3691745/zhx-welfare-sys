@@ -144,9 +144,9 @@ export default {
           let { enterpriseName, userName, totalCount, waitPayCount, waitTakeCount } = data.bizData.UserInfo
           this.enterpriseName = enterpriseName
           this.userName = userName
-          this.totalCount = totalCount
-          this.waitPayCount = waitPayCount
-          this.waitTakeCount = waitTakeCount
+          this.totalCount = parseInt(totalCount)
+          this.waitPayCount = parseInt(waitPayCount)
+          this.waitTakeCount = parseInt(waitTakeCount)
         } else {
           this.alerts(data.message)
         }

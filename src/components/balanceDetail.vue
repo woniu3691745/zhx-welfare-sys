@@ -22,7 +22,7 @@
              <span class="right money">￥{{i.balance}}</span>
              <span class="overdue right" v-if="i.limitFlag">3天后过期</span>
           </div>
-           <div class="overdue-date">有效期直：{{i.limitDate}}</div>
+           <div class="overdue-date">有效期至：{{i.limitDate}}</div>
          </div>
        </div>
     </div>

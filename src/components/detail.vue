@@ -31,8 +31,8 @@
         <span>{{goodsForm.productDetail}}</span>
       </div>
       <!-- -->
-      <div class="infor-good">
-        <span v-html="goodsForm.productDesc"></span>
+      <div class="infor-detail">
+        <div class="aaa" v-html="goodsForm.productDesc"></div>
       </div>
       <div class="height-20"></div>
     </div>
@@ -178,6 +178,15 @@ export default {
       line-height: 0.5rem;
     }
   }
+  // .infor-detail {
+  //   width: 100%;
+  //   .aaa {
+  //     width: 100%;
+  //     .content_tpl {
+  //       width: 100%;
+  //     } 
+  //   }     
+  // }
 }
 .detail-bottom {
   .mint-tabbar {

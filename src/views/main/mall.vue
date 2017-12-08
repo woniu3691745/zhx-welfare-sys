@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-08 11:15:22
+ * @Last Modified time: 2017-12-08 14:50:22
  * 首页组件
  */
 <template>
@@ -221,6 +221,7 @@ export default {
         })
         .catch(res => {
           console.log(res)
+          endLoading()
         })
     },
     // 购物车数量
@@ -264,7 +265,11 @@ export default {
       this.typeId = typeId
       this.index = 0
       this.limit = 10
-      this.competitiveProductsInfo(typeId)
+      if (this.rusuletStatus) {
+        startLoading()
+        this.competitiveProductsInfo(this.typeId)
+        this.rusuletStatus = false
+      }
     }
   }
 }

@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-12-04 16:20:40
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-07 14:59:11
+ * @Last Modified time: 2017-12-08 14:26:42
  * 订单
  */
 import fetch from '@/utils/fetch'
@@ -76,7 +76,7 @@ export function deleteOrder (token, orderInfo) {
     token
   }
   return fetch({
-    url: '/userorder/finishOrder.cp',
+    url: '/userorder/delete.cp',
     method: 'post',
     data
   })

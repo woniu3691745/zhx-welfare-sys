@@ -268,10 +268,7 @@ export default {
   font-size: 20px;
   caret-color: #fff;
   color: #fff;
-  text-indent: -5em;
-}
-.realInput:focus{
-  left:-800rem;
+  text-indent: -50rem;
 }
 /*影藏input标签*/
 input[type="tel"]:disabled {

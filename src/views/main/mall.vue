@@ -213,7 +213,7 @@ export default {
             this.showBottom = false
             this.rusuletStatus = true
           }
-          endLoading()
+          // endLoading()
         })
         .catch(res => {
           console.log(res)
@@ -261,7 +261,7 @@ export default {
       this.index = 0
       this.limit = 10
       if (this.rusuletStatus) {
-        startLoading()
+        // startLoading()
         this.competitiveProductsInfo(this.typeId)
         this.rusuletStatus = false
       }

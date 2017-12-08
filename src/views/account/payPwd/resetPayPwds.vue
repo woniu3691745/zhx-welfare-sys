@@ -19,7 +19,7 @@
         </mt-field>
         <mt-field label="支付密码" type="password" placeholder="请设置6位支付密码" v-model="bindForm.ResetPassWord">
         </mt-field>
-        <mt-field label="确认密码" type="password"  placeholder="请在此输入密码" v-model="bindForm.ResetPassWordOK"></mt-field>
+        <mt-field label="确认密码" type="password"  placeholder="请再次输入密码" v-model="bindForm.ResetPassWordOK"></mt-field>
       </div>
     </div>
     <div class="bottom">

@@ -84,7 +84,6 @@ const register = {
             }
           }
         }
-        console.log(new Date() - new Date(state.captchaDate) > captchaCooldownDuration)
         if (!state.captchaDate || new Date() - new Date(state.captchaDate) > captchaCooldownDuration) {
           getCaptcha(reqData).then(res => {
             const data = res.data
@@ -95,7 +94,7 @@ const register = {
                 captchaDate: new Date()
               }
               commit('VX_GET_CAPTCHA', captchaInfo)
-              resolve()
+              resolve(data.result)
             } else {
               reject(data.message)
             }

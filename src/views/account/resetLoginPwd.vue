@@ -165,13 +165,13 @@ export default {
         this.alerts('请输入密码')
         return false
       } else if (!flag) {
-        this.alerts('密码格式不正确')
+        this.alerts('密码由6-20位英文字母、数字组成，区分大小写')
         return false
       } else if (!confirmNewLoginPassWord) {
         this.alerts('请输入确认密码')
         return false
       } else if (newLoginPassWord !== confirmNewLoginPassWord) {
-        this.alerts('确认密码')
+        this.alerts('两次密码不一致')
         return false
       }
       return true

@@ -59,8 +59,11 @@ export default {
         })
         return
       }
-      this.setTime()
-      this.$store.dispatch('VX_GET_CAPTCHA', phoneNo).catch(err => {
+      this.$store.dispatch('VX_GET_CAPTCHA', phoneNo).then(res => {
+        if (res) {
+          this.setTime()
+        }
+      }).catch(err => {
         MessageBox({
           message: err || '短信验证码获取失败，请重试',
           closeOnClickModal: true,

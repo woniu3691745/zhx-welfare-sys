@@ -111,7 +111,7 @@ export default {
       MessageBox({
         message: data,
         closeOnClickModal: true,
-        showConfirmButton: false
+        showConfirmButton: true
       })
     },
      // 导航焦点

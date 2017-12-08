@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-08 16:53:54
+ * @Last Modified time: 2017-12-08 17:19:26
  * 首页组件
  */
 <template>
@@ -112,7 +112,6 @@ export default {
       this.index = 0
       this.limit = 10
       if (this.rusuletStatus) {
-        startLoading()
         this.competitiveProductsInfo(this.typeId)
         this.rusuletStatus = false
       }
@@ -130,7 +129,6 @@ export default {
     // 下拉加载更多
     loadMore () {
       if (this.rusuletStatus) {
-        startLoading()
         this.competitiveProductsInfo(this.typeId)
         this.rusuletStatus = false
       }
@@ -195,6 +193,7 @@ export default {
         productTypeId: typeId
       }
       // console.log('--->' + this.index)
+      // startLoading()
       this.$store
         .dispatch('CompetitiveProductsInfo', viewNums)
         .then(res => {
@@ -214,11 +213,10 @@ export default {
             this.showBottom = false
             this.rusuletStatus = true
           }
-          endLoading()
+          // endLoading()
         })
         .catch(res => {
           console.log(res)
-          endLoading()
         })
     },
     // 购物车数量
@@ -263,7 +261,6 @@ export default {
       this.index = 0
       this.limit = 10
       if (this.rusuletStatus) {
-        startLoading()
         this.competitiveProductsInfo(this.typeId)
         this.rusuletStatus = false
       }

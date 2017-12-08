@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 19:04:29 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-08 10:09:53
+ * @Last Modified time: 2017-12-08 18:34:39
  * 额度
  */
 <template>
@@ -14,15 +14,11 @@
     <div class="balance-body padding-top">
       <div class="index-swipe">
         <mt-swipe :auto="2000">
-          <mt-swipe-item><img src="../../assets/swipe/1.jpg"></img>
+          <mt-swipe-item><img src="../../assets/tu7.png"></img>
           </mt-swipe-item>
-          <mt-swipe-item><img src="../../assets/swipe/2.jpg"></img>
+          <mt-swipe-item><img src="../../assets/tu8.png"></img>
           </mt-swipe-item>
-          <mt-swipe-item><img src="../../assets/swipe/3.jpg"></img>
-          </mt-swipe-item>
-          <mt-swipe-item><img src="../../assets/swipe/4.jpg"></img>
-          </mt-swipe-item>
-          <mt-swipe-item><img src="../../assets/swipe/5.jpg"></img>
+          <mt-swipe-item><img src="../../assets/tu9.png"></img>
           </mt-swipe-item>
         </mt-swipe>
       </div>

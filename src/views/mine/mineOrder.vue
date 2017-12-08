@@ -20,7 +20,7 @@
           <mt-tab-item id="">全部</mt-tab-item>
         </div>
         <div class="router-padding">
-          <mt-tab-item id="01">代付款</mt-tab-item>
+          <mt-tab-item id="01">待付款</mt-tab-item>
         </div>
         <div class="router-padding">
           <mt-tab-item id="04">待收货</mt-tab-item>

@@ -119,11 +119,24 @@ export default {
           let val = values[i]
           if (val != null && val.k !== OldDataArr[i]) {
             OldDataArr[i] = val.k
-            if (!((`${val.k}`) in this.addList)) {
-              try {
-                const res = await this.getAddressDate(val.k, i)
-                let arr = res.data.bizData.Address
-                this.addList[val.k] = arr
+            if (val.f === 'Y') {
+              if (!((`${val.k}`) in this.addList)) {
+                try {
+                  const res = await this.getAddressDate(val.k, i)
+                  let arr = res.data.bizData.Address
+                  this.addList[val.k] = arr
+                  if (arr.length === 0) {
+                    picker.setSlotValues(i + 1, arr)
+                    OldDataArr[i + 1] = ''
+                    return
+                  } else if (val.f === 'N') {
+                    return
+                  } else {
+                    picker.setSlotValues(i + 1, arr)
+                  }
+                } catch (err) {}
+              } else {
+                let arr = this.addList[`${val.k}`]
                 if (arr.length === 0) {
                   picker.setSlotValues(i + 1, arr)
                   OldDataArr[i + 1] = ''
@@ -133,17 +146,6 @@ export default {
                 } else {
                   picker.setSlotValues(i + 1, arr)
                 }
-              } catch (err) {}
-            } else {
-              let arr = this.addList[`${val.k}`]
-              if (arr.length === 0) {
-                picker.setSlotValues(i + 1, arr)
-                OldDataArr[i + 1] = ''
-                return
-              } else if (val.f === 'N') {
-                return
-              } else {
-                picker.setSlotValues(i + 1, arr)
               }
             }
           }

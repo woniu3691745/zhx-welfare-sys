@@ -72,9 +72,9 @@
           <p>{{item.productName}}</p>
           <span>￥{{item.salePrice}}</span>
         </div>
-      </li>
+      </li>     
     </ul>  
-    <span style="font-size:12px;" v-if="showBottom">没有数据啦！</span>
+    <p class="no-date" v-if="showBottom">没有数据啦！</p>
   </div>
 </template>
 
@@ -274,6 +274,7 @@ export default {
 <style lang="less" scoped>
 @import "../../../static/css/util.css";
 .index-container {
+  padding-bottom: 0.98rem;
   .body-top {
     padding: 0 0.16rem;
     width: 100%;
@@ -323,7 +324,6 @@ export default {
   }
   .body-containers {
     padding-top: 0.88rem;
-    padding-bottom: 0.88rem;
     box-sizing: border-box;
     .solid-top {
       .index-swipe {
@@ -495,6 +495,11 @@ export default {
         }
       }
     }
+  }
+  .no-date {
+    font-size: 0.24rem;
+    text-align: center;
+    line-height: 0.4rem;
   }
 }
 </style>

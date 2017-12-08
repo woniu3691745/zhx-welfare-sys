@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-07 18:17:38
+ * @Last Modified time: 2017-12-08 10:02:28
  * 购物车
  */
 <template>
@@ -29,6 +29,7 @@
         </z-mt-checklist>
       </div>
     </div>
+    
     <div class="compute">
       <div class="compute-bg clear">
         <mt-checklist class="left"

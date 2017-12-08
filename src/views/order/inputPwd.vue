@@ -270,6 +270,9 @@ export default {
   color: #fff;
   text-indent: -5em;
 }
+.realInput:focus{
+  left:-800rem;
+}
 /*影藏input标签*/
 input[type="tel"]:disabled {
   background-color: #fff;

@@ -79,7 +79,7 @@
 </template>
 
 <script>
-import { startLoading, endLoading } from '../../utils/utils'
+// import { startLoading, endLoading } from '../../utils/utils'
 import eventBus from '../../utils/eventBus'
 export default {
   name: 'mall-page',

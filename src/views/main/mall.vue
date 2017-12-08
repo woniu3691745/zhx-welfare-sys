@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-08 16:29:00
+ * @Last Modified time: 2017-12-08 16:53:54
  * 首页组件
  */
 <template>
@@ -200,6 +200,7 @@ export default {
         .then(res => {
           if (!res.data.length) {
             this.showBottom = true
+            this.rusuletStatus = false
           } else {
             if (this.competitiveProducts.length === 0) {
               this.competitiveProducts = res.data
@@ -211,8 +212,8 @@ export default {
             // 分页
             this.index = this.index + 1
             this.showBottom = false
+            this.rusuletStatus = true
           }
-          this.rusuletStatus = true
           endLoading()
         })
         .catch(res => {

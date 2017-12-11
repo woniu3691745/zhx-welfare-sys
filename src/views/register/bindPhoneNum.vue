@@ -84,7 +84,6 @@ export default {
     },
     handleSubmit () {
       const phoneNo = this.bindForm.phoneNum
-      console.log(phoneNo)
       const captcha = this.bindForm.identifyingCode
       const captchaPattern = /\d{6}/ // 6位验证码
 

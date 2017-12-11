@@ -74,7 +74,7 @@
             closeOnClickModal: true,
             showConfirmButton: true
           })
-        } else if (!payPwdPatten.test(Number(this.setPayPassWordForm.payPassWord))) {
+        } else if (!payPwdPatten.test(this.setPayPassWordForm.payPassWord)) {
           MessageBox({
             message: '密码应为6位数字',
             closeOnClickModal: true,

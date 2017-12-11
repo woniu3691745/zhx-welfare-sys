@@ -75,7 +75,6 @@ export default {
           } else {
             me.alerts(res.data.message)
           }
-          console.log(res)
         }).catch((err) => {
           console.log(err)
         })

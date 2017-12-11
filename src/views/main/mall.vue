@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-08 18:40:35
+ * @Last Modified time: 2017-12-11 16:34:38
  * 首页组件
  */
 <template>
@@ -207,7 +207,7 @@ export default {
       // console.log('--->' + this.index)
       // startLoading()
       this.$store
-        .dispatch('CompetitiveProductsInfo', viewNums)
+        .dispatch('GoodList', viewNums)
         .then(res => {
           if (!res.data.length) {
             this.showBottom = true

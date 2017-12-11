@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 09:59:01 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-08 16:34:40
+ * @Last Modified time: 2017-12-11 11:51:35
  * 确认订单
  */
 <template>
@@ -149,6 +149,14 @@ export default {
     },
     // 提交
     preSubmit () {
+      if (this.validateQuotas()) {
+        MessageBox({
+          title: '提示',
+          message: '您的额度不足！',
+          showCancelButton: false
+        })
+        return false
+      }
       startLoading()
       let submitInfo = {
         orderNo: this.confirmOrderForm.orderNo, // 订单号
@@ -208,6 +216,10 @@ export default {
       } else {
         this.preSubmit()
       }
+    },
+    // 验证额度
+    validateQuotas () {
+      return Number(this.confirmOrderForm.cartTotal).toFixed(2) > Number(this.balance).toFixed(2)
     }
   },
   created () {

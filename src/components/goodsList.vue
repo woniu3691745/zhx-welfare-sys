@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-19 19:50:05 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-06 20:53:34
+ * @Last Modified time: 2017-12-11 15:26:22
  * 商品列表
  */
 <template>
@@ -76,7 +76,8 @@ export default {
       autoFill: false,
       bottomStatus: '',
       topStatus: '',
-      count: this.$store.getters.cartCount,       // 购物车数量
+      // count: this.$store.getters.cartCount,       // 购物车数量
+      count: '',
       typeId: this.$route.query.typeId,           // 种类
       togetherId: this.$route.query.togetherId,    // 凑单
       wrapperHeight: ''
@@ -136,7 +137,7 @@ export default {
           productTypeId: this.togetherId || this.typeId
         }
         this.$store
-        .dispatch('GoodList', viewNums)
+        .dispatch('BonusPackagesInfo', viewNums)
         .then(res => {
           this.goodList = res.data
           this.limit += 10
@@ -165,7 +166,7 @@ export default {
         productTypeId: param
       }
       this.$store
-        .dispatch('GoodList', viewNums)
+        .dispatch('BonusPackagesInfo', viewNums)
         .then(res => {
           this.goodList = res.data
           endLoading()
@@ -193,6 +194,7 @@ export default {
     this.goodListInfo()
   },
   mounted () {
+    this.cartCount(this.typeId)
     this.wrapperHeight = document.documentElement.clientHeight - document.documentElement.clientWidth / 7.5 * 0.88
   }
 }
@@ -200,13 +202,6 @@ export default {
 
 <style lang="less" scoped>
 .goodsLists {
-  // .header-fixeds {
-  //   width: 100%;
-  //   position: fixed;
-  //   left: 0;
-  //   top: 0;
-  //   z-index: 3;
-  // }
   .header-car {
     position: relative;
     .shop-car {

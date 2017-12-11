@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 09:59:01 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-08 18:19:41
+ * @Last Modified time: 2017-12-11 16:21:12
  * 订单详情
  */
 <template>
@@ -75,7 +75,7 @@
             <span class="cancel right" @click="cancelOrder(child, orderInfo)">取消订单</span>
           </div>
           <div class="statue-pay-cancel clear" v-else>
-            <span class="pay right" @click="expressOrder(child, orderInfo)">查看物流</span>
+            <span class="pay right" @click="expressOrder(orderInfo, child)">查看物流</span>
             <span class="cancel right" @click="confirmOrder(orderInfo, child)">确认收货</span>
           </div>
         </div>
@@ -144,11 +144,12 @@ export default {
         })
     },
     // 查看物流
-    expressOrder (subVal, fatherval) {
+    expressOrder (fatherVal, subVal) {
       this.$router.push({
         path: '/logisticsDetail',
         query: {
-          orderId: subVal.orderId
+          orderId: subVal ? subVal.orderSubId : fatherVal.orderId,
+          routerId: fatherVal.orderId
         }
       })
     },

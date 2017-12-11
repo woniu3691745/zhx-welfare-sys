@@ -2,15 +2,15 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 09:59:01 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-22 20:24:05
+ * @Last Modified time: 2017-12-11 15:56:08
  * 重置支付密码
  */
 <template>
   <div class="resetPayPwd">
     <div class="common-header">
       <mt-header title="重置支付密码">
-        <router-link to="/accountManagement" slot="left" fixed>
-          <mt-button icon="back"></mt-button>
+        <router-link to="" slot="left" fixed>
+          <mt-button icon="back" @click="goBack()"></mt-button>
         </router-link>
       </mt-header>
     </div>
@@ -79,6 +79,10 @@ export default {
   },
   // 方法
   methods: {
+    // 回到上一页
+    goBack () {
+      this.$router.back(-1)
+    },
     alerts (data) {
       MessageBox.alert(data)
     },

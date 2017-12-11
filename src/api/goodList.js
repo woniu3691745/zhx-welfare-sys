@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-10-23 10:40:22
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-11-28 14:44:15
+ * @Last Modified time: 2017-12-11 16:34:19
  * 商品列表API
  */
 import fetch from '@/utils/fetch'

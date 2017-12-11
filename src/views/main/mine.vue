@@ -16,7 +16,7 @@
         <div class="header-pic-container clear">
           <img class="left" src="../../assets/group.png" alt="">
           <div class="left user-name-container">
-            <p>ID：{{userName}}</p>
+            <p>ID：{{phoneNo}}</p>
             <p>{{enterpriseName}}</p>
           </div>
         </div>
@@ -141,9 +141,10 @@ export default {
       .then(res => {
         const data = res.data
         if (data.result) {
-          let { enterpriseName, userName, totalCount, waitPayCount, waitTakeCount } = data.bizData.UserInfo
+          let { enterpriseName, userName, totalCount, waitPayCount, waitTakeCount, phoneNo } = data.bizData.UserInfo
           this.enterpriseName = enterpriseName
           this.userName = userName
+          this.phoneNo = phoneNo
           this.totalCount = parseInt(totalCount)
           this.waitPayCount = parseInt(waitPayCount)
           this.waitTakeCount = parseInt(waitTakeCount)

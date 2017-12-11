@@ -25,6 +25,11 @@ Vue.filter('ADDRESS_SHOW_CALSS', function (data, key, defaultkey) {
     }
   }
 })
+// vue-title
+router.beforeEach((to, from, next) => {
+  document.title = to.meta.title
+  next()
+})
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

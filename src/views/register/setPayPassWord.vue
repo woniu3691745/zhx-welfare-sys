@@ -53,7 +53,7 @@
     },
     methods: {
       handleSubmit () {
-        const customerNamePatten = /\W{2,6}/
+        const customerNamePatten = /^[a-zA-Z\u4e00-\u9fa5]{2,5}$/u // 姓名正则
         const payPwdPatten = /^\d{6}$/
         const checkIdcard = /^(\d{6})(\d{4})(\d{2})(\d{2})(?:\d{2})(\d)(?:\d|X|x)$/
         if (!customerNamePatten.test(this.setPayPassWordForm.username)) {

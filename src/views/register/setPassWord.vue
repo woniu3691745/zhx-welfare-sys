@@ -58,7 +58,7 @@
     },
     methods: {
       handleSubmit () {
-        const signinPwdPatten = /^[a-z0-9]{6,20}$/
+        const signinPwdPatten = /^[a-z0-9]{6,20}$/i
         if (!signinPwdPatten.test(this.setPassWordForm.loginPassword)) {
           MessageBox({
             message: '密码由6-20位英文字母、数字组成',

@@ -10,9 +10,7 @@
     <div class="head-fix">
       <div class="common-header">
         <mt-header title="购物车">
-          <router-link :to="{ path: '/goodsList', query: { typeId: this.typeId}}" slot="left">
-            <mt-button icon="back"></mt-button>
-          </router-link>
+            <mt-button icon="back" slot="left" @click="back"></mt-button>
         </mt-header>
       </div>
     </div>

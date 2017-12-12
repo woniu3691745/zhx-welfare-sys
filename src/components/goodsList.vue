@@ -136,8 +136,9 @@ export default {
           sequenceType: 0,
           productTypeId: this.togetherId || this.typeId
         }
+        const args = this.togetherId ? 'GoodList' : 'BonusPackagesInfo' // 判断是否是凑单
         this.$store
-        .dispatch('BonusPackagesInfo', viewNums)
+        .dispatch(args, viewNums)
         .then(res => {
           this.goodList = res.data
           this.limit += 10
@@ -165,8 +166,9 @@ export default {
         sequenceType: 0,
         productTypeId: param
       }
+      const args = this.togetherId ? 'GoodList' : 'BonusPackagesInfo' // 判断是否是凑单
       this.$store
-        .dispatch('BonusPackagesInfo', viewNums)
+        .dispatch(args, viewNums)
         .then(res => {
           this.goodList = res.data
           endLoading()

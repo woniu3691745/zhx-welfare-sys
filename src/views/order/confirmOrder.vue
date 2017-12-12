@@ -149,14 +149,14 @@ export default {
     },
     // 提交
     preSubmit () {
-      if (this.validateQuotas()) {
-        MessageBox({
-          title: '提示',
-          message: '您的额度不足！',
-          showCancelButton: false
-        })
-        return false
-      }
+//      if (this.validateQuotas()) {
+//        MessageBox({
+//          title: '提示',
+//          message: '您的额度不足！',
+//          showCancelButton: false
+//        })
+//        return false
+//      }
       startLoading()
       let submitInfo = {
         orderNo: this.confirmOrderForm.orderNo, // 订单号

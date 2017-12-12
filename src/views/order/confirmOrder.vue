@@ -1,6 +1,6 @@
 /*
- * @Author: lidongliang 
- * @Date: 2017-11-14 09:59:01 
+ * @Author: lidongliang
+ * @Date: 2017-11-14 09:59:01
  * @Last Modified by: lidongliang
  * @Last Modified time: 2017-12-11 11:51:35
  * 确认订单
@@ -19,8 +19,8 @@
         <div class="address-con" v-if="addressInfo.userName">
           <div class="name-tel clear">
             <span class="name left">收货人：{{addressInfo.userName}}</span>
-            <span class="right defaul">默认</span> 
-            <span class="tel right">{{addressInfo.phoneNo}}</span> 
+            <span class="right defaul">默认</span>
+            <span class="tel right">{{addressInfo.phoneNo}}</span>
           </div>
           <div class="position-fix">
             <img class="address-icon" slot="icon" src="../../assets/address.png">
@@ -69,7 +69,7 @@
         <mt-button size="large" type="default" class="prompt-money clear">
           <p class="right">
             <span class="">合计金额：</span>
-            <span class="">￥{{confirmOrderForm.cartTotal}}</span> 
+            <span class="">￥{{confirmOrderForm.cartTotal}}</span>
           </p>
         </mt-button>
           <mt-button type="primary" class="button-width submit-container" @click="submit">提交订单</mt-button>
@@ -216,11 +216,12 @@ export default {
       } else {
         this.preSubmit()
       }
-    },
-    // 验证额度
-    validateQuotas () {
-      return Number(this.confirmOrderForm.cartTotal).toFixed(2) > Number(this.balance).toFixed(2)
     }
+    // 验证额度
+    // 删除校验额度的逻辑
+//    validateQuotas () {
+//      return Number(this.confirmOrderForm.cartTotal).toFixed(2) > Number(this.balance).toFixed(2)
+//    }
   },
   created () {
     startLoading()

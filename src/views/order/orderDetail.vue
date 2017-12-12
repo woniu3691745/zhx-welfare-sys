@@ -1,6 +1,6 @@
 /*
- * @Author: lidongliang 
- * @Date: 2017-11-14 09:59:01 
+ * @Author: lidongliang
+ * @Date: 2017-11-14 09:59:01
  * @Last Modified by: lidongliang
  * @Last Modified time: 2017-12-11 16:21:12
  * 订单详情
@@ -17,7 +17,7 @@
     <div class="order-detail-body">
       <div class="order-status-head clear">
         <span class="left">{{orderInfo.orderStatus}}</span>
-        <span class="right">需支付：￥{{orderInfo.orderAmt}}</span>
+        <!--<span class="right">需支付：￥{{orderInfo.orderAmt}}</span>-->
       </div>
       <div class="unpack-container" v-if="orderInfo.childOrderCount > 0">
         <p>该订单已拆成{{orderInfo.childOrderCount}}个订单，并用{{orderInfo.childOrderCount}}个包裹发出，点击“查看物流”可查看详情。</p>
@@ -26,7 +26,7 @@
         <div class="address-con">
           <div class="name-tel clear">
             <span class="name left">收货人：{{orderInfo.userName}}</span>
-            <span class="tel right">{{orderInfo.phoneNo}}</span> 
+            <span class="tel right">{{orderInfo.phoneNo}}</span>
           </div>
           <div class="position-fix">
             <img class="address-icon" slot="icon" src="../../assets/address.png">
@@ -59,7 +59,7 @@
         </div>
 
         <!-- 子订单 -->
-        <div v-else v-for="child in orderInfo.childOrders" :key="child.orderId"> 
+        <div v-else v-for="child in orderInfo.childOrders" :key="child.orderId">
           <p class="clear order-num-contain">
             <span class="left num">子订单号：{{child.orderSubId}}</span>
           </p>
@@ -79,7 +79,7 @@
             <span class="cancel right" @click="confirmOrder(orderInfo, child)">确认收货</span>
           </div>
         </div>
-        
+
         <div class="pay-money">
           <p class="reality-money">共{{orderInfo.productCount}}件商品   实付款 <span>￥{{orderInfo.orderAmt}}</span></p>
           <p class="freight" v-if="!orderInfo.orderAmt < 200">（含运费 {{orderInfo.expressAmt}}元）</p>
@@ -314,7 +314,7 @@ export default {
       white-space: nowrap;
       .all-thing-pic {
         box-sizing: border-box;
-        height: 1.4rem;    
+        height: 1.4rem;
         padding: 0.14rem 0 0.14rem 0.14rem;
         font-size: 0;
         display: inline-block;

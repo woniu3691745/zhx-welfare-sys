@@ -133,7 +133,7 @@ export default {
         let viewNums = {
           index: 0,
           limit: this.limit,
-          sequenceType: 0,
+          sequenceType: 2, // 按价格升序提交
           productTypeId: this.togetherId || this.typeId
         }
         const args = this.togetherId ? 'GoodList' : 'BonusPackagesInfo' // 判断是否是凑单
@@ -163,7 +163,7 @@ export default {
       let viewNums = {
         index: 0,
         limit: 10,
-        sequenceType: 0,
+        sequenceType: 2, // 按价格升序提交
         productTypeId: param
       }
       const args = this.togetherId ? 'GoodList' : 'BonusPackagesInfo' // 判断是否是凑单

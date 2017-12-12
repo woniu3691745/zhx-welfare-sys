@@ -2,24 +2,22 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 09:59:01 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-08 18:29:20
+ * @Last Modified time: 2017-12-11 16:26:33
  * 查看物流
  */
 <template>
   <div class="orderDetail">
     <div class="common-header">
       <mt-header title="物流详情">
-         <router-link :to="{ path: '/orderDetail', query: { orderId: this.orderId}}" slot="left">
+         <router-link :to="{ path: '/orderDetail', query: { orderId: this.routerId}}" slot="left" fixed>
           <mt-button icon="back"></mt-button>
         </router-link>
       </mt-header>
     </div>
     <div class="logistics-state-body">
-      <p class="logistics-name">申通快递</p>
       <div class="logistics-infor-container clear">
         <div class="left logistics-goods-pic">
           <img src="../../assets/aaa.jpg" alt="">
-          <!-- <p>两件商品</p> -->
         </div>
         <div class="left logistics-number">
           <p>订单号：{{logistics.orderId}}</p>
@@ -29,23 +27,17 @@
       <div class="height-20"></div>
       <div class="logistics-now-container">
         <ul class="logistics-now">
-          <li v-for="item in logistics.orderTrack" :key="item.msgTime">
+          <li v-for="item in logistics.orderTrack" :key="item.operator">
             <div>
               <p>{{item.content}}</p>
-              <p>{{itme.msgTime}}</p>
+              <p>{{item.msgTime}}</p>
+              <p>{{item.operator}}</p>
             </div>
           </li>
-          <!-- <li>
-            <div>
-              <p>到北京市【北京转运中心】</p>
-              <p>2017-11-3 22:14:50</p>
-            </div>
-          </li> -->
         </ul>
       </div>
     </div>
     <div class="bottom">
-
     </div>
   </div>
 </template>
@@ -64,7 +56,8 @@ export default {
   data () {
     return {
       logistics: '',
-      orderId: this.$route.query.orderId // 额度ID
+      orderId: this.$route.query.orderId, // 额度ID
+      routerId: this.$route.query.routerId // 路由ID
     }
   },
   computed: {},
@@ -82,7 +75,7 @@ export default {
         .dispatch('FindLogistics', orderInfo)
         .then(res => {
           if (res.result) {
-            this.logistics = res.LogisticsInfo
+            this.logistics = res.bizData.LogisticsInfo
           } else {
             MessageBox({
               title: '提示',
@@ -136,33 +129,15 @@ export default {
           height: 100%;
          
         }
-        // p {
-        //   font-size: 12px;
-        //   position: absolute;
-        //   height: 0.3rem;
-        //   line-height: 0.3rem;
-        //   width: 100%;
-        //   left: 0;
-        //   bottom: 0;
-        //   overflow: hidden;
-        //   text-overflow:ellipsis;
-        //   white-space: nowrap;
-        //   text-align: center;
-        //   background: rgba(0,0,0,0.50);
-        //   color: #ffffff;
-        // }
-        
       }
       .logistics-number {
         margin-left: 0.2rem;
         padding-top: 0.15rem;
         p {
-          
           height: 0.4rem;
           line-height: 0.4rem;
           font-size: 0.24rem;
           color: #323232;
-
         }
       }
     }
@@ -174,7 +149,6 @@ export default {
       padding-left: 0.35rem;
       padding-top: 0.5rem;
       li {
-        // border-left: 1px solid #d8d8d8;
         position: relative;
         div {
           margin-left: 0.35rem;
@@ -188,12 +162,10 @@ export default {
             padding-right: 0.3rem;
           }
         }
-        
       }
       li:last-child div {
-          box-shadow: none;
-        }
-      
+        box-shadow: none;
+      }
       li:before {
         content: '';
         background-color: #d8d8d8;
@@ -226,9 +198,4 @@ export default {
     }
   }
 }
-
-
-
-
-
 </style>

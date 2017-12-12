@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-12-04 14:27:42 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-08 16:25:32
+ * @Last Modified time: 2017-12-11 15:38:42
  * 支付密码
  */
 
@@ -32,6 +32,9 @@
     </ul>
   </div>
   <mt-button class="mint-but" @click="submit">确认支付</mt-button>
+  <div>
+  <router-link :to="{ path: '/resetPayPwd'}"><div class="forgetloginPassWord">忘记密码</div></router-link>
+  </div>
 </div>
 </template>
 
@@ -247,6 +250,7 @@ export default {
   line-height: 0.88rem;
   display: block;
   margin: 0.8rem auto;
+  margin-bottom: 0.2rem;
 }
 .realInput {
   -webkit-appearance: none;
@@ -273,5 +277,26 @@ export default {
 /*影藏input标签*/
 input[type="tel"]:disabled {
   background-color: #fff;
+}
+.forget {
+  padding: 0.1rem 0.66rem;
+  content: "";
+  display: block;
+  clear: both;
+}
+.forgetAccount {
+  height: 0.37rem;
+  line-height: 0.37rem;
+  font-size: 0.26rem;
+  color: #333333;
+  float: left;
+}
+.forgetloginPassWord {
+  height: 0.37rem;
+  margin-right: 0.6rem;
+  line-height: 0.37rem;
+  font-size: 0.26rem;
+  color: #333333;
+  float: right;
 }
 </style>

@@ -1,6 +1,6 @@
 /*
- * @Author: lidongliang 
- * @Date: 2017-11-14 09:59:01 
+ * @Author: lidongliang
+ * @Date: 2017-11-14 09:59:01
  * @Last Modified by: lidongliang
  * @Last Modified time: 2017-12-07 15:46:48
  * 额度明细
@@ -20,7 +20,7 @@
          <div class="right">
            <div class="overdue-money clear">
              <span class="right money">￥{{i.balance}}</span>
-             <span class="overdue right" v-if="i.limitFlag">3天后过期</span>
+             <span class="overdue right" v-if="i.limitFlag">3天内过期</span>
           </div>
            <div class="overdue-date">有效期至：{{i.limitDate}}</div>
          </div>
@@ -77,7 +77,7 @@
     }
     .overdue-money {
       padding-top: 0.16rem;
-      .overdue {      
+      .overdue {
         background: #F8E71C;
         border-radius: 0.2rem;
         font-size: 0.28rem;
@@ -101,9 +101,9 @@
       margin-top: 0.24rem;
       height: 0.4rem;
       line-height: 0.4rem;
-      
+
     }
   }
-  
+
 }
 </style>

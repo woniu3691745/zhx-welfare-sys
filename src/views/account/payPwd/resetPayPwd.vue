@@ -59,17 +59,6 @@ export default {
           }
         }
       },
-      loginFormnext: {
-        bizData: {
-          Captacha: {
-            ID: '57EC4C57E538FF16BC1F3BDDDD36FC4C',
-            Type: '04',
-            Code: '232621'
-          },
-          User: { IDCard: '511100199608102011' }
-        }
-      },
-
       // 返回的验证码
       returnCardValue: {}
     }

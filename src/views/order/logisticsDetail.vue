@@ -16,12 +16,8 @@
     </div>
     <div class="logistics-state-body">
       <div class="logistics-infor-container clear">
-        <div class="left logistics-goods-pic">
-          <img src="../../assets/aaa.jpg" alt="">
-        </div>
         <div class="left logistics-number">
           <p>订单号：{{logistics.orderId}}</p>
-          <p>快递单号：{{logistics.orderId}}</p>
         </div>
       </div>
       <div class="height-20"></div>
@@ -131,7 +127,7 @@ export default {
         }
       }
       .logistics-number {
-        margin-left: 0.2rem;
+        margin-left: 0.7rem;
         padding-top: 0.15rem;
         p {
           height: 0.4rem;

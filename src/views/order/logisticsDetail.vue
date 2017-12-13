@@ -17,7 +17,7 @@
     <div class="logistics-state-body">
       <div class="logistics-infor-container clear">
         <div class="left logistics-number">
-          <p>订单号：{{logistics.orderId}}</p>
+          <p>订单号：{{this.orderId}}</p>
         </div>
       </div>
       <div class="height-20"></div>

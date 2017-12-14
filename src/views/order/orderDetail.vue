@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-11-14 09:59:01
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-11 16:21:12
+ * @Last Modified time: 2017-12-14 15:35:43
  * 订单详情
  */
 <template>
@@ -53,7 +53,7 @@
             </div>
             <div class="statue-pay-cancel clear" v-else>
               <span class="pay right" @click="expressOrder(orderInfo)">查看物流</span>
-              <span class="cancel right" @click="confirmOrder(orderInfo)">确认收货</span>
+              <span class="cancel right" @click="confirmOrder(orderInfo)" v-if="!orderInfo.childOrders.lenth && orderInfo.status === '03'">确认收货</span>
             </div>
           </div>
         </div>
@@ -76,7 +76,7 @@
           </div>
           <div class="statue-pay-cancel clear" v-else>
             <span class="pay right" @click="expressOrder(orderInfo, child)">查看物流</span>
-            <span class="cancel right" @click="confirmOrder(orderInfo, child)">确认收货</span>
+            <span class="cancel right" @click="confirmOrder(orderInfo, child)" v-if="!child.orderSubStatus === '05'">确认收货</span>
           </div>
         </div>
 

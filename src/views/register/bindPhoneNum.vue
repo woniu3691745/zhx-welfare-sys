@@ -59,6 +59,9 @@ export default {
         })
         return
       }
+      if (this.sendMsgDisabled) {
+        return
+      }
       this.$store.dispatch('VX_GET_CAPTCHA', phoneNo).then(res => {
         if (res) {
           this.setTime()
@@ -148,7 +151,7 @@ export default {
   padding: 0.05rem 0.2rem;
   border-radius: 0.1rem;
   margin-left: 0.1rem;
-  font-size: 0.01rem;
+  font-size: 12px;
   color: #f9404a;
 }
 .identifyingCode2 {
@@ -158,7 +161,7 @@ export default {
   padding: 0.05rem 0.2rem;
   border-radius: 0.1rem;
   margin-left: 0.1rem;
-  font-size: 0.01rem;
+  font-size: 12px;
   color: #26a2ff;
 }
 .bottom {

@@ -128,6 +128,12 @@ export default {
         this.rusuletStatus = false
       }
     })
+  }, // 通过监听路由来给页面添加参数
+  watch: {
+    $route (to) {
+      let typeId = to.query.typeId || '1000001'
+      this.competitiveProductsInfo(typeId)
+    }
   },
   destroyed () {
     eventBus.$off('refurbishMallData')

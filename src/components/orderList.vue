@@ -26,7 +26,8 @@
               <div class="all-thing">
                 <router-link :to="{path: '/orderDetail', query: {orderId: item.orderId}}" slot="left" class="btn-skip">
                   <div class="all-thing-pic" v-for="img in item.imgDetails" :key="img.mallSku">
-                    <router-link :to="{ path: '/detail', query: {sku: img.mallSku, typeId: item.productType}}"><img v-bind:src="img.imgUrl"></router-link>
+                    <!-- 禅道上说点击图片也是跳转到订单详情页 -->
+                   <img v-bind:src="img.imgUrl">
                   </div>
                 </router-link>
               </div>

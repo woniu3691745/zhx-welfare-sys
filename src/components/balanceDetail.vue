@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-11-14 09:59:01
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-07 15:46:48
+ * @Last Modified time: 2017-12-14 15:13:50
  * 额度明细
  */
 <template>
@@ -49,7 +49,6 @@
        this.$store
         .dispatch('BalanceList', productTypeId)
         .then(data => {
-          console.log('--->' + JSON.stringify(data))
           this.balanceInfo = data
         })
         .catch(res => {

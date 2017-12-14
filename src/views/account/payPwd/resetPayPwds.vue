@@ -30,7 +30,7 @@
 
 <script>
 import {MessageBox} from 'mint-ui'
-const payPasswordReg = /^[a-z0-9]{6}$/i
+const payPasswordReg = /^\d{6}$/
 export default {
    // 组件名字
   name: 'resetPayPwd-page',

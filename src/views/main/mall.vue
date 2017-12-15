@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-11 16:34:38
+ * @Last Modified time: 2017-12-15 11:01:18
  * 首页组件
  */
 <template>
@@ -25,27 +25,27 @@
       <li class="solid-top">
         <div class="index-swipe">
           <mt-swipe :auto="2000" v-if="this.typeIdAll === '1000002'">
-            <mt-swipe-item><img src="../../assets/tu10.png"></img>
+            <mt-swipe-item><img src="../../assets/tu10.png" @click="swipeDetail('21')"></img>
             </mt-swipe-item>
-            <mt-swipe-item><img src="../../assets/tu11.png"></img>
+            <mt-swipe-item><img src="../../assets/tu11.png" @click="swipeDetail('22')"></img>
             </mt-swipe-item>
-            <mt-swipe-item><img src="../../assets/tu12.png"></img>
+            <mt-swipe-item><img src="../../assets/tu12.png" @click="swipeDetail('23')"></img>
             </mt-swipe-item>
           </mt-swipe>
            <mt-swipe :auto="2000" v-else-if="this.typeIdAll === '1000001'">
-            <mt-swipe-item><img src="../../assets/tu4.png"></img>
+            <mt-swipe-item><img src="../../assets/tu4.png" @click="swipeDetail('11')"></img>
             </mt-swipe-item>
-            <mt-swipe-item><img src="../../assets/tu5.png"></img>
+            <mt-swipe-item><img src="../../assets/tu5.png" @click="swipeDetail('12')"></img>
             </mt-swipe-item>
-            <mt-swipe-item><img src="../../assets/tu6.png"></img>
+            <mt-swipe-item><img src="../../assets/tu6.png" @click="swipeDetail('13')"></img>
             </mt-swipe-item>
           </mt-swipe>
            <mt-swipe :auto="2000" v-else-if="this.typeIdAll === '1000003'">
-            <mt-swipe-item><img src="../../assets/tu1.png"></img>
+            <mt-swipe-item><img src="../../assets/tu1.png" @click="swipeDetail('31')"></img>
             </mt-swipe-item>
-            <mt-swipe-item><img src="../../assets/tu2.png"></img>
+            <mt-swipe-item><img src="../../assets/tu2.png" @click="swipeDetail('32')"></img>
             </mt-swipe-item>
-            <mt-swipe-item><img src="../../assets/tu3.png"></img>
+            <mt-swipe-item><img src="../../assets/tu3.png" @click="swipeDetail('33')"></img>
             </mt-swipe-item>
           </mt-swipe>
         </div>
@@ -280,6 +280,11 @@ export default {
       this.limit = 10
       startLoading()
       this.competitiveProductsInfo(this.typeId)
+    },
+    // 轮播图商品详情
+    swipeDetail (productSku) {
+      console.log('--->' + 111)
+      this.detail(productSku)
     }
   }
 }

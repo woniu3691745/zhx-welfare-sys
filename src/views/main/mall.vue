@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-15 11:01:18
+ * @Last Modified time: 2017-12-19 14:50:15
  * 首页组件
  */
 <template>
@@ -123,16 +123,17 @@ export default {
       this.typeIdAll = param.typeId // 导航按钮
       this.index = 0
       this.limit = 10
-      if (this.rusuletStatus) {
-        this.competitiveProductsInfo(this.typeId)
-        this.rusuletStatus = false
-      }
+      // if (this.rusuletStatus) {
+      this.competitiveProductsInfo(this.typeId)
+        // this.rusuletStatus = false
+      // }
     })
-  }, // 通过监听路由来给页面添加参数
+  },
+  // 通过监听路由来给页面添加参数
   watch: {
     $route (to) {
-      let typeId = to.query.typeId || '1000001'
-      this.competitiveProductsInfo(typeId)
+      // let typeId = to.query.typeId || '1000001'
+      // this.competitiveProductsInfo(typeId)
     }
   },
   destroyed () {
@@ -210,7 +211,6 @@ export default {
         sequenceType: 0,
         productTypeId: typeId
       }
-      // console.log('--->' + this.index)
       // startLoading()
       this.$store
         .dispatch('GoodList', viewNums)

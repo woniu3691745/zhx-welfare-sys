@@ -56,7 +56,7 @@ export default {
       if (!this.bindForm.ResetPassWord) {
         this.alerts('请输入支付密码')
       } else if (!payPasswordReg.test(this.bindForm.ResetPassWord)) {
-        this.alerts('支付密码格式不正确')
+        this.alerts('密码应为6位数字')
       } else if (!this.bindForm.ResetPassWordOK) {
         this.alerts('请输入确认密码')
       } else if (this.bindForm.ResetPassWord !== this.bindForm.ResetPassWordOK) {

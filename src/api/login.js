@@ -15,8 +15,7 @@ export function loginByUserName (PhoneNo, SigninPwd) {
         PhoneNo,
         SigninPwd
       }
-    },
-    equipmentInfo: window.navigator.userAgent // 设备信息字段
+    }
   }
   return fetch({
     url: '/login.cp',

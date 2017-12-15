@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 09:59:01 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-07 18:01:38
+ * @Last Modified time: 2017-12-15 11:19:36
  * 联系客服
  */
 <template>
@@ -16,7 +16,7 @@
     </div>
     <div class="custom-service-body">
       <img src="../../assets/service.png" alt="">
-      <p>联系客服请发邮件到: <span>95159@zihexin.com</span></p>
+      <p>联系客服请发邮件到: <span>qifamallservice@zihexin.com</span></p>
     </div> 
     <div class="bottom">
     </div>

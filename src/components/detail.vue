@@ -32,7 +32,7 @@
       </div>
       <!-- -->
       <div class="infor-detail">
-        <div class="aaa" v-html="goodsForm.productDesc"></div>
+        <div class="detail-img" v-html="goodsForm.productDesc"></div>
       </div>
       <div class="height-20"></div>
     </div>

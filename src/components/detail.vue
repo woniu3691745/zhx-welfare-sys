@@ -34,7 +34,6 @@
       <div class="infor-detail">
         <div class="detail-img" v-html="goodsForm.productDesc"></div>
       </div>
-      <div class="height-20"></div>
     </div>
     <div class="detail-bottom">
       <mt-tabbar fixed>
@@ -123,9 +122,21 @@ export default {
         .catch(res => {
           console.log(res)
         })
+    },
+    imgWidth () {
+      let detailimg = document.getElementsByClassName('detail-img')
+      // console.log('detailimg ' + detailimg.length)
+      var detailimgs = detailimg[0].getElementsByTagName('img')
+      for (let index = 0; index < detailimgs.length; index++) {
+        detailimgs[index].style.width = '100%'
+      }
     }
   },
-  mounted () {
+  updated () {
+    // aaaaa[0].getElementsByTagName('img').style.width = '100%'
+    this.imgWidth()
+  },
+  created () {
     this.goodListByIdInfo(this.goodsForm.productSku)
   }
 }

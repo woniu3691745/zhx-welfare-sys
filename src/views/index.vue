@@ -7,9 +7,9 @@
  */
 <template>
   <div class="index">
-    <div class="header">
+    <!-- <div class="header">
       <div class="header-contain">企业关爱</div>
-    </div>
+    </div> -->
     <div class="body">
       <div class="index-images">
         <img src="../assets/index.png" alt="">

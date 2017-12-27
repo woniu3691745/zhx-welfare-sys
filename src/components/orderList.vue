@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-19 19:50:05 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-08 17:55:21
+ * @Last Modified time: 2017-12-25 14:45:23
  * 订单列表
  */
 <template>
@@ -33,7 +33,7 @@
               </div>
               <div class="pay-money">
                 <p class="reality-money">共{{item.productCount}}件商品   实付款 <span>￥{{item.orderAmt}}</span></p>
-                <p class="freight" v-if="!item.orderAmt < 200">（含运费 {{item.expressAmt}}元）</p>
+                <p class="freight" v-if="!item.orderAmt < 198">（含运费 {{item.expressAmt}}元）</p>
               </div>
               <div class="border-top-1px">
                 <div class="statue-pay-cancel clear"  v-if="item.status === '01'">

@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 19:04:03 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-08 17:06:50
+ * @Last Modified time: 2017-12-27 10:19:05
  * 商品详情
  */
 <template>
@@ -30,10 +30,10 @@
       <div class="infor-good">
         <span>{{goodsForm.productDetail}}</span>
       </div>
-      <!-- -->
       <div class="infor-detail">
         <div class="detail-img" v-html="goodsForm.productDesc"></div>
       </div>
+      <div style="font-size: 0.26rem;"><span>{{goodsForm.unit}}</span></div>
     </div>
     <div class="detail-bottom">
       <mt-tabbar fixed>
@@ -61,6 +61,7 @@ export default {
         salePrice: '',                          // 价格
         productDetail: '',                      // 商品描述
         productDesc: '',                        // 富文本
+        unit: '',
         count: this.$store.getters.cartCount    // 购物车数量
       },
       typeId: this.$route.query.typeId // 种类

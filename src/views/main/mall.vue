@@ -505,7 +505,7 @@ export default {
           overflow: hidden;
           margin-top: 0.1rem;
           text-align: center;
-          line-height: 0.33rem
+          line-height: 0.33rem;
         }
         span {
           font-size: 0.3rem;

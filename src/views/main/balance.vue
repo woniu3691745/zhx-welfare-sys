@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-11-14 19:04:29 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-27 10:30:48
+ * @Last Modified time: 2017-12-27 15:57:45
  * 额度
  */
 <template>
@@ -14,11 +14,11 @@
     <div class="balance-body padding-top">
       <div class="index-swipe">
         <mt-swipe :auto="2000">
-          <mt-swipe-item><img src="../../assets/tu7.png"></img>
+          <mt-swipe-item><img src="../../assets/swipe/1.png" @click="swipeDetail('10013995878')">></img>
           </mt-swipe-item>
-          <mt-swipe-item><img src="../../assets/tu8.png"></img>
+          <mt-swipe-item><img src="../../assets/swipe/2.png" @click="swipeDetail('1001964416')">></img>
           </mt-swipe-item>
-          <mt-swipe-item><img src="../../assets/tu9.png"></img>
+          <mt-swipe-item><img src="../../assets/swipe/3.png" @click="swipeDetail('1001114942')">></img>
           </mt-swipe-item>
         </mt-swipe>
       </div>
@@ -128,6 +128,25 @@ export default {
           typeId: typeId
         }
       })
+    },
+    // 商品详情
+    // hardcode
+    detail (productSku) {
+      let tyepeId
+      if (productSku === '1001114942') {
+        tyepeId = '1000001'
+      } else {
+        tyepeId = '1000002'
+      }
+      this.$router.push({
+        path: '/detail',
+        query: { typeId: tyepeId, sku: productSku }
+      })
+    },
+    // 轮播图商品详情
+    swipeDetail (productSku) {
+      console.log('productSku---> ' + productSku)
+      this.detail(productSku)
     }
   }
 }

@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-19 14:50:15
+ * @Last Modified time: 2017-12-27 15:52:18
  * 首页组件
  */
 <template>
@@ -25,19 +25,19 @@
       <li class="solid-top">
         <div class="index-swipe">
           <mt-swipe :auto="2000" v-if="this.typeIdAll === '1000002'">
-            <mt-swipe-item><img src="../../assets/tu10.png" @click="swipeDetail('21')"></img>
+            <mt-swipe-item><img src="../../assets/swipe/food/1.png" @click="swipeDetail('10013995878')"></img>
             </mt-swipe-item>
-            <mt-swipe-item><img src="../../assets/tu11.png" @click="swipeDetail('22')"></img>
+            <mt-swipe-item><img src="../../assets/swipe/food/2.png" @click="swipeDetail('10013998990')"></img>
             </mt-swipe-item>
-            <mt-swipe-item><img src="../../assets/tu12.png" @click="swipeDetail('23')"></img>
+            <mt-swipe-item><img src="../../assets/swipe/food/3.png" @click="swipeDetail('1001964416')"></img>
             </mt-swipe-item>
           </mt-swipe>
-           <mt-swipe :auto="2000" v-else-if="this.typeIdAll === '1000001'">
-            <mt-swipe-item><img src="../../assets/tu4.png" @click="swipeDetail('11')"></img>
+          <mt-swipe :auto="2000" v-else-if="this.typeIdAll === '1000001'">
+            <mt-swipe-item><img src="../../assets/swipe/commodity/1.png" @click="swipeDetail('10014339757')"></img>
             </mt-swipe-item>
-            <mt-swipe-item><img src="../../assets/tu5.png" @click="swipeDetail('12')"></img>
+            <mt-swipe-item><img src="../../assets/swipe/commodity/2.png" @click="swipeDetail('1001114942')"></img>
             </mt-swipe-item>
-            <mt-swipe-item><img src="../../assets/tu6.png" @click="swipeDetail('13')"></img>
+            <mt-swipe-item><img src="../../assets/swipe/commodity/3.png" @click="swipeDetail('10011068549')"></img>
             </mt-swipe-item>
           </mt-swipe>
            <mt-swipe :auto="2000" v-else-if="this.typeIdAll === '1000003'">
@@ -283,7 +283,7 @@ export default {
     },
     // 轮播图商品详情
     swipeDetail (productSku) {
-      console.log('--->' + 111)
+      console.log('productSku---> ' + productSku)
       this.detail(productSku)
     }
   }

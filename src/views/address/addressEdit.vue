@@ -21,6 +21,7 @@
     </div>
     <div class="bottoms" @click="handclickhide" v-show='isShow'>
       <div class="bottom">
+         <div class="bottomCOM"><mt-button  size="large" @click="handclickhide">确定</mt-button></div>
         <mt-picker :slots="slots" @change="onValuesChange" :visibleItemCount='visibleItemCount' value-key='v'></mt-picker>
       </div>
     </div>
@@ -308,6 +309,14 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.addressEdit{
+   position: absolute;
+  left: 0;
+  top:0;
+  right: 0;
+  bottom:0;
+  overflow: hidden;
+}
 .addAddress-body {
   .hheight-22 {
     height: 0.22rem;
@@ -333,6 +342,17 @@ export default {
   bottom:0;
   right:0;
   background:rgba(60,60,60,0.6);
+}
+.bottomCOM{
+  width: 100%;
+  height: 40px;
+  overflow: hidden;
+  line-height: 0px;
+  text-align: right;
+  border-bottom: 1px solid #eee;
+  button{
+     color:#26a2ff;
+  }
 }
 .bottom{
   background: #fff;

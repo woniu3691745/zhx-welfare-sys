@@ -439,6 +439,7 @@ export default {
                     -webkit-box-orient: vertical;
                     -webkit-line-clamp: 2;
                     overflow: hidden;
+                    line-height: 0.33rem;
                   }
                   span {
                     font-size: 0.3rem;
@@ -504,6 +505,7 @@ export default {
           overflow: hidden;
           margin-top: 0.1rem;
           text-align: center;
+          line-height: 0.33rem;
         }
         span {
           font-size: 0.3rem;

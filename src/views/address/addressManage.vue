@@ -269,6 +269,9 @@ export default {
       height: 0.2rem;
       background: #f5f5f5;
     }
+    .mint-button-text{
+      font-size:12px;
+    }
   }
   .bottom {
     position: fixed;

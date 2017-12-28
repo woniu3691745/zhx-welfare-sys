@@ -9,8 +9,8 @@
   <div class="addAddress">
     <div class="common-header">
       <mt-header title="添加收货地址">
-      <mt-button icon="back" slot="left" @click="runRouter"></mt-button>
-       <!-- ********** -->
+        <mt-button icon="back" slot="left" @click="runRouter"></mt-button>
+        <!-- ********** -->
         <mt-button icon="" slot="right" @click="saveAddress">保存</mt-button>
       </mt-header>
     </div>
@@ -26,8 +26,10 @@
       </mt-cell>
     </div>
     <div class="bottoms" v-show='isShow'>
-      <div class="bottom"> 
-        <div class="bottomCOM"><mt-button  size="large" @click="handclickhide">确定</mt-button></div>
+      <div class="bottom">
+        <div class="bottomCOM">
+          <mt-button size="large" @click="handclickhide">确定</mt-button>
+        </div>
         <mt-picker :slots="slots" @change="onValuesChange" :visibleItemCount='visibleItemCount' value-key='v'></mt-picker>
       </div>
     </div>
@@ -35,19 +37,34 @@
 </template>
 
 <script>
-import {MessageBox} from 'mint-ui'
+import { MessageBox } from 'mint-ui'
 let time
- // 姓名正则
+// 姓名正则
 const userNameReg = /^[a-zA-Z\u4e00-\u9fa5]{2,5}$/u
 const phoneNoPattern = /^1[34578]\d{9}$/
+const mtBody = document.body
 export default {
-   // 组件名字
+  // 组件名字
   name: 'addAddress-page',
-   // 组合其它组件
+  // 组合其它组件
   extends: {},
-   // 组件属性、变量
+  // 组件属性、变量
   props: {},
-   // 变量
+  // 变量
+  mounted () {
+    this.time = setTimeout(() => {
+      mtBody.addEventListener('touchmove', function (e) {
+        e.preventDefault()
+      })
+    }, 20)
+  },
+  beforeDestroy () {
+    mtBody.removeEventListener('touchmove', function (e) {})
+    clearTimeout(this.time)
+  },
+  destroyed () {
+
+  },
   data () {
     return {
       consignee: '',
@@ -66,20 +83,24 @@ export default {
           values: [],
           className: 'slot1',
           textAlign: 'center'
-        }, {
+        },
+        {
           divider: true,
           content: '-',
           className: 'slot2'
-        }, {
+        },
+        {
           flex: 1,
           values: [],
           className: 'slot3',
           textAlign: 'center'
-        }, {
+        },
+        {
           divider: true,
           content: '-',
           className: 'slot2'
-        }, {
+        },
+        {
           flex: 1,
           values: [],
           className: 'slot3',
@@ -88,11 +109,10 @@ export default {
       ]
     }
   },
-   // 使用其它组件
+  // 使用其它组件
   components: {},
-  watch: {
-  },
-   // 方法
+  watch: {},
+  // 方法
   methods: {
     alerts (data) {
       MessageBox.alert(data)
@@ -100,7 +120,7 @@ export default {
     handclickshow () {
       this.isShow = true
       if (this.flags) {
-        this.getAddressDate(0).then((res) => {
+        this.getAddressDate(0).then(res => {
           this.slots[0].values = res.data.bizData.Address
           this.flags = false
         })
@@ -110,7 +130,7 @@ export default {
       this.isShow = false
     },
     getAsyncData () {
-      return async(picker, values) => {
+      return async (picker, values) => {
         const OldDataArr = this.defaultArr
         for (let i = 0; i < values.length; i++) {
           let val = values[i]
@@ -120,7 +140,7 @@ export default {
           if (val != null && val.k !== OldDataArr[i]) {
             OldDataArr[i] = val.k
             if (val.f === 'Y') {
-              if (!((`${val.k}`) in this.addList)) {
+              if (!(`${val.k}` in this.addList)) {
                 try {
                   const res = await this.getAddressDate(val.k, i)
                   let arr = res.data.bizData.Address
@@ -155,20 +175,22 @@ export default {
     onValuesChange (picker, values) {
       this.getAsyncData()(picker, values)
       if (!this.flags) {
-        this.values = values.map((val) => {
-          if (val != null) {
-            return val.v
-          } else {
-            return val
-          }
-        }).join('-')
+        this.values = values
+          .map(val => {
+            if (val != null) {
+              return val.v
+            } else {
+              return val
+            }
+          })
+          .join('-')
       }
     },
-     // 获得联动数据
+    // 获得联动数据
     getAddressDate (k, ind) {
       let data = {
-        'bizData': {
-          'addrCode': k
+        bizData: {
+          addrCode: k
         }
       }
       return this.$store.dispatch('ZHXGET_ADDRESS_LIST', data)
@@ -179,7 +201,7 @@ export default {
     saveAddress () {
       this.debounce(this.unifiedAddress)
     },
-     // 保存地址统一
+    // 保存地址统一
     unifiedAddress () {
       if (!this.usernameReg()) {
         return false
@@ -192,7 +214,7 @@ export default {
       }
       this.submitData()
     },
-     // 姓名正则
+    // 姓名正则
     usernameReg () {
       if (!this.consignee) {
         this.alerts('收货人姓名不能为空')
@@ -203,7 +225,7 @@ export default {
       }
       return true
     },
-      // 手机号正则
+    // 手机号正则
     PhoneReg () {
       if (!this.phoneNum) {
         this.alerts('手机号不能为空')
@@ -214,7 +236,7 @@ export default {
       }
       return true
     },
-     // 详细地址
+    // 详细地址
     Detailedaddress () {
       if (this.detailedAddress.trim().length === 0) {
         this.alerts('请输入详细地址')
@@ -236,92 +258,93 @@ export default {
       }, 500)
     },
     submitData () {
-      let {phoneNum, consignee, detailedAddress, value} = this
-      let defaultFlag = (value ? '01' : '00')
+      let { phoneNum, consignee, detailedAddress, value } = this
+      let defaultFlag = value ? '01' : '00'
       let defaultArr = this.defaultArr
       const data = {
-        'bizData': {
-          'phoneNo': phoneNum,
-          'userName': consignee,
-          'address': detailedAddress,
-          'provinceCode': defaultArr[0],
-          'cityCode': defaultArr[1],
-          'countryCode': defaultArr[2],
-          'townCode': '',
-          'defaultFlag': defaultFlag
+        bizData: {
+          phoneNo: phoneNum,
+          userName: consignee,
+          address: detailedAddress,
+          provinceCode: defaultArr[0],
+          cityCode: defaultArr[1],
+          countryCode: defaultArr[2],
+          townCode: '',
+          defaultFlag: defaultFlag
         }
       }
-      this.$store.dispatch('ZHX_ADD_ADDRESS', data).then((res) => {
-        if (res.data.result) {
-          this.$router.go(-1)
-        } else {
-          this.alerts(res.data.message)
-        }
-        console.log(res)
-      }).catch((err) => {
-        console.log(err)
-      })
+      this.$store
+        .dispatch('ZHX_ADD_ADDRESS', data)
+        .then(res => {
+          if (res.data.result) {
+            this.$router.go(-1)
+          } else {
+            this.alerts(res.data.message)
+          }
+          console.log(res)
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
   }
 }
 </script>
 
 <style lang="less" scoped>
-.addAddress{
+.addAddress {
   position: absolute;
   left: 0;
-  top:0;
+  top: 0;
   right: 0;
-  bottom:0;
+  bottom: 0;
   overflow: hidden;
 }
-.bottoms{
+.bottoms {
   position: absolute;
-  left:0;
-  top:0;
-  bottom:0;
-  right:0;
-  background:rgba(60,60,60,0.6);
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(60, 60, 60, 0.6);
 }
-.AlignLeft{
+.AlignLeft {
   overflow: hidden;
 }
-.AlignLeft>div{
+.AlignLeft > div {
   float: right;
 }
-.bottom{
+.bottom {
   background: #fff;
   position: absolute;
-  bottom:0;
-  right:0;
-  left:0;
+  bottom: 0;
+  right: 0;
+  left: 0;
 }
-.bottomCOM{
+.bottomCOM {
   width: 100%;
   height: 40px;
   overflow: hidden;
   line-height: 0px;
   text-align: right;
   border-bottom: 1px solid #eee;
-  button{
-     color:#26a2ff;
+  button {
+    color: #26a2ff;
   }
 }
 .addAddress-body {
   .hheight-22 {
     height: 0.22rem;
-    background: #F5F5F5;
-  } 
-  .mint-cell{
+    background: #f5f5f5;
+  }
+  .mint-cell {
     padding: 0 0.28rem;
-    
+
     .mint-cell-wrapper {
       .mint-cell-title {
         font-size: 0.28rem;
       }
     }
-    
   }
-  
 }
 </style>

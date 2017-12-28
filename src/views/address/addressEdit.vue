@@ -49,6 +49,7 @@ export default {
    // 变量
   data () {
     return {
+      time: null,
       consignee: '',
       phoneNum: '',
       detailedAddress: '',
@@ -304,7 +305,17 @@ export default {
       this.$router.go(-1)
     }
   },
-  mounted () {}
+  mounted () {
+    this.time = setTimeout(() => {
+      document.body.addEventListener('touchmove', function (e) {
+        e.preventDefault()
+      })
+    }, 20)
+  },
+  beforeDestroy  () {
+    document.body.removeEventListener('touchmove', function () {})
+    clearTimeout(this.time)
+  }
 }
 </script>
 
@@ -360,12 +371,13 @@ export default {
   bottom:0;
   right:0;
   left:0;
+  z-index: 1;
 }
 .savebottom {
   background: #FD404A;
   width: 100%;
   height: 0.88rem;
-  position: fixed;
+  position: absolute;
   left: 0;
   bottom: 0;
   color: #ffffff;

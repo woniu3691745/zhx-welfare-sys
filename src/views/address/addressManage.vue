@@ -118,7 +118,6 @@ export default {
       })
     },
     del (data, delkey) {
-      // this.deldefault(data, delkey)
       if (delkey === this.defaultKey) {
         this.alerts('默认地址不能删除')
         return
@@ -149,9 +148,6 @@ export default {
             })
         })
         .catch(err => console.log(err))
-    },
-    deldefault (data, key) {
-
     },
     computedKey (key) {
       if (this.defaultkey === key) {

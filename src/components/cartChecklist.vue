@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-30 15:56:09 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-06 19:19:07
+ * @Last Modified time: 2018-01-03 14:05:39
  * 覆写 mint-ui checklist
  */
 <template>
@@ -42,7 +42,6 @@ import XCell from 'mint-ui/packages/cell/index.js'
 if (process.env.NODE_ENV === 'component') {
   require('mint-ui/packages/cell/style.css')
 }
-
 export default {
   name: 'z-mt-checklist',
   props: {

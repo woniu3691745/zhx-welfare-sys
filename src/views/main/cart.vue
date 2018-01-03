@@ -2,7 +2,7 @@
  * @Author: lidongliang 
  * @Date: 2017-10-12 17:58:36 
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-08 10:08:47
+ * @Last Modified time: 2018-01-03 14:05:49
  * 购物车
  */
 <template>
@@ -49,7 +49,6 @@ import { MessageBox } from 'mint-ui'
 import { startLoading, endLoading } from '../../utils/utils'
 import ZMtChecklist from '../../components/cartChecklist'
 import eventBus from '../../utils/eventBus'
-
 export default {
   name: 'cart-page',
   data () {

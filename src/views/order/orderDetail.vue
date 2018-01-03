@@ -2,14 +2,14 @@
  * @Author: lidongliang
  * @Date: 2017-11-14 09:59:01
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-14 15:35:43
+ * @Last Modified time: 2018-01-03 10:55:49
  * 订单详情
  */
 <template>
   <div class="orderDetail">
     <div class="common-header">
-      <mt-header title="订单详情">
-        <router-link to="/mineOrder" slot="left">
+      <mt-header title="订单详情" fixed>
+        <router-link to="/mineOrder" slot="left" >
           <mt-button icon="back"></mt-button>
         </router-link>
       </mt-header>
@@ -53,7 +53,8 @@
             </div>
             <div class="statue-pay-cancel clear" v-else>
               <span class="pay right" @click="expressOrder(orderInfo)">查看物流</span>
-              <span class="cancel right" @click="confirmOrder(orderInfo)" v-if="!orderInfo.childOrders.lenth && orderInfo.status === '03'">确认收货</span>
+              <span class="cancel right" @click="confirmOrder(orderInfo)" 
+                v-if="(!orderInfo.childOrders.lenth && orderInfo.status === '03') || (!orderInfo.childOrders.lenth && orderInfo.status === '04')">确认收货</span>
             </div>
           </div>
         </div>
@@ -76,7 +77,7 @@
           </div>
           <div class="statue-pay-cancel clear" v-else>
             <span class="pay right" @click="expressOrder(orderInfo, child)">查看物流</span>
-            <span class="cancel right" @click="confirmOrder(orderInfo, child)" v-if="!child.orderSubStatus === '05'">确认收货</span>
+            <span class="cancel right" @click="confirmOrder(orderInfo, child)" v-if="child.orderSubStatus === '03'">确认收货</span>
           </div>
         </div>
 
@@ -235,6 +236,7 @@ export default {
 @import "../../../static/css/util.css";
 .order-detail-body {
   .order-status-head {
+    margin-top: 0.88rem;
     padding: 0 0.3rem 0 0.48rem;
     font-size: 0.32rem;
     color: #FFFFFF;

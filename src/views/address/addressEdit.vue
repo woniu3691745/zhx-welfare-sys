@@ -21,12 +21,14 @@
     </div>
     <div class="bottoms" @click="handclickhide" v-show='isShow'>
       <div class="bottom">
-         <div class="bottomCOM"><mt-button  size="large" @click="handclickhide">确定</mt-button></div>
+        <div class="bottomCOM">
+          <mt-button size="large" @click="handclickhide">确定</mt-button>
+        </div>
         <mt-picker :slots="slots" @change="onValuesChange" :visibleItemCount='visibleItemCount' value-key='v'></mt-picker>
       </div>
     </div>
     <div class="savebottom" @click='saveAddress'>
-        保存
+      保存
     </div>
   </div>
 </template>
@@ -39,6 +41,9 @@ import {mapGetters} from 'vuex'
 const userNameReg = /^[a-zA-Z\u4e00-\u9fa5]{2,5}$/u
 const phoneNoPattern = /^1[34578]\d{9}$/
 let time
+const bodyScroll = function (event) {
+  event.preventDefault()
+}
 export default {
    // 组件名字
   name: 'addressEdit-page',
@@ -307,74 +312,70 @@ export default {
   },
   mounted () {
     this.time = setTimeout(() => {
-      document.body.addEventListener('touchmove', function (e) {
-        e.preventDefault()
-      })
+      document.body.addEventListener('touchmove', bodyScroll)
     }, 20)
   },
-  beforeDestroy  () {
-    document.body.removeEventListener('touchmove', function () {})
+  beforeDestroy () {
+    document.body.removeEventListener('touchmove', bodyScroll)
     clearTimeout(this.time)
   }
 }
 </script>
 
 <style lang="less" scoped>
-.addressEdit{
-   position: absolute;
+.addressEdit {
+  position: absolute;
   left: 0;
-  top:0;
+  top: 0;
   right: 0;
-  bottom:0;
+  bottom: 0;
   overflow: hidden;
 }
 .addAddress-body {
   .hheight-22 {
     height: 0.22rem;
-    background: #F5F5F5;
-  } 
-  .mint-cell{
+    background: #f5f5f5;
+  }
+  .mint-cell {
     padding: 0 0.28rem;
-    
+
     .mint-cell-wrapper {
       .mint-cell-title {
         font-size: 0.28rem;
       }
     }
-    
   }
-  
 }
-.bottoms{
+.bottoms {
   z-index: 1;
   position: absolute;
-  left:0;
-  top:0;
-  bottom:0;
-  right:0;
-  background:rgba(60,60,60,0.6);
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(60, 60, 60, 0.6);
 }
-.bottomCOM{
+.bottomCOM {
   width: 100%;
   height: 40px;
   overflow: hidden;
   line-height: 0px;
   text-align: right;
   border-bottom: 1px solid #eee;
-  button{
-     color:#26a2ff;
+  button {
+    color: #26a2ff;
   }
 }
-.bottom{
+.bottom {
   background: #fff;
   position: absolute;
-  bottom:0;
-  right:0;
-  left:0;
+  bottom: 0;
+  right: 0;
+  left: 0;
   z-index: 1;
 }
 .savebottom {
-  background: #FD404A;
+  background: #fd404a;
   width: 100%;
   height: 0.88rem;
   position: absolute;

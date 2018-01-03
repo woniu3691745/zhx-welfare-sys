@@ -8,66 +8,77 @@
 <template>
   <div class="addressManage">
     <div class="common-header">
-        <mt-header title="管理收货地址" v-if="this.flag">
-          <router-link :to="{ path: '/confirmOrder', query: { typeId: this.typeId}}" slot="left" fixed>
-            <mt-button icon="back"></mt-button>
-          </router-link>
-        </mt-header>
-        <mt-header title="管理收货地址" v-else>
-          <router-link to="/mine" slot="left" fixed>
-            <mt-button icon="back"></mt-button>
-          </router-link>
-        </mt-header>
-      </div>
-      <div class="noAddress" v-if="addListarr.length===0">
-         <router-link to="/addAddress">
-        <mt-button type="default" class="noAddressBtn">添加地址</mt-button>
+      <mt-header title="管理收货地址" v-if="this.flag">
+        <router-link :to="{ path: '/confirmOrder', query: { typeId: this.typeId}}" slot="left" fixed>
+          <mt-button icon="back"></mt-button>
         </router-link>
-      </div>
-      <div v-else>
-          <div class="address-manage-body">  
-      <div v-for="(val,key) in addListarr" :key="key"> 
-        <div class="name-tel clear">
-          <span class="left">{{val.userName}}</span>
-          <span class="right">{{val.phoneNo}}</span>
-        </div>
-        <p class="address-words">{{val.addressDetails}}</p>
-        <div class="delete-container border-top-1px">
-          <!-- *********** -->
-         <div class="mint-checklist" @click='updateDefault(val.addressId,$event)'>
-           <label class="mint-checklist-title"></label> 
-         <a class="mint-cell"><div class="mint-cell-left"></div> 
-         <div class="mint-cell-wrapper"><div class="mint-cell-title">
-           <label class="mint-checklist-label"><span class="mint-checkbox">
-             <input type="checkbox" class="mint-checkbox-input" :value="key"> 
-             <span :class="showClass | ADDRESS_SHOW_CALSS(key,defaultKey)"></span>
-             </span> 
-             <span class="mint-checkbox-label">设为默认选项</span>
-             </label></div> <div class="mint-cell-value"><span></span></div> <!----></div> 
-               <div class="mint-cell-right"></div></a></div>
-          <!-- ********** -->
-          <div class="clear editor-delete-container">
-            <span class="editor left" @click="edit(val)">编辑</span>
-            <span class="address-delete-editor right" @click="del(val.addressId,key, $event)">删除</span>
+      </mt-header>
+      <mt-header title="管理收货地址" v-else>
+        <router-link to="/mine" slot="left" fixed>
+          <mt-button icon="back"></mt-button>
+        </router-link>
+      </mt-header>
+    </div>
+    <div class="noAddress" v-if="addListarr.length===0">
+      <router-link to="/addAddress">
+        <mt-button type="default" class="noAddressBtn">添加地址</mt-button>
+      </router-link>
+    </div>
+    <div v-else>
+      <div class="address-manage-body">
+        <div v-for="(val,key) in addListarr" :key="key">
+          <div class="name-tel clear">
+            <span class="left">{{val.userName}}</span>
+            <span class="right">{{val.phoneNo}}</span>
+          </div>
+          <p class="address-words">{{val.addressDetails}}</p>
+          <div class="delete-container border-top-1px">
+            <!-- *********** -->
+            <div class="mint-checklist" @click='updateDefault(val.addressId,$event)'>
+              <label class="mint-checklist-title"></label>
+              <a class="mint-cell">
+                <div class="mint-cell-left"></div>
+                <div class="mint-cell-wrapper">
+                  <div class="mint-cell-title">
+                    <label class="mint-checklist-label">
+                      <span class="mint-checkbox">
+                        <input type="checkbox" class="mint-checkbox-input" :value="key">
+                        <span :class="showClass | ADDRESS_SHOW_CALSS(key,defaultKey)"></span>
+                      </span>
+                      <span class="mint-checkbox-label">设为默认选项</span>
+                    </label>
+                  </div>
+                  <div class="mint-cell-value">
+                    <span></span>
+                  </div>
+                  <!---->
+                </div>
+                <div class="mint-cell-right"></div>
+              </a>
+            </div>
+            <!-- ********** -->
+            <div class="clear editor-delete-container">
+              <span class="editor left" @click="edit(val)">编辑</span>
+              <span class="address-delete-editor right" @click="del(val.addressId,key, $event)">删除</span>
+            </div>
+          </div>
+          <div class="height-20">
           </div>
         </div>
-        <div class="height-20">
-        </div>
       </div>
-    </div>
-    <router-link to="/addAddress">
-      <div class="bottom">
-        <div>
-          添加收货地址
+      <router-link to="/addAddress">
+        <div class="bottom">
+          <div>
+            添加收货地址
+          </div>
         </div>
-      </div>
-    </router-link>
+      </router-link>
     </div>
   </div>
 </template>
 
 <script>
-import {MessageBox} from 'mint-ui'
+import { MessageBox } from 'mint-ui'
 export default {
   // 组件名字
   name: 'addressManage-page',
@@ -86,8 +97,8 @@ export default {
         'mint-checkbox-corsafter': false
       },
       defaultKey: 0,
-      flag: this.$route.query.flag,         // 是否从确认订单跳转标识
-      typeId: this.$route.query.typeId      // 额度标识
+      flag: this.$route.query.flag, // 是否从确认订单跳转标识
+      typeId: this.$route.query.typeId // 额度标识
     }
   },
   computed: {},
@@ -101,28 +112,46 @@ export default {
     },
     edit (data) {
       this.$store.dispatch('ZHXONEUSERAddressSave', data)
-      this.$router.push({name: 'addressEdit', query: { userdata: data.addressId }})
+      this.$router.push({
+        name: 'addressEdit',
+        query: { userdata: data.addressId }
+      })
     },
     del (data, delkey) {
-      MessageBox.confirm('确认要删除此收获地址?').then(action => {
-        const mes = {'bizData': {
-          'addressId': data
-        }
-        }
-        this.$store
-      .dispatch('ZHX_DELETE_ADDRESS', mes).then((res) => {
-        if (res.data.result) {
-          this.addListarr = this.addListarr.filter((val, key) => key !== delkey)
-          if (delkey === this.defaultKey) {
-            this.defaultKey = 0
+      // this.deldefault(data, delkey)
+      if (delkey === this.defaultKey) {
+        this.alerts('默认地址不能删除')
+        return
+      }
+      MessageBox.confirm('确认要删除此收获地址?')
+        .then(action => {
+          const mes = {
+            bizData: {
+              addressId: data
+            }
           }
-        } else {
-          this.alerts(res.data.message)
-        }
-      }).catch((err) => {
-        console.log(err)
-      })
-      }).catch(err => console.log(err))
+          this.$store
+            .dispatch('ZHX_DELETE_ADDRESS', mes)
+            .then(res => {
+              if (res.data.result) {
+                this.addListarr = this.addListarr.filter(
+                  (val, key) => key !== delkey
+                )
+                if (delkey === this.defaultKey) {
+                  this.defaultKey = 0
+                }
+              } else {
+                this.alerts(res.data.message)
+              }
+            })
+            .catch(err => {
+              console.log(err)
+            })
+        })
+        .catch(err => console.log(err))
+    },
+    deldefault (data, key) {
+
     },
     computedKey (key) {
       if (this.defaultkey === key) {
@@ -143,18 +172,23 @@ export default {
       let target = e.target
       if (target.tagName === 'INPUT') {
         const mes = {
-          'bizData': {
-            'addressId': date,
-            'defaultFlag': '01'
+          bizData: {
+            addressId: date,
+            defaultFlag: '01'
           }
         }
-        this.$store.dispatch('ZHX_UPDATE_ADDRESS', mes).then((res) => {
-          if (res.data.result) {
-            this.defaultKey = Number(target.value)
-          } else {
-            this.alerts(res.data.message)
-          }
-        }).catch((err) => { console.log(err) })
+        this.$store
+          .dispatch('ZHX_UPDATE_ADDRESS', mes)
+          .then(res => {
+            if (res.data.result) {
+              this.defaultKey = Number(target.value)
+            } else {
+              this.alerts(res.data.message)
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
       }
     }
   },
@@ -269,8 +303,8 @@ export default {
       height: 0.2rem;
       background: #f5f5f5;
     }
-    .mint-button-text{
-      font-size:12px;
+    .mint-button-text {
+      font-size: 12px;
     }
   }
   .bottom {

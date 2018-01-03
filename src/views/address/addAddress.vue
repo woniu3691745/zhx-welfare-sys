@@ -62,15 +62,12 @@ export default {
     mtBody.removeEventListener('touchmove', function (e) {})
     clearTimeout(this.time)
   },
-  destroyed () {
-
-  },
   data () {
     return {
       consignee: '',
       phoneNum: '',
       detailedAddress: '',
-      value: false,
+      value: true,
       visibleItemCount: 5,
       isShow: false,
       addList: {},

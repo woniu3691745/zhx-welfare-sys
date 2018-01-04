@@ -136,6 +136,10 @@ export default {
                 this.addListarr = this.addListarr.filter(
                   (val, key) => key !== delkey
                 )
+                if (delkey < this.defaultKey) {
+                  this.defaultKey -= 1
+                  return
+                }
                 if (delkey === this.defaultKey) {
                   this.defaultKey = 0
                 }

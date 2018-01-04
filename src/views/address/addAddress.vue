@@ -131,9 +131,6 @@ export default {
         const OldDataArr = this.defaultArr
         for (let i = 0; i < values.length; i++) {
           let val = values[i]
-          if (val) {
-            console.log(val.k, OldDataArr[`${i}`], val.f)
-          }
           if (val != null && val.k !== OldDataArr[i]) {
             OldDataArr[i] = val.k
             if (val.f === 'Y') {
@@ -278,7 +275,6 @@ export default {
           } else {
             this.alerts(res.data.message)
           }
-          console.log(res)
         })
         .catch(err => {
           console.log(err)

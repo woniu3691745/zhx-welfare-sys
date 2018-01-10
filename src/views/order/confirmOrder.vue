@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-11-14 09:59:01
  * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-11 11:51:35
+ * @Last Modified time: 2018-01-10 15:19:04
  * 确认订单
  */
 <template>
@@ -231,7 +231,7 @@ export default {
     this.productImgs = this.productImg
     this.productImgNum = this.productImg.length
     this.getSku()
-    if (parseInt(this.confirmOrderForm.productTotal) > parseInt(199)) {
+    if (parseInt(this.confirmOrderForm.productTotal) > parseInt(99)) {
       this.confirmOrderForm.isShipping = true
     }
     setTimeout(() => {

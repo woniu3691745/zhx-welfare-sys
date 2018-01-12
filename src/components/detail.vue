@@ -1,6 +1,6 @@
 /*
- * @Author: lidongliang 
- * @Date: 2017-11-14 19:04:03 
+ * @Author: lidongliang
+ * @Date: 2017-11-14 19:04:03
  * @Last Modified by: lidongliang
  * @Last Modified time: 2017-12-27 10:19:05
  * 商品详情
@@ -10,9 +10,8 @@
     <div class="head-fix">
       <div class="common-header">
         <mt-header title="详情">
-          <router-link :to="{ path: '/mall', query: {selected: 'mall', typeId: this.typeId, flag: 1}}" slot="left">
+           <mt-button icon="back" slot="left" @click="runRouter"></mt-button>
             <mt-button icon="back"></mt-button>
-          </router-link>
         </mt-header>
       </div>
     </div>
@@ -45,7 +44,7 @@
         <mt-button type="primary" class="button-width" @click="addCart">加入购物车</mt-button>
       </mt-tabbar>
     </div>
-  </div>  
+  </div>
 </template>
 <script>
 import { startLoading, endLoading } from '../utils/utils'
@@ -68,6 +67,9 @@ export default {
     }
   },
   methods: {
+    runRouter () {
+      this.$router.go(-1)
+    },
     // 详情信息
     goodListByIdInfo (productSku) {
       startLoading()
@@ -196,8 +198,8 @@ export default {
   //     width: 100%;
   //     .content_tpl {
   //       width: 100%;
-  //     } 
-  //   }     
+  //     }
+  //   }
   // }
 }
 .detail-bottom {

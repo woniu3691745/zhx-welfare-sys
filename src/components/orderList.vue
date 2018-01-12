@@ -1,6 +1,6 @@
 /*
- * @Author: lidongliang 
- * @Date: 2017-10-19 19:50:05 
+ * @Author: lidongliang
+ * @Date: 2017-10-19 19:50:05
  * @Last Modified by: lidongliang
  * @Last Modified time: 2018-01-10 14:51:22
  * 订单列表
@@ -9,11 +9,11 @@
   <div style="">
     <div class="page-loadmore">
       <div class="page-loadmore-wrapper" ref="wrapper">
-        <mt-loadmore :top-method="loadTop" 
+        <mt-loadmore :top-method="loadTop"
                     @top-status-change="handleTopChange"
-                    :bottom-method="loadBottom" 
-                    @bottom-status-change="handleBottomChange" 
-                    :bottom-all-loaded="allLoaded" 
+                    :bottom-method="loadBottom"
+                    @bottom-status-change="handleBottomChange"
+                    :bottom-all-loaded="allLoaded"
                     :auto-fill="autoFill"
                     ref="loadmore">
           <ul class="page-loadmore-list">
@@ -165,6 +165,10 @@ export default {
       this.$store
         .dispatch('CancelOrder', orderInfo)
         .then(res => {
+          if (res.result) {
+            this.$router.go(0)
+            return
+          }
           MessageBox({
             title: '提示',
             message: res.message,
@@ -240,7 +244,7 @@ export default {
               margin-right: 0.2rem;
             }
           }
-        }      
+        }
       }
       .pay-money {
         width: 100%;
@@ -296,7 +300,7 @@ export default {
       .hheight-22 {
         height: 0.22rem;
         background: #F5F5F5;
-      } 
+      }
     }
   }
 }

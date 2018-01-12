@@ -1,6 +1,6 @@
 /*
- * @Author: lidongliang 
- * @Date: 2017-12-04 14:27:42 
+ * @Author: lidongliang
+ * @Date: 2017-12-04 14:27:42
  * @Last Modified by: lidongliang
  * @Last Modified time: 2017-12-11 15:38:42
  * 支付密码
@@ -26,7 +26,7 @@
   <div class="write-phonenum">
     <input type="number" maxlength="" class="realInput" v-model="realInput"  @keyup="getNum()" @keydown="delNum()" id="focusid">
     <ul class="write-input clearfix">
-        <li v-for="disInput1 in disInputs" :key="disInput1.value">
+        <li v-for="(disInput1,key) in disInputs" :key="key">
           <input type="password" maxlength="1" v-model="disInput1.value">
         </li>
     </ul>
@@ -131,6 +131,10 @@ export default {
               message: res.message,
               showCancelButton: false
             })
+            this.disInputs.forEach(element => {
+              element.value = ''
+            })
+            this.realInput = ''
           } else {
             this.$router.push({
               path: '/fail',

@@ -1,6 +1,6 @@
 /*
- * @Author: lidongliang 
- * @Date: 2017-11-14 09:59:01 
+ * @Author: lidongliang
+ * @Date: 2017-11-14 09:59:01
  * @Last Modified by: lidongliang
  * @Last Modified time: 2017-11-22 20:15:04
  * 重置登录密码
@@ -16,12 +16,12 @@
     </div>
     <div class="reset-login-pwd-body">
       <div class="common-form-filed">
-        <mt-field label="手机号" placeholder="请输入手机号" v-model="resetForm.phoneNum">
+        <mt-field label="手机号" placeholder="请输入手机号" type='number' v-model="resetForm.phoneNum">
           <span v-if="!sendMsgDisabled" class="identifyingCode1" @click="getIdCode">获取验证码</span>
           <span v-else class="identifyingCode2" @click="getIdCode">{{time}}秒后重发</span>
         </mt-field>
-        <mt-field label="验证码" placeholder="请输入短信验证码"  v-model="resetForm.identifyingCode">
-          
+        <mt-field label="验证码" placeholder="请输入短信验证码" type="number"  v-model="resetForm.identifyingCode">
+
         </mt-field>
         <mt-field label="新登录密码" placeholder="请输入新密码" type="password" v-model="resetForm.newLoginPassWord"></mt-field>
         <mt-field label="确认密码" placeholder="请再次输入密码" type="password" v-model="resetForm.confirmNewLoginPassWord"></mt-field>

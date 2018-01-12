@@ -17,7 +17,7 @@
     <div class="order-detail-body">
       <div class="order-status-head clear">
         <span class="left">{{orderInfo.orderStatus}}</span>
-        <!--<span class="right">需支付：￥{{orderInfo.orderAmt}}</span>-->
+        <span v-if="orderType" class="right">需支付：￥{{orderInfo.orderAmt}}</span>
       </div>
       <div class="unpack-container" v-if="orderInfo.childOrderCount > 0">
         <p>该订单已拆成{{orderInfo.childOrderCount}}个订单，并用{{orderInfo.childOrderCount}}个包裹发出，点击“查看物流”可查看详情。</p>
@@ -53,7 +53,7 @@
             </div>
             <div class="statue-pay-cancel clear" v-else>
               <span class="pay right" @click="expressOrder(orderInfo)">查看物流</span>
-              <span class="cancel right" @click="confirmOrder(orderInfo)" 
+              <span class="cancel right" @click="confirmOrder(orderInfo)"
                 v-if="(!orderInfo.childOrders.lenth && orderInfo.status === '03') || (!orderInfo.childOrders.lenth && orderInfo.status === '04')">确认收货</span>
             </div>
           </div>
@@ -112,7 +112,12 @@ export default {
       orderId: this.$route.query.orderId // 额度ID
     }
   },
-  computed: {},
+  computed: {
+    orderType () {
+      let num = this.orderInfo.orderType
+      return num === '00' || num === '11'
+    }
+  },
   methods: {
     // 支付订单
     goBuy (val) {
@@ -133,6 +138,10 @@ export default {
       this.$store
         .dispatch('CancelOrder', orderInfo)
         .then(res => {
+          if (res.result) {
+            this.$router.go(-1)
+            return
+          }
           MessageBox({
             title: '提示',
             message: res.message,

@@ -1,6 +1,6 @@
 /*
- * @Author: lidongliang 
- * @Date: 2017-11-14 09:59:01 
+ * @Author: lidongliang
+ * @Date: 2017-11-14 09:59:01
  * @Last Modified by: lidongliang
  * @Last Modified time: 2017-11-22 16:00:34
  * 添加收货地址
@@ -16,7 +16,7 @@
     </div>
     <div class="addAddress-body">
       <mt-field class="border-1px" label="收货人" placeholder="收货人姓名" v-model="consignee"></mt-field>
-      <mt-field class="border-1px" label="联系电话" placeholder="请输入手机号" v-model="phoneNum"></mt-field>
+      <mt-field class="border-1px" label="联系电话" placeholder="请输入手机号" type='number' v-model="phoneNum"></mt-field>
       <mt-cell class="border-1px height-88" @click.native="handclickshow" title="所在地区" is-link v-model="values">
       </mt-cell>
       <mt-field placeholder="请填写详细地址，不少于5个字" type="textarea" rows="4" v-model="detailedAddress"></mt-field>
@@ -38,7 +38,6 @@
 
 <script>
 import { MessageBox } from 'mint-ui'
-let time
 // 姓名正则
 const userNameReg = /^[a-zA-Z\u4e00-\u9fa5]{2,5}$/u
 const phoneNoPattern = /^1[34578]\d{9}$/
@@ -64,6 +63,7 @@ export default {
   },
   data () {
     return {
+      isSubmit: true,
       consignee: '',
       phoneNum: '',
       detailedAddress: '',
@@ -206,6 +206,9 @@ export default {
       if (!this.Detailedaddress()) {
         return false
       }
+      if (!this.isSubmit) {
+        return false
+      }
       this.submitData()
     },
     // 姓名正则
@@ -246,12 +249,14 @@ export default {
       }
     },
     debounce (fn) {
-      time && clearTimeout(time)
-      time = setTimeout(function () {
-        fn()
-      }, 500)
+      fn()
+      // time && clearTimeout(time)
+      // time = setTimeout(function () {
+      //   fn()
+      // }, 500)
     },
     submitData () {
+      this.isSubmit = false
       let { phoneNum, consignee, detailedAddress, value } = this
       let defaultFlag = value ? '01' : '00'
       let defaultArr = this.defaultArr
@@ -277,6 +282,7 @@ export default {
           }
         })
         .catch(err => {
+          this.isSubmit = true
           console.log(err)
         })
     }

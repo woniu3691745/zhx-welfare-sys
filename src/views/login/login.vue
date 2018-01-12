@@ -16,7 +16,7 @@
     </div>
     <div class="body">
       <div class="common-form-filed">
-        <mt-field label="账号" placeholder="手机号" v-model="loginForm.account"></mt-field>
+        <mt-field label="账号" placeholder="手机号" type='number' v-model="loginForm.account"></mt-field>
         <mt-field label="登录密码" placeholder="请填写登录密码" type="password" v-model="loginForm.loginPassWord" @paste.native="forbidPaste"></mt-field>
       </div>
     </div>

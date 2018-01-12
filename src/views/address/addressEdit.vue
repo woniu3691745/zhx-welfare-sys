@@ -1,6 +1,6 @@
 /*
- * @Author: lidongliang 
- * @Date: 2017-11-14 09:59:01 
+ * @Author: lidongliang
+ * @Date: 2017-11-14 09:59:01
  * @Last Modified by: lidongliang
  * @Last Modified time: 2017-11-22 16:13:32
  * 编辑收货人
@@ -14,7 +14,7 @@
     </div>
     <div class="addAddress-body">
       <mt-field class="border-1px" label="收货人" placeholder="收货人姓名" v-model="consignee"></mt-field>
-      <mt-field class="border-1px" label="联系电话" placeholder="请输入手机号" v-model="phoneNum"></mt-field>
+      <mt-field class="border-1px" label="联系电话" placeholder="请输入手机号" type='number' v-model="phoneNum"></mt-field>
       <mt-cell class="border-1px height-88" @click.native="handclickshow" title="所在地区" is-link v-model="values">
       </mt-cell>
       <mt-field placeholder="请填写详细地址，不少于5个字" type="textarea" rows="4" v-model="detailedAddress"></mt-field>

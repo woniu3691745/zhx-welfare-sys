@@ -1,6 +1,6 @@
 /*
- * @Author: lidongliang 
- * @Date: 2017-11-14 09:59:01 
+ * @Author: lidongliang
+ * @Date: 2017-11-14 09:59:01
  * @Last Modified by: lidongliang
  * @Last Modified time: 2017-11-22 19:35:38
  * 更换手机号
@@ -20,7 +20,7 @@
           <span v-if="!sendMsgDisabled" class="identifyingCode1" @click="getIdCode">获取验证码</span>
           <span v-else class="identifyingCode2" @click="getIdCode">{{time}}秒后重发</span>
         </mt-field>
-        <mt-field label="验证码" placeholder="请输入短信验证码"  v-model="resetForm.identifyingCode">
+        <mt-field label="验证码" placeholder="请输入短信验证码" type='number' v-model="resetForm.identifyingCode">
         </mt-field>
         <mt-field label="安全密码" placeholder="请输入支付密码"  type="password" v-model="resetForm.newLoginPassWord"></mt-field>
         <router-link to="/resetPayPwd">
@@ -169,10 +169,11 @@ export default {
         .dispatch('ZHX_BINDPHONE_CHANGE', data)
         .then(res => {
           const data = res.data
-          if (!data.result) {
+          if (data.result) {
             me.alerts(data.message)
           } else {
-            this.$router.go(-1)
+            this.$router.replace('/login')
+            this.$store.dispatch('LogOut')
           }
         })
         .catch(res => {

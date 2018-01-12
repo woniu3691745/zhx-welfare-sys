@@ -16,11 +16,11 @@
     </div>
     <div class="body">
       <div class="common-form-filed">
-        <mt-field label="手机号" placeholder="请填写手机号" v-model="bindForm.phoneNum">
+        <mt-field label="手机号" placeholder="请填写手机号" type='number' v-model="bindForm.phoneNum">
           <span v-if="!sendMsgDisabled" class="identifyingCode1" @click="getIdCode">获取验证码</span>
           <span v-else class="identifyingCode2" @click="getIdCode">{{time}}秒后重发</span>
         </mt-field>
-        <mt-field label="验证码" placeholder="请输入短信验证码" v-model="bindForm.identifyingCode">
+        <mt-field label="验证码" placeholder="请输入短信验证码" type="number" v-model="bindForm.identifyingCode">
         </mt-field>
       </div>
     </div>

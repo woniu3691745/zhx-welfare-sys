@@ -114,8 +114,8 @@ export default {
   },
   computed: {
     orderType () {
-      let num = this.orderInfo.orderType
-      return num === '00' || num === '11'
+      let num = this.orderInfo.status
+      return num === '00' || num === '01'
     }
   },
   methods: {

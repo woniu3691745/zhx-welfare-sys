@@ -1,6 +1,6 @@
 /*
- * @Author: lidongliang 
- * @Date: 2017-11-14 09:59:01 
+ * @Author: lidongliang
+ * @Date: 2017-11-14 09:59:01
  * @Last Modified by: lidongliang
  * @Last Modified time: 2017-12-07 14:58:03
  * 管理收货地址
@@ -122,7 +122,7 @@ export default {
         this.alerts('默认地址不能删除')
         return
       }
-      MessageBox.confirm('确认要删除此收获地址?')
+      MessageBox.confirm('确认要删除此收货地址?')
         .then(action => {
           const mes = {
             bizData: {

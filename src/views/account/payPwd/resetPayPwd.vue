@@ -1,6 +1,6 @@
 /*
- * @Author: lidongliang 
- * @Date: 2017-11-14 09:59:01 
+ * @Author: lidongliang
+ * @Date: 2017-11-14 09:59:01
  * @Last Modified by: lidongliang
  * @Last Modified time: 2017-12-11 15:56:08
  * 重置支付密码
@@ -17,7 +17,7 @@
     <div class="reset-pay-pwd-body">
       <div class="common-form-filed">
         </mt-field>
-        <mt-field label="验证码" placeholder="请输入短信验证码" v-model="bindForm.identifyingCode">
+        <mt-field label="验证码" placeholder="请输入短信验证码" type="number" v-model="bindForm.identifyingCode">
           <span v-if="!sendMsgDisabled" class="identifyingCode1" @click="getIdCode">获取验证码</span>
           <span v-else class="identifyingCode2" @click="getIdCode">{{time}}秒后重发</span>
         </mt-field>

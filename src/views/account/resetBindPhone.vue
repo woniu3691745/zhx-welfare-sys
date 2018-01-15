@@ -169,7 +169,7 @@ export default {
         .dispatch('ZHX_BINDPHONE_CHANGE', data)
         .then(res => {
           const data = res.data
-          if (data.result) {
+          if (!data.result) {
             me.alerts(data.message)
           } else {
             this.$router.replace('/login')

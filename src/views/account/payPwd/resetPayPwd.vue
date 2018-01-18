@@ -9,9 +9,7 @@
   <div class="resetPayPwd">
     <div class="common-header">
       <mt-header title="重置支付密码">
-        <router-link to="" slot="left" fixed>
-          <mt-button icon="back" @click="goBack()"></mt-button>
-        </router-link>
+          <mt-button icon="back" @click="goBack()" slot="left"></mt-button>
       </mt-header>
     </div>
     <div class="reset-pay-pwd-body">

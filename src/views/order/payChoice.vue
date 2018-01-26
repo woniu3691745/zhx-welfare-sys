@@ -49,7 +49,7 @@ export default {
         disabled: false
       }],
       option: [],
-      orderInfos: this.orderInfo,
+      orderInfos: '',
       typeId: this.$route.query.typeId,
       orderNo: this.$route.query.orderNo
     }
@@ -65,14 +65,14 @@ export default {
   },
   created () {
     const {typeId, orderNo} = this
-    this.orderInfos = this.orderInfo
+    this.orderInfos = this.orderInfo.cartTotal || this.orderInfo
     this.getData(typeId, orderNo)
     this.choice(typeId)
   },
   methods: {
     handClick () {
       const flag = this.value.length > 0
-      if (flag) this.$router.push('/')
+      if (flag) this.$router.push('/inputPwd')
     },
     choice (typeId) {
       this.options = this.quota.map((v, k) => {

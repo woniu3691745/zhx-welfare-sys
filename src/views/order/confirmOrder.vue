@@ -169,7 +169,7 @@ export default {
         .then(res => {
           if (res.result) {
             this.$router.push({
-              path: '/inputPwd',
+              path: '/payChoice',
               query: {
                 typeId: this.typeId,
                 orderNo: res.bizData.orderId

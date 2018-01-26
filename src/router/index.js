@@ -65,6 +65,7 @@ export const constantRouterMap = [
    */
   { path: '/confirmOrder', name: '确认订单', component: confirmOrder, meta: {'title': '确认订单'} },
   { path: '/selectAddress', name: '选择地址', component: resolve => require(['@/views/order/selectAddress.vue'], resolve), meta: {'title': '选择地址'} },
+  { path: '/payChoice', name: '支付选择', component: resolve => require(['@/views/order/payChoice.vue'], resolve), meta: {'title': '支付选择'} },
   { path: '/inputPwd', name: '支付密码', component: resolve => require(['@/views/order/inputPwd.vue'], resolve), meta: {'title': '支付密码'} },
   { path: '/success', name: '支付成功', component: resolve => require(['@/views/order/success.vue'], resolve), meta: {'title': '支付成功'} },
   { path: '/fail', name: '支付失败', component: resolve => require(['@/views/order/fail.vue'], resolve), meta: {'title': '支付失败'} },

@@ -121,7 +121,7 @@ export default {
     goBuy (val) {
       this.SET_CONFIRM_ORDER_INFO(val.orderAmt)
       this.$router.push({
-        path: '/inputPwd',
+        path: '/payChoice',
         query: {
           typeId: val.productType,      // 额度ID
           orderNo: val.orderId          // 订单编号

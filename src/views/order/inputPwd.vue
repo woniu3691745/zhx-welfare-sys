@@ -58,8 +58,16 @@ export default {
         { value: '' }
       ],
       realInput: '',
-      balnce: ''
+      balnce: '',
+      detail: []
     }
+  },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      let obj = JSON.parse(sessionStorage.getItem(vm.orderNo))
+      vm.balnce = obj.price
+      vm.detail = obj.detail
+    })
   },
   methods: {
     getbackMoney () {
@@ -113,8 +121,10 @@ export default {
       let submitInfo = {
         orderNo: this.orderNo, // 订单号
         cartType: this.typeId, // 商品品类ID
-        payPwd: pwd // 支付密码
+        payPwd: pwd, // 支付密码
+        payDetai: this.detail
       }
+      console.log(submitInfo)
       this.$store
         .dispatch('Pay', submitInfo)
         .then(res => {

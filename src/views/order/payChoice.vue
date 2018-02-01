@@ -51,7 +51,8 @@ export default {
       option: [],
       orderInfos: '',
       typeId: this.$route.query.typeId,
-      orderNo: this.$route.query.orderNo
+      orderNo: this.$route.query.orderNo,
+      payDetai: []
     }
   },
   computed: {
@@ -72,7 +73,16 @@ export default {
   methods: {
     handClick () {
       const flag = this.value.length > 0
-      if (flag) this.$router.push('/inputPwd')
+      if (flag) {
+        let { fullPath } = this.$route
+        let key = this.orderNo.toString()
+        let value = {
+          detail: this.payDetai,
+          price: this.orderInfos
+        }
+        sessionStorage.setItem(key, JSON.stringify(value))
+        this.$router.push(fullPath.replace('/payChoice', '/inputPwd'))
+      }
     },
     choice (typeId) {
       this.options = this.quota.map((v, k) => {
@@ -86,9 +96,20 @@ export default {
           this.values = str
           if (v.balance > this.orderInfos) {
             this.alioptions = [Object.assign(...this.alioptions, {disabled: true})]
+            this.payDetai = [{
+              type: 'edu',
+              amount: this.orderInfos
+            }]
           } else {
             const num = this.orderInfos - v.balance
             this.option = [`应付：${num}`]
+            this.payDetai = [{
+              type: 'edu',
+              amount: this.orderInfos
+            }, {
+              type: 'fulika',
+              amount: num
+            }]
           }
         }
         return a

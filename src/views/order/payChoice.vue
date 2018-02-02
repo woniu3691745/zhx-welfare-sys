@@ -8,7 +8,7 @@
       </mt-header>
     </div>
     <div class="main">
-      <mt-checklist v-model="value" :options="[{
+      <mt-checklist v-model="value"  :options="[{
         label:'额度支付',
         value:1,
       }]">
@@ -30,14 +30,16 @@
   </div>
 </template>
 <script>
+import { mixin } from '../../utils/choice'
 import { mapGetters } from 'vuex'
 import { MessageBox } from 'mint-ui'
 export default {
   data () {
     return {
+      flag: false,
       value: [],
       values: '',
-      valu: '5',
+      valu: 'Apay',
       options: [{
         label: '222',
         disabled: true
@@ -46,22 +48,30 @@ export default {
         label: '支付宝支付',
         value: 2
       }],
-      option: ['yingfu'],
+      option: [],
       orderInfos: '',
       typeId: this.$route.query.typeId,
       orderNo: this.$route.query.orderNo,
       payDetai: [],
-      balance: 0
+      balance: 0,
+      // 职责链返回变量
+      order: ''
+
     }
   },
+  mixins: [mixin],
   computed: {
     ...mapGetters(['orderInfo', 'quota']),
     Apay () {
       return this.value.includes(1)
     },
     Alipay () {
-      console.log(this.value)
       return this.value.includes(2)
+    }
+  },
+  watch: {
+    value (news, pro) {
+      this.Choices(news, pro)
     }
   },
   created () {
@@ -69,11 +79,23 @@ export default {
     this.orderInfos = this.orderInfo.cartTotal || this.orderInfo
     this.getData(typeId, orderNo)
     this.choice(typeId)
+    this.after()
+  },
+  mounted () {
+    this.order = this.epayFn.after(this.alipayFn).after(this.allpayFn).after(this.nopayFn)
   },
   methods: {
+    Choices (news, pro) {
+      let orderType = this.balance > this.orderInfos
+      let str = this.value.join('_')
+      let choiceType = this.strategies(str)
+      if (orderType && choiceType === 'all') {
+        news.splice(news.indexOf(pro[0]), 1)
+      }
+      this.order(orderType, choiceType)
+    },
     handClick () {
-      const flag = this.value.length > 0
-      if (flag) {
+      if (this.flag) {
         let { fullPath } = this.$route
         let key = this.orderNo.toString()
         let value = {
@@ -98,33 +120,6 @@ export default {
         }
         return a
       })
-    },
-    // e支付
-    epay () {
-      this.alioptions = [Object.assign(...this.alioptions)]
-      this.payDetai = [{
-        type: 'edu',
-        amount: this.orderInfos
-      }]
-    },
-      // all 支付
-    allpay () {
-      const num = this.orderInfos - this.balance
-      this.option = [`应付：${num}`]
-      this.payDetai = [{
-        type: 'edu',
-        amount: this.orderInfos
-      }, {
-        type: 'fulika',
-        amount: num
-      }]
-    },
-      // Alip 支付
-    Alipay () {
-      this.payDetai = [{
-        type: 'fulika',
-        amount: this.orderInfos
-      }]
     },
     getData (typeId, orderNo) {
       if (this.orderInfo) return

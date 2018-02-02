@@ -11,7 +11,6 @@
       <mt-checklist v-model="value" :options="[{
         label:'额度支付',
         value:1,
-        disabled:false
       }]">
       </mt-checklist>
       <div v-show="Apay" class="Apay">
@@ -45,14 +44,14 @@ export default {
       }],
       alioptions: [{
         label: '支付宝支付',
-        value: 2,
-        disabled: false
+        value: 2
       }],
-      option: [],
+      option: ['yingfu'],
       orderInfos: '',
       typeId: this.$route.query.typeId,
       orderNo: this.$route.query.orderNo,
-      payDetai: []
+      payDetai: [],
+      balance: 0
     }
   },
   computed: {
@@ -61,6 +60,7 @@ export default {
       return this.value.includes(1)
     },
     Alipay () {
+      console.log(this.value)
       return this.value.includes(2)
     }
   },
@@ -94,26 +94,37 @@ export default {
         if (v.typeId === typeId) {
           a.disabled = false
           this.values = str
-          if (v.balance > this.orderInfos) {
-            this.alioptions = [Object.assign(...this.alioptions, {disabled: true})]
-            this.payDetai = [{
-              type: 'edu',
-              amount: this.orderInfos
-            }]
-          } else {
-            const num = this.orderInfos - v.balance
-            this.option = [`应付：${num}`]
-            this.payDetai = [{
-              type: 'edu',
-              amount: this.orderInfos
-            }, {
-              type: 'fulika',
-              amount: num
-            }]
-          }
+          this.balance = v.balance
         }
         return a
       })
+    },
+    // e支付
+    epay () {
+      this.alioptions = [Object.assign(...this.alioptions)]
+      this.payDetai = [{
+        type: 'edu',
+        amount: this.orderInfos
+      }]
+    },
+      // all 支付
+    allpay () {
+      const num = this.orderInfos - this.balance
+      this.option = [`应付：${num}`]
+      this.payDetai = [{
+        type: 'edu',
+        amount: this.orderInfos
+      }, {
+        type: 'fulika',
+        amount: num
+      }]
+    },
+      // Alip 支付
+    Alipay () {
+      this.payDetai = [{
+        type: 'fulika',
+        amount: this.orderInfos
+      }]
     },
     getData (typeId, orderNo) {
       if (this.orderInfo) return

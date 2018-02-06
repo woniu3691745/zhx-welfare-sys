@@ -65,7 +65,7 @@ export default {
   beforeRouteEnter (to, from, next) {
     next(vm => {
       let obj = JSON.parse(sessionStorage.getItem(vm.orderNo))
-      vm.balnce = obj.price
+      vm.balnce = typeof (obj.types) === 'number' ? obj.types : obj.price
       vm.detail = obj.detail
     })
   },

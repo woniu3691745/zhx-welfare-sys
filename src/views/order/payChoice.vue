@@ -31,8 +31,9 @@
 </template>
 <script>
 import { mixin } from '../../utils/choice'
+import { setItem, getItem, removeItem } from '../../utils/store'
 import { mapGetters } from 'vuex'
-import { MessageBox } from 'mint-ui'
+import { MessageBox, Toast } from 'mint-ui'
 export default {
   data () {
     return {
@@ -55,7 +56,8 @@ export default {
       payDetai: [],
       balance: 0,
       // 职责链返回变量
-      order: ''
+      order: '',
+      types: null
 
     }
   },
@@ -77,7 +79,6 @@ export default {
   created () {
     const {typeId, orderNo} = this
     this.orderInfos = this.orderInfo.cartTotal || this.orderInfo
-    console.log(this.orderInfos)
     this.getData(typeId, orderNo)
     this.choice(typeId)
     this.after()
@@ -97,14 +98,31 @@ export default {
     },
     handClick () {
       if (this.flag) {
-        let { fullPath } = this.$route
         let key = this.orderNo.toString()
         let value = {
           detail: this.payDetai,
-          price: this.orderInfos
+          price: this.orderInfos,
+          types: this.types
         }
-        sessionStorage.setItem(key, JSON.stringify(value))
-        this.$router.push(fullPath.replace('/payChoice', '/inputPwd'))
+        getItem(key) ? (removeItem(key) || setItem(key, value)) : setItem(key, value)
+        this.choiceRoute(this.types)
+      } else {
+        Toast({
+          message: '请选择支付方式',
+          position: 'top',
+          duration: 2000
+        })
+      }
+    },
+    // 路由选择
+    choiceRoute (types) {
+      let { fullPath } = this.$route
+      switch (types) {
+        case 'ali':
+          console.log('纯支付宝支付')
+          break
+        default:
+          this.$router.push(fullPath.replace('/payChoice', '/inputPwd'))
       }
     },
     choice (typeId) {

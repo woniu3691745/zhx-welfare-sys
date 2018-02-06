@@ -34,6 +34,7 @@ export const mixin = {
           amount: this.orderInfos
         }]
         this.flag = true
+        this.types = null
       } else {
         return 'next'
       }
@@ -55,6 +56,7 @@ export const mixin = {
           amount: num
         }]
         this.flag = true
+        this.types = parseFloat(this.balance)
       } else {
         return 'next'
       }
@@ -72,6 +74,7 @@ export const mixin = {
           amount: this.orderInfos
         }]
         this.flag = true
+        this.types = choiceType
       } else {
         return 'next'
       }

@@ -41,8 +41,7 @@ export const mixin = {
     // all 支付
     allpayFn (orderType, choiceType) {
       if (!orderType && choiceType === 'all') {
-        console.log('all支付')
-        const num = this.orderInfos - this.balance
+        const num = (this.orderInfos - this.balance).toFixed(2)
         let str = `应付支付宝${num}元`
         this.option = [{
           label: str,

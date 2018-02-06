@@ -77,6 +77,7 @@ export default {
   created () {
     const {typeId, orderNo} = this
     this.orderInfos = this.orderInfo.cartTotal || this.orderInfo
+    console.log(this.orderInfos)
     this.getData(typeId, orderNo)
     this.choice(typeId)
     this.after()

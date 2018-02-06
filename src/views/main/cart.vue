@@ -1,6 +1,6 @@
 /*
- * @Author: lidongliang 
- * @Date: 2017-10-12 17:58:36 
+ * @Author: lidongliang
+ * @Date: 2017-10-12 17:58:36
  * @Last Modified by: lidongliang
  * @Last Modified time: 2018-01-03 14:05:49
  * 购物车
@@ -19,10 +19,10 @@
         <z-mt-checklist
           align="left"
           v-model="washValue"
-          :options="washOptions" 
+          :options="washOptions"
           @change="washCheck"
-          @refreMinus="minus" 
-          @refreIncrease="increase" 
+          @refreMinus="minus"
+          @refreIncrease="increase"
           @refreDelAll="delAll">
         </z-mt-checklist>
       </div>
@@ -30,8 +30,8 @@
     <div class="compute">
       <div class="compute-bg clear">
         <mt-checklist class="left"
-          v-model="allValue" 
-          :options="allOption" 
+          v-model="allValue"
+          :options="allOption"
           @change="checkAll">
         </mt-checklist>
         <mt-button class="right settle" type="danger" @click="confirmOrder">结算（{{quantity}}）</mt-button>
@@ -273,20 +273,20 @@ export default {
     // 确认订单
     confirmOrder () {
       if (this.washValue.length) {
-        if (parseInt(this.amount) > parseInt(this.balance)) {
-          MessageBox({
-            title: '提示',
-            message: '额度不足！',
-            showCancelButton: false
-          })
-        } else {
-          let mallSkus = []
-          this.washValue.map(x => mallSkus.push(x.mallSku))
-          const cartForm = {
-            cartType: this.cartType,
-            mallSkus: mallSkus
-          }
-          this.$store
+        // if (parseInt(this.amount) > parseInt(this.balance)) {
+        //   MessageBox({
+        //     title: '提示',
+        //     message: '额度不足！',
+        //     showCancelButton: false
+        //   })
+        // } else {
+        let mallSkus = []
+        this.washValue.map(x => mallSkus.push(x.mallSku))
+        const cartForm = {
+          cartType: this.cartType,
+          mallSkus: mallSkus
+        }
+        this.$store
             .dispatch('SettleCart', cartForm)
             .then(res => {
               if (res.result) {
@@ -303,7 +303,7 @@ export default {
             .catch(res => {
               console.log(res)
             })
-        }
+       // }
       } else {
         MessageBox({
           title: '提示',

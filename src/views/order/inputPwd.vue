@@ -121,13 +121,14 @@ export default {
       let submitInfo = {
         orderNo: this.orderNo, // 订单号
         cartType: this.typeId, // 商品品类ID
-        payPwd: pwd, // 支付密码
-        payDetai: this.detail
+        payPwd: pwd // 支付密码
+       // payDetai: this.detail
       }
       console.log(submitInfo)
       this.$store
         .dispatch('Pay', submitInfo)
         .then(res => {
+          console.log(res)
           if (res.result) {
             this.$router.push({
               path: '/success',
@@ -146,12 +147,13 @@ export default {
             })
             this.realInput = ''
           } else {
-            this.$router.push({
-              path: '/fail',
-              query: {
-                typeId: this.typeId
-              }
-            })
+
+            // this.$router.push({
+            //   path: '/fail',
+            //   query: {
+            //     typeId: this.typeId
+            //   }
+            // })
           }
           endLoading()
         })

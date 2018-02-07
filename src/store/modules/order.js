@@ -5,7 +5,7 @@
  * @Last Modified time: 2017-12-08 17:48:45
  * 订单 module
  */
-import { findOrders, findOne, submit, pay, deleteOrder, finishOrder, cancelOrder, findLogistics } from '@/api/order'
+import { findOrders, findOne, submit, pay, deleteOrder, finishOrder, cancelOrder, findLogistics, isPayCom, MinxPay } from '@/api/order'
 import { getToken } from '@/utils/auth'
 
 const cart = {
@@ -95,6 +95,26 @@ const cart = {
     FindLogistics ({ commit, state }, orderInfo) {
       return new Promise((resolve, reject) => {
         findLogistics(state.token, orderInfo).then(response => {
+          resolve(response.data)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    // 是否支付完成
+    ifpayCom ({ commit, state }, orderInfo) {
+      return new Promise((resolve, reject) => {
+        isPayCom(state.token, orderInfo).then(response => {
+          resolve(response.data)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    // 混合支付接口
+    MinxPay ({ commit, state }, orderInfo) {
+      return new Promise((resolve, reject) => {
+        MinxPay(state.token, orderInfo).then(response => {
           resolve(response.data)
         }).catch(error => {
           reject(error)

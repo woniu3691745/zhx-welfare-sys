@@ -126,3 +126,31 @@ export function findLogistics (token, orderInfo) {
     data
   })
 }
+// 是否支付完成
+export function isPayCom (token, orderInfo) {
+  const data = {
+    bizData: {
+      ...orderInfo
+    },
+    token
+  }
+  return fetch({
+    url: '/userorder/isPayCom.cp',
+    method: 'post',
+    data
+  })
+}
+// 混合支付接口
+export function MinxPay (token, orderInfo) {
+  const data = {
+    bizData: {
+      ...orderInfo
+    },
+    token
+  }
+  return fetch({
+    url: '/userorder/MinxPay.cp',
+    method: 'post',
+    data
+  })
+}

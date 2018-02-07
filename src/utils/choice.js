@@ -34,7 +34,7 @@ export const mixin = {
           amount: this.orderInfos
         }]
         this.flag = true
-        this.types = null
+        this.types = choiceType
       } else {
         return 'next'
       }

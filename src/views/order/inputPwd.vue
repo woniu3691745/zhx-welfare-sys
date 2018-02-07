@@ -16,9 +16,6 @@
     </mt-header>
   </div>
   <div class="confirm-container">
-  <!-- <span class="confirm-container-word">
-    确认付款
-  </span> -->
   <span class="confirm-container-money">
     ￥{{balnce}}
   </span>
@@ -40,7 +37,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { MessageBox } from 'mint-ui'
+import { mixin } from '../../utils/minxs'
 import { startLoading, endLoading } from '../../utils/utils'
 export default {
   name: 'packetMessage',
@@ -59,13 +56,16 @@ export default {
       ],
       realInput: '',
       balnce: '',
-      detail: []
+      detail: [],
+      types: null
     }
   },
+  mixins: [mixin],
   beforeRouteEnter (to, from, next) {
     next(vm => {
       let obj = JSON.parse(sessionStorage.getItem(vm.orderNo))
       vm.balnce = typeof (obj.types) === 'number' ? obj.types : obj.price
+      vm.types = obj.types
       vm.detail = obj.detail
     })
   },
@@ -97,24 +97,42 @@ export default {
       let tmp = 0
       this.disInputs.map(x => {
         if (x.value === '') {
-          MessageBox({
-            title: '提示',
-            message: '密码不能为空！',
-            showCancelButton: false
-          })
+          this.mtAlert('密码不能为空')
         } else {
           tmp++
         }
       })
-      if (tmp === 6) { this.preSubmit() } else {
-        MessageBox({
-          title: '提示',
-          message: '请输入六位密码',
-          showCancelButton: false
-        })
+      if (tmp === 6) { this.preSubmit(this.types) } else {
+        this.mtAlert('请输入6位密码')
       }
     },
-    preSubmit () {
+    preSubmit (types) {
+      switch (types) {
+        case 'ali':
+          console.log('纯支付宝支付')
+          break
+        case 'edu':
+          this.limitSubmit()
+          break
+        default:
+          this.mixPay()
+      }
+    },
+    // 混合支付
+    async mixPay () {
+      let pwd = ''
+      this.disInputs.map(x => (pwd += x.value))
+      let submitInfo = {
+        orderNo: this.orderNo, // 订单号
+        cartType: this.typeId, // 商品品类ID
+        payPwd: pwd, // 支付密码
+        payDetai: this.detail
+      }
+      const data = await this.$store.dispatch('MinxPay', submitInfo)
+      this.mtAlert(data)
+    },
+    // 纯额度支付
+    limitSubmit () {
       startLoading()
       let pwd = ''
       this.disInputs.map(x => (pwd += x.value))
@@ -131,29 +149,24 @@ export default {
           console.log(res)
           if (res.result) {
             this.$router.push({
-              path: '/success',
+              path: '/isSuccess',
               query: {
                 typeId: this.typeId
               }
             })
           } else if (res.message === '支付密码错误') {
-            MessageBox({
-              title: '提示',
-              message: res.message,
-              showCancelButton: false
-            })
+            this.mtAlert(res.message)
             this.disInputs.forEach(element => {
               element.value = ''
             })
             this.realInput = ''
           } else {
-
-            // this.$router.push({
-            //   path: '/fail',
-            //   query: {
-            //     typeId: this.typeId
-            //   }
-            // })
+            this.$router.push({
+              path: '/fail',
+              query: {
+                typeId: this.typeId
+              }
+            })
           }
           endLoading()
         })

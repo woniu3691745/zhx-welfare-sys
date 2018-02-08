@@ -37,7 +37,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { mixin } from '../../utils/minxs'
+import { bymixin } from '../../utils/minxs'
 import { startLoading, endLoading } from '../../utils/utils'
 export default {
   name: 'packetMessage',
@@ -60,7 +60,7 @@ export default {
       types: null
     }
   },
-  mixins: [mixin],
+  mixins: [bymixin],
   beforeRouteEnter (to, from, next) {
     next(vm => {
       let obj = JSON.parse(sessionStorage.getItem(vm.orderNo))
@@ -128,8 +128,12 @@ export default {
         payPwd: pwd, // 支付密码
         payDetai: this.detail
       }
-      const data = await this.$store.dispatch('MinxPay', submitInfo)
-      this.mtAlert(data)
+      const res = await this.$store.dispatch('MinxPay', submitInfo)
+      if (res.result) {
+        location.href = res.bizData
+      } else {
+        this.mtAlert(res.message)
+      }
     },
     // 纯额度支付
     limitSubmit () {
@@ -140,16 +144,14 @@ export default {
         orderNo: this.orderNo, // 订单号
         cartType: this.typeId, // 商品品类ID
         payPwd: pwd // 支付密码
-       // payDetai: this.detail
       }
-      console.log(submitInfo)
       this.$store
         .dispatch('Pay', submitInfo)
         .then(res => {
           console.log(res)
           if (res.result) {
             this.$router.push({
-              path: '/isSuccess',
+              path: '/success',
               query: {
                 typeId: this.typeId
               }

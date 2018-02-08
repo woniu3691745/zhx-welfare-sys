@@ -49,13 +49,14 @@ export const mixin = {
           value: 'Apay'
         }]
         this.payDetai = [{
-          type: 'edu',
+          type: '00',
           amount: this.orderInfos
         }, {
-          type: 'fulika',
+          type: '01',
           amount: num
         }]
         this.flag = true
+        this.alimutch = num
         this.types = parseFloat(this.balance)
       } else {
         return 'next'
@@ -70,10 +71,11 @@ export const mixin = {
           value: 'Apay'
         }]
         this.payDetai = [{
-          type: 'fulika',
+          type: '00',
           amount: this.orderInfos
         }]
         this.flag = true
+        this.alimutch = this.orderInfos
         this.types = choiceType
       } else {
         return 'next'

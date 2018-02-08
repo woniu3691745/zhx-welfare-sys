@@ -8,7 +8,7 @@
       </mt-header>
     </div>
     <div class="main">
-      <mt-checklist v-model="value"  :options="[{
+      <mt-checklist v-model="value" :options="[{
         label:'额度支付',
         value:1,
       }]">
@@ -31,6 +31,7 @@
 </template>
 <script>
 import { mixin } from '../../utils/choice'
+import { bymixin } from '../../utils/minxs'
 import { setItem, getItem, removeItem } from '../../utils/store'
 import { mapGetters } from 'vuex'
 import { MessageBox, Toast } from 'mint-ui'
@@ -57,11 +58,12 @@ export default {
       balance: 0,
       // 职责链返回变量
       order: '',
-      types: null
+      types: null,
+      alimutch: null
 
     }
   },
-  mixins: [mixin],
+  mixins: [mixin, bymixin],
   computed: {
     ...mapGetters(['orderInfo', 'quota']),
     Apay () {
@@ -119,10 +121,31 @@ export default {
       let { fullPath } = this.$route
       switch (types) {
         case 'ali':
-          console.log('纯支付宝支付')
+          this.aliPays()
           break
         default:
           this.$router.push(fullPath.replace('/payChoice', '/inputPwd'))
+      }
+    },
+    // 纯支付宝支付
+    async aliPays () {
+      const data = {'bizData': {
+        'orderNo': this.orderNo,
+        'cartType': this.typeId,
+        'payPwd': this.options,
+        'payDetai': [
+          {
+            'type': '01',
+            'amount': this.alimutch
+          }
+        ]
+      }
+      }
+      const res = await this.$store.dispatch('AliPays', data)
+      if (res.result) {
+        location.href = res.bizData
+      } else {
+        this.mtAlert(res.message)
       }
     },
     choice (typeId) {
@@ -172,10 +195,10 @@ export default {
   margin-top: 0.88rem;
   padding: 0 10px;
 }
-.main>.Apay{
-  padding:0 10px;
+.main > .Apay {
+  padding: 0 10px;
   font-size: 12px;
-  color:coral
+  color: coral;
 }
 .main > .pay {
   font-size: 14px;

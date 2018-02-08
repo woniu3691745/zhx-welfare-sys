@@ -1,5 +1,5 @@
 import { MessageBox } from 'mint-ui'
-export const mixin = {
+export const bymixin = {
   methods: {
     mtAlert (data) {
       MessageBox({

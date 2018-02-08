@@ -149,7 +149,21 @@ export function MinxPay (token, orderInfo) {
     token
   }
   return fetch({
-    url: '/userorder/MinxPay.cp',
+    url: '/pay/combination-pay.cp',
+    method: 'post',
+    data
+  })
+}
+// 支付宝支付
+export const AliPays = (token, orderInfo) => {
+  const data = {
+    bizData: {
+      ...orderInfo
+    },
+    token
+  }
+  return fetch({
+    url: '/pay/third-party-pay',
     method: 'post',
     data
   })

@@ -29,4 +29,8 @@ Mock.setup({
 // Mock.mock(/\/api\/user\/resPasswords.cp\.*/, 'post', userAPI.resPassword)
 // 是否支付完成
 Mock.mock(/\/userorder\/isPayCom.cp\.*/, 'post', orderAPI.isPayCom)
+// 支付宝支付
+Mock.mock(/\/pay\/third-party-pay\.*/, 'post', orderAPI.AliPay)
+// 混合支付
+Mock.mock(/\/pay\/combination-pay.cp\.*/, 'post', orderAPI.MixPay)
 export default Mock

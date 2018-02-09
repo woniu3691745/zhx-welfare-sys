@@ -279,7 +279,7 @@ export default {
           provinceCode: defaultArr[0],
           cityCode: defaultArr[1],
           countryCode: defaultArr[2],
-          townCode: '',
+          townCode: defaultArr[3] || '',
           defaultFlag: defaultFlag
         }
       }

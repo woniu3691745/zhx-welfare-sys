@@ -102,6 +102,15 @@ export default {
           values: [],
           className: 'slot3',
           textAlign: 'center'
+        }, {
+          divider: true,
+          content: '-',
+          className: 'slot2'
+        }, {
+          flex: 1,
+          values: [],
+          className: 'slot4',
+          textAlign: 'center'
         }
       ]
     }
@@ -146,6 +155,7 @@ export default {
                   } else if (val.f === 'N') {
                     return
                   } else {
+                    picker.setSlotValues(3, '')
                     picker.setSlotValues(i + 1, arr)
                   }
                 } catch (err) {}
@@ -158,6 +168,7 @@ export default {
                 } else if (val.f === 'N') {
                   return
                 } else {
+                  picker.setSlotValues(3, '')
                   picker.setSlotValues(i + 1, arr)
                 }
               }

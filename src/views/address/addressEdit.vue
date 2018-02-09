@@ -64,10 +64,11 @@ export default {
       flags: true,
       addList: {},
       values: '请选择',
-      defaultArr: [undefined, undefined, undefined],
+      defaultArr: [undefined, undefined, undefined, undefined],
       'provinceCode': '',
       'cityCode': '',
       'countryCode': '',
+      'townCode': '',
       slots: [
         {
           flex: 1,
@@ -91,6 +92,15 @@ export default {
           flex: 1,
           values: [],
           className: 'slot3',
+          textAlign: 'center'
+        }, {
+          divider: true,
+          content: '-',
+          className: 'slot2'
+        }, {
+          flex: 1,
+          values: [],
+          className: 'slot4',
           textAlign: 'center'
         }
       ]
@@ -139,6 +149,7 @@ export default {
                   } else if (val.f === 'N') {
                     return
                   } else {
+                    picker.setSlotValues(3, '')
                     picker.setSlotValues(i + 1, arr)
                   }
                 } catch (err) {}
@@ -151,6 +162,7 @@ export default {
                 } else if (val.f === 'N') {
                   return
                 } else {
+                  picker.setSlotValues(3, '')
                   picker.setSlotValues(i + 1, arr)
                 }
               }
@@ -200,7 +212,7 @@ export default {
       this.submitData()
     },
     submitData () {
-      let {phoneNum, consignee, detailedAddress, addressId, provinceCode, cityCode, countryCode} = this
+      let {phoneNum, consignee, detailedAddress, addressId, provinceCode, cityCode, countryCode, townCode} = this
       let defaultArr = this.defaultArr
       const data = {
         'bizData': {
@@ -211,7 +223,7 @@ export default {
           'provinceCode': defaultArr[0] || provinceCode,
           'cityCode': defaultArr[1] || cityCode,
           'countryCode': defaultArr[2] || countryCode,
-          'townCode': ''
+          'townCode': defaultArr[3] || townCode
         }
       }
       this.$store.dispatch('ZHX_UPDATE_ADDRESS', data).then((res) => {
@@ -274,12 +286,12 @@ export default {
     let data = this.updatedpaypassword.AddressSave
     let query = this.$route.query.userdata
     if (data) {
-      let {userName, phoneNo, address, addressId, provinceName, cityName, countryName, provinceCode, cityCode, countryCode} = data
+      let {userName, phoneNo, address, addressId, provinceName, cityName, countryName, provinceCode, cityCode, countryCode, townName} = data
       this.consignee = userName
       this.phoneNum = phoneNo
       this.detailedAddress = address
       this.addressId = addressId
-      this.values = `${provinceName}-${cityName}-${countryName}`
+      this.values = `${provinceName}-${cityName}-${countryName}-${townName}`
       this.provinceCode = provinceCode
       this.cityCode = cityCode
       this.countryCode = countryCode

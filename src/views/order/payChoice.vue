@@ -129,21 +129,20 @@ export default {
     },
     // 纯支付宝支付
     async aliPays () {
-      const data = {'bizData': {
+      const data = {
         'orderNo': this.orderNo,
         'cartType': this.typeId,
-        'payPwd': this.options,
-        'payDetai': [
+        'payDetail': [
           {
             'type': '01',
             'amount': this.alimutch
           }
         ]
       }
-      }
+      console.log(data)
       const res = await this.$store.dispatch('AliPays', data)
       if (res.result) {
-        location.href = res.bizData
+        location.href = res.bizData.alipayUrl
       } else {
         this.mtAlert(res.message)
       }

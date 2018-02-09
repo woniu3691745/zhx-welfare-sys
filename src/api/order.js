@@ -163,7 +163,7 @@ export const AliPays = (token, orderInfo) => {
     token
   }
   return fetch({
-    url: '/pay/third-party-pay',
+    url: '/pay/third-party-pay.cp',
     method: 'post',
     data
   })

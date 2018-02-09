@@ -225,8 +225,8 @@ export default {
           'address': detailedAddress,
           'provinceCode': defaultArr[0] || provinceCode,
           'cityCode': defaultArr[1] || cityCode,
-          'countryCode': countryCodes == null ? '' : countryCodes,
-          'townCode': townCodes == null ? '' : townCodes
+          'countryCode': countryCodes,
+          'townCode': townCodes
         }
       }
       this.$store.dispatch('ZHX_UPDATE_ADDRESS', data).then((res) => {

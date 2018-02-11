@@ -37,6 +37,8 @@
 </template>
 
 <script>
+// mixin引用
+import { addMixin } from '../../mixin/address'
 import { MessageBox } from 'mint-ui'
 // 姓名正则
 const userNameReg = /^[a-zA-Z\u4e00-\u9fa5]{2,5}$/u
@@ -61,6 +63,7 @@ export default {
     document.body.removeEventListener('touchmove', bodyScroll)
     clearTimeout(this.time)
   },
+  mixins: [addMixin],
   data () {
     return {
       isSubmit: true,
@@ -134,48 +137,6 @@ export default {
     },
     handclickhide () {
       this.isShow = false
-    },
-    getAsyncData () {
-      return async (picker, values) => {
-        const OldDataArr = this.defaultArr
-        for (let i = 0; i < values.length; i++) {
-          let val = values[i]
-          if (val != null && val.k !== OldDataArr[i]) {
-            OldDataArr[i] = val.k
-            if (val.f === 'Y') {
-              if (!(`${val.k}` in this.addList)) {
-                try {
-                  const res = await this.getAddressDate(val.k, i)
-                  let arr = res.data.bizData.Address
-                  this.addList[val.k] = arr
-                  if (arr.length === 0) {
-                    picker.setSlotValues(i + 1, arr)
-                    OldDataArr[i + 1] = ''
-                    return
-                  } else if (val.f === 'N') {
-                    return
-                  } else {
-                    picker.setSlotValues(3, '')
-                    picker.setSlotValues(i + 1, arr)
-                  }
-                } catch (err) {}
-              } else {
-                let arr = this.addList[`${val.k}`]
-                if (arr.length === 0) {
-                  picker.setSlotValues(i + 1, arr)
-                  OldDataArr[i + 1] = ''
-                  return
-                } else if (val.f === 'N') {
-                  return
-                } else {
-                  picker.setSlotValues(3, '')
-                  picker.setSlotValues(i + 1, arr)
-                }
-              }
-            }
-          }
-        }
-      }
     },
     onValuesChange (picker, values) {
       this.getAsyncData()(picker, values)

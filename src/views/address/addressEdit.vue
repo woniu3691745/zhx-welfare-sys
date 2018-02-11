@@ -34,6 +34,8 @@
 </template>
 
 <script>
+// mixin引用
+import { addMixin } from '../../mixin/address'
 import {MessageBox} from 'mint-ui'
 // vuex引入
 import {mapGetters} from 'vuex'
@@ -41,9 +43,6 @@ import {mapGetters} from 'vuex'
 const userNameReg = /^[a-zA-Z\u4e00-\u9fa5]{2,5}$/u
 const phoneNoPattern = /^1[34578]\d{9}$/
 let time
-const bodyScroll = function (event) {
-  event.preventDefault()
-}
 export default {
    // 组件名字
   name: 'addressEdit-page',
@@ -52,6 +51,7 @@ export default {
    // 组件属性、变量
   props: {},
    // 变量
+  mixins: [addMixin],
   data () {
     return {
       time: null,
@@ -128,48 +128,6 @@ export default {
     },
     handclickhide () {
       this.isShow = false
-    },
-    getAsyncData () {
-      return async(picker, values) => {
-        const OldDataArr = this.defaultArr
-        for (let i = 0; i < values.length; i++) {
-          let val = values[i]
-          if (val != null && val.k !== OldDataArr[i]) {
-            OldDataArr[i] = val.k
-            if (val.f === 'Y') {
-              if (!((`${val.k}`) in this.addList)) {
-                try {
-                  const res = await this.getAddressDate(val.k, i)
-                  let arr = res.data.bizData.Address
-                  this.addList[val.k] = arr
-                  if (arr.length === 0) {
-                    picker.setSlotValues(i + 1, arr)
-                    OldDataArr[i + 1] = ''
-                    return
-                  } else if (val.f === 'N') {
-                    return
-                  } else {
-                    picker.setSlotValues(3, '')
-                    picker.setSlotValues(i + 1, arr)
-                  }
-                } catch (err) {}
-              } else {
-                let arr = this.addList[`${val.k}`]
-                if (arr.length === 0) {
-                  picker.setSlotValues(i + 1, arr)
-                  OldDataArr[i + 1] = ''
-                  return
-                } else if (val.f === 'N') {
-                  return
-                } else {
-                  picker.setSlotValues(3, '')
-                  picker.setSlotValues(i + 1, arr)
-                }
-              }
-            }
-          }
-        }
-      }
     },
     onValuesChange (picker, values) {
       this.getAsyncData()(picker, values)
@@ -323,15 +281,6 @@ export default {
     } else {
       this.$router.go(-1)
     }
-  },
-  mounted () {
-    this.time = setTimeout(() => {
-      document.body.addEventListener('touchmove', bodyScroll)
-    }, 20)
-  },
-  beforeDestroy () {
-    document.body.removeEventListener('touchmove', bodyScroll)
-    clearTimeout(this.time)
   }
 }
 </script>

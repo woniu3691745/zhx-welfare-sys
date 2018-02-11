@@ -43,9 +43,6 @@ import { MessageBox } from 'mint-ui'
 // 姓名正则
 const userNameReg = /^[a-zA-Z\u4e00-\u9fa5]{2,5}$/u
 const phoneNoPattern = /^1[34578]\d{9}$/
-const bodyScroll = function (event) {
-  event.preventDefault()
-}
 export default {
   // 组件名字
   name: 'addAddress-page',
@@ -54,15 +51,6 @@ export default {
   // 组件属性、变量
   props: {},
   // 变量
-  mounted () {
-    this.time = setTimeout(() => {
-      document.body.addEventListener('touchmove', bodyScroll)
-    }, 20)
-  },
-  beforeDestroy () {
-    document.body.removeEventListener('touchmove', bodyScroll)
-    clearTimeout(this.time)
-  },
   mixins: [addMixin],
   data () {
     return {
@@ -76,7 +64,7 @@ export default {
       addList: {},
       values: '请选择',
       flags: true,
-      defaultArr: ['underfined', 'underfined', 'underfined'],
+      defaultArr: [],
       slots: [
         {
           flex: 1,
@@ -222,10 +210,6 @@ export default {
     },
     debounce (fn) {
       fn()
-      // time && clearTimeout(time)
-      // time = setTimeout(function () {
-      //   fn()
-      // }, 500)
     },
     submitData () {
       this.isSubmit = false
@@ -237,9 +221,9 @@ export default {
           phoneNo: phoneNum,
           userName: consignee,
           address: detailedAddress,
-          provinceCode: defaultArr[0],
-          cityCode: defaultArr[1],
-          countryCode: defaultArr[2],
+          provinceCode: defaultArr[0] || '',
+          cityCode: defaultArr[1] || '',
+          countryCode: defaultArr[2] || '',
           townCode: defaultArr[3] || '',
           defaultFlag: defaultFlag
         }

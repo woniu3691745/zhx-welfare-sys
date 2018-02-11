@@ -15,6 +15,7 @@ export const addMixin = {
     getAsyncData () {
       return async(picker, values) => {
         const OldDataArr = this.defaultArr
+        console.log(OldDataArr)
         for (let i = 0; i < values.length; i++) {
           let val = values[i]
           if (val != null && val.k !== OldDataArr[i]) {
@@ -35,6 +36,10 @@ export const addMixin = {
               let ln = values.length
               if (ln > i) {
                 for (let j = i; j < ln; j++) {
+                  if (j + 1 === ln) {
+                    return
+                  }
+                  OldDataArr[j + 1] = ''
                   picker.setSlotValues(j + 1, '')
                 }
               }

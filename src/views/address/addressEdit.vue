@@ -64,7 +64,7 @@ export default {
       flags: true,
       addList: {},
       values: '请选择',
-      defaultArr: [undefined, undefined, undefined, undefined],
+      defaultArr: [],
       'provinceCode': '',
       'cityCode': '',
       'countryCode': '',
@@ -172,9 +172,8 @@ export default {
     submitData () {
       let {phoneNum, consignee, detailedAddress, addressId, provinceCode, cityCode, countryCode, townCode} = this
       let defaultArr = this.defaultArr
-      let countryCodes = (defaultArr[0] === provinceCode && defaultArr[1] === cityCode && defaultArr[2] === countryCode) ? countryCode : defaultArr[2]
-      let townCodes = (defaultArr[0] === provinceCode && defaultArr[1] === cityCode && defaultArr[2] === countryCode && townCode === defaultArr[3]) ? townCode : defaultArr[3]
-      console.log(townCodes)
+      // let countryCodes = (defaultArr[0] === provinceCode && defaultArr[1] === cityCode && defaultArr[2] === countryCode) ? countryCode : defaultArr[2]
+      // let townCodes = (defaultArr[0] === provinceCode && defaultArr[1] === cityCode && defaultArr[2] === countryCode && townCode === defaultArr[3]) ? townCode : defaultArr[3]
       const data = {
         'bizData': {
           'addressId': addressId,
@@ -183,8 +182,8 @@ export default {
           'address': detailedAddress,
           'provinceCode': defaultArr[0] || provinceCode,
           'cityCode': defaultArr[1] || cityCode,
-          'countryCode': countryCodes,
-          'townCode': townCodes
+          'countryCode': defaultArr[2] || countryCode,
+          'townCode': defaultArr[3] || townCode
         }
       }
       this.$store.dispatch('ZHX_UPDATE_ADDRESS', data).then((res) => {

@@ -12,6 +12,22 @@ export const addMixin = {
     clearTimeout(this.time)
   },
   methods: {
+    onValuesChange (picker, values) {
+      this.getAsyncData()(picker, values)
+      if (!this.flags) {
+        this.values = values.map((val) => {
+          if (val != null) {
+            if (val.v.length > 3) {
+              return `${val.v.substring(0, 3)}...`
+            } else {
+              return val.v
+            }
+          } else {
+            return val
+          }
+        }).join('-')
+      }
+    },
     getAsyncData () {
       return async(picker, values) => {
         const OldDataArr = this.defaultArr
@@ -42,6 +58,8 @@ export const addMixin = {
                   picker.setSlotValues(j + 1, '')
                 }
               }
+            } else if (val.f == null) {
+              console.log('11')
             }
           }
         }

@@ -126,20 +126,6 @@ export default {
     handclickhide () {
       this.isShow = false
     },
-    onValuesChange (picker, values) {
-      this.getAsyncData()(picker, values)
-      if (!this.flags) {
-        this.values = values
-          .map(val => {
-            if (val != null) {
-              return val.v
-            } else {
-              return val
-            }
-          })
-          .join('-')
-      }
-    },
     // 获得联动数据
     getAddressDate (k, ind) {
       let data = {

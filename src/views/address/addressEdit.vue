@@ -129,18 +129,6 @@ export default {
     handclickhide () {
       this.isShow = false
     },
-    onValuesChange (picker, values) {
-      this.getAsyncData()(picker, values)
-      if (!this.flags) {
-        this.values = values.map((val) => {
-          if (val != null) {
-            return val.v
-          } else {
-            return val
-          }
-        }).join('-')
-      }
-    },
      // 获得联动数据
     getAddressDate (k, ind) {
       let data = {
@@ -251,7 +239,7 @@ export default {
       this.phoneNum = phoneNo
       this.detailedAddress = address
       this.addressId = addressId
-      this.values = `${provinceName}-${cityName}-${countryName}-${townName}`
+      this.values = `${provinceName.length > 3 ? `${provinceName.substring(0, 3)}...` : provinceName}-${cityName.length > 3 ? `${cityName.substring(0, 3)}...` : cityName}-${countryName.length > 3 ? `${countryName.substring(0, 3)}...` : countryName}-${townName.legth > 3 ? `${townName.substring(0, 3)}...` : townName}`
       this.provinceCode = provinceCode
       this.cityCode = cityCode
       this.countryCode = countryCode

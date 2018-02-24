@@ -37,6 +37,7 @@ export const addMixin = {
       this.getAsyncData(picker).then(res => {
         let i = 0
         this.values = ''
+        this.defaultArr = []
         while (i < values.length && values[i] != null) {
           this.values += values[i].v.length > 3 ? `${values[i].v.substring(0, 3)}...-` : `${values[i].v.substring(0, 3)}-`
           this.defaultArr[i] = values[i].k

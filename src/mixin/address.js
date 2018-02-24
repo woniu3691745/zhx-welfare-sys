@@ -12,57 +12,65 @@ export const addMixin = {
     clearTimeout(this.time)
   },
   methods: {
-    onValuesChange (picker, values) {
-      this.getAsyncData()(picker, values)
-      if (!this.flags) {
-        this.values = values.map((val) => {
-          if (val != null) {
-            if (val.v.length > 3) {
-              return `${val.v.substring(0, 3)}...`
-            } else {
-              return val.v
-            }
-          } else {
-            return val
-          }
-        }).join('-')
+    onSlotValueChange (picker) {
+      this.ind = Number(picker.className.replace('s', ''))
+      this.objs = picker.currentValue || {}
+    },
+    handclickshow () {
+      this.isShow = true
+      if (this.flags) {
+        this.getAddressDate(0).then((res) => {
+          this.slots[0].values = res.data.bizData.Address
+          this.flags = false
+        }).catch((e) => { console.warn('初始网络错误') })
       }
     },
-    getAsyncData () {
-      return async(picker, values) => {
-        const OldDataArr = this.defaultArr
-        for (let i = 0; i < values.length; i++) {
-          let val = values[i]
-          if (val != null && val.k !== OldDataArr[i]) {
-            OldDataArr[i] = val.k
-            if (val.f === 'Y') {
-              if (!((`${val.k}`) in this.addList)) {
-                try {
-                  const res = await this.getAddressDate(val.k, i)
-                  let arr = res.data.bizData.Address
-                  this.addList[val.k] = arr
-                  picker.setSlotValues(i + 1, arr)
-                } catch (err) {}
-              } else {
-                let arr = this.addList[`${val.k}`]
-                picker.setSlotValues(i + 1, arr)
-              }
-            } else if (val.f === 'N') {
-              let ln = values.length
-              if (ln > i) {
-                for (let j = i; j < ln; j++) {
-                  if (j + 1 === ln) {
-                    return
-                  }
-                  OldDataArr[j + 1] = ''
-                  picker.setSlotValues(j + 1, '')
-                }
-              }
-            } else if (val.f == null) {
-              console.log('11')
-            }
-          }
+    onValuesChange (picker, values) {
+      if (this.flags) return
+      if (this.objs && this.objs.f === 'N') {
+        while (this.ind + 1 < values.length) {
+          this.ind++
+          picker.setSlotValues(this.ind, '')
         }
+        return
+      }
+      this.getAsyncData(picker).then(res => {
+        let i = 0
+        this.values = ''
+        while (i < values.length && values[i] != null) {
+          this.values += values[i].v.length > 3 ? `${values[i].v.substring(0, 3)}...-` : `${values[i].v.substring(0, 3)}-`
+          this.defaultArr[i] = values[i].k
+          i++
+        }
+        this.values = this.values.slice(0, -1)
+      })
+    },
+      // 获得联动数据
+    getAddressDate (k) {
+      let data = {
+        'bizData': {
+          'addrCode': k
+        }
+      }
+      return this.$store.dispatch('ZHXGET_ADDRESS_LIST', data)
+    },
+    async getAsyncData (picker) {
+      let Pk = this.objs.k
+      let items = picker.$children[2 * (this.ind + 1)]
+      if (!(Pk in this.addList)) {
+        try {
+          const res = await this.getAddressDate(Pk)
+          let arr = res.data.bizData ? res.data.bizData.Address : ['']
+          if (Pk != null) this.addList[Pk] = arr
+          picker.setSlotValues(this.ind + 1, arr)
+          if (items != null)items.currentValue = arr[0]
+        } catch (e) {
+          console.warn('请求错误', e)
+        }
+      } else {
+        let arr = await this.addList[Pk]
+        picker.setSlotValues(this.ind + 1, arr)
+        if (items != null)items.currentValue = arr[0]
       }
     }
   }

@@ -30,7 +30,7 @@
         <div class="bottomCOM">
           <mt-button size="large" @click="handclickhide">确定</mt-button>
         </div>
-        <mt-picker :slots="slots" @change="onValuesChange" :visibleItemCount='visibleItemCount' value-key='v'></mt-picker>
+        <mt-picker :slots="slots" @change="onValuesChange"  @slotValueChange="onSlotValueChange" :visibleItemCount='visibleItemCount' value-key='v'></mt-picker>
       </div>
     </div>
   </div>
@@ -65,33 +65,13 @@ export default {
       values: '请选择',
       flags: true,
       defaultArr: [],
+      ind: 0,
+      objs: {},
       slots: [
         {
           flex: 1,
           values: [],
-          className: 'slot1',
-          textAlign: 'center'
-        },
-        {
-          divider: true,
-          content: '-',
-          className: 'slot2'
-        },
-        {
-          flex: 1,
-          values: [],
-          className: 'slot3',
-          textAlign: 'center'
-        },
-        {
-          divider: true,
-          content: '-',
-          className: 'slot2'
-        },
-        {
-          flex: 1,
-          values: [],
-          className: 'slot3',
+          className: 's0',
           textAlign: 'center'
         }, {
           divider: true,
@@ -100,7 +80,25 @@ export default {
         }, {
           flex: 1,
           values: [],
-          className: 'slot4',
+          className: 's1',
+          textAlign: 'center'
+        }, {
+          divider: true,
+          content: '-',
+          className: 'slot2'
+        }, {
+          flex: 1,
+          values: [],
+          className: 's2',
+          textAlign: 'center'
+        }, {
+          divider: true,
+          content: '-',
+          className: 'slot2'
+        }, {
+          flex: 1,
+          values: [],
+          className: 's3',
           textAlign: 'center'
         }
       ]
@@ -114,26 +112,8 @@ export default {
     alerts (data) {
       MessageBox.alert(data)
     },
-    handclickshow () {
-      this.isShow = true
-      if (this.flags) {
-        this.getAddressDate(0).then(res => {
-          this.slots[0].values = res.data.bizData.Address
-          this.flags = false
-        })
-      }
-    },
     handclickhide () {
       this.isShow = false
-    },
-    // 获得联动数据
-    getAddressDate (k, ind) {
-      let data = {
-        bizData: {
-          addrCode: k
-        }
-      }
-      return this.$store.dispatch('ZHXGET_ADDRESS_LIST', data)
     },
     runRouter () {
       this.$router.go(-1)

@@ -7,7 +7,6 @@ import 'mint-ui/lib/style.css'
 
 // import '@/mock'  // 该项目所有请求使用mockjs模拟
 import '@/permission' // 权限
-
 Vue.use(Mint)
 Vue.config.productionTip = false
 Vue.filter('ADDRESS_SHOW_CALSS', function (data, key, defaultkey) {

@@ -27,24 +27,24 @@ export const addMixin = {
     },
     onValuesChange (picker, values) {
       if (this.flags) return
-      if (this.objs && this.objs.f === 'N') {
-        while (this.ind + 1 < values.length) {
-          this.ind++
-          picker.setSlotValues(this.ind, '')
-        }
-        return
-      }
-      this.getAsyncData(picker).then(res => {
-        let i = 0
-        this.values = ''
-        this.defaultArr = []
-        while (i < values.length && values[i] != null) {
-          this.values += values[i].v.length > 3 ? `${values[i].v.substring(0, 3)}...-` : `${values[i].v.substring(0, 3)}-`
-          this.defaultArr[i] = values[i].k
-          i++
-        }
-        this.values = this.values.slice(0, -1)
+      this.getAsyncData(picker, values).then(res => {
+        this.dataUpdate(values)
       })
+    },
+    // data update
+    dataUpdate (values) {
+      let i = 0
+      this.values = ''
+      while (i < values.length) {
+        if (values[i] == null) {
+          this.defaultArr.splice(i)
+          return
+        }
+        this.values += values[i].v.length > 3 ? `${values[i].v.substring(0, 3)}...-` : `${values[i].v.substring(0, 3)}-`
+        this.defaultArr[i] = values[i].k
+        i++
+      }
+      this.values = this.values.slice(0, -1)
     },
       // 获得联动数据
     getAddressDate (k) {
@@ -55,14 +55,22 @@ export const addMixin = {
       }
       return this.$store.dispatch('ZHXGET_ADDRESS_LIST', data)
     },
-    async getAsyncData (picker) {
+    async getAsyncData (picker, values) {
+      if (this.objs && this.objs.f === 'N') {
+        while (this.ind + 1 < values.length) {
+          this.ind++
+          picker.setSlotValues(this.ind, '')
+        }
+        this.dataUpdate(values)
+        return
+      }
       let Pk = this.objs.k
       let items = picker.$children[2 * (this.ind + 1)]
       if (!(Pk in this.addList)) {
         try {
           const res = await this.getAddressDate(Pk)
           let arr = res.data.bizData ? res.data.bizData.Address : ['']
-          if (Pk != null) this.addList[Pk] = arr
+          if (Pk != null) (this.addList[Pk] = arr) && sessionStorage.setItem('addList', JSON.stringify(this.addList))
           picker.setSlotValues(this.ind + 1, arr)
           if (items != null)items.currentValue = arr[0]
         } catch (e) {

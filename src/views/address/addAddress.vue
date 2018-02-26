@@ -61,7 +61,7 @@ export default {
       value: true,
       visibleItemCount: 5,
       isShow: false,
-      addList: {},
+      addList: JSON.parse(sessionStorage.getItem('addList')) || {},
       values: '请选择',
       flags: true,
       defaultArr: [],

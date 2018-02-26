@@ -62,7 +62,7 @@ export default {
       visibleItemCount: 5,
       isShow: false,
       flags: true,
-      addList: {},
+      addList: JSON.parse(sessionStorage.getItem('addList')) || {},
       values: '请选择',
       defaultArr: [],
       'provinceCode': '',

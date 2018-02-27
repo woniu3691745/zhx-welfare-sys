@@ -64,6 +64,7 @@ export default {
       flags: true,
       addList: JSON.parse(sessionStorage.getItem('addList')) || {},
       values: '请选择',
+      onece: false,
       defaultArr: [],
       'provinceCode': '',
       'cityCode': '',
@@ -113,7 +114,16 @@ export default {
   },
    // 使用其它组件
   components: {},
-  watch: {},
+  watch: {
+    defaultArr () {
+      if (this.onece) return
+      this.onece = true
+      this.townCode = ''
+      this.provinceCode = ''
+      this.cityCode = ''
+      this.countryCode = ''
+    }
+  },
    // 方法
   methods: {
     alerts (data) {
@@ -127,6 +137,19 @@ export default {
     },
     saveAddress () {
       this.debounce(this.unifiedAddress)
+    },
+      // 赋值
+    assignment (data) {
+      let {userName, phoneNo, address, addressId, provinceName, cityName, countryName, provinceCode, cityCode, countryCode, townName, townCode} = data
+      this.consignee = userName
+      this.phoneNum = phoneNo
+      this.detailedAddress = address
+      this.addressId = addressId
+      this.values = `${provinceName.length > 3 ? `${provinceName.substring(0, 3)}...` : provinceName}-${cityName.length > 3 ? `${cityName.substring(0, 3)}...` : cityName}-${countryName.length > 3 ? `${countryName.substring(0, 3)}...` : countryName}-${townName.legth > 3 ? `${townName.substring(0, 3)}...` : townName}`
+      this.provinceCode = provinceCode
+      this.townCode = townCode
+      this.cityCode = cityCode
+      this.countryCode = countryCode
     },
      // 保存地址统一
     unifiedAddress () {
@@ -144,8 +167,6 @@ export default {
     submitData () {
       let {phoneNum, consignee, detailedAddress, addressId, provinceCode, cityCode, countryCode, townCode} = this
       let defaultArr = this.defaultArr
-      // let countryCodes = (defaultArr[0] === provinceCode && defaultArr[1] === cityCode && defaultArr[2] === countryCode) ? countryCode : defaultArr[2]
-      // let townCodes = (defaultArr[0] === provinceCode && defaultArr[1] === cityCode && defaultArr[2] === countryCode && townCode === defaultArr[3]) ? townCode : defaultArr[3]
       const data = {
         'bizData': {
           'addressId': addressId,
@@ -218,15 +239,7 @@ export default {
     let data = this.updatedpaypassword.AddressSave
     let query = this.$route.query.userdata
     if (data) {
-      let {userName, phoneNo, address, addressId, provinceName, cityName, countryName, provinceCode, cityCode, countryCode, townName} = data
-      this.consignee = userName
-      this.phoneNum = phoneNo
-      this.detailedAddress = address
-      this.addressId = addressId
-      this.values = `${provinceName.length > 3 ? `${provinceName.substring(0, 3)}...` : provinceName}-${cityName.length > 3 ? `${cityName.substring(0, 3)}...` : cityName}-${countryName.length > 3 ? `${countryName.substring(0, 3)}...` : countryName}-${townName.legth > 3 ? `${townName.substring(0, 3)}...` : townName}`
-      this.provinceCode = provinceCode
-      this.cityCode = cityCode
-      this.countryCode = countryCode
+      this.assignment(data)
     } else if (query) {
       let mesData = {
         'bizData': {
@@ -236,15 +249,7 @@ export default {
       this.$store.dispatch('ZHXONEUSERAddress', mesData).then((res) => {
         const data = res.data
         if (data.result) {
-          let {userName, phoneNo, address, provinceName, cityName, countryName, provinceCode, cityCode, countryCode} = data.bizData.Address
-          this.consignee = userName
-          this.phoneNum = phoneNo
-          this.detailedAddress = address
-          this.values = `${provinceName}-${cityName}-${countryName}`
-          this.addressId = query
-          this.provinceCode = provinceCode
-          this.cityCode = cityCode
-          this.countryCode = countryCode
+          this.assignment(data)
         } else {
           this.alerts(data.message)
         }

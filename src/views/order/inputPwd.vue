@@ -47,6 +47,7 @@ export default {
   data () {
     return {
       messagepacket: false,
+      flag: true,
       typeId: this.$route.query.typeId, // 额度ID
       orderNo: this.$route.query.orderNo, // 订单编号
       disInputs: [
@@ -107,6 +108,7 @@ export default {
       }
     },
     preSubmit () {
+      if (!this.flag) return
       startLoading()
       let pwd = ''
       this.disInputs.map(x => (pwd += x.value))
@@ -115,6 +117,7 @@ export default {
         cartType: this.typeId, // 商品品类ID
         payPwd: pwd // 支付密码
       }
+      this.flag = false
       this.$store
         .dispatch('Pay', submitInfo)
         .then(res => {
@@ -126,6 +129,7 @@ export default {
               }
             })
           } else if (res.message === '支付密码错误') {
+            this.flag = true
             MessageBox({
               title: '提示',
               message: res.message,
@@ -136,6 +140,7 @@ export default {
             })
             this.realInput = ''
           } else {
+            this.flag = true
             this.$router.push({
               path: '/fail',
               query: {

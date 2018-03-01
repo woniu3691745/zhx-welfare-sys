@@ -140,7 +140,6 @@ export default {
             })
             this.realInput = ''
           } else {
-            this.flag = true
             this.$router.push({
               path: '/fail',
               query: {

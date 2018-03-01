@@ -41,7 +41,7 @@
 import { addMixin } from '../../mixin/address'
 import { MessageBox } from 'mint-ui'
 // 姓名正则
-const userNameReg = /^[a-zA-Z\u4e00-\u9fa5]{2,5}$/u
+const userNameReg = /^[a-zA-Z\u4e00-\u9fa5/*]{1,5}$/u
 const phoneNoPattern = /^1[34578]\d{9}$/
 export default {
   // 组件名字

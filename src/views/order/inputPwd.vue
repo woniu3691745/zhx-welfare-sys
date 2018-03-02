@@ -126,11 +126,11 @@ export default {
         orderNo: this.orderNo, // 订单号
         cartType: this.typeId, // 商品品类ID
         payPwd: pwd, // 支付密码
-        payDetai: this.detail
+        payDetail: this.detail
       }
       const res = await this.$store.dispatch('MinxPay', submitInfo)
       if (res.result) {
-        location.href = res.bizData
+        location.href = res.bizData.alipayUrl
       } else {
         this.mtAlert(res.message)
       }

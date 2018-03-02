@@ -2,7 +2,7 @@
  <div class="success">
     <div class="common-header">
       <mt-header title="支付成功">
-        <router-link to="/confirmOrder" slot="left">
+        <router-link to="/mineOrder?selected=01" slot="left">
           <mt-button icon="back"></mt-button>
         </router-link>
       </mt-header>
@@ -35,7 +35,7 @@ export default {
         })
         if (res.result) {
           if (res.bizData.status === '03' || res.bizData.status === '04') {
-            this.$router.push('/success')
+            this.$router.push('/mineOrder?selected=01')
           } else {
             this.$router.push('/fail')
           }

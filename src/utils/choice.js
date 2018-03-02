@@ -50,7 +50,7 @@ export const mixin = {
         }]
         this.payDetai = [{
           type: '00',
-          amount: this.orderInfos
+          amount: this.balance
         }, {
           type: '01',
           amount: num

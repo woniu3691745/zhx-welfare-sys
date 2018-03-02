@@ -135,7 +135,7 @@ export function isPayCom (token, orderInfo) {
     token
   }
   return fetch({
-    url: '/userorder/isPayCom.cp',
+    url: '/pay/third-party-pay-query.cp',
     method: 'post',
     data
   })

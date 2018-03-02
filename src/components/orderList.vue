@@ -40,6 +40,10 @@
                   <span class="pay right" @click="goBuy(item)">去支付</span>
                   <span class="cancel right" @click="cancelOrder(item)">取消订单</span>
                 </div>
+                <div class="statue-pay-cancel clear"  v-if="item.status === '02'">
+                  <span class="pay right" @click="RestartgoBuy(item)">重新支付</span>
+                  <span class="cancel right" @click="cancelOrder(item)">取消订单</span>
+                </div>
               </div>
               <div data-v-d5ab74ae="" class="hheight-22"></div>
             </li>
@@ -84,6 +88,7 @@ export default {
   },
   methods: {
     handleBottomChange (status) {
+      console.log(status)
       this.bottomStatus = status
     },
     handleTopChange (status) {
@@ -127,6 +132,16 @@ export default {
           orderNo: val.orderId          // 订单编号
         }
       })
+    },
+    // 重新支付
+    RestartgoBuy (val) {
+      this.$store.dispatch('Re_pay_ID', val.orderId).then(res => {
+        if (res.result) {
+          location.href = res.bizData.alipayUrl
+        } else {
+          alert(res.message)
+        }
+      }).catch(err => console.warn(err))
     },
     deleteOrder (val) {
       MessageBox.confirm('确定执行此操作?').then(action => {

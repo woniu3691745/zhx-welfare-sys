@@ -42,7 +42,6 @@
                 </div>
                 <div class="statue-pay-cancel clear"  v-if="item.status === '02'">
                   <span class="pay right" @click="RestartgoBuy(item)">重新支付</span>
-                  <span class="cancel right" @click="cancelOrder(item)">取消订单</span>
                 </div>
               </div>
               <div data-v-d5ab74ae="" class="hheight-22"></div>
@@ -88,7 +87,6 @@ export default {
   },
   methods: {
     handleBottomChange (status) {
-      console.log(status)
       this.bottomStatus = status
     },
     handleTopChange (status) {

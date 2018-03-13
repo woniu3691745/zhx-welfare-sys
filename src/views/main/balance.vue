@@ -1,14 +1,14 @@
 /*
- * @Author: lidongliang 
- * @Date: 2017-11-14 19:04:29 
- * @Last Modified by: lidongliang
- * @Last Modified time: 2018-01-10 14:52:28
+ * @Author: lidongliang
+ * @Date: 2017-11-14 19:04:29
+ * @Last Modified by: zhangyapeng
+ * @Last Modified time: 2018-03-13 15:00:37
  * 额度
  */
 <template>
   <div class="balance" style="position: absolute;">
     <div class="common-header pozitin-fixed">
-      <mt-header title="企业额度">      
+      <mt-header title="企业额度">
       </mt-header>
     </div>
     <div class="balance-body padding-top">
@@ -36,7 +36,7 @@
             <div class="warn clear" v-if="item.limitFlag !== ''">
               <span class="prompt left">{{item.limitFlag}}</span>
               <span class="right detail" @click="balanceDetail(item.typeId, $event)">查看</span>
-            </div> 
+            </div>
             <div v-else :style="{ height: height + 'rem' }">
               <span class="right detail" @click="balanceDetail(item.typeId, $event)">查看</span>
             </div>
@@ -62,11 +62,11 @@
         <div class="importants">
           <span>重要提示：</span>
           <p class="margin-top">1、请在有效期内使用您的额度，过期后额度将清零作废，额度有效期由您所在的企业规定。</p>
-          <p>2、余额不可延期、不可赎回、不可提现，消费时请全额使用您的额度。</p>   
+          <p>2、余额不可延期、不可赎回、不可提现，消费时请全额使用您的额度。</p>
           <p>3、每一订单收取基础物流服务费10元，单一订单满99元（不含优惠促销金额）减免10元基础物流服务费，
             具体物流服务费用会依据订单商品数量、尺寸、重量加收续重运费，最终物流费用以订单计算为准。
             运费的收取标准可能进行相应调整，具体以公示的运费为准。</p>
-          <p>4、商品一经售出，因质量问题可以更换，不可以退货。</p>      
+          <p>4、商品一经售出，因质量问题可以更换，不可以退货。</p>
          </div>
       </div>
     </div>
@@ -95,6 +95,7 @@ export default {
     }, 500)
   },
   mounted () {
+    console.log('1')
     this.focus()
   },
   methods: {

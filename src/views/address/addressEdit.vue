@@ -24,7 +24,7 @@
         <div class="bottomCOM">
           <mt-button size="large" @click="handclickhide">确定</mt-button>
         </div>
-        <mt-picker :slots="slots" @change="onValuesChange" :visibleItemCount='visibleItemCount' value-key='v'></mt-picker>
+        <mt-picker :slots="slots" @change="onValuesChange" @slotValueChange="onSlotValueChange" :visibleItemCount='visibleItemCount' valueKey='v'></mt-picker>
       </div>
     </div>
     <div class="savebottom" @click='saveAddress'>
@@ -34,16 +34,15 @@
 </template>
 
 <script>
+// mixin引用
+import { addMixin } from '../../mixin/address'
 import {MessageBox} from 'mint-ui'
 // vuex引入
 import {mapGetters} from 'vuex'
 // 姓名正则
-const userNameReg = /^[a-zA-Z\u4e00-\u9fa5]{2,5}$/u
+const userNameReg = /^[a-zA-Z\u4e00-\u9fa5/*]{1,5}$/u
 const phoneNoPattern = /^1[34578]\d{9}$/
 let time
-const bodyScroll = function (event) {
-  event.preventDefault()
-}
 export default {
    // 组件名字
   name: 'addressEdit-page',
@@ -52,6 +51,7 @@ export default {
    // 组件属性、变量
   props: {},
    // 变量
+  mixins: [addMixin],
   data () {
     return {
       time: null,
@@ -62,17 +62,21 @@ export default {
       visibleItemCount: 5,
       isShow: false,
       flags: true,
-      addList: {},
+      addList: JSON.parse(sessionStorage.getItem('addList')) || {},
       values: '请选择',
-      defaultArr: [undefined, undefined, undefined],
+      onece: false,
+      defaultArr: [],
       'provinceCode': '',
       'cityCode': '',
       'countryCode': '',
+      'townCode': '',
+      ind: 0,
+      objs: {},
       slots: [
         {
           flex: 1,
           values: [],
-          className: 'slot1',
+          className: 's0',
           textAlign: 'center'
         }, {
           divider: true,
@@ -81,7 +85,7 @@ export default {
         }, {
           flex: 1,
           values: [],
-          className: 'slot3',
+          className: 's1',
           textAlign: 'center'
         }, {
           divider: true,
@@ -90,7 +94,16 @@ export default {
         }, {
           flex: 1,
           values: [],
-          className: 'slot3',
+          className: 's2',
+          textAlign: 'center'
+        }, {
+          divider: true,
+          content: '-',
+          className: 'slot2'
+        }, {
+          flex: 1,
+          values: [],
+          className: 's3',
           textAlign: 'center'
         }
       ]
@@ -101,90 +114,42 @@ export default {
   },
    // 使用其它组件
   components: {},
-  watch: {},
+  watch: {
+    defaultArr () {
+      if (this.onece) return
+      this.onece = true
+      this.townCode = ''
+      this.provinceCode = ''
+      this.cityCode = ''
+      this.countryCode = ''
+    }
+  },
    // 方法
   methods: {
     alerts (data) {
       MessageBox.alert(data)
     },
-    handclickshow () {
-      this.isShow = true
-      if (this.flags) {
-        this.getAddressDate(0).then((res) => {
-          this.slots[0].values = res.data.bizData.Address
-          this.flags = false
-        })
-      }
-    },
     handclickhide () {
       this.isShow = false
-    },
-    getAsyncData () {
-      return async(picker, values) => {
-        const OldDataArr = this.defaultArr
-        for (let i = 0; i < values.length; i++) {
-          let val = values[i]
-          if (val != null && val.k !== OldDataArr[i]) {
-            OldDataArr[i] = val.k
-            if (val.f === 'Y') {
-              if (!((`${val.k}`) in this.addList)) {
-                try {
-                  const res = await this.getAddressDate(val.k, i)
-                  let arr = res.data.bizData.Address
-                  this.addList[val.k] = arr
-                  if (arr.length === 0) {
-                    picker.setSlotValues(i + 1, arr)
-                    OldDataArr[i + 1] = ''
-                    return
-                  } else if (val.f === 'N') {
-                    return
-                  } else {
-                    picker.setSlotValues(i + 1, arr)
-                  }
-                } catch (err) {}
-              } else {
-                let arr = this.addList[`${val.k}`]
-                if (arr.length === 0) {
-                  picker.setSlotValues(i + 1, arr)
-                  OldDataArr[i + 1] = ''
-                  return
-                } else if (val.f === 'N') {
-                  return
-                } else {
-                  picker.setSlotValues(i + 1, arr)
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    onValuesChange (picker, values) {
-      this.getAsyncData()(picker, values)
-      if (!this.flags) {
-        this.values = values.map((val) => {
-          if (val != null) {
-            return val.v
-          } else {
-            return val
-          }
-        }).join('-')
-      }
-    },
-     // 获得联动数据
-    getAddressDate (k, ind) {
-      let data = {
-        'bizData': {
-          'addrCode': k
-        }
-      }
-      return this.$store.dispatch('ZHXGET_ADDRESS_LIST', data)
     },
     runRouter () {
       this.$router.go(-1)
     },
     saveAddress () {
       this.debounce(this.unifiedAddress)
+    },
+      // 赋值
+    assignment (data) {
+      let {userName, phoneNo, address, addressId, provinceName, cityName, countryName, provinceCode, cityCode, countryCode, townName, townCode} = data
+      this.consignee = userName
+      this.phoneNum = phoneNo
+      this.detailedAddress = address
+      this.addressId = addressId
+      this.values = `${provinceName.length > 3 ? `${provinceName.substring(0, 3)}...` : provinceName}-${cityName.length > 3 ? `${cityName.substring(0, 3)}...` : cityName}-${countryName.length > 3 ? `${countryName.substring(0, 3)}...` : countryName}-${townName.legth > 3 ? `${townName.substring(0, 3)}...` : townName}`
+      this.provinceCode = provinceCode
+      this.townCode = townCode
+      this.cityCode = cityCode
+      this.countryCode = countryCode
     },
      // 保存地址统一
     unifiedAddress () {
@@ -200,7 +165,7 @@ export default {
       this.submitData()
     },
     submitData () {
-      let {phoneNum, consignee, detailedAddress, addressId, provinceCode, cityCode, countryCode} = this
+      let {phoneNum, consignee, detailedAddress, addressId, provinceCode, cityCode, countryCode, townCode} = this
       let defaultArr = this.defaultArr
       const data = {
         'bizData': {
@@ -211,7 +176,7 @@ export default {
           'provinceCode': defaultArr[0] || provinceCode,
           'cityCode': defaultArr[1] || cityCode,
           'countryCode': defaultArr[2] || countryCode,
-          'townCode': ''
+          'townCode': defaultArr[3] || townCode
         }
       }
       this.$store.dispatch('ZHX_UPDATE_ADDRESS', data).then((res) => {
@@ -274,15 +239,7 @@ export default {
     let data = this.updatedpaypassword.AddressSave
     let query = this.$route.query.userdata
     if (data) {
-      let {userName, phoneNo, address, addressId, provinceName, cityName, countryName, provinceCode, cityCode, countryCode} = data
-      this.consignee = userName
-      this.phoneNum = phoneNo
-      this.detailedAddress = address
-      this.addressId = addressId
-      this.values = `${provinceName}-${cityName}-${countryName}`
-      this.provinceCode = provinceCode
-      this.cityCode = cityCode
-      this.countryCode = countryCode
+      this.assignment(data)
     } else if (query) {
       let mesData = {
         'bizData': {
@@ -292,15 +249,7 @@ export default {
       this.$store.dispatch('ZHXONEUSERAddress', mesData).then((res) => {
         const data = res.data
         if (data.result) {
-          let {userName, phoneNo, address, provinceName, cityName, countryName, provinceCode, cityCode, countryCode} = data.bizData.Address
-          this.consignee = userName
-          this.phoneNum = phoneNo
-          this.detailedAddress = address
-          this.values = `${provinceName}-${cityName}-${countryName}`
-          this.addressId = query
-          this.provinceCode = provinceCode
-          this.cityCode = cityCode
-          this.countryCode = countryCode
+          this.assignment(data)
         } else {
           this.alerts(data.message)
         }
@@ -308,15 +257,6 @@ export default {
     } else {
       this.$router.go(-1)
     }
-  },
-  mounted () {
-    this.time = setTimeout(() => {
-      document.body.addEventListener('touchmove', bodyScroll)
-    }, 20)
-  },
-  beforeDestroy () {
-    document.body.removeEventListener('touchmove', bodyScroll)
-    clearTimeout(this.time)
   }
 }
 </script>

@@ -44,6 +44,7 @@ export default {
   data () {
     return {
       messagepacket: false,
+      flag: true,
       typeId: this.$route.query.typeId, // 额度ID
       orderNo: this.$route.query.orderNo, // 订单编号
       disInputs: [
@@ -135,8 +136,13 @@ export default {
         this.mtAlert(res.message)
       }
     },
+<<<<<<< HEAD
     // 纯额度支付
     limitSubmit () {
+=======
+    preSubmit () {
+      if (!this.flag) return
+>>>>>>> master
       startLoading()
       let pwd = ''
       this.disInputs.map(x => (pwd += x.value))
@@ -145,6 +151,7 @@ export default {
         cartType: this.typeId, // 商品品类ID
         payPwd: pwd // 支付密码
       }
+      this.flag = false
       this.$store
         .dispatch('Pay', submitInfo)
         .then(res => {
@@ -157,7 +164,16 @@ export default {
               }
             })
           } else if (res.message === '支付密码错误') {
+<<<<<<< HEAD
             this.mtAlert(res.message)
+=======
+            this.flag = true
+            MessageBox({
+              title: '提示',
+              message: res.message,
+              showCancelButton: false
+            })
+>>>>>>> master
             this.disInputs.forEach(element => {
               element.value = ''
             })

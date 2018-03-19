@@ -1,8 +1,8 @@
 /*
  * @Author: lidongliang
  * @Date: 2017-12-04 14:27:42
- * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-11 15:38:42
+ * @Last Modified by: zhangyapeng
+ * @Last Modified time: 2018-03-19 09:28:05
  * 支付密码
  */
 
@@ -136,13 +136,8 @@ export default {
         this.mtAlert(res.message)
       }
     },
-<<<<<<< HEAD
     // 纯额度支付
     limitSubmit () {
-=======
-    preSubmit () {
-      if (!this.flag) return
->>>>>>> master
       startLoading()
       let pwd = ''
       this.disInputs.map(x => (pwd += x.value))
@@ -164,16 +159,7 @@ export default {
               }
             })
           } else if (res.message === '支付密码错误') {
-<<<<<<< HEAD
             this.mtAlert(res.message)
-=======
-            this.flag = true
-            MessageBox({
-              title: '提示',
-              message: res.message,
-              showCancelButton: false
-            })
->>>>>>> master
             this.disInputs.forEach(element => {
               element.value = ''
             })

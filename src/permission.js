@@ -14,11 +14,7 @@ router.beforeEach((to, from, next) => {
       next({ path: '/home' })
       NProgress.done()
     } else {
-<<<<<<< HEAD
       if (store.getters.quota.length === 0 || to.path === '/balance' || to.path === '/mine') {
-=======
-      if (store.getters.quota.length === 0) {
->>>>>>> master
         store.dispatch('GetUserInfo').then(req => {
           // next({ ...to })
           if (!req.data.success) {

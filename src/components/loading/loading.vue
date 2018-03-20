@@ -1,5 +1,5 @@
 <template>
-  <div v-show="zFlag" class="loading">
+  <div @touchmove.prevent.self="handscroll" v-show="zFlag" class="loading">
   </div>
 </template>
 <script>
@@ -15,6 +15,13 @@ export default {
         })
         : Indicator.close()
     }
+  },
+  mounted () {
+
+  },
+  methods: {
+    handscroll () {
+    }
   }
 }
 </script>
@@ -22,15 +29,15 @@ export default {
 <style>
 .loading {
   background: rgba(100, 100, 100, 0.6);
-  position: absolute;
+  position: fixed;
   left: 0;
   right: 0;
   bottom: 0;
   top: 0;
-  z-index: 9;
+  z-index: 11;
 }
 .mint-indicator-wrapper {
-  z-index: 10;
+  z-index: 12;
 }
 </style>
 

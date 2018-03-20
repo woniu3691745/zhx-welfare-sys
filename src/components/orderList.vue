@@ -2,7 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-10-19 19:50:05
  * @Last Modified by: zhangyapeng
- * @Last Modified time: 2018-03-20 11:35:05
+ * @Last Modified time: 2018-03-20 15:38:42
  * 订单列表
  */
 <template>
@@ -162,6 +162,8 @@ export default {
     },
     // 取消订单
     cancelOrder (val) {
+      if (this.once) return
+      this.once = true
       let orderInfo = {
         orderId: val.orderId
       }
@@ -172,6 +174,7 @@ export default {
             this.$router.go(0)
             return
           }
+          this.once = false
           MessageBox({
             title: '提示',
             message: res.message,
@@ -179,6 +182,7 @@ export default {
           })
         })
         .catch(res => {
+          this.once = false
           console.log(res)
         })
     },

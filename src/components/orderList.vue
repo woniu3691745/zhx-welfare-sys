@@ -1,8 +1,8 @@
 /*
  * @Author: lidongliang
  * @Date: 2017-10-19 19:50:05
- * @Last Modified by: lidongliang
- * @Last Modified time: 2018-01-10 14:51:22
+ * @Last Modified by: zhangyapeng
+ * @Last Modified time: 2018-03-20 11:35:05
  * 订单列表
  */
 <template>
@@ -62,6 +62,7 @@
         </mt-loadmore>
       </div>
     </div>
+    <zyp-loading :z-flag="once"></zyp-loading>
   </div>
 </template>
 
@@ -73,6 +74,7 @@ export default {
   name: 'orders-list-page',
   data () {
     return {
+      once: false,
       orderList: [],
       allLoaded: false,
       autoFill: false,
@@ -95,29 +97,11 @@ export default {
     },
     loadBottom () {
       setTimeout(() => {
-        // let lastValue = this.orderList.length
-        // if (lastValue < 10) {
-        //   // for (let i = 1; i <= 8; i++) {
-        //   //   this.list.push(lastValue + i)
-        //   // }
-        //   console.log('asd')
-        // } else {
-        //   this.allLoaded = true
-        // }
-        // this.orderListInfo()
         this.$refs.loadmore.onBottomLoaded()
       }, 1500)
     },
     loadTop () {
-      // setTimeout(() => {
-      //   let firstValue = this.list[0]
-      //   for (let i = 1; i <= 2; i++) {
-      //     this.list.unshift(firstValue - i)
-      //   }
-      //   this.$refs.loadmore.onTopLoaded()
-      // }, 1500)
       setTimeout(() => {
-        // this.orderListInfo()
         this.$refs.loadmore.onTopLoaded()
       }, 1500)
     },
@@ -133,13 +117,19 @@ export default {
     },
     // 重新支付
     RestartgoBuy (val) {
+      if (this.once) return
+      this.once = true
       this.$store.dispatch('Re_pay_ID', val.orderId).then(res => {
         if (res.result) {
           location.href = res.bizData.alipayUrl
         } else {
+          this.once = false
           alert(res.message)
         }
-      }).catch(err => console.warn(err))
+      }).catch(err => {
+        this.once = false
+        console.warn(err)
+      })
     },
     deleteOrder (val) {
       MessageBox.confirm('确定执行此操作?').then(action => {

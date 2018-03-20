@@ -27,6 +27,7 @@
         <mt-button size="large" type="danger" @click.native="handClick">下一步</mt-button>
       </div>
     </div>
+    <zyp-loading :z-flag="once"></zyp-loading>
   </div>
 </template>
 <script>
@@ -39,6 +40,7 @@ export default {
   data () {
     return {
       flag: false,
+      once: false,
       value: [],
       values: '',
       valu: 'Apay',
@@ -129,6 +131,8 @@ export default {
     },
     // 纯支付宝支付
     async aliPays () {
+      if (this.once) return
+      this.once = true
       const data = {
         'orderNo': this.orderNo,
         'cartType': this.typeId,
@@ -139,12 +143,17 @@ export default {
           }
         ]
       }
-      console.log(data)
-      const res = await this.$store.dispatch('AliPays', data)
-      if (res.result) {
-        location.href = res.bizData.alipayUrl
-      } else {
-        this.mtAlert(res.message)
+      try {
+        const res = await this.$store.dispatch('AliPays', data)
+        if (res.result) {
+          location.href = res.bizData.alipayUrl
+        } else {
+          this.mtAlert(res.message).then(() => {
+            this.$router.replace('/mineOrder?selected=01')
+          })
+        }
+      } catch (e) {
+        this.once = false
       }
     },
     choice (typeId) {

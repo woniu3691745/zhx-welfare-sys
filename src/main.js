@@ -4,10 +4,11 @@ import router from './router'
 import store from './store'
 import Mint from 'mint-ui'
 import 'mint-ui/lib/style.css'
-
+import Loading from './components/loading'
 // import '@/mock'  // 该项目所有请求使用mockjs模拟
 import '@/permission' // 权限
 Vue.use(Mint)
+Vue.use(Loading)
 Vue.config.productionTip = false
 Vue.filter('ADDRESS_SHOW_CALSS', function (data, key, defaultkey) {
   if (key === defaultkey) {

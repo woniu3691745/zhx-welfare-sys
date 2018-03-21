@@ -170,11 +170,11 @@ export default {
       this.$store
         .dispatch('CancelOrder', orderInfo)
         .then(res => {
+          this.once = false
           if (res.result) {
             this.$router.go(0)
             return
           }
-          this.once = false
           MessageBox({
             title: '提示',
             message: res.message,

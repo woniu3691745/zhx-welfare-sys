@@ -149,6 +149,7 @@ export default {
           location.href = res.bizData.alipayUrl
         } else {
           this.mtAlert(res.message).then(() => {
+            this.once = false
             this.$router.replace('/mineOrder?selected=01')
           })
         }

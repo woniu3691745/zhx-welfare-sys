@@ -1,8 +1,8 @@
 /*
  * @Author: lidongliang
  * @Date: 2017-10-19 19:50:05
- * @Last Modified by: lidongliang
- * @Last Modified time: 2018-01-10 14:51:22
+ * @Last Modified by: zhangyapeng
+ * @Last Modified time: 2018-03-20 15:38:42
  * 订单列表
  */
 <template>
@@ -40,6 +40,9 @@
                   <span class="pay right" @click="goBuy(item)">去支付</span>
                   <span class="cancel right" @click="cancelOrder(item)">取消订单</span>
                 </div>
+                <div class="statue-pay-cancel clear"  v-if="item.status === '02'">
+                  <span class="pay right" @click="RestartgoBuy(item)">重新支付</span>
+                </div>
               </div>
               <div data-v-d5ab74ae="" class="hheight-22"></div>
             </li>
@@ -59,6 +62,7 @@
         </mt-loadmore>
       </div>
     </div>
+    <zyp-loading :z-flag="once"></zyp-loading>
   </div>
 </template>
 
@@ -70,6 +74,7 @@ export default {
   name: 'orders-list-page',
   data () {
     return {
+      once: false,
       orderList: [],
       allLoaded: false,
       autoFill: false,
@@ -92,40 +97,38 @@ export default {
     },
     loadBottom () {
       setTimeout(() => {
-        // let lastValue = this.orderList.length
-        // if (lastValue < 10) {
-        //   // for (let i = 1; i <= 8; i++) {
-        //   //   this.list.push(lastValue + i)
-        //   // }
-        //   console.log('asd')
-        // } else {
-        //   this.allLoaded = true
-        // }
-        // this.orderListInfo()
         this.$refs.loadmore.onBottomLoaded()
       }, 1500)
     },
     loadTop () {
-      // setTimeout(() => {
-      //   let firstValue = this.list[0]
-      //   for (let i = 1; i <= 2; i++) {
-      //     this.list.unshift(firstValue - i)
-      //   }
-      //   this.$refs.loadmore.onTopLoaded()
-      // }, 1500)
       setTimeout(() => {
-        // this.orderListInfo()
         this.$refs.loadmore.onTopLoaded()
       }, 1500)
     },
     goBuy (val) {
       this.SET_CONFIRM_ORDER_INFO(val.orderAmt)
       this.$router.push({
-        path: '/inputPwd',
+        path: '/payChoice',
         query: {
           typeId: val.productType,      // 额度ID
           orderNo: val.orderId          // 订单编号
         }
+      })
+    },
+    // 重新支付
+    RestartgoBuy (val) {
+      if (this.once) return
+      this.once = true
+      this.$store.dispatch('Re_pay_ID', val.orderId).then(res => {
+        if (res.result) {
+          location.href = res.bizData.alipayUrl
+        } else {
+          this.once = false
+          alert(res.message)
+        }
+      }).catch(err => {
+        this.once = false
+        console.warn(err)
       })
     },
     deleteOrder (val) {
@@ -159,12 +162,15 @@ export default {
     },
     // 取消订单
     cancelOrder (val) {
+      if (this.once) return
+      this.once = true
       let orderInfo = {
         orderId: val.orderId
       }
       this.$store
         .dispatch('CancelOrder', orderInfo)
         .then(res => {
+          this.once = false
           if (res.result) {
             this.$router.go(0)
             return
@@ -176,6 +182,7 @@ export default {
           })
         })
         .catch(res => {
+          this.once = false
           console.log(res)
         })
     },

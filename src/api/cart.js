@@ -155,3 +155,17 @@ export function settleCart (token, cartForm) {
     data
   })
 }
+// 重新支付
+export const Repay = (token, res) => {
+  const data = {
+    bizData: {
+      'orderNo': res
+    },
+    token
+  }
+  return fetch({
+    url: '/pay/third-party-pay-again.cp',
+    method: 'post',
+    data
+  })
+}

@@ -2,7 +2,11 @@
  * @Author: lidongliang
  * @Date: 2017-11-14 19:04:29
  * @Last Modified by: zhangyapeng
+<<<<<<< HEAD
  * @Last Modified time: 2018-03-28 11:03:54
+=======
+ * @Last Modified time: 2018-04-18 09:49:24
+>>>>>>> combined_pay
  * 额度
  */
 <template>
@@ -63,7 +67,6 @@
           <span>重要提示：</span>
           <p class="margin-top">1、请在有效期内使用您的额度，过期后额度将清零作废，额度有效期由您所在的企业规定。</p>
           <p>2、余额不可延期、不可赎回、不可提现，消费时请全额使用您的额度。</p>
-
           <p>3、每一订单收取基础物流服务费15元，单一订单满128元（不含优惠促销金额）减免15元基础物流服务费，
             具体物流服务费用会依据订单商品数量、尺寸、重量加收续重运费，最终物流费用以订单计算为准。
             运费的收取标准可能进行相应调整，具体以公示的运费为准。</p>
@@ -96,6 +99,7 @@ export default {
     }, 500)
   },
   mounted () {
+    console.log('1')
     this.focus()
   },
   methods: {

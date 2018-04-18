@@ -1,6 +1,6 @@
 /*
- * @Author: lidongliang 
- * @Date: 2017-11-14 09:59:01 
+ * @Author: lidongliang
+ * @Date: 2017-11-14 09:59:01
  * @Last Modified by: lidongliang
  * @Last Modified time: 2017-12-07 15:36:44
  * 支付成功
@@ -9,7 +9,7 @@
   <div class="success">
     <div class="common-header">
       <mt-header title="支付成功">
-        <router-link to="/confirmOrder" slot="left">
+        <router-link to="/mineOrder" slot="left">
           <mt-button icon="back"></mt-button>
         </router-link>
       </mt-header>
@@ -20,7 +20,7 @@
         <p>订单支付成功！</p>
         <mt-button class="index-login" type="primary" @click.native="onSubmit">查看详情</mt-button>
       </div>
-      
+
     </div>
     <div class="bottom">
 

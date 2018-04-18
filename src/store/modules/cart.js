@@ -5,7 +5,7 @@
  * @Last Modified time: 2017-12-06 20:16:32
  * 购物车 module
  */
-import { addCart, addCartPlus, addCartMinus, delCart, cleanupCart, listCart, countCart, cartImgs, settleCart } from '@/api/cart'
+import { addCart, addCartPlus, addCartMinus, delCart, cleanupCart, listCart, countCart, cartImgs, settleCart, Repay } from '@/api/cart'
 import { getToken } from '@/utils/auth'
 
 const cart = {
@@ -109,6 +109,16 @@ const cart = {
           resolve(response.data)
         }).catch(error => {
           reject(error)
+        })
+      })
+    },
+    // 重新支付
+    Re_pay_ID ({ commit, state }, data) {
+      return new Promise((resolve, reject) => {
+        Repay(state.token, data).then(res => {
+          resolve(res.data)
+        }).catch(e => {
+          reject(e)
         })
       })
     },

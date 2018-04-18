@@ -2,11 +2,7 @@
  * @Author: lidongliang
  * @Date: 2017-11-14 19:04:29
  * @Last Modified by: zhangyapeng
-<<<<<<< HEAD
  * @Last Modified time: 2018-03-28 11:03:54
-=======
- * @Last Modified time: 2018-04-18 09:49:24
->>>>>>> combined_pay
  * 额度
  */
 <template>

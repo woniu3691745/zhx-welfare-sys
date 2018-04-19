@@ -1,30 +1,29 @@
 /*
- * @Author: lidongliang 
- * @Date: 2017-11-14 19:03:36 
- * @Last Modified by: lidongliang
- * @Last Modified time: 2017-12-07 15:35:38
+ * @Author: lidongliang
+ * @Date: 2017-11-14 19:03:36
+ * @Last Modified by: zhangyapeng
+ * @Last Modified time: 2018-04-19 15:39:38
  * 导航
  */
 <template>
   <div>
-     <mt-tabbar v-model="selected" fixed>
-        <mt-tab-item id="balance">
-          <img slot="icon" src="../assets/icon/limit.png">
-          额度
-        </mt-tab-item>
-        <mt-tab-item id="mall">
-          <img class="big-img" slot="icon" src="../assets/icon/home.png" @click="showMallTypeButton($event)" >
-          商城
-        </mt-tab-item>
-        <mt-tab-item id="mine">
-          <img slot="icon" src="../assets/icon/my.png">
-          我的
-        </mt-tab-item>
+    <mt-tabbar v-model="selected" fixed>
+      <mt-tab-item id="balance">
+        <img slot="icon" src="../assets/icon/limit.png"> 额度
+      </mt-tab-item>
+      <mt-tab-item id="mall">
+        <img class="big-img" slot="icon" src="../assets/icon/home.png" @click="showMallTypeButton($event)"> 商城
+      </mt-tab-item>
+      <mt-tab-item id="mine">
+        <img slot="icon" src="../assets/icon/my.png"> 我的
+      </mt-tab-item>
     </mt-tabbar>
-    <div class="pozition-fixed" @click="hiddleMallTypeButton($event)" :style="{ display: display}">
-      <div class="pozition-fixeds">
-        <img v-bind:src="'WelfareMall-interface'+ item.icon" @click="goFood(item.typeId, item.balance)" v-for="item in quotas" :key="item.typeId">
-      </div>
+    <div class="pozition-fixed" @click="hiddleMallTypeButton($event)" :style="{ display: displayFlag?'block':'none'}">
+      <ul class="pozition-fixeds">
+        <li @click="goFood(item.typeId, item.balance)" v-for="item in quotas" :key="item.typeId">
+          {{item.typeName}}
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -37,7 +36,8 @@ export default {
     return {
       selected: 'balance',
       display: 'none',
-      quotas: []
+      quotas: [],
+      displayFlag: false
     }
   },
   mounted () {
@@ -50,11 +50,11 @@ export default {
   methods: {
     // 点击商城按钮焦点内
     showMallTypeButton ($event) {
-      this.display = 'block'
+      this.displayFlag = !this.displayFlag
     },
     // 点击商城按钮焦点外
     hiddleMallTypeButton ($event) {
-      this.display = 'none'
+      this.displayFlag = false
     },
     // typeId 额度种类
     goLife (typeId, balance) {
@@ -83,7 +83,7 @@ export default {
         }
       })
       // 通知商城信息事件
-      eventBus.$emit('refurbishMallData', {typeId, balance})
+      eventBus.$emit('refurbishMallData', { typeId, balance })
     }
   },
   beforeDestory () {},
@@ -163,7 +163,6 @@ export default {
       //   margin: 0 auto 0 auto;
       // }
     }
-    
   }
 }
 
@@ -179,15 +178,28 @@ export default {
   overflow: hidden;
   .pozition-fixeds {
     position: fixed;
-    width: 100%;
-    left: 0;
-    bottom: 1.5rem;
+    width: 33.3%;
+    left: 33.3%;
+    bottom: 0.98rem;
     text-align: center;
     font-size: 0;
-    img {
-      width: 1.28rem;
-      margin: 0 0.15rem;
-      display: inline-block;
+    background: #fff;
+    li {
+      padding: 20px;
+      font-size: 12px;
+      position: relative;
+    }
+    li:after {
+       content: "  ";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 1px;
+      background-color: #999;
+      /* 如果不用 background-color, 使用 border-top:1px solid #f00; 效果是一样的*/
+      -webkit-transform: scaleY(.5);
+      transform:scaleY(.5);
     }
   }
 }
